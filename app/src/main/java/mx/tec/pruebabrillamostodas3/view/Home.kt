@@ -2,6 +2,7 @@ package mx.tec.pruebabrillamostodas3.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedButton
@@ -28,21 +29,21 @@ fun Home(btVM: BTVM, navController: NavHostController){
     {
       Column(modifier = Modifier){
           Titulo()
-          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_TIENDA)}){
+          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_TIENDA)}, modifier = Modifier.fillMaxSize().weight(1f)){
               Text(
                   text = "Catálogo",
                   textAlign = TextAlign.Center,
                   modifier = Modifier.fillMaxWidth().padding(24.dp)
               )
           }
-          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_INFO)}){
+          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_INFO)}, modifier = Modifier.fillMaxSize().weight(1f)){
               Text(
                   text = "Conoce más información",
                   textAlign = TextAlign.Center,
                   modifier = Modifier.fillMaxWidth().padding(24.dp)
               )
           }
-          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_CONTACTO)}){
+          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_CONTACTO)}, modifier = Modifier.fillMaxSize().weight(1f)){
               Text(
                   text = "Contáctanos",
                   textAlign = TextAlign.Center,
