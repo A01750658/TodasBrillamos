@@ -3,6 +3,7 @@ package mx.tec.pruebabrillamostodas3.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,44 +33,80 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
 
     ){
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.primary)
         ){
-            Text(
-                text = "LOG IN",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                fontSize = 48.sp,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier
-                    .padding(bottom = 8.dp).fillMaxWidth()
-            )
-            Text(
-                text = "Correo electrónico*",
-                textAlign = TextAlign.Left,
-                style = MaterialTheme.typography.bodySmall,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier =  Modifier
-                    .padding(horizontal = 16.dp, vertical = 5.dp)
-                    .align(alignment = Alignment.Start)
-            )
+            Titulo(titulo ="LOG IN", modifier = Modifier.padding(bottom = 8.dp))
+            Etiqueta("Correo Electrónico*", Modifier)
             OutlinedTextField(
                 value = "email@ejemplo.com",
                 onValueChange ={},
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .fillMaxWidth().background(MaterialTheme.colorScheme.secondary))
-
+                    .padding(bottom = 16.dp)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.secondary))
+            Etiqueta("Contraseña*", Modifier)
+            OutlinedTextField(
+                value = "email@ejemplo.com",
+                onValueChange ={},
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.secondary))
+            Row {
+                Text(
+                    text = "¿No tienes una cuenta?",
+                    fontSize = 15.sp,
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 13.dp)
+                        .weight(3f),
+                    color = MaterialTheme.colorScheme.secondary,
+                    style = MaterialTheme.typography.bodySmall
+                )
+                TextButton(onClick = { navController.navigate(Pantallas.RUTA_SIGNUP) }, modifier = Modifier.weight(2f)) {
+                    Text(
+                        text = "Regístrate",
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 15.sp,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
+            Row {
+                Text(
+                    text = "¿Olvidaste tu contraseña?",
+                    fontSize = 15.sp,
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 13.dp)
+                        .weight(3f),
+                    color = MaterialTheme.colorScheme.secondary,
+                    style = MaterialTheme.typography.bodySmall
+                )
+                TextButton(onClick = { navController.navigate(Pantallas.RUTA_SIGNUP) }, modifier = Modifier.weight(2f)) {
+                    Text(
+                        text = "Da click aqui",
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 15.sp,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
             TextButton(onClick = {navController.navigate(Pantallas.RUTA_APP_HOME)}){
                 Text(
                     text = "Acceder",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.secondary
                 )
             }
