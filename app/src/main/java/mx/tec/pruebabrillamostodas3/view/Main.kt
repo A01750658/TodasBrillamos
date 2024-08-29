@@ -24,6 +24,10 @@ import androidx.navigation.compose.rememberNavController
 import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * @author Alan Vega
+ */
+
 @Composable
 fun Main(btVM: BTVM, modifier: Modifier = Modifier){
     val navController = rememberNavController()

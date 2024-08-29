@@ -9,6 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * @author Alan Vega
+ */
+
 @Composable
 fun Home(btVM: BTVM){
     Box(

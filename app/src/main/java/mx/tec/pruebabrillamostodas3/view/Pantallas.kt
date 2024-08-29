@@ -10,6 +10,10 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.ui.graphics.vector.ImageVector
 
+/**
+* @author Alan Vega
+ */
+
 sealed class Pantallas (
     val ruta: String,
     val etiqueta: String,
@@ -36,12 +40,15 @@ sealed class Pantallas (
     private data object Tienda: Pantallas(RUTA_TIENDA, "Tienda", Icons.Default.ShoppingCart)
     private data object Perfil: Pantallas(RUTA_PERFIL, "Perfil", Icons.Default.AccountBox)
 
-    //Pantallas Independientes (Pantalla de Login y Signup)
+    //Pantallas Independientes
+    // (Pantalla de Login y Signup)
     data object LogIn: Pantallas(RUTA_LOGIN, "Log In", Icons.Default.Star)
     data object SignUp: Pantallas(RUTA_SIGNUP, "Sign Up", Icons.Default.Star)
+    //Pantallas que están en
     data object Catalogo: Pantallas(RUTA_CATALOGO, "Catalogo", Icons.Default.Star)
     data object Info: Pantallas(RUTA_INFO, "Info", Icons.Default.Star)
     data object Contacto: Pantallas(RUTA_CONTACTO,"Contacto", Icons.Default.Star)
+
 
 
 }
