@@ -16,7 +16,7 @@ import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.view.Main
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
-class MainActivity : ComponentActivity() {
+class qMainActivity : ComponentActivity() {
     private val btVM : BTVM by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
