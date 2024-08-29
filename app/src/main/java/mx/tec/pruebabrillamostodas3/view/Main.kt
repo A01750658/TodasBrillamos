@@ -1,5 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
@@ -10,6 +11,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -49,38 +51,41 @@ fun Main(btVM: BTVM, modifier: Modifier = Modifier){
 fun AppTopBar() {
     TopAppBar(
         title = {
-            Text(text = "Todas Brillamos App xD",
+            Text(text = "",
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.fillMaxWidth())
-        }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
 }
 
 @Composable
 fun AppBottomBar(navController: NavHostController) {
-    BottomAppBar{
-        val pilaNavegacion by navController.currentBackStackEntryAsState()
-        val pantallaActual = pilaNavegacion?.destination
+    if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP){
+        BottomAppBar{
+            val pilaNavegacion by navController.currentBackStackEntryAsState()
+            val pantallaActual = pilaNavegacion?.destination
 
-        Pantallas.listaPantallas.forEach{pantalla ->
-            NavigationBarItem(
-                selected = pantalla.ruta == pantallaActual?.route,
-                onClick = {
-                    navController.navigate(pantalla.ruta){
-                        popUpTo(navController.graph.findStartDestination().id){
-                            saveState = true
+            Pantallas.listaPantallas.forEach{pantalla ->
+                NavigationBarItem(
+                    selected = pantalla.ruta == pantallaActual?.route,
+                    onClick = {
+                        navController.navigate(pantalla.ruta){
+                            popUpTo(navController.graph.findStartDestination().id){
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                label = {Text(text = pantalla.etiqueta)},
-                icon = {Icon(
-                    imageVector = pantalla.icono,
-                    contentDescription = pantalla.etiqueta)},
-                alwaysShowLabel = true
-            )
+                    },
+                    label = {Text(text = pantalla.etiqueta)},
+                    icon = {Icon(
+                        imageVector = pantalla.icono,
+                        contentDescription = pantalla.etiqueta)},
+                    alwaysShowLabel = true
+                )
+            }
         }
     }
 }
