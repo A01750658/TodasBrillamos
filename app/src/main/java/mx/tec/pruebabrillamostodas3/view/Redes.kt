@@ -19,5 +19,6 @@ fun Redes(){
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
+
     }
 }

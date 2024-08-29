@@ -7,5 +7,4 @@ data class BTState(
     val user: String = "",
     val password: String = "",
     val lista_carrito: List<String>,
-
 )

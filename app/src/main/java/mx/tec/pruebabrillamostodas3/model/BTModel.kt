@@ -10,11 +10,11 @@ class BTModel {
 
     }
 
-    fun obtenerFotos(){
+    fun obtenerFotosBlog(){
 
     }
 
-    fun obtenerTexto(){
+    fun obtenerTextoBlog(){
 
     }
 
@@ -22,5 +22,28 @@ class BTModel {
 
     }
 
+    fun obtenerUsuario(){
+
+    }
+
+    fun obtenerCorreo(){
+
+    }
+
+    fun setCorreo(){
+
+    }
+
+    fun setPassword(){
+
+    }
+
+    fun obtenerTiktok(){
+
+    }
+
+    fun obtenerForo(){
+
+    }
 
 }

@@ -84,16 +84,13 @@ fun AppBottomBar(navController: NavHostController) {
 @Composable
 fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController,
-        startDestination = Pantallas.RUTA_APP_HOME,
+        startDestination = Pantallas.RUTA_LOGIN,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
             Home(btVM)
         }
         composable(Pantallas.RUTA_REDES){
             Redes()
-        }
-        composable(Pantallas.RUTA_BLOGS){
-            Blogs()
         }
         composable(Pantallas.RUTA_FOROS){
             Foros()
@@ -103,6 +100,12 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
         }
         composable(Pantallas.RUTA_PERFIL){
             Perfil()
+        }
+        composable(Pantallas.RUTA_SIGNUP){
+            SignUp(btVM, navController)
+        }
+        composable(Pantallas.RUTA_LOGIN){
+            LogIn(btVM, navController)
         }
     }
 }
