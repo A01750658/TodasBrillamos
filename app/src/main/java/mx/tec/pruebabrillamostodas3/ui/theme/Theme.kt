@@ -42,6 +42,7 @@ private val LightColorScheme = lightColorScheme(
     secondaryContainer = VerdeSostenible,
     tertiary = NaranjaConfianza,
     tertiaryContainer = AmarilloComodidad,
+    onTertiary = Blanco
 
 
 )
