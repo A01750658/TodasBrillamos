@@ -24,6 +24,9 @@ sealed class Pantallas (
         const val RUTA_PERFIL = "Perfil"
         const val RUTA_LOGIN = "Log In"
         const val RUTA_SIGNUP = "Sign Up"
+        const val RUTA_CATALOGO = "Catalogo"
+        const val RUTA_INFO = "Info"
+        const val RUTA_CONTACTO = "Contacto"
     }
 
     //Pantallas Menu
@@ -36,6 +39,9 @@ sealed class Pantallas (
     //Pantallas Independientes (Pantalla de Login y Signup)
     data object LogIn: Pantallas(RUTA_LOGIN, "Log In", Icons.Default.Star)
     data object SignUp: Pantallas(RUTA_SIGNUP, "Sign Up", Icons.Default.Star)
+    data object Catalogo: Pantallas(RUTA_CATALOGO, "Catalogo", Icons.Default.Star)
+    data object Info: Pantallas(RUTA_INFO, "Info", Icons.Default.Star)
+    data object Contacto: Pantallas(RUTA_CONTACTO,"Contacto", Icons.Default.Star)
 
 
 }
