@@ -3,12 +3,15 @@ package mx.tec.pruebabrillamostodas3.view
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
@@ -25,25 +28,25 @@ fun Home(btVM: BTVM, navController: NavHostController){
     {
       Column(modifier = Modifier){
           Titulo()
-          TextButton(onClick = {navController.navigate(Pantallas.RUTA_TIENDA)}){
+          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_TIENDA)}){
               Text(
                   text = "Catálogo",
                   textAlign = TextAlign.Center,
-                  modifier = Modifier.fillMaxWidth()
+                  modifier = Modifier.fillMaxWidth().padding(24.dp)
               )
           }
-          TextButton(onClick = {navController.navigate(Pantallas.RUTA_INFO)}){
+          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_INFO)}){
               Text(
                   text = "Conoce más información",
                   textAlign = TextAlign.Center,
-                  modifier = Modifier.fillMaxWidth()
+                  modifier = Modifier.fillMaxWidth().padding(24.dp)
               )
           }
-          TextButton(onClick = {navController.navigate(Pantallas.RUTA_CONTACTO)}){
+          ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_CONTACTO)}){
               Text(
                   text = "Contáctanos",
-                  textAlign = TextAlign.Left,
-                  modifier = Modifier.fillMaxWidth()
+                  textAlign = TextAlign.Center,
+                  modifier = Modifier.fillMaxWidth().padding(24.dp)
               )
           }
       }

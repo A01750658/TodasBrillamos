@@ -3,9 +3,12 @@ package mx.tec.pruebabrillamostodas3.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -34,7 +37,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 fun Main(btVM: BTVM, modifier: Modifier = Modifier){
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
-        Scaffold(topBar = {AppTopBar()},
+        Scaffold(topBar = {AppTopBar(navController)},
             bottomBar = {AppBottomBar(navController)}){
             innerPadding ->
             AppNavHost(
@@ -48,16 +51,25 @@ fun Main(btVM: BTVM, modifier: Modifier = Modifier){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar() {
-    TopAppBar(
-        title = {
-            Text(text = "",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.fillMaxWidth())
-        },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
-    )
+fun AppTopBar(navController: NavHostController) {
+    if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_APP_HOME){
+        TopAppBar(
+            title = {
+                Text(text = "",
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.fillMaxWidth())
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary),
+            navigationIcon = {
+                IconButton(onClick = { navController.navigateUp() }){
+                    Icon(imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back")
+                }
+            }
+        )
+    }
 }
 
 @Composable
