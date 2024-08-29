@@ -1,5 +1,8 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 
 /**
 * @author Alan Vega
@@ -56,13 +60,17 @@ fun Info(){
                     modifier = Modifier.fillMaxSize().padding(24.dp)
                 )
             }
-            ElevatedCard(modifier = Modifier.fillMaxSize().weight(1f).padding(16.dp)){
-                Text(
-                    text = "Futuro video de Tiktok, supongo",
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxSize().padding(24.dp)
-                )
-            }
+            AndroidView(
+                factory = { context ->
+                    WebView(context).apply {
+                        webViewClient = WebViewClient()
+                        settings.javaScriptEnabled = true
+                        settings.cacheMode = WebSettings.LOAD_NO_CACHE
+                        loadUrl("https://www.tiktok.com/@scout2015")
+                    }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
         }
         ElevatedCard(modifier = Modifier.fillMaxWidth().weight(1f).padding(16.dp)){
             Text(
