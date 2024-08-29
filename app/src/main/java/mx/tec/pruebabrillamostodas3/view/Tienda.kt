@@ -8,8 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 
-@Composable
+/**
+ * @author Alan Vega
+ */
 
+@Composable
 fun Tienda(){
     Box(
         contentAlignment = Alignment.Center,

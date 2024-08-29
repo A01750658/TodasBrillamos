@@ -24,6 +24,10 @@ import androidx.navigation.compose.rememberNavController
 import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * @author Alan Vega
+ */
+
 @Composable
 fun Main(btVM: BTVM, modifier: Modifier = Modifier){
     val navController = rememberNavController()
@@ -87,7 +91,7 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
         startDestination = Pantallas.RUTA_LOGIN,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
-            Home(btVM)
+            Home(btVM, navController)
         }
         composable(Pantallas.RUTA_REDES){
             Redes()
@@ -106,6 +110,12 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
         }
         composable(Pantallas.RUTA_LOGIN){
             LogIn(btVM, navController)
+        }
+        composable(Pantallas.RUTA_INFO){
+            Info()
+        }
+        composable(Pantallas.RUTA_CONTACTO){
+            Contacto()
         }
     }
 }
