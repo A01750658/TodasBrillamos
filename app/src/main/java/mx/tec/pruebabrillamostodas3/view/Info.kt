@@ -26,38 +26,75 @@ import androidx.compose.ui.viewinterop.AndroidView
  */
 
 @Composable
-fun Info(){
+fun Info() {
     val scrollState = rememberScrollState()
-    Column(modifier = Modifier.fillMaxSize()){
-       ElevatedCard(modifier = Modifier.fillMaxWidth().weight(1f).padding(16.dp)){
-           Text(
-               text = "Misión",
-               textAlign = TextAlign.Center,
-               modifier = Modifier.fillMaxSize().padding(24.dp)
-           )
-       }
-        Row(modifier = Modifier.fillMaxWidth().weight(1f).fillMaxHeight(1f)){
-            ElevatedCard(modifier = Modifier.fillMaxSize().weight(1f).padding(16.dp)){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+            .padding(16.dp)
+    ) {
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Text(
+                text = "Misión",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            ElevatedCard(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp)
+            ) {
                 Text(
                     text = "Visión",
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxSize().padding(24.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp)
                 )
             }
-            ElevatedCard(modifier = Modifier.fillMaxSize().weight(1f).padding(16.dp)){
+            ElevatedCard(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp)
+            ) {
                 Text(
                     text = "Sobre la marca",
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxSize().padding(24.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp)
                 )
             }
         }
-        Row(modifier = Modifier.fillMaxWidth().weight(1f).fillMaxHeight(1f)){
-            ElevatedCard(modifier = Modifier.fillMaxSize().weight(1f).padding(16.dp)){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            ElevatedCard(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp)
+            ) {
                 Text(
                     text = "Lavado de Toallas",
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxSize().padding(24.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp)
                 )
             }
             AndroidView(
@@ -66,20 +103,26 @@ fun Info(){
                         webViewClient = WebViewClient()
                         settings.javaScriptEnabled = true
                         settings.cacheMode = WebSettings.LOAD_NO_CACHE
-                        loadUrl("https://www.tiktok.com/@scout2015")
+                        loadUrl("https://www.tiktok.com/@todas.brillamos/video/7271770038439251206")
                     }
                 },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp)
             )
         }
-        ElevatedCard(modifier = Modifier.fillMaxWidth().weight(1f).padding(16.dp)){
+        ElevatedCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
             Text(
                 text = "Preguntas Frecuentes",
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxSize().padding(24.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
             )
         }
-
-
     }
 }
