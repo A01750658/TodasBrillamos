@@ -52,7 +52,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     .background(MaterialTheme.colorScheme.secondary))
             Etiqueta("Contraseña*", Modifier)
             OutlinedTextField(
-                value = "email@ejemplo.com",
+                value = "Contraseña",
                 onValueChange ={},
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
