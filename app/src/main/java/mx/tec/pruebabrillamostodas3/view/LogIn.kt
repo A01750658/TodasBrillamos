@@ -72,48 +72,8 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.onTertiary))
-            Row {
-                Text(
-                    text = "¿No tienes una cuenta?",
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .padding(start = 16.dp, top = 13.dp)
-                        .weight(3f),
-                    color = MaterialTheme.colorScheme.onTertiary,
-                    style = MaterialTheme.typography.bodySmall
-                )
-                TextButton(onClick = { navController.navigate(Pantallas.RUTA_SIGNUP) }, modifier = Modifier.weight(2f)) {
-                    Text(
-                        text = "Regístrate",
-                        textAlign = TextAlign.Left,
-                        modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.onTertiary
-                    )
-                }
-            }
-            Row {
-                Text(
-                    text = "¿Olvidaste tu contraseña?",
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .padding(start = 16.dp, top = 13.dp)
-                        .weight(3f),
-                    color = MaterialTheme.colorScheme.onTertiary,
-                    style = MaterialTheme.typography.bodySmall
-                )
-                TextButton(onClick = { navController.navigate(Pantallas.RUTA_SIGNUP) }, modifier = Modifier.weight(2f)) {
-                    Text(
-                        text = "Da click aqui",
-                        textAlign = TextAlign.Left,
-                        modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.onTertiary
-                    )
-                }
-            }
+            PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
+            PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { /*TODO*/ })
             TextButton(onClick = {navController.navigate(Pantallas.RUTA_APP_HOME)}){
                 Text(
                     text = "Acceder",
