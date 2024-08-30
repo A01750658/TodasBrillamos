@@ -19,7 +19,7 @@ fun Etiqueta(texto: String, modifier: Modifier = Modifier) {
             textAlign = TextAlign.Left,
             style = MaterialTheme.typography.bodySmall,
             fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.onTertiary,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
         )
