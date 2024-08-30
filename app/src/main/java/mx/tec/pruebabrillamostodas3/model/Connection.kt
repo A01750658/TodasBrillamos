@@ -53,8 +53,8 @@ suspend fun main(){
     for (product in products){
         println(product)
     }
-    val user = Usuario("Alan","Vega","Reza","06-MAR-2003","alan@gmail.com","1234554")
-    //addOrder("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/order")
+    val user = Usuario("Alan","Vega","Reza","06-MAR-2003","alan25@gmail.com","1234554")
+    println(addOrder("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/order"))
     println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user",user))
 
 
