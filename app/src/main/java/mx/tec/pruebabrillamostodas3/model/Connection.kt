@@ -23,9 +23,9 @@ fun connect() : HttpClient{
     return client
 }
 
-suspend fun getProducts(url : String) : List<Item>{
+suspend fun getProducts(url : String) : List<Producto>{
     val client = connect()
-    val producto : ApiResponse = client.get(url).body()
+    val producto : ListaProductos = client.get(url).body()
     return producto.items
 }
 
@@ -38,24 +38,41 @@ suspend fun addUser(url:String,user:Usuario) : HttpResponse{
     return response
 }
 
-suspend fun addOrder(url:String) : HttpResponse{
+suspend fun addOrder(url:String, order:Order) : HttpResponse{
     val client = connect()
     val response : HttpResponse = client.post(url){
         contentType(ContentType.Application.Json)
-        setBody(Order("15,16,17;1,1,2",3))
+        setBody(order)
     }
     return response
 }
 
+fun createDataInfo(productos: MutableList<Pair<Producto,Int>>) : String{
+    var id_productos : String = ""
+    var cantidad_producto : String = ""
+
+    for (producto in productos){
+        id_productos+= "${producto.first.id},"
+        cantidad_producto += "${producto.second},"
+    }
+    var result = id_productos.dropLast(1) + ";" + cantidad_producto.dropLast(1)
+
+    return result
+}
 
 suspend fun main(){
-    val products : List<Item> = getProducts("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/productos")
+    val products : List<Producto> = getProducts("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/productos")
     for (product in products){
         println(product)
     }
     val user = Usuario("Alan","Vega","Reza","06-MAR-2003","alan25@gmail.com","1234554")
-    println(addOrder("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/order"))
-    println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user",user))
+    //println(addOrder("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/order"))
+    //println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user",user))
+    var p : MutableList<Pair<Producto,Int>> = mutableListOf()
+   for(product in products){
+        p.add(Pair(product,1))
+   }
+    print(createDataInfo(p))
 
 
 

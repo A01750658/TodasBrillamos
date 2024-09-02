@@ -3,8 +3,8 @@ package mx.tec.pruebabrillamostodas3.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ApiResponse(
-    val items: List<Item>,
+data class ListaProductos(
+    val items: List<Producto>,
     val hasMore: Boolean,
     val limit: Int,
     val offset: Int,
