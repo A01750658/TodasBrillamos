@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CalendarLocale
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerColors
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -24,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUp(btVM: BTVM, navController: NavHostController){
     val scrollState = rememberScrollState()
@@ -53,23 +59,20 @@ fun SignUp(btVM: BTVM, navController: NavHostController){
                 .padding(6.dp)
                 .fillMaxWidth()
             )
-            Etiqueta("Correo Electrónico*", Modifier)
-            OutlinedTextField(
-                value = "email@ejemplo.com",
-                onValueChange ={},
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp)
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.onTertiary))
-            Etiqueta("Contraseña*", Modifier)
-            OutlinedTextField(
-                value = "Contraseña",
-                onValueChange ={},
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.onTertiary))
+            Etiqueta("Nombre*", Modifier.padding(bottom = 3.dp))
+            Inputtexto("",{})
+            Etiqueta("Apellido Paterno*", Modifier.padding(bottom = 3.dp))
+            Inputtexto("",{})
+            Etiqueta("Apellido Materno*", Modifier.padding(bottom = 3.dp))
+            Inputtexto("",{})
+            Etiqueta("Fecha de Nacimiento", Modifier.padding(bottom = 3.dp))
+            DatePicker(state = DatePickerState(locale = CalendarLocale.GERMAN))
+            Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
+            Inputtexto("",{})
+            Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
+            Inputtexto("",{})
+            Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
+            Inputtexto("",{})
             PreguntaBoton("¿Ya tienes cuenta?","Inicia sesión", {navController.navigate(Pantallas.RUTA_LOGIN)})
             TextButton(onClick = {navController.navigate(Pantallas.RUTA_LOGIN)}){
                 Text(
