@@ -61,6 +61,12 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    //retorfit
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.okhttp)
+    implementation(libs.coroutinesRetrofit)
+
     //Navegación
     implementation(libs.androidx.navigation.compose)
 

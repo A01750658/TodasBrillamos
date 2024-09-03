@@ -12,25 +12,19 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.client.request.post
+import retrofit2.Call
 
 
-fun connect() : HttpClient{
-    val client = HttpClient(CIO){
-        install(ContentNegotiation) {
-            json()
-        }
+val client = HttpClient(CIO) {
+    install(ContentNegotiation) {
+        json()
     }
-    return client
 }
 
-suspend fun getProducts(url : String) : List<Producto>{
-    val client = connect()
-    val producto : ListaProductos = client.get(url).body()
-    return producto.items
-}
+
+
 
 suspend fun addUser(url:String,user:Usuario) : HttpResponse{
-    val client = connect()
     val response : HttpResponse = client.post(url){
         contentType(ContentType.Application.Json)
         setBody(user)
@@ -39,11 +33,11 @@ suspend fun addUser(url:String,user:Usuario) : HttpResponse{
 }
 
 suspend fun addOrder(url:String, order:Order) : HttpResponse{
-    val client = connect()
     val response : HttpResponse = client.post(url){
         contentType(ContentType.Application.Json)
         setBody(order)
     }
+
     return response
 }
 
@@ -59,21 +53,23 @@ fun createDataInfo(productos: MutableList<Pair<Producto,Int>>) : String{
 
     return result
 }
+suspend fun getProductList(url:String) : List<Producto>{
+    val response : HttpResponse = client.get(url)
+    val producto : ListaProducto = response.body()
+    return producto.productos
+}
 
 suspend fun main(){
-    val products : List<Producto> = getProducts("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/productos")
-    for (product in products){
-        println(product)
-    }
+
     val user = Usuario("Alan","Vega","Reza","06-MAR-2003","alan25@gmail.com","1234554")
     //println(addOrder("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/order"))
     //println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user",user))
     var p : MutableList<Pair<Producto,Int>> = mutableListOf()
-   for(product in products){
+
+    val productos : List<Producto> = getProductList("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/get_productos/")
+    for (product in productos){
         p.add(Pair(product,1))
-   }
+    }
     print(createDataInfo(p))
-
-
 
 }

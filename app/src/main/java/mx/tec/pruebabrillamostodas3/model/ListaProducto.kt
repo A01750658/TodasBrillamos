@@ -4,8 +4,6 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class Link(
-    val rel: String,
-    val href: String
+data class ListaProducto(
+    val productos: List<Producto>
 )
-
