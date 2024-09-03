@@ -55,23 +55,10 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                 .padding(6.dp)
                 .fillMaxWidth()
             )
-            Etiqueta("Correo Electrónico*", Modifier)
-            OutlinedTextField(
-                value = "email@ejemplo.com",
-                onValueChange ={},
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp)
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.onTertiary))
-            Etiqueta("Contraseña*", Modifier)
-            OutlinedTextField(
-                value = "Contraseña",
-                onValueChange ={},
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.onTertiary))
+            Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
+            Inputtexto("",{})
+            Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
+            Inputtexto("",{})
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { /*TODO*/ })
             TextButton(onClick = {navController.navigate(Pantallas.RUTA_APP_HOME)}){
