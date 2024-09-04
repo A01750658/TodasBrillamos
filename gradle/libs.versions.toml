@@ -15,6 +15,7 @@ retrofit = "2.11.0"
 gson = "2.11.0"
 okhttp = "4.9.1"
 coroutinesRetrofit = "0.9.2"
+fragmentKtx = "1.8.2"
 
 [libraries]
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -39,6 +40,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-navigation-compose = {group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose"}
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

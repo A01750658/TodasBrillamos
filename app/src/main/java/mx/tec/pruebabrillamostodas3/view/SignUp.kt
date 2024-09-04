@@ -1,5 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,29 +11,38 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CalendarLocale
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerColors
-import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUp(btVM: BTVM, navController: NavHostController){
+fun SignUp(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    var selectedDate by remember { mutableStateOf("") }
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -66,7 +76,19 @@ fun SignUp(btVM: BTVM, navController: NavHostController){
             Etiqueta("Apellido Materno*", Modifier.padding(bottom = 3.dp))
             Inputtexto("",{})
             Etiqueta("Fecha de Nacimiento", Modifier.padding(bottom = 3.dp))
-            DatePicker(state = DatePickerState(locale = CalendarLocale.GERMAN))
+            //DatePicker(state = DatePickerState(locale = CalendarLocale.GERMAN))
+
+            // Llama a showDatePicker desde una corrutina
+            Button(onClick = {
+                coroutineScope.launch {
+                    showDatePicker(context) { day, month, year ->
+                        selectedDate = "$day/${month + 1}/$year"
+                    }
+                }
+            }) {
+                Text(text = if (selectedDate.isEmpty()) "Select Date" else selectedDate)
+            }
+
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
             Inputtexto("",{})
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))

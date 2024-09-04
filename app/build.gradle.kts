@@ -69,6 +69,7 @@ dependencies {
 
     //Navegación
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.fragment.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -90,4 +91,5 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("io.ktor:ktor-client-plugins:2.0.0")
     testImplementation("io.ktor:ktor-client-mock:$ktor_version")
+
 }
