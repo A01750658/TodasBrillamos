@@ -21,9 +21,6 @@ val client = HttpClient(CIO) {
     }
 }
 
-
-
-
 suspend fun addUser(url:String,user:Usuario) : HttpResponse{
     val response : HttpResponse = client.post(url){
         contentType(ContentType.Application.Json)
@@ -61,14 +58,15 @@ suspend fun getProductList(url:String) : List<Producto>{
 
 suspend fun main(){
 
-    val user = Usuario("Alan","Vega","Reza","06-MAR-2003","alan25@gmail.com","1234554")
+    val user = Usuario("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554")
     //println(addOrder("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/order"))
-    //println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user",user))
+    println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user",user))
     var p : MutableList<Pair<Producto,Int>> = mutableListOf()
 
     val productos : List<Producto> = getProductList("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/get_productos/")
     for (product in productos){
         p.add(Pair(product,1))
+        println(product)
     }
     print(createDataInfo(p))
 
