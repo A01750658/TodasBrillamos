@@ -90,4 +90,10 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("io.ktor:ktor-client-plugins:2.0.0")
     testImplementation("io.ktor:ktor-client-mock:$ktor_version")
+
+    //Auth
+    implementation("io.ktor:ktor-client-auth:2.0.0")
+    implementation("io.ktor:ktor-client-auth-jvm:2.0.0")
+
+
 }

@@ -30,11 +30,10 @@ class ConnectorAPI {
         retrofit.create(TodasBrillamosAPI::class.java)
     }
 
-    suspend fun getProducto(): ApiResponse {
-        return servicio.getProducto()
-    }
 
     suspend fun getProductos(): ListaProducto {
+        val response : ListaProducto = servicio.getProductos()
+        println(response)
         return servicio.getProductos()
     }
 }
