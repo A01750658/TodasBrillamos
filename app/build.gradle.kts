@@ -52,6 +52,7 @@ android {
 
 dependencies {
 
+    implementation ("androidx.fragment:fragment-ktx:1.3.6")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
