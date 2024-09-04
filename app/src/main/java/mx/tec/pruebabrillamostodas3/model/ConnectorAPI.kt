@@ -1,5 +1,6 @@
 package mx.tec.pruebabrillamostodas3.model
 
+import io.ktor.client.statement.HttpResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -34,12 +35,19 @@ class ConnectorAPI {
     suspend fun getProductos(): ListaProducto {
         val response : ListaProducto = servicio.getProductos()
         println(response)
-        return servicio.getProductos()
+        return response
     }
+    suspend fun addOrder(order: Order): HttpResponse {
+        val response : HttpResponse = servicio.addOrder(order)
+        println(response)
+        return response
+    }
+
 }
 
 suspend fun main()  {
     val connector = ConnectorAPI()
     val producto = connector.getProductos().productos
+    println(connector.addOrder(Order("17,21;1,2",127)))
     println(producto)
 }

@@ -16,6 +16,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
  * @author Alan Vega
  */
 
+/*
 @Composable
 fun Tienda(viewModel: BTVM, modifier: Modifier){
     val estadoLista = viewModel.estadoLista.collectAsState()
@@ -28,3 +29,5 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
         }
     }
 }
+
+ */
