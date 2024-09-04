@@ -38,8 +38,8 @@ class ConnectorAPI {
     }
 }
 
-fun main() = runBlocking {
+suspend fun main()  {
     val connector = ConnectorAPI()
-    val producto = connector.getProductos()
+    val producto = connector.getProductos().productos
     println(producto)
 }
