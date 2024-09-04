@@ -29,6 +29,7 @@ fun Home(btVM: BTVM, navController: NavHostController){
     {
       Column(modifier = Modifier){
           Titulo("ZAZIL")
+          Subtitulo("Cambia el mundo con un solo gesto")
           ElevatedButton(onClick = {navController.navigate(Pantallas.RUTA_TIENDA)}, modifier = Modifier.fillMaxSize().weight(1f)){
               Text(
                   text = "Catálogo",
