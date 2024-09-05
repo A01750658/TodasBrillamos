@@ -69,31 +69,49 @@ fun Foros(){
             HorizontalDivider(color = MaterialTheme.colorScheme.primary, thickness = 2.dp)
             LazyColumn {
                 item{
-                    Text(
-                        text = "Foro 1",
-                        textAlign = TextAlign.Center,
+                    ElevatedCard(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                    )
+                            .weight(1f)
+                            .padding(8.dp)
+                    ) {
+                        Text(
+                            text = "Foro 1",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp)
+                        )
+                    }
                 }
                 item{
-                    Text(
-                        text = "Foro 2",
-                        textAlign = TextAlign.Center,
+                    ElevatedCard(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                    )
+                            .weight(1f)
+                            .padding(8.dp)
+                    ) {
+                        Text(
+                            text = "Foro 2",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp)
+                        )
+                    }
                 }
                 item{
-                    Text(
-                        text = "Foro 3",
-                        textAlign = TextAlign.Center,
+                    ElevatedCard(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                    )
+                            .weight(1f)
+                            .padding(8.dp)
+                    ) {
+                        Text(
+                            text = "Foro 3",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp)
+                        )
+                    }
                 }
             }
         }
