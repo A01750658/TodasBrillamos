@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -19,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
@@ -52,7 +55,9 @@ fun Main(btVM: BTVM, modifier: Modifier = Modifier){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(navController: NavHostController) {
-    if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_APP_HOME){
+    if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_APP_HOME
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_PERFIL && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_REDES && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_FOROS
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_TIENDA){
         TopAppBar(
             title = {
                 Text(text = "",
@@ -75,7 +80,11 @@ fun AppTopBar(navController: NavHostController) {
 @Composable
 fun AppBottomBar(navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP){
-        BottomAppBar{
+        BottomAppBar(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onTertiary,
+
+        ){
             val pilaNavegacion by navController.currentBackStackEntryAsState()
             val pantallaActual = pilaNavegacion?.destination
 
@@ -91,11 +100,15 @@ fun AppBottomBar(navController: NavHostController) {
                             restoreState = true
                         }
                     },
-                    label = {Text(text = pantalla.etiqueta)},
+                    label = {Text(text = pantalla.etiqueta,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        fontSize = 13.sp)},
                     icon = {Icon(
                         imageVector = pantalla.icono,
-                        contentDescription = pantalla.etiqueta)},
-                    alwaysShowLabel = true
+                        contentDescription = pantalla.etiqueta,
+                        tint = MaterialTheme.colorScheme.onTertiary)},
+                    alwaysShowLabel = true,
                 )
             }
         }

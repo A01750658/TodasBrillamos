@@ -11,14 +11,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Titulo(titulo: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primary){
+fun Titulo(titulo: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primary, fontSize: Int = 48){
 
         Text(
             text = titulo,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
             color = color,
-            fontSize = 48.sp,
+            fontSize = fontSize.sp,
             modifier = modifier.fillMaxWidth()
         )
 

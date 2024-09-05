@@ -20,7 +20,7 @@ sealed class Pantallas (
     val icono: ImageVector
 ){
     companion object{
-        var listaPantallas = listOf(Home, Redes, Foros, Tienda, Perfil)
+        var listaPantallas = listOf(Redes, Foros, Home, Tienda, Perfil)
         const val RUTA_APP_HOME = "Home"
         const val RUTA_REDES = "Redes"
         const val RUTA_FOROS = "Foros"
@@ -33,10 +33,10 @@ sealed class Pantallas (
     }
 
     //Pantallas Menu
-    private data object Home: Pantallas(RUTA_APP_HOME, "Home", Icons.Default.Home)
+    private data object Home: Pantallas(RUTA_APP_HOME, "Zazil", Icons.Default.Home)
     private data object Redes: Pantallas(RUTA_REDES, "Redes", Icons.Default.ThumbUp)
     private data object Foros: Pantallas(RUTA_FOROS, "Foros", Icons.Default.Star)
-    private data object Tienda: Pantallas(RUTA_TIENDA, "Tienda", Icons.Default.ShoppingCart)
+    private data object Tienda: Pantallas(RUTA_TIENDA, "Catálogo", Icons.Default.ShoppingCart)
     private data object Perfil: Pantallas(RUTA_PERFIL, "Perfil", Icons.Default.AccountBox)
 
     //Pantallas Independientes
