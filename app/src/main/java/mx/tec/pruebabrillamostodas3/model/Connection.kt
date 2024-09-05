@@ -91,6 +91,28 @@ suspend fun getProductImage(imageId : Int) : Pair<String,ByteArray>?{
     return null
 }
 
+suspend fun getProductsWithToken() : List<Producto>{
+    val myKey : String = getJWTKey("ala25@gmail.com","1234554").data
+    val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/connection/productos/"){
+        url {
+            parameters.append("user_token", myKey)
+        }
+    }
+    val producto : ListaProducto = response.body()
+    return producto.productos
+}
+suspend fun addOrderWithToken(order:Order,user:Usuario) : HttpResponse {
+    val userToken : String = getJWTKey(user.email,user.password).data
+    val response : HttpResponse = client.post("https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/order"){
+        contentType(ContentType.Application.Json)
+        setBody(order)
+        url{
+            parameters.append("user_token",userToken)
+        }
+    }
+    return response
+}
+
 suspend fun main(){
 
     val user = Usuario("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554")
@@ -104,11 +126,15 @@ suspend fun main(){
         println(product)
     }
     print(createDataInfo(p))
-    print(getJWTKey("ala25@gmail.com","1234554"))
+    print(getJWTKey("alan25@gmail.com","1234554"))
     print(encryptPassword("1234554",generateAESKey(256)))
     println(getDataWithToken())
+    println("________________--")
     println(createUser("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554"))
-    val imageData = getProductImage(17)
+
+    println(addOrderWithToken(Order(createDataInfo(p),201),Usuario("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554")))
+    //println(getProductsWithToken())
+    /*val imageData = getProductImage(17)
     if (imageData != null) {
         val (mediaType, imageBytes) = imageData
         println("Media Type: $mediaType")
@@ -116,5 +142,6 @@ suspend fun main(){
         // You can now use the imageBytes as needed, e.g., save to a file or send in a response
     } else {
         println("Image not found or failed to retrieve.")
-    }
+    }*/
+
 }

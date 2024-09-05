@@ -69,7 +69,17 @@ class ModelConnection
         return response
     }
 
-
+    suspend fun addOrderWithToken(order:Order,user:Usuario) : HttpResponse {
+        val userToken : String = getJWTKey(user.email,user.password).data
+        val response : HttpResponse = client.post("https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/order"){
+            contentType(ContentType.Application.Json)
+            setBody(order)
+            url{
+                parameters.append("user_token",userToken)
+            }
+        }
+        return response
+    }
 
     suspend fun getProductList(url:String) : List<Producto>{
         val response : HttpResponse = client.get(url)
@@ -87,11 +97,12 @@ class ModelConnection
         return response.body()
     }
 
-
-    suspend fun getDataWithToken() : List<Producto>{
-        val response : HttpResponse = client.post("https://apex.oracle.com/pls/apex/todasbrillamos/hr/empinfo/"){
-            contentType(ContentType.Application.Json)
-            setBody(TokenData(getJWTKey("ala25@gmail.com","1234554").data))
+    suspend fun getProductsWithToken(user: Usuario) : List<Producto>{
+        val userToken : String = getJWTKey(user.email,user.password).data
+        val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/connection/productos/"){
+            url {
+                parameters.append("user_token", userToken)
+            }
         }
         val producto : ListaProducto = response.body()
         return producto.productos
