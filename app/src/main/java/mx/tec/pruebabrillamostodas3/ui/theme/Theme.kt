@@ -42,8 +42,13 @@ private val LightColorScheme = lightColorScheme(
     secondaryContainer = VerdeSostenible,
     tertiary = NaranjaConfianza,
     tertiaryContainer = AmarilloComodidad,
-    onTertiary = Blanco
+    onTertiary = Blanco,
 
+    onPrimary = Facebook,
+    onSecondary = Intagram,
+    onPrimaryContainer = TikTok,
+    onSecondaryContainer = Whatsapp,
+    onTertiaryContainer = Youtube,
 
 )
 

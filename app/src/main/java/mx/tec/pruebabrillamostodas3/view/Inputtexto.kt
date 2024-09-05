@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Inputtexto(text: String, onValueChange: () -> Unit, modifier: Modifier = Modifier){
+fun Inputtexto(text: String, onValueChange: () -> Unit, modifier: Modifier = Modifier, padding: Int = 16){
     OutlinedTextField(
         value = text,
         onValueChange ={onValueChange()},
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = padding.dp)
             .padding(bottom = 16.dp)
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.onTertiary))
