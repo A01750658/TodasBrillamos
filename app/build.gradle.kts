@@ -52,7 +52,9 @@ android {
 
 dependencies {
 
+    implementation ("com.google.android.material:material:1.4.0")
     implementation ("androidx.fragment:fragment-ktx:1.3.6")
+    implementation ("androidx.compose.material:material:1.2.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -71,6 +73,7 @@ dependencies {
     //Navegación
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.runtime.livedata)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
