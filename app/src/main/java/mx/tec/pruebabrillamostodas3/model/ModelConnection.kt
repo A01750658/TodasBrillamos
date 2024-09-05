@@ -5,9 +5,11 @@ import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.utils.EmptyContent.headers
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
@@ -93,6 +95,15 @@ class ModelConnection
         }
         val producto : ListaProducto = response.body()
         return producto.productos
+    }
+
+    suspend fun getProductImage(imageId : Int) : Pair<String,ByteArray>?{
+        val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/product_images/?image_id="+imageId.toString())
+
+        if(response.status.value == 200){
+            return Pair(response.contentType().toString(),response.body())
+        }
+        return null
     }
 
 

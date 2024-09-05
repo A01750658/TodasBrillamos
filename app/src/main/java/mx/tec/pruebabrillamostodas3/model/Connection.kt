@@ -82,6 +82,15 @@ suspend fun getDataWithToken() : List<Producto>{
 fun createUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String) : Usuario{
     return Usuario(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, encryptPassword(password, key))
 }
+suspend fun getProductImage(imageId : Int) : Pair<String,ByteArray>?{
+    val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/product_images/?image_id="+imageId.toString())
+
+    if(response.status.value == 200){
+        return Pair(response.contentType().toString(),response.body())
+    }
+    return null
+}
+
 suspend fun main(){
 
     val user = Usuario("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554")
@@ -99,4 +108,13 @@ suspend fun main(){
     print(encryptPassword("1234554",generateAESKey(256)))
     println(getDataWithToken())
     println(createUser("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554"))
+    val imageData = getProductImage(17)
+    if (imageData != null) {
+        val (mediaType, imageBytes) = imageData
+        println("Media Type: $mediaType")
+
+        // You can now use the imageBytes as needed, e.g., save to a file or send in a response
+    } else {
+        println("Image not found or failed to retrieve.")
+    }
 }
