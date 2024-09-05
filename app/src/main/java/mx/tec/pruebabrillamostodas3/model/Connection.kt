@@ -13,6 +13,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.client.request.post
 import retrofit2.Call
+import javax.crypto.SecretKey
 
 
 val client = HttpClient(CIO) {
@@ -20,6 +21,7 @@ val client = HttpClient(CIO) {
         json()
     }
 }
+private val key = generateAESKey(256)
 
 suspend fun addUser(url:String,user:Usuario) : HttpResponse{
     val response : HttpResponse = client.post(url){
@@ -55,7 +57,31 @@ suspend fun getProductList(url:String) : List<Producto>{
     val producto : ListaProducto = response.body()
     return producto.productos
 }
+suspend fun getJWTKey(user: String, password: String) : JWT_KEY{
+    val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/auth/getToken/") {
+        url {
+            parameters.append("in_email", user)
+            parameters.append("in_password", password)
+        }
+    }
+    return response.body()
+}
+fun encryptPassword(password: String, key: SecretKey) : String{
+    val encryptedPassword = aesEncrypt(password.toByteArray(), key)
+    return encryptedPassword.toString()
+}
 
+suspend fun getDataWithToken() : List<Producto>{
+    val response : HttpResponse = client.post("https://apex.oracle.com/pls/apex/todasbrillamos/hr/empinfo/"){
+        contentType(ContentType.Application.Json)
+        setBody(TokenData(getJWTKey("ala25@gmail.com","1234554").data))
+    }
+    val producto : ListaProducto = response.body()
+    return producto.productos
+}
+fun createUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String) : Usuario{
+    return Usuario(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, encryptPassword(password, key))
+}
 suspend fun main(){
 
     val user = Usuario("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554")
@@ -69,5 +95,8 @@ suspend fun main(){
         println(product)
     }
     print(createDataInfo(p))
-
+    print(getJWTKey("ala25@gmail.com","1234554"))
+    print(encryptPassword("1234554",generateAESKey(256)))
+    println(getDataWithToken())
+    println(createUser("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554"))
 }
