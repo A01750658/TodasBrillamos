@@ -14,40 +14,4 @@ class BTModel {
 
     }
 
-    fun obtenerFotosBlog(){
-
-    }
-
-    fun obtenerTextoBlog(){
-
-    }
-
-    fun obtenerProductos(){
-
-    }
-
-    fun obtenerUsuario(){
-
-    }
-
-    fun obtenerCorreo(){
-
-    }
-
-    fun setCorreo(){
-
-    }
-
-    fun setPassword(){
-
-    }
-
-    fun obtenerTiktok(){
-
-    }
-
-    fun obtenerForo(){
-
-    }
-
 }

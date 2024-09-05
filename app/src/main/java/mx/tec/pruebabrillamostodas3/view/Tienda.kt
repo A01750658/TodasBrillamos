@@ -16,18 +16,17 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
  * @author Alan Vega
  */
 
-/*
+
 @Composable
 fun Tienda(viewModel: BTVM, modifier: Modifier){
-    val estadoLista = viewModel.estadoLista.collectAsState()
+
+    val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
     LazyColumn{
-        estadoLista.value.forEach{
+        estadoListaProducto.value.forEach{
             producto ->
             item{
-                BotonElemento(onClick = { /*TODO*/ }, imagen = producto.imagen, nombre = producto.nombre, precio_n = producto.precio_normal, precio_r = producto.precio_rebajado, rebaja = producto.rebaja, modifier)
+                BotonProducto(onClick = { /*TODO*/ }, imagen = producto.imagen, nombre = producto.nombre, precio_n = producto.precio_normal, precio_r = producto.precio_rebajado, rebaja = producto.rebaja, modifier)
             }
         }
     }
 }
-
- */

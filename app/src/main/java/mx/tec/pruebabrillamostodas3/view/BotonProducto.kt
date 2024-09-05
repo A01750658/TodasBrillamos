@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import java.sql.Blob
 
 @Composable
-fun BotonElemento(onClick: () -> Unit, imagen: Blob, nombre: String, precio_n: Int, precio_r: Int, rebaja: Int, modifier: Modifier = Modifier){
+fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio_n: Int, precio_r: Int, rebaja: Int, modifier: Modifier = Modifier){
     var precio: Int
     if (rebaja == 1){
         precio = precio_r
@@ -35,7 +35,7 @@ fun BotonElemento(onClick: () -> Unit, imagen: Blob, nombre: String, precio_n: I
                 .height(128.dp)
         ) {
             Image(
-                painter = BitmapPainter(BlobImage(imagen).asImageBitmap()),
+                painter = BitmapPainter(Image(imagen).asImageBitmap()),
                 contentDescription = "Elemento",
                 modifier = modifier.fillMaxSize().weight(1f)
             )
@@ -49,14 +49,8 @@ fun BotonElemento(onClick: () -> Unit, imagen: Blob, nombre: String, precio_n: I
     }
 }
 
-fun blobToByteArray(image: Blob): ByteArray{
-    val blobLength = image.length().toInt()
-    return image.getBytes(1, blobLength)
-}
+fun Image(image: ByteArray): Bitmap{
 
-fun BlobImage(image: Blob): Bitmap{
-    val byteArray = blobToByteArray(image)
-
-    val bitmap: Bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    val bitmap: Bitmap = BitmapFactory.decodeByteArray(image, 0, image.size)
     return bitmap
 }

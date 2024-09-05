@@ -108,13 +108,13 @@ class ModelConnection
         return producto.productos
     }
 
-    suspend fun getProductImage(imageId : Int) : Pair<String,ByteArray>?{
+    suspend fun getProductImage(imageId : Int) : ByteArray{
         val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/product_images/?image_id="+imageId.toString())
 
         if(response.status.value == 200){
-            return Pair(response.contentType().toString(),response.body())
+            return response.body()
         }
-        return null
+        return ByteArray(0)
     }
 
 
