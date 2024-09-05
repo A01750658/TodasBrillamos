@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,6 +48,10 @@ fun Info() {
             Titulo("ZAZIL", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 90)
             Subtitulo("Cambia el mundo con un solo gesto.")
             HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.primaryContainer)
+            Spacer(modifier = Modifier
+                .padding(6.dp)
+                .fillMaxWidth()
+            )
             ElevatedCard(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,33 +115,33 @@ fun Info() {
                             .padding(24.dp)
                     )
                 }
-                //            AndroidView(
-                //                factory = { context ->
-                //                    WebView(context).apply {
-                //                        webViewClient = object : WebViewClient() {
-                //                            override fun shouldOverrideUrlLoading(
-                //                                view: WebView?,
-                //                                request: WebResourceRequest?
-                //                            ): Boolean {
-                //                                val url = request?.url.toString()
-                //                                return if (url.startsWith("http://") || url.startsWith("https://")) {
-                //                                    view?.loadUrl(url)
-                //                                    false
-                //                                } else {
-                //                                    true
-                //                                }
-                //                            }
-                //                        }
-                //                        settings.javaScriptEnabled = true
-                //                        settings.cacheMode = WebSettings.LOAD_NO_CACHE
-                //                        settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-                //                        loadUrl("https://www.tiktok.com/@todas.brillamos/video/7271770038439251206") // Replace with your TikTok embed URL
-                //                    }
-                //                },
-                //                modifier = Modifier
-                //                    .weight(1f)
-                //                    .padding(8.dp)
-                //            )
+//                            AndroidView(
+//                                factory = { context ->
+//                                    WebView(context).apply {
+//                                        webViewClient = object : WebViewClient() {
+//                                            override fun shouldOverrideUrlLoading(
+//                                                view: WebView?,
+//                                                request: WebResourceRequest?
+//                                            ): Boolean {
+//                                                val url = request?.url.toString()
+//                                                return if (url.startsWith("http://") || url.startsWith("https://")) {
+//                                                    view?.loadUrl(url)
+//                                                    false
+//                                                } else {
+//                                                    true
+//                                                }
+//                                            }
+//                                        }
+//                                        settings.javaScriptEnabled = true
+//                                        settings.cacheMode = WebSettings.LOAD_NO_CACHE
+//                                        settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+//                                        //loadUrl("https://") // Replace with your TikTok embed URL
+//                                    }
+//                                },
+//                                modifier = Modifier
+//                                    .weight(1f)
+//                                    .padding(8.dp)
+//                            )
             }
             ElevatedCard(
                 modifier = Modifier

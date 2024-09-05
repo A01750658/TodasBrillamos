@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -17,12 +18,15 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 /**
  * @author Santiago Chevez
@@ -62,34 +66,93 @@ fun Perfil() {
                 .padding(6.dp)
                 .fillMaxWidth()
             )
-            Etiqueta("Nombre", modifier = Modifier.fillMaxWidth(),color = Color.Black, padding = 3)
-            Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
-            Spacer(modifier = Modifier
-                .padding(6.dp)
-                .fillMaxWidth()
-            )
-            Row {
-                Column (modifier = Modifier.weight(1f)) {
-                    Etiqueta("Apellido Paterno", modifier = Modifier.fillMaxWidth(),color = Color.Black, padding = 3)
-                    Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
+
+            Column(modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(MaterialTheme.colorScheme.primary)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .fillMaxWidth()
+                )
+                Etiqueta(
+                    "Nombre",
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    padding = 30
+                )
+                Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 4)
+                Spacer(
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .fillMaxWidth()
+                )
+                Row {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Etiqueta(
+                            "Apellido Paterno",
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.onTertiary,
+                            padding = 16
+                        )
+                        Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
+                    }
+                    Column(modifier = Modifier.weight(1f)) {
+                        Etiqueta(
+                            "Apellido Materno",
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.onTertiary,
+                            padding = 16
+                        )
+                        Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
+                    }
                 }
-                Column (modifier = Modifier.weight(1f)) {
-                    Etiqueta("Apellido Materno", modifier = Modifier.fillMaxWidth(),color = Color.Black, padding = 3)
-                    Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
+                Spacer(
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .fillMaxWidth()
+                )
+                Etiqueta(
+                    "Correo",
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    padding = 30
+                )
+                Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 4)
+                Spacer(
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .fillMaxWidth()
+                )
+                Etiqueta(
+                    "Dirección de envío",
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    padding = 30
+                )
+                Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 4)
+                Spacer(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                )
+                TextButton(onClick = { /*TODO*/ },
+                    Modifier.padding(horizontal = 100.dp)
+                        .padding(bottom = 16.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.tertiary)
+                ) {
+                    Text(
+                        text = "Actualizar",
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colorScheme.onTertiary
+                    )
                 }
             }
-            Spacer(modifier = Modifier
-                .padding(6.dp)
-                .fillMaxWidth()
-            )
-            Etiqueta("Correo", modifier = Modifier.fillMaxWidth(),color = Color.Black, padding = 3)
-            Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
-            Spacer(modifier = Modifier
-                .padding(6.dp)
-                .fillMaxWidth()
-            )
-            Etiqueta("Dirección de envío", modifier = Modifier.fillMaxWidth(),color = Color.Black, padding = 3)
-            Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
         }
     }
 }

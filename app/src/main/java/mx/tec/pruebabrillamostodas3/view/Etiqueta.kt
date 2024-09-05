@@ -1,6 +1,7 @@
 package mx.tec.pruebabrillamostodas3.view
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ fun Etiqueta(texto: String, modifier: Modifier = Modifier, color: Color = Materi
             color = color,
             modifier = modifier
                 .padding(horizontal = padding.dp)
+                .fillMaxWidth()
         )
 
 }
