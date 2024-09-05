@@ -78,16 +78,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             Etiqueta("Fecha de Nacimiento", Modifier.padding(bottom = 3.dp))
             //DatePicker(state = DatePickerState(locale = CalendarLocale.GERMAN))
 
-            // Llama a showDatePicker desde una corrutina
-            Button(onClick = {
-                coroutineScope.launch {
-                    showDatePicker(context) { day, month, year ->
-                        selectedDate = "$day/${month + 1}/$year"
-                    }
-                }
-            }) {
-                Text(text = if (selectedDate.isEmpty()) "Select Date" else selectedDate)
-            }
+            DatePickerScreen(modifier = Modifier.padding(bottom = 3.dp,start = 16.dp).background(MaterialTheme.colorScheme.onTertiary))
 
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
             Inputtexto("",{})
