@@ -37,7 +37,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
             Image(
                 painter = BitmapPainter(Image(imagen).asImageBitmap()),
                 contentDescription = "Elemento",
-                modifier = modifier.fillMaxSize().weight(1f)
+                modifier = modifier.fillMaxSize()
             )
         }
         Text(text = nombre,
@@ -45,7 +45,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
             modifier = modifier.fillMaxWidth().weight(1f))
         Text(text = precio.toString(),
             textAlign = TextAlign.Center,
-            modifier = modifier.fillMaxWidth().weight(1f))
+            modifier = modifier.fillMaxWidth())
     }
 }
 
