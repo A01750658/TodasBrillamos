@@ -33,6 +33,7 @@ class BTVM: ViewModel() {
     fun getProductos(){
         viewModelScope.launch{
             _estadoLista.value = modelo.getProductList(link)
+            getImagenProd(_estadoLista.value)
         }
 
     }

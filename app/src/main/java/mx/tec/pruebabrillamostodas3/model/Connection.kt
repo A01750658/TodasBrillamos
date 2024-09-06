@@ -143,5 +143,5 @@ suspend fun main(){
     } else {
         println("Image not found or failed to retrieve.")
     }*/
-
+    getProductList("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/get_productos/")
 }
