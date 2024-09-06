@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -31,11 +32,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 fun Tienda(viewModel: BTVM, modifier: Modifier){
     val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
     val once = viewModel.once.collectAsState()
-    if (estadoListaProducto.value.isEmpty() and !once.value){
-        viewModel.getProductos()
-        viewModel.setOnce(true)
-        println(estadoListaProducto.value.size)
-    }
+
     println(estadoListaProducto.value.size)
     Box(
         modifier = Modifier
@@ -64,9 +61,13 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
                     .padding(8.dp)
                     .fillMaxWidth()
             )
-            LazyColumn {
-                estadoListaProducto.value.forEach { producto ->
-                    /*for (i in 1..10) {
+            if (estadoListaProducto.value.isEmpty()) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+            } else {
+                LazyColumn {
+
+                    estadoListaProducto.value.forEach { producto ->
+                        /*for (i in 1..10) {
                     item {
                         ElevatedButton(onClick = { /*TODO*/ },
                             modifier = Modifier.fillMaxWidth()) {
@@ -80,16 +81,17 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
                             modifier = Modifier.fillMaxWidth()) {
                             Text(text = "Producto 3.$i")
                         }*/
-                    item{
-                        BotonProducto(
-                            onClick = { /*TODO*/ },
-                            imagen = producto.imagen,
-                            nombre = producto.nombre,
-                            precio_n = producto.precio_normal,
-                            precio_r = producto.precio_rebajado,
-                            rebaja = producto.rebaja,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        item {
+                            BotonProducto(
+                                onClick = { /*TODO*/ },
+                                imagen = producto.imagen,
+                                nombre = producto.nombre,
+                                precio_n = producto.precio_normal,
+                                precio_r = producto.precio_rebajado,
+                                rebaja = producto.rebaja,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
                 }
             }

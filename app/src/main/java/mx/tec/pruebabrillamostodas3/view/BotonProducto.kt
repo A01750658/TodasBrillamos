@@ -40,12 +40,20 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
                 modifier = modifier.fillMaxSize()
             )
         }
-        Text(text = nombre,
-            textAlign = TextAlign.Center,
-            modifier = modifier.fillMaxWidth().weight(1f))
-        Text(text = precio.toString(),
-            textAlign = TextAlign.Center,
-            modifier = modifier.fillMaxWidth())
+        Column {
+            Text(
+                text = nombre,
+                textAlign = TextAlign.Center,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+            Text(
+                text = precio.toString(),
+                textAlign = TextAlign.Center,
+                modifier = modifier.fillMaxWidth()
+            )
+        }
     }
 }
 

@@ -64,7 +64,10 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
             Inputtexto("",{})
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { /*TODO*/ })
-            TextButton(onClick = {navController.navigate(Pantallas.RUTA_APP_HOME)},
+            TextButton(onClick = {
+                btVM.getProductos()
+                btVM.setOnce(true)
+                navController.navigate(Pantallas.RUTA_APP_HOME)},
                 Modifier.padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
