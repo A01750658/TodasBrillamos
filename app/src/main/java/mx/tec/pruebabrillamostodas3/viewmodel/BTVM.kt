@@ -21,7 +21,11 @@ class BTVM: ViewModel() {
     fun setShowDatePicker(show: Boolean) {
         _showDatePicker.value = show
     }
-
+    private val _once =MutableStateFlow(false)
+    val once: StateFlow<Boolean> = _once
+    fun setOnce(show: Boolean) {
+        _once.value = show
+    }
     private val _estadoLista = MutableStateFlow(listOf<Producto>())
     val estadoLista: StateFlow<List<Producto>> = _estadoLista
     private val _estadoProducto2 = MutableStateFlow<EstadoProducto>(EstadoProducto())
@@ -31,8 +35,12 @@ class BTVM: ViewModel() {
     val estadoListaProducto2: MutableList<EstadoProducto> = mutableListOf<EstadoProducto>()
     fun getProductos(){
         viewModelScope.launch{
-            _estadoLista.value = modelo.getProductList()
-            getImagenProd(_estadoLista.value)
+            try {
+                _estadoLista.value = modelo.getProductList()
+                getImagenProd(_estadoLista.value)
+            }catch (e: Exception){
+            println(e)
+        }
         }
 
     }

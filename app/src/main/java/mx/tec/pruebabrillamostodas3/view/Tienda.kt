@@ -29,8 +29,14 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 @Composable
 fun Tienda(viewModel: BTVM, modifier: Modifier){
-    //viewModel.getProductos()
     val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
+    val once = viewModel.once.collectAsState()
+    if (estadoListaProducto.value.isEmpty() and !once.value){
+        viewModel.getProductos()
+        viewModel.setOnce(true)
+        println(estadoListaProducto.value.size)
+    }
+    println(estadoListaProducto.value.size)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -59,8 +65,8 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
                     .fillMaxWidth()
             )
             LazyColumn {
-                //estadoListaProducto.value.forEach { producto ->
-                for (i in 1..10) {
+                estadoListaProducto.value.forEach { producto ->
+                    /*for (i in 1..10) {
                     item {
                         ElevatedButton(onClick = { /*TODO*/ },
                             modifier = Modifier.fillMaxWidth()) {
@@ -73,16 +79,17 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
                         ElevatedButton(onClick = { /*TODO*/ },
                             modifier = Modifier.fillMaxWidth()) {
                             Text(text = "Producto 3.$i")
-                        }
-                        /*BotonProducto(
+                        }*/
+                    item{
+                        BotonProducto(
                             onClick = { /*TODO*/ },
                             imagen = producto.imagen,
                             nombre = producto.nombre,
                             precio_n = producto.precio_normal,
                             precio_r = producto.precio_rebajado,
                             rebaja = producto.rebaja,
-                            modifier
-                        )*/
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
                 }
             }
