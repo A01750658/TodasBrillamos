@@ -67,8 +67,6 @@ class ModelConnection
         return response
     }
 
-
-
     suspend fun addOrderWithToken(order:Order,user:Usuario) : HttpResponse {
         val userToken : String = getJWTKey(user.email,user.password).data
         val response : HttpResponse = client.post(addOrderEndpoint){
@@ -81,8 +79,8 @@ class ModelConnection
         return response
     }
 
-    suspend fun getProductList(url:String) : List<Producto>{
-        val response : HttpResponse = client.get(url)
+    suspend fun getProductList() : List<Producto>{
+        val response : HttpResponse = client.get(getProductListEndpoint)
         val producto : ListaProducto = response.body()
         return producto.productos
     }
