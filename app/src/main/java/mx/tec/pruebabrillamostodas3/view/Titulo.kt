@@ -19,7 +19,8 @@ fun Titulo(titulo: String, modifier: Modifier = Modifier, color: Color = Materia
             style = MaterialTheme.typography.titleLarge,
             color = color,
             fontSize = fontSize.sp,
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier.fillMaxWidth(),
+            lineHeight = 80.sp
         )
 
 }
