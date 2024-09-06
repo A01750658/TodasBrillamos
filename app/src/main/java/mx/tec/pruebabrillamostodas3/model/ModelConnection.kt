@@ -20,6 +20,7 @@ import javax.crypto.spec.IvParameterSpec
 
 /**
  * @Author Carlos Iker Fuentes Reyes
+ * Class for establishing connection with the Oracle Apex Server RESTfulAPI
  */
 
 class ModelConnection
@@ -31,7 +32,7 @@ class ModelConnection
         }
     }
     private val key = generateAESKey(256)
-    private val addUserEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user"
+    private val addUserEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/user"
     private val addOrderEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/order"
     private val getProductListEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/get_productos/"
     private val getJWTKeyEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/auth/getToken/"
@@ -56,7 +57,7 @@ class ModelConnection
     }
 
     fun createUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String) : Usuario{
-        return Usuario(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, encryptPassword(password, key))
+        return Usuario(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, password)
     }
 
     suspend fun addUser(user:Usuario) : HttpResponse {
@@ -95,7 +96,7 @@ class ModelConnection
         return response.body()
     }
 
-    suspend fun getProductsWithToken(user: Usuario) : List<Producto>{
+    suspend fun getProductsWithToken(user: Usuario) : Pair<Int,List<Producto>>{
         val userToken : String = getJWTKey(user.email,user.password).data
         val response : HttpResponse = client.get(getProductsWithTokenEndpoint){
             url {
@@ -103,7 +104,8 @@ class ModelConnection
             }
         }
         val producto : ListaProducto = response.body()
-        return producto.productos
+        val return_value : Pair<Int,List<Producto>> = Pair(producto.cantidad,producto.productos)
+        return return_value
     }
 
     suspend fun getProductImage(imageId : Int) : ByteArray{

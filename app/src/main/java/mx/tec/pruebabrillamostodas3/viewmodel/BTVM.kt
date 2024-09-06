@@ -28,15 +28,22 @@ class BTVM: ViewModel() {
     }
     private val _estadoLista = MutableStateFlow(listOf<Producto>())
     val estadoLista: StateFlow<List<Producto>> = _estadoLista
+    private val _estadoCantidad = MutableStateFlow(0)
+    val estadoCantidad: StateFlow<Int> = _estadoCantidad
+
     private val _estadoProducto2 = MutableStateFlow<EstadoProducto>(EstadoProducto())
     val estadoProducto2: StateFlow<EstadoProducto> = _estadoProducto2
     private val _estadoListaProducto = MutableStateFlow(mutableListOf<EstadoProducto>())
     val estadoListaProducto: StateFlow<MutableList<EstadoProducto>> = _estadoListaProducto
     val estadoListaProducto2: MutableList<EstadoProducto> = mutableListOf<EstadoProducto>()
+
+    val user = modelo.createUser("Cesar","Dia","Jueves","06-MAR-2003","cesar@gmail.com","1234554")
     fun getProductos(){
         viewModelScope.launch{
             try {
-                _estadoLista.value = modelo.getProductList()
+                val (cantidad, productos) = modelo.getProductsWithToken(user)
+                _estadoCantidad.value = cantidad
+                _estadoLista.value = productos
                 getImagenProd(_estadoLista.value)
             }catch (e: Exception){
             println(e)

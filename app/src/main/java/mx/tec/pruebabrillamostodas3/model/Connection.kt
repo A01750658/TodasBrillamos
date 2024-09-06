@@ -118,22 +118,18 @@ suspend fun addOrderWithToken(order:Order,user:Usuario) : HttpResponse {
 
 suspend fun main(){
 
-    val user = Usuario("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554")
+    val user = Usuario("Cesar","Dia","Jueves","06-MAR-2003","cesar@gmail.com","1234554")
     //println(addOrder("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/order"))
-    println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user",user))
+    println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/user",user))
     var p : MutableList<Pair<Producto,Int>> = mutableListOf()
 
-    val productos : List<Producto> = getProductList("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/get_productos/")
-    for (product in productos){
-        p.add(Pair(product,1))
-        println(product)
-    }
-    print(createDataInfo(p))
-    print(getJWTKey("alan25@gmail.com","1234554"))
-    print(encryptPassword("1234554",generateAESKey(256)))
-    println(getDataWithToken())
-    println("________________--")
-    println(createUser("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554"))
+
+    //print(createDataInfo(p))
+    //print(getJWTKey("alan25@gmail.com","1234554"))
+    //print(encryptPassword("1234554",generateAESKey(256)))
+    //println(getDataWithToken())
+    //println("________________--")
+    //println(createUser("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554"))
 
     println(addOrderWithToken(Order(createDataInfo(p),201),Usuario("Alan","Vega","Reza","06-MAR-2003","ala25@gmail.com","1234554")))
     //println(getProductsWithToken())
@@ -146,5 +142,5 @@ suspend fun main(){
     } else {
         println("Image not found or failed to retrieve.")
     }*/
-    getProductList("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/get_productos/")
+    //getProductList("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/get_productos/")
 }
