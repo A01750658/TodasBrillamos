@@ -14,7 +14,6 @@ import mx.tec.pruebabrillamostodas3.model.Producto
 
 class BTVM: ViewModel() {
     val modelo: ModelConnection = ModelConnection()
-    val link: String = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/get_productos/"
 
     //EstadoDatePicker
     private val _showDatePicker = MutableLiveData(false)
@@ -32,7 +31,7 @@ class BTVM: ViewModel() {
     val estadoListaProducto2: MutableList<EstadoProducto> = mutableListOf<EstadoProducto>()
     fun getProductos(){
         viewModelScope.launch{
-            _estadoLista.value = modelo.getProductList(link)
+            _estadoLista.value = modelo.getProductList()
             getImagenProd(_estadoLista.value)
         }
 
