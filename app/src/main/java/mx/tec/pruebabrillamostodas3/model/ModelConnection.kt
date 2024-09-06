@@ -31,6 +31,12 @@ class ModelConnection
         }
     }
     private val key = generateAESKey(256)
+    private val addUserEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user"
+    private val addOrderEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/order"
+    private val getProductListEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/get_productos/"
+    private val getJWTKeyEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/auth/getToken/"
+    private val getProductImageEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/product_images/"
+    private val getProductsWithTokenEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/productos/"
 
     fun createDataInfo(productos: MutableList<Pair<Producto,Int>>) : String{
         var id_productos : String = ""
@@ -53,25 +59,19 @@ class ModelConnection
         return Usuario(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, encryptPassword(password, key))
     }
 
-    suspend fun addUser(url:String,user:Usuario) : HttpResponse {
-        val response : HttpResponse = client.post(url){
+    suspend fun addUser(user:Usuario) : HttpResponse {
+        val response : HttpResponse = client.post(addUserEndpoint){
             contentType(ContentType.Application.Json)
             setBody(user)
         }
         return response
     }
 
-    suspend fun addOrder(url:String, order:Order) : HttpResponse {
-        val response : HttpResponse = client.post(url){
-            contentType(ContentType.Application.Json)
-            setBody(order)
-        }
-        return response
-    }
+
 
     suspend fun addOrderWithToken(order:Order,user:Usuario) : HttpResponse {
         val userToken : String = getJWTKey(user.email,user.password).data
-        val response : HttpResponse = client.post("https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/order"){
+        val response : HttpResponse = client.post(addOrderEndpoint){
             contentType(ContentType.Application.Json)
             setBody(order)
             url{
@@ -88,7 +88,7 @@ class ModelConnection
     }
 
     suspend fun getJWTKey(user: String, password: String) : JWT_KEY{
-        val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/auth/getToken/") {
+        val response : HttpResponse = client.get(getJWTKeyEndpoint){
             url {
                 parameters.append("in_email", user)
                 parameters.append("in_password", password)
@@ -99,7 +99,7 @@ class ModelConnection
 
     suspend fun getProductsWithToken(user: Usuario) : List<Producto>{
         val userToken : String = getJWTKey(user.email,user.password).data
-        val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/connection/productos/"){
+        val response : HttpResponse = client.get(getProductsWithTokenEndpoint){
             url {
                 parameters.append("user_token", userToken)
             }
@@ -108,13 +108,17 @@ class ModelConnection
         return producto.productos
     }
 
-    suspend fun getProductImage(imageId : Int) : Pair<String,ByteArray>?{
-        val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/product_images/?image_id="+imageId.toString())
+    suspend fun getProductImage(imageId : Int) : ByteArray{
+        val response : HttpResponse = client.get(getProductImageEndpoint) {
+            url {
+                parameters.append("image_id", imageId.toString())
+            }
+        }
 
         if(response.status.value == 200){
-            return Pair(response.contentType().toString(),response.body())
+            return response.body()
         }
-        return null
+        return ByteArray(0)
     }
 
 

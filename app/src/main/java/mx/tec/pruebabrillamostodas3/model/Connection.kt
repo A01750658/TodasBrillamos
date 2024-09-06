@@ -22,6 +22,9 @@ val client = HttpClient(CIO) {
     }
 }
 private val key = generateAESKey(256)
+private val addUserEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/user"
+private val addOrderEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/order"
+private val getProductListEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/get_productos/"
 
 suspend fun addUser(url:String,user:Usuario) : HttpResponse{
     val response : HttpResponse = client.post(url){
