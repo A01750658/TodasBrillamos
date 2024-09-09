@@ -38,7 +38,7 @@ class ModelConnection
     private val getJWTKeyEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/auth/getToken/"
     private val getProductImageEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/product_images/"
     private val getProductsWithTokenEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/productos/"
-
+    var userId : Int = -1
     fun createDataInfo(productos: MutableList<Pair<Producto,Int>>) : String{
         var id_productos : String = ""
         var cantidad_producto : String = ""
@@ -94,6 +94,9 @@ class ModelConnection
             }
         }
         return response.body()
+    }
+    suspend fun getUserID(user: Usuario){
+        userId = getJWTKey(user.email,user.password).id
     }
 
     suspend fun getProductsWithToken(user: Usuario) : Pair<Int,List<Producto>>{
