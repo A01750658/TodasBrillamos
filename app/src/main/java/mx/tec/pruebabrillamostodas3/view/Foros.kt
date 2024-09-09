@@ -56,128 +56,11 @@ fun Foros(){
             )
             {
                 if (showBottomSheet) {
-                    Column {
-                        Titulo(
-                            "Crea tu pregunta",
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            fontSize = 90
-                        )
-                        HorizontalDivider(thickness = 2.dp,
-                            color = MaterialTheme.colorScheme.primaryContainer
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .fillMaxWidth()
-                        )
-                        Etiqueta(
-                            "Categoría",
-                            Modifier.padding(bottom = 3.dp),
-                            color = Color.Black,
-                            padding = 30
-                        )
-                        Inputtexto("", {}, modifier = Modifier.padding(bottom = 16.dp))
-                        Etiqueta(
-                            "Pregunta",
-                            Modifier.padding(bottom = 3.dp),
-                            color = Color.Black,
-                            padding = 30
-                        )
-                        Inputtexto("", {}, modifier = Modifier.padding(bottom = 16.dp))
-                        TextButton(onClick = { /*TODO*/ },
-                            Modifier.padding(horizontal = 100.dp)
-                                .padding(bottom = 16.dp)
-                                .background(MaterialTheme.colorScheme.tertiary)
-                        ) {
-                            Text(
-                                text = "Publicar",
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onTertiary
-                            )
-                        }
-                    }
-                    FloatingActionButton(
-                        onClick = { showBottomSheet= false },
-                        containerColor = MaterialTheme.colorScheme.tertiary,
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(16.dp),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "Generar"
-                        )
-
+                    CrearForo{
+                        showBottomSheet = false
                     }
                 } else if (showBottomSheet2) {
-                    Column {
-                        Titulo(
-                            "Foro",
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            fontSize = 90
-                        )
-                        Subtitulo("Pregunta")
-                        HorizontalDivider(thickness = 2.dp,
-                            color = MaterialTheme.colorScheme.primaryContainer
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .fillMaxWidth()
-                        )
-                        Subtitulo("Respuestas")
-                        LazyColumn() {
-                            for (i in 1..5) {
-                                item {
-                                    ElevatedCard(
-                                        modifier = Modifier
-                                            .padding(8.dp)
-                                    ) {
-                                        Text(
-                                            text = "Respuesta 1.$i",
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(24.dp)
-                                        )
-                                    }
-                                }
-                                item {
-                                    ElevatedCard(
-                                        modifier = Modifier
-
-                                            .padding(8.dp)
-                                    ) {
-                                        Text(
-                                            text = "Respuesta 2.$i",
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(24.dp)
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    FloatingActionButton(
-                        onClick = { showBottomSheet2= false },
-                        containerColor = MaterialTheme.colorScheme.tertiary,
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(16.dp),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "Generar"
-                        )
-
-                    }
+                    TempleteForo("Acaso ¿Esta es la pregunta más interesante sobre el tema?", listOf("Súper si", "Nah", "Tal vez", "Como crees!"), {showBottomSheet2 = false})
                 } else{
                     Column(
                         modifier = Modifier
@@ -231,7 +114,7 @@ fun Foros(){
                                         ElevatedCard(
                                             modifier = Modifier
                                                 .padding(8.dp)
-                                                .clickable(onClick = { showBottomSheet2= true })
+                                                .clickable(onClick = { showBottomSheet2 = true })
                                         ) {
                                             Text(
                                                 text = "Foro 1.$i",
@@ -246,7 +129,7 @@ fun Foros(){
                                         ElevatedCard(
                                             modifier = Modifier
                                                 .padding(8.dp)
-                                                .clickable(onClick = { showBottomSheet2= true })
+                                                .clickable(onClick = { showBottomSheet2 = true })
                                         ) {
                                             Text(
                                                 text = "Foro 2.$i",
@@ -261,7 +144,7 @@ fun Foros(){
                                         ElevatedCard(
                                             modifier = Modifier
                                                 .padding(8.dp)
-                                                .clickable(onClick = { showBottomSheet2= true })
+                                                .clickable(onClick = { showBottomSheet2 = true })
                                         ) {
                                             Text(
                                                 text = "Foro 3.$i",
