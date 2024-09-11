@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -65,22 +69,33 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
                     .fillMaxWidth()
             )
             LazyColumn {
-                items(estadoListaProducto.value) { producto ->
-                    // Mostrar el producto
-                    BotonProducto(
-                                onClick = { /*TODO*/ },
-                                imagen = producto.imagen,
-                                nombre = producto.nombre,
-                                precio_n = producto.precio_normal,
-                                precio_r = producto.precio_rebajado,
-                                rebaja = producto.rebaja,
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                items((estadoListaProducto.value.size + 2) / 3) { rowIndex ->
+                    LazyRow(Modifier.fillMaxWidth()) {
+                        for (colIndex in 0..2) {
+                            val index = rowIndex * 3 + colIndex
+                            if (index < estadoListaProducto.value.size) {
+                                item {
+                                    BotonProducto(
+                                        onClick = { /*TODO*/ },
+                                        imagen = estadoListaProducto.value[index].imagen,
+                                        nombre = estadoListaProducto.value[index].nombre,
+                                        precio_n = estadoListaProducto.value[index].precio_normal,
+                                        precio_r = estadoListaProducto.value[index].precio_rebajado,
+                                        rebaja = estadoListaProducto.value[index].rebaja,
+                                        modifier = Modifier
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
+
             }
             if (estadoListaProducto.value.isEmpty()) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 println(estadoListaProducto.value.size)}
+
+
         }
         FloatingActionButton(
             onClick = { /*TODO*/ },
