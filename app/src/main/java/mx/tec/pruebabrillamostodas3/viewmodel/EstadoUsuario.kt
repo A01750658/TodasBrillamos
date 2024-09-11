@@ -7,5 +7,7 @@ data class EstadoUsuario(
     val fecha_nacimiento: String = "",
     val correo: String = "",
     val password: String = "",
-    val confirmacion_password: String = ""
+    val confirmacion_password: String = "",
+    val key : String = "",
+    val id : Int = -1
 )

@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.net.http.HttpException
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -64,7 +65,7 @@ class BTVM: ViewModel() {
         viewModelScope.launch {
             if (_estadoListaProducto.value.isEmpty()) { // Verificar si la lista está vacía
                 try {
-                    val (cantidad, productos) = modelo.getProductsWithToken(user)
+                    val (cantidad, productos) = modelo.getProductsWithToken(user,estadoUsuario.value.key)
                     _estadoCantidad.value = cantidad
                     _estadoLista.value = productos
                     val nuevaLista = mutableListOf<EstadoProducto>() // Crear una nueva lista
@@ -119,13 +120,15 @@ class BTVM: ViewModel() {
     fun addOrder(id: Int) {
         viewModelScope.launch {
             try {
-                var orden: Order = Order(modelo.createDataInfo(estadoCarrito.value.productos), id)
-                val response = modelo.addOrderWithToken(orden, user)
-            } catch (e: Exception) {
+                var orden: Order = Order(modelo.createDataInfo(estadoCarrito.value.productos), estadoUsuario.value.id)
+                val response = modelo.addOrderWithToken(orden, estadoUsuario.value.key)
+            }
+            catch (e: Exception) {
                 println(e)
             }
         }
     }
+
     fun addUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String) {
         val user = modelo.createUser(
             nombre,
@@ -150,6 +153,22 @@ class BTVM: ViewModel() {
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             // Manejar la excepción, por ejemplo, mostrando un mensaje al usuario
+        }
+    }
+
+    fun login(email : String, password: String){
+        viewModelScope.launch {
+            try {
+                val response = modelo.getJWTKey(email, password)
+                if (response.message != "Success generating token") {
+                    throw Exception(response.message)
+                }
+                setUserKey(response.data)
+                setUserId(response.id)
+            } catch (e: Exception) {
+                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+
+            }
         }
     }
 
@@ -191,4 +210,11 @@ class BTVM: ViewModel() {
     fun checkPasswordErrors(){
         _estadoErrors.value = _estadoErrors.value.copy(errorContraseñas=_estadoUsuario.value.password!=_estadoUsuario.value.confirmacion_password)
     }
+    fun setUserKey(key : String){
+        _estadoUsuario.value = _estadoUsuario.value.copy(key = key)
+    }
+    fun setUserId(id : Int){
+        _estadoUsuario.value = _estadoUsuario.value.copy(id = id)
+    }
+
 }

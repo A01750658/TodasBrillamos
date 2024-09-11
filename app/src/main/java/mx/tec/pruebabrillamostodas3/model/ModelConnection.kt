@@ -69,8 +69,8 @@ class ModelConnection
         return response
     }
 
-    suspend fun addOrderWithToken(order:Order,user:Usuario) : HttpResponse {
-        val userToken : String = getJWTKey(user.email,user.password).data
+    suspend fun addOrderWithToken(order:Order,userToken:String) : HttpResponse {
+
         val response : HttpResponse = client.post(addOrderEndpoint){
             contentType(ContentType.Application.Json)
             setBody(order)
@@ -81,11 +81,6 @@ class ModelConnection
         return response
     }
 
-    suspend fun getProductList() : List<Producto>{
-        val response : HttpResponse = client.get(getProductListEndpoint)
-        val producto : ListaProducto = response.body()
-        return producto.productos
-    }
 
     suspend fun getJWTKey(user: String, password: String) : JWT_KEY{
         val response : HttpResponse = client.get(getJWTKeyEndpoint){
@@ -100,8 +95,7 @@ class ModelConnection
         userId = getJWTKey(user.email,user.password).id
     }
 
-    suspend fun getProductsWithToken(user: Usuario) : Pair<Int,List<Producto>>{
-        val userToken : String = getJWTKey(user.email,user.password).data
+    suspend fun getProductsWithToken(user: Usuario, userToken : String) : Pair<Int,List<Producto>>{
         val response : HttpResponse = client.get(getProductsWithTokenEndpoint){
             url {
                 parameters.append("user_token", userToken)
