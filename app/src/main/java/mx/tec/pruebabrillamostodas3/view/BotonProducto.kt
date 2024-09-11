@@ -31,7 +31,6 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
         ElevatedButton(
             onClick = { onClick() },
             modifier = modifier
-                .fillMaxWidth()
                 .height(128.dp)
         ) {
             Image(

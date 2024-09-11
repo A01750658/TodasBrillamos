@@ -124,17 +124,16 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
             Home(btVM, navController)
         }
         composable(Pantallas.RUTA_REDES){
-            Redes()
+            Redes(btVM)
         }
         composable(Pantallas.RUTA_FOROS){
             Foros()
         }
-
-        composable(Pantallas.RUTA_TIENDA){
-            Tienda(btVM, modifier)
-        }
         composable(Pantallas.RUTA_PERFIL){
             Perfil()
+        }
+        composable(Pantallas.RUTA_TIENDA){
+            Tienda(btVM, modifier)
         }
         composable(Pantallas.RUTA_SIGNUP){
             SignUp(btVM, navController)

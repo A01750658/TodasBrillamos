@@ -1,0 +1,11 @@
+package mx.tec.pruebabrillamostodas3.viewmodel
+
+data class EstadoUsuario(
+    val nombre: String = "",
+    val apellido_paterno: String = "",
+    val apellido_materno: String = "",
+    val fecha_nacimiento: String = "",
+    val correo: String = "",
+    val password: String = "",
+    val confirmacion_password: String = ""
+)
