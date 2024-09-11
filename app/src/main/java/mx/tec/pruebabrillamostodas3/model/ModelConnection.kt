@@ -36,8 +36,9 @@ class ModelConnection
     private val addOrderEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/order"
     private val getProductListEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/get_productos/"
     private val getJWTKeyEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/auth/getToken/"
-    private val getProductImageEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/product_images/"
+    private val getProductImageEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/product_images/"
     private val getProductsWithTokenEndpoint = "https://apex.oracle.com/pls/apex/todasbrillamos/connection/productos/"
+
     var userId : Int = -1
     fun createDataInfo(productos: MutableList<Pair<Producto,Int>>) : String{
         var id_productos : String = ""
