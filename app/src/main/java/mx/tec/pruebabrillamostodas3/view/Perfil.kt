@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -81,7 +82,7 @@ fun Perfil() {
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
                 )
-                Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 4)
+                UsuarioDisplay(text = "Cesar Augusto")
                 Spacer(
                     modifier = Modifier
                         .padding(6.dp)
@@ -95,7 +96,7 @@ fun Perfil() {
                             color = MaterialTheme.colorScheme.onTertiary,
                             padding = 16
                         )
-                        Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
+                        UsuarioDisplay(text = "Flores")
                     }
                     Column(modifier = Modifier.weight(1f)) {
                         Etiqueta(
@@ -104,7 +105,7 @@ fun Perfil() {
                             color = MaterialTheme.colorScheme.onTertiary,
                             padding = 16
                         )
-                        Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 3)
+                        UsuarioDisplay(text = "Reyes")
                     }
                 }
                 Spacer(
@@ -118,32 +119,21 @@ fun Perfil() {
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
                 )
-                Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 4)
-                Spacer(
-                    modifier = Modifier
-                        .padding(6.dp)
-                        .fillMaxWidth()
-                )
-                Etiqueta(
-                    "Dirección de envío",
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.onTertiary,
-                    padding = 30
-                )
-                Inputtexto(text = "", onValueChange = { /*TODO*/ }, padding = 4)
+                UsuarioDisplay(text = "cesar@gmail.com")
                 Spacer(
                     modifier = Modifier
                         .padding(10.dp)
                         .fillMaxWidth()
                 )
                 TextButton(onClick = { /*TODO*/ },
-                    Modifier.padding(horizontal = 100.dp)
+                    Modifier
+                        .padding(horizontal = 50.dp)
                         .padding(bottom = 16.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(MaterialTheme.colorScheme.tertiary)
                 ) {
                     Text(
-                        text = "Actualizar",
+                        text = "Actualizar o agregar direccion",
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
                         style = MaterialTheme.typography.bodyMedium,

@@ -152,6 +152,23 @@ class BTVM: ViewModel() {
             // Manejar la excepción, por ejemplo, mostrando un mensaje al usuario
         }
     }
+
+    fun enviarCorreo(correo:String,context:Context) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:$correo")
+        }
+        context.startActivity(intent)
+    }
+
+    fun llamada(telefono: String, context: Context) {
+        val intent = Intent(Intent.ACTION_DIAL,Uri.parse("tel:$telefono"))
+        context.startActivity(intent)
+    }
+
+    fun ubicacion(ubicacion: String, context: Context) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=$ubicacion"))
+        context.startActivity(intent)
+    }
     fun setCorreoUsuario(correo: String) {
         _estadoUsuario.value = _estadoUsuario.value.copy(correo = correo)
     }
