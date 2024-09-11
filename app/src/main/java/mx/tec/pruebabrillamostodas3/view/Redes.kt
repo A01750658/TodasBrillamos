@@ -19,13 +19,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import androidx.compose.ui.platform.LocalContext
+
 
 /**
  * @author Santiago Chevez
  * @author Alan Vega
  */
+
+
 @Composable
-fun Redes(){
+fun Redes(vmodel: BTVM){
+    val context = LocalContext.current // Obtener el contexto
     val scrollState = rememberScrollState()
     Box(
         modifier = Modifier
@@ -45,31 +51,42 @@ fun Redes(){
             BotonTextandIcon(
                 text = "Facebook",
                 icon = Icons.Default.Share,
-                onClick = { /*TODO*/ },
+                onClick = {
+                    vmodel.openWebPage("https://m.facebook.com/FundacionTodasBrillamos", context) { intent ->
+                        context.startActivity(intent)
+                    }},
                 color = MaterialTheme.colorScheme.onPrimary
             )
             BotonTextandIcon(
                 text = "Instagram",
                 icon = Icons.Default.Share,
-                onClick = { /*TODO*/ },
+                onClick = {vmodel.openWebPage("https://www.instagram.com/fundaciontodasbrillamos/?igshid=NTc4MTIwNjQ2YQ%3D%3D", context) { intent ->
+                    context.startActivity(intent)
+                }},
                 color = MaterialTheme.colorScheme.onSecondary
             )
             BotonTextandIcon(
                 text = "TikTok",
                 icon = Icons.Default.Share,
-                onClick = { /*TODO*/ },
+                onClick = { vmodel.openWebPage("https://vm.tiktok.com/ZMjKEqyJH/", context) { intent ->
+                    context.startActivity(intent)
+                } },
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             BotonTextandIcon(
                 text = "Whatsapp",
                 icon = Icons.Default.Share,
-                onClick = { /*TODO*/ },
+                onClick = { vmodel.openWebPage("https://wa.me/525628083883", context) { intent ->
+                    context.startActivity(intent)
+                } },
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
             BotonTextandIcon(
                 text = "YouTube",
                 icon = Icons.Default.Share,
-                onClick = { /*TODO*/ },
+                onClick = { vmodel.openWebPage("https://www.youtube.com/@FundacionTodasBrillamos", context) { intent ->
+                    context.startActivity(intent)
+                }},
                 color = MaterialTheme.colorScheme.onTertiaryContainer
             )
         }

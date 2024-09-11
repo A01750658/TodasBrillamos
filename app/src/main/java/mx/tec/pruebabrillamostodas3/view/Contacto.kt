@@ -51,6 +51,10 @@ fun Contacto(){
                     .padding(8.dp)
                     .fillMaxWidth()
             )
+            Subtitulo(
+                "Contacto",
+                Modifier.padding(bottom = 3.dp),
+                )
         }
     }
 }

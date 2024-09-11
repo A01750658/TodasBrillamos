@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -16,7 +17,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -31,9 +34,8 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 @Composable
 fun Tienda(viewModel: BTVM, modifier: Modifier){
     val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
-    val once = viewModel.once.collectAsState()
-
-    println(estadoListaProducto.value.size)
+    val estadoCantidad by viewModel
+        .estadoCantidad.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -61,28 +63,10 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
                     .padding(8.dp)
                     .fillMaxWidth()
             )
-            if (estadoListaProducto.value.isEmpty()) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-            } else {
-                LazyColumn {
-
-                    estadoListaProducto.value.forEach { producto ->
-                        /*for (i in 1..10) {
-                    item {
-                        ElevatedButton(onClick = { /*TODO*/ },
-                            modifier = Modifier.fillMaxWidth()) {
-                            Text(text = "Producto 1.$i")
-                        }
-                        ElevatedButton(onClick = { /*TODO*/ },
-                            modifier = Modifier.fillMaxWidth()) {
-                            Text(text = "Producto 2.$i")
-                        }
-                        ElevatedButton(onClick = { /*TODO*/ },
-                            modifier = Modifier.fillMaxWidth()) {
-                            Text(text = "Producto 3.$i")
-                        }*/
-                        item {
-                            BotonProducto(
+            LazyColumn {
+                items(estadoListaProducto.value) { producto ->
+                    // Mostrar el producto
+                    BotonProducto(
                                 onClick = { /*TODO*/ },
                                 imagen = producto.imagen,
                                 nombre = producto.nombre,
@@ -91,10 +75,35 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
                                 rebaja = producto.rebaja,
                                 modifier = Modifier.fillMaxWidth()
                             )
-                        }
-                    }
                 }
             }
+            if (estadoListaProducto.value.isEmpty()) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                println(estadoListaProducto.value.size)}
+//            } else if (estadoCantidad.value == estadoListaProducto.value.size ){
+//                LazyColumn {
+//                    estadoListaProducto.value.forEach { producto ->
+//                        item {
+//                            BotonProducto(
+//                                onClick = { /*TODO*/ },
+//                                imagen = producto.imagen,
+//                                nombre = producto.nombre,
+//                                precio_n = producto.precio_normal,
+//                                precio_r = producto.precio_rebajado,
+//                                rebaja = producto.rebaja,
+//                                modifier = Modifier.fillMaxWidth()
+//                            )
+//                        }
+//                    }
+//                }
+//            } else{
+//                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+//                println(estadoListaProducto.value.size)
+//                println("Ya cargaron algunos")
+//            }
         }
+    }
+    LaunchedEffect(Unit) {
+        viewModel.getProductos()
     }
 }
