@@ -12,10 +12,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primaryContainer){
+fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primaryContainer,fontSize: Int = 20){
     Text(
         text = text,
-        fontSize = 20.sp,
+        fontSize = fontSize.sp,
         textAlign = TextAlign.Center,
         style = MaterialTheme.typography.bodyMedium,
         color = color,
