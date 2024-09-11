@@ -30,6 +30,7 @@ sealed class Pantallas (
         const val RUTA_SIGNUP = "Sign Up"
         const val RUTA_INFO = "Info"
         const val RUTA_CONTACTO = "Contacto"
+        const val RUTA_DIRECCIONES = "MenuDirecciones"
     }
 
     //Pantallas Menu
@@ -46,6 +47,7 @@ sealed class Pantallas (
     //Pantallas que están en
     data object Info: Pantallas(RUTA_INFO, "Info", Icons.Default.Star)
     data object Contacto: Pantallas(RUTA_CONTACTO,"Contacto", Icons.Default.Star)
+    data object MenuDirecciones: Pantallas("MenuDirecciones", "MenuDirecciones", Icons.Default.Star)
 
 
 
