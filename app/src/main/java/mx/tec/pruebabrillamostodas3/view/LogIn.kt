@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +47,7 @@ import com.typesafe.config.ConfigException.Null
 fun LogIn(btVM: BTVM, navController: NavHostController){
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
+    val estadoErrors = btVM.estadoErrors.collectAsState()
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
     Box(
@@ -79,18 +82,33 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     nuevoTexto ->
                     valorCorreo = nuevoTexto.toString()
                     btVM.setCorreoUsuario(valorCorreo)
+                    btVM.setErrorLogin(false)
                 })
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.password,
                 { nuevoTexto ->
                     valorPassword = nuevoTexto.toString()
-                    btVM.setContrasenaUsuario(valorPassword) })
+                    btVM.setContrasenaUsuario(valorPassword)
+                    btVM.setErrorLogin(false)
+                })
+            if (estadoErrors.value.errorLogin) {
+                Etiqueta( "El correo o la contraseña son incorrectos",
+                    color = MaterialTheme.colorScheme.tertiaryContainer,
+                    modifier =
+                    Modifier
+                        .padding(bottom = 3.dp)
+                        //.background(MaterialTheme.colorScheme.tertiaryContainer)
+                )
+                btVM.setLoading(false)
+            }
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { /*TODO*/ })
             TextButton(onClick = {
-                btVM.login(btVM.estadoUsuario.value.correo, btVM.estadoUsuario.value.password)
-                navController.navigate(Pantallas.RUTA_APP_HOME)},
-                Modifier.padding(horizontal = 100.dp)
+                btVM.setLoading(true)
+                btVM.login(estado.value.correo, estado.value.password)
+                },
+                Modifier
+                    .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.tertiary)
@@ -103,6 +121,16 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.onTertiary
                 )
+            }
+            if (estado.value.loading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
+            }
+            if (estado.value.key != ""){
+                navController.navigate(Pantallas.RUTA_APP_HOME)
+                LaunchedEffect(Unit) {
+                    btVM.getProductos()
+                }
+
             }
 
 

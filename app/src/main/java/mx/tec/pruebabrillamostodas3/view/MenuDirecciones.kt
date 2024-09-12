@@ -105,7 +105,7 @@ fun MenuDirecciones(btVM: BTVM, navController: NavHostController){
 
                 )
                 LazyColumn {
-                    for (i in 1..4) {
+
                         item {
                             Box(
                                 modifier = Modifier
@@ -172,7 +172,6 @@ fun MenuDirecciones(btVM: BTVM, navController: NavHostController){
                                     }
                                 }
                             }
-                        }
                     }
                 }
                 Spacer(modifier = Modifier.padding(bottom = 10.dp))

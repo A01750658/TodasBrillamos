@@ -216,5 +216,11 @@ class BTVM: ViewModel() {
     fun setUserId(id : Int){
         _estadoUsuario.value = _estadoUsuario.value.copy(id = id)
     }
+    fun setErrorLogin(error: Boolean){
+        _estadoErrors.value = _estadoErrors.value.copy(errorLogin = error)
+    }
+    fun setLoading(loading: Boolean){
+        _estadoUsuario.value = _estadoUsuario.value.copy(loading = loading)
+    }
 
 }

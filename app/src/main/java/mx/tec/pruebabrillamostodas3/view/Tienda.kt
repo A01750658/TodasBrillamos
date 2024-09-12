@@ -112,7 +112,5 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
 
         }
     }
-    LaunchedEffect(Unit) {
-        viewModel.getProductos()
-    }
+
 }

@@ -9,5 +9,6 @@ data class EstadoUsuario(
     val password: String = "",
     val confirmacion_password: String = "",
     val key : String = "",
-    val id : Int = -1
+    val id : Int = -1,
+    val loading: Boolean = false
 )

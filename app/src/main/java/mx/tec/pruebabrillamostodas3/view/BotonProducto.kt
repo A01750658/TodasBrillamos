@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.text.style.TextAlign
@@ -33,7 +36,9 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
         precio = precio_n
     }
 
-    Column {
+    Column (modifier = modifier
+        .padding(vertical = 10.dp)
+        ){
         ElevatedButton(
             onClick = { onClick() },
             shape = RoundedCornerShape(25),
@@ -49,22 +54,15 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
                 modifier = modifier.fillMaxSize()
             )
         }
-        Column {
+        Column (modifier= Modifier.fillMaxWidth()){
             Row{
                 Text(
                     text = nombre,
                     textAlign = TextAlign.Center,
                     modifier = modifier
-                        .width(100.dp)
-                        .height(20.dp)
-                )
-                Text(
-                    text = "$" + precio.toString(),
-                    textAlign = TextAlign.Center,
-                    modifier = modifier
-                        .width(20.dp)
-                        .height(20.dp)
-
+                        .width(128.dp).padding(vertical = 3.dp),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
         }

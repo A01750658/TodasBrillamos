@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +39,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 @Composable
 fun Perfil(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
+    val estado = btVM.estadoUsuario.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,7 +86,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
                 )
-                UsuarioDisplay(text = "Cesar Augusto")
+                UsuarioDisplay(text = estado.value.nombre)
                 Spacer(
                     modifier = Modifier
                         .padding(6.dp)
@@ -98,7 +100,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                             color = MaterialTheme.colorScheme.onTertiary,
                             padding = 16
                         )
-                        UsuarioDisplay(text = "Flores")
+                        UsuarioDisplay(text = estado.value.apellido_paterno)
                     }
                     Column(modifier = Modifier.weight(1f)) {
                         Etiqueta(
@@ -107,7 +109,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                             color = MaterialTheme.colorScheme.onTertiary,
                             padding = 16
                         )
-                        UsuarioDisplay(text = "Reyes")
+                        UsuarioDisplay(text = estado.value.apellido_materno)
                     }
                 }
                 Spacer(
@@ -121,7 +123,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
                 )
-                UsuarioDisplay(text = "cesar@gmail.com")
+                UsuarioDisplay(text = estado.value.correo)
                 Spacer(
                     modifier = Modifier
                         .padding(10.dp)
@@ -135,7 +137,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                         .background(MaterialTheme.colorScheme.tertiary)
                 ) {
                     Text(
-                        text = "Actualizar o agregar direccion",
+                        text = "Actualizar direccion",
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
                         style = MaterialTheme.typography.bodyMedium,
