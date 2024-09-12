@@ -122,7 +122,8 @@ suspend fun main(){
     //println(addOrder("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/order"))
     println(addUser("https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/user",user))
     var p : MutableList<Pair<Producto,Int>> = mutableListOf()
-
+    val aes = AESEncryption()
+    println(aes.generateAESKey(256))
 
     //print(createDataInfo(p))
     //print(getJWTKey("alan25@gmail.com","1234554"))

@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import mx.tec.pruebabrillamostodas3.model.Direccion
 import mx.tec.pruebabrillamostodas3.model.ListaProducto
 import mx.tec.pruebabrillamostodas3.model.ModelConnection
 import mx.tec.pruebabrillamostodas3.model.Order
@@ -59,7 +60,7 @@ class BTVM: ViewModel() {
 
 
     val user =
-        modelo.createUser("Cesar", "Dia", "Jueves", "06-MAR-2003", "cesar@gmail.com", "1234554")
+        modelo.createUser("Cesar", "Dia", "Jueves", "06-MAR-2003", "cesar@gmail.com", "1234554",1)
 
     fun getProductos() {
         viewModelScope.launch {
@@ -109,6 +110,17 @@ class BTVM: ViewModel() {
         }
     }
 
+    fun addAddress(direccion: Direccion) {
+        viewModelScope.launch {
+            try {
+                modelo.addAddress(estadoUsuario.value.key, estadoUsuario.value.id, direccion)
+            } catch (e: Exception) {
+                println(e)
+
+            }
+        }
+    }
+
     fun addProducto(producto: Producto, cantidad: Int) {
         estadoCarrito.value.productos.add(Pair(producto, cantidad))
     }
@@ -116,6 +128,7 @@ class BTVM: ViewModel() {
     fun removeProducto(producto: Producto, cantidad: Int) {
         estadoCarrito.value.productos.remove(Pair(producto, cantidad))
     }
+
 
     fun addOrder(id: Int) {
         viewModelScope.launch {
@@ -129,14 +142,15 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun addUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String) {
+    fun addUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String,terminos :Int) {
         val user = modelo.createUser(
             nombre,
             apellido_paterno,
             apellido_materno,
             fecha_nacimiento,
             correo,
-            password
+            password,
+            terminos
         )
         viewModelScope.launch {
             try {

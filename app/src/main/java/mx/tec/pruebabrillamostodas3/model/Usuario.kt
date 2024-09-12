@@ -9,5 +9,6 @@ data class Usuario(
     val ap_materno: String,
     val fecha_nacimiento: String,
     val email: String,
-    val password: String
+    val password: String,
+    val terminos : Int
 )

@@ -18,6 +18,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 class MainActivity : ComponentActivity() {
     private val btVM : BTVM by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
