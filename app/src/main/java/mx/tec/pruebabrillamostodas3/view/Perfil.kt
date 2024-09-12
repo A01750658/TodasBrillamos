@@ -27,6 +27,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 /**
  * @author Santiago Chevez
@@ -34,7 +36,7 @@ import androidx.compose.ui.unit.sp
  */
 
 @Composable
-fun Perfil() {
+fun Perfil(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
     Box(
         modifier = Modifier
@@ -125,7 +127,7 @@ fun Perfil() {
                         .padding(10.dp)
                         .fillMaxWidth()
                 )
-                TextButton(onClick = { /*TODO*/ },
+                TextButton(onClick = { navController.navigate(Pantallas.RUTA_DIRECCIONES)},
                     Modifier
                         .padding(horizontal = 50.dp)
                         .padding(bottom = 16.dp)

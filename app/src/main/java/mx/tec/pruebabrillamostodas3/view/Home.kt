@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
@@ -78,7 +79,14 @@ fun Home(btVM: BTVM, navController: NavHostController){
                       .padding(start = 10.dp, bottom = 10.dp, end = 10.dp)
                       .fillMaxWidth())
           }
-          BotonTextandIcon(text = "Ver Catálogo", icon = Icons.Default.ShoppingCart, onClick = {navController.navigate(Pantallas.RUTA_TIENDA)})
+          BotonTextandIcon(text = "Ver Catálogo", icon = Icons.Default.ShoppingCart, onClick = {navController.navigate(Pantallas.RUTA_TIENDA){
+              popUpTo(navController.graph.findStartDestination().id){
+                  saveState = true
+              }
+              launchSingleTop = true
+              restoreState = true
+          }
+          })
           BotonTextandIcon(text = "Conoce más información",icon = Icons.Default.Info, onClick = {navController.navigate(Pantallas.RUTA_INFO)},color = MaterialTheme.colorScheme.primaryContainer, fontSize = 20)
           BotonTextandIcon(text = "Contactanos", icon = Icons.Default.Person, onClick = { navController.navigate(Pantallas.RUTA_CONTACTO)}, color = MaterialTheme.colorScheme.secondaryContainer)
       }
