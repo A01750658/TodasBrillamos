@@ -15,7 +15,7 @@ import io.ktor.client.request.post
 import retrofit2.Call
 import javax.crypto.SecretKey
 
-
+/*
 val client = HttpClient(CIO) {
     install(ContentNegotiation) {
         json()
@@ -82,9 +82,9 @@ suspend fun getDataWithToken() : List<Producto>{
     val producto : ListaProducto = response.body()
     return producto.productos
 }
-fun createUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String) : Usuario{
-    return Usuario(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, encryptPassword(password, key))
-}
+//fun createUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String) : Usuario{
+//    return Usuario(nombre, apellido_paterno, apellido_materno, fecha_nacimiento, correo, encryptPassword(password, key))
+//}
 suspend fun getProductImage(imageId : Int) : Pair<String,ByteArray>?{
     val response : HttpResponse = client.get("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/product_images/?image_id="+imageId.toString())
 
@@ -145,3 +145,4 @@ suspend fun main(){
     }*/
     //getProductList("https://apex.oracle.com/pls/apex/todasbrillamos/todasbrillamos/add/get_productos/")
 }
+*/
