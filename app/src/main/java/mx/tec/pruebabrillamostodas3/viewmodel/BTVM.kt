@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import mx.tec.pruebabrillamostodas3.model.Direccion
 import mx.tec.pruebabrillamostodas3.model.ListaProducto
 import mx.tec.pruebabrillamostodas3.model.ModelConnection
+import mx.tec.pruebabrillamostodas3.model.ModelConnectionR
 import mx.tec.pruebabrillamostodas3.model.Order
 import mx.tec.pruebabrillamostodas3.model.Producto
 import mx.tec.pruebabrillamostodas3.model.Usuario
@@ -23,6 +24,7 @@ import mx.tec.pruebabrillamostodas3.model.Usuario
 
 class BTVM: ViewModel() {
     val modelo: ModelConnection = ModelConnection()
+    val modeloR: ModelConnectionR = ModelConnectionR()
 
     //EstadoDatePicker
     private val _showDatePicker = MutableLiveData(false)
@@ -50,6 +52,12 @@ class BTVM: ViewModel() {
     private val _estadoCarrito = MutableStateFlow<Carrito>(Carrito())
     val estadoCarrito: StateFlow<Carrito> = _estadoCarrito
 
+    //Estado Producto Seleccionado
+    private val _estadoSeleccionado = MutableStateFlow(-1)
+    val estadoSeleccionado: StateFlow<Int> = _estadoSeleccionado
+
+
+
     //Estado usuario
     private val _estadoUsuario = MutableStateFlow<EstadoUsuario>(EstadoUsuario())
     val estadoUsuario: StateFlow<EstadoUsuario> = _estadoUsuario
@@ -66,7 +74,7 @@ class BTVM: ViewModel() {
         viewModelScope.launch {
             if (_estadoListaProducto.value.isEmpty()) { // Verificar si la lista está vacía
                 try {
-                    val (cantidad, productos) = modelo.getProductsWithToken(user,estadoUsuario.value.key)
+                    val (cantidad, productos) = modeloR.getProductsWithToken(estadoUsuario.value.key)
                     _estadoCantidad.value = cantidad
                     _estadoLista.value = productos
                     val nuevaLista = mutableListOf<EstadoProducto>() // Crear una nueva lista
@@ -106,14 +114,29 @@ class BTVM: ViewModel() {
                     imagen = modelo.getProductImage(producto.id)
                 )
                 estadoListaProducto.value.add(_estadoProducto2.value)
+
             }
         }
     }
+    fun setEstadoSeleccionado(position: Int) {
+        _estadoSeleccionado.value = position
+    }
+
+    fun getSelectedProduct() : EstadoProducto{
+        estadoListaProducto.value.forEachIndexed { index, estadoProducto ->
+            if (index == estadoSeleccionado.value) {
+                return estadoProducto
+            }
+        }
+        return EstadoProducto()
+    }
+
+
 
     fun addAddress(direccion: Direccion) {
         viewModelScope.launch {
             try {
-                modelo.addAddress(estadoUsuario.value.key, estadoUsuario.value.id, direccion)
+                modeloR.addAddress(estadoUsuario.value.key,  direccion)
             } catch (e: Exception) {
                 println(e)
 
@@ -133,8 +156,8 @@ class BTVM: ViewModel() {
     fun addOrder(id: Int) {
         viewModelScope.launch {
             try {
-                var orden: Order = Order(modelo.createDataInfo(estadoCarrito.value.productos), estadoUsuario.value.id)
-                val response = modelo.addOrderWithToken(orden, estadoUsuario.value.key)
+                var orden: Order = Order(modeloR.createDataInfo(estadoCarrito.value.productos), estadoUsuario.value.id)
+                val response = modeloR.addOrderWithToken(orden, estadoUsuario.value.key)
             }
             catch (e: Exception) {
                 println(e)
@@ -154,7 +177,7 @@ class BTVM: ViewModel() {
         )
         viewModelScope.launch {
             try {
-                val response = modelo.addUser(user)
+                val response = modeloR.signUp(user)
             } catch (e: Exception) {
                 println(e)
             }
@@ -173,7 +196,7 @@ class BTVM: ViewModel() {
     fun login(email : String, password: String){
         viewModelScope.launch {
             try {
-                val response = modelo.getJWTKey(email, password)
+                val response = modeloR.getJWTKey(email, password)
                 if (response.message != "Success generating token") {
                     throw Exception(response.message)
                 }

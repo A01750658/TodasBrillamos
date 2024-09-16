@@ -1,5 +1,5 @@
 package mx.tec.pruebabrillamostodas3.model
-
+/*
 import io.ktor.client.statement.HttpResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -51,3 +51,4 @@ suspend fun main()  {
     println(connector.addOrder(Order("17,21;1,2",127)))
     println(producto)
 }
+*/
