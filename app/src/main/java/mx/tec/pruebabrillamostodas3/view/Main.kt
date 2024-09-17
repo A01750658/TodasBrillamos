@@ -75,7 +75,9 @@ fun AppTopBar(navController: NavHostController) {
 
 @Composable
 fun AppBottomBar(navController: NavHostController) {
-    if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP){
+    if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO){
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
@@ -138,13 +140,16 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
             LogIn(btVM, navController)
         }
         composable(Pantallas.RUTA_INFO){
-            Info()
+            Info(btVM)
         }
         composable(Pantallas.RUTA_CONTACTO){
             Contacto(btVM)
         }
         composable(Pantallas.RUTA_DIRECCIONES){
             MenuDirecciones(btVM, navController)
+        }
+        composable(Pantallas.RUTA_AVISO){
+            AvisoyLeyenda()
         }
     }
 }

@@ -73,7 +73,7 @@ fun Redes(vmodel: BTVM){
             BotonTextandIcon(
                 text = "TikTok",
                 icon = ImageVector.vectorResource(id = R.drawable.tiktok),
-                onClick = { vmodel.openWebPage("https://vm.tiktok.com/ZMjKEqyJH/", context) { intent ->
+                onClick = { vmodel.openWebPage("https://www.tiktok.com/@todas.brillamos", context) { intent ->
                     context.startActivity(intent)
                 } },
                 color = MaterialTheme.colorScheme.onPrimaryContainer

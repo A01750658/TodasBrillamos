@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,6 +34,8 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -53,6 +57,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
     var valorApellidoMaterno by rememberSaveable { mutableStateOf(estado.value.apellido_materno) }
     var valorConfirmacionPassword by rememberSaveable { mutableStateOf(estado.value.confirmacion_password) }
     val estadoErrors = btVM.estadoErrors.collectAsState()
+    var isChecked by remember { mutableStateOf(false) }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -104,7 +109,8 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             //DatePicker(state = DatePickerState(locale = CalendarLocale.GERMAN))
 
             TextButton(onClick = { btVM.setShowDatePicker(true) },
-                Modifier.padding(horizontal = 16.dp)
+                Modifier
+                    .padding(horizontal = 16.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.tertiary)
@@ -151,11 +157,56 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setConfirmacionContrasenaUsuario(valorPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorContraseñas){
-                Text("Las contraseñas no coinciden", Modifier.padding(bottom = 3.dp).fillMaxWidth(), color = MaterialTheme.colorScheme.onPrimary, fontSize = 16.sp,style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
+                Text("Las contraseñas no coinciden",
+                    Modifier
+                        .padding(bottom = 3.dp)
+                        .fillMaxWidth(), color = MaterialTheme.colorScheme.onPrimary, fontSize = 16.sp,style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
             }
+            Row {
+                TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
+                    Text(text = "Aviso de privacidad y leyenda de devolución",
+                        modifier = Modifier,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            textDecoration = TextDecoration.Underline
+                        ),
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+                }
+                Checkbox(
+                    checked = isChecked,
+                    onCheckedChange = { isChecked = it },
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .weight(1f)
 
-            PreguntaBoton("¿Ya tienes cuenta?","Inicia sesión", {navController.navigate(Pantallas.RUTA_LOGIN)})
-            TextButton(onClick = {navController.navigate(Pantallas.RUTA_LOGIN)}){
+                )
+
+            }
+            Row {
+                TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
+                    Text(text = "Permitir el uso de datos con fines de marketing",
+                        modifier = Modifier,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+                }
+                Checkbox(
+                    checked = isChecked,
+                    onCheckedChange = { isChecked = it },
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .weight(1f)
+
+                )
+
+            }
+            Spacer(modifier = Modifier.padding(16.dp))
+            TextButton(onClick = {navController.navigate(Pantallas.RUTA_LOGIN)},
+                modifier = Modifier
+                    .padding(horizontal = 100.dp)
+                    .padding(bottom = 16.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.tertiary)){
                 Text(
                     text = "Registrarse",
                     textAlign = TextAlign.Center,
@@ -165,6 +216,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     color = MaterialTheme.colorScheme.onTertiary
                 )
             }
+            PreguntaBoton("¿Ya tienes cuenta?","Inicia sesión", {navController.navigate(Pantallas.RUTA_LOGIN)})
 
 
         }

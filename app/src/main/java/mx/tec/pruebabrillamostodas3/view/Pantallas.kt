@@ -20,6 +20,7 @@ sealed class Pantallas (
     val icono: ImageVector
 ){
     companion object{
+
         var listaPantallas = listOf(Redes, Foros, Home, Tienda, Perfil)
         const val RUTA_APP_HOME = "Home"
         const val RUTA_REDES = "Redes"
@@ -31,6 +32,7 @@ sealed class Pantallas (
         const val RUTA_INFO = "Info"
         const val RUTA_CONTACTO = "Contacto"
         const val RUTA_DIRECCIONES = "MenuDirecciones"
+        const val RUTA_AVISO = "Aviso"
     }
 
     //Pantallas Menu
@@ -44,7 +46,9 @@ sealed class Pantallas (
     // (Pantalla de Login y Signup)
     data object LogIn: Pantallas(RUTA_LOGIN, "Log In", Icons.Default.Star)
     data object SignUp: Pantallas(RUTA_SIGNUP, "Sign Up", Icons.Default.Star)
-    //Pantallas que están en
+    data object Aviso: Pantallas(RUTA_AVISO, "Aviso", Icons.Default.Star)
+
+    //Pantallas que están en Home
     data object Info: Pantallas(RUTA_INFO, "Info", Icons.Default.Star)
     data object Contacto: Pantallas(RUTA_CONTACTO,"Contacto", Icons.Default.Star)
     data object MenuDirecciones: Pantallas("MenuDirecciones", "MenuDirecciones", Icons.Default.Star)
