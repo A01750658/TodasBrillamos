@@ -270,7 +270,7 @@ fun Info(vModel: BTVM) {
                 )
             ) {
                 Text(
-                    text = "Da click para aprender sobre el lavado de nuestros productos",
+                    text = "Da CLICK para aprender sobre el lavado de nuestros productos",
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -278,6 +278,7 @@ fun Info(vModel: BTVM) {
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -143,7 +144,8 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     nuevoTexto ->
                     valorCorreo = nuevoTexto.toString()
                     btVM.setCorreoUsuario(valorCorreo)
-                })
+                },
+                keyBoardType = KeyboardType.Email)
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.password,
                 { nuevoTexto ->
