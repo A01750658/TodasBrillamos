@@ -107,7 +107,7 @@ class ModelConnection {
         return response.body()
     }
 
-    suspend fun addAddress(key: String, user_id: Int, direccion: Direccion) {
+    suspend fun addAddress(key: String, direccion: Direccion) {
         val response = client.post(addAddressWithTokenEndpoint) {
             contentType(ContentType.Application.Json)
             setBody(direccion)
