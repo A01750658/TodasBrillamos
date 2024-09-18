@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 /**
@@ -37,7 +38,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 
 @Composable
-fun Tienda(viewModel: BTVM, modifier: Modifier){
+fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController){
     val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
     val estadoCantidad by viewModel
         .estadoCantidad.collectAsState()
@@ -98,7 +99,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier){
 
         }
         FloatingActionButton(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate("Carrito") },
             containerColor = MaterialTheme.colorScheme.tertiary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             modifier = Modifier

@@ -245,7 +245,7 @@ class BTVM: ViewModel() {
         _estadoUsuario.value = _estadoUsuario.value.copy(confirmacion_password = contrasena)
     }
     fun checkPasswordErrors(){
-        _estadoErrors.value = _estadoErrors.value.copy(errorContraseñas=_estadoUsuario.value.password!=_estadoUsuario.value.confirmacion_password)
+        _estadoErrors.value = _estadoErrors.value.copy(errorContrasenas=_estadoUsuario.value.password!=_estadoUsuario.value.confirmacion_password)
     }
     fun setUserKey(key : String){
         _estadoUsuario.value = _estadoUsuario.value.copy(key = key)
@@ -258,6 +258,30 @@ class BTVM: ViewModel() {
     }
     fun setLoading(loading: Boolean){
         _estadoUsuario.value = _estadoUsuario.value.copy(loading = loading)
+    }
+
+    fun setTelefonoUsuario(telefono: String) {
+        _estadoUsuario.value = _estadoUsuario.value.copy(telefono = telefono)
+    }
+
+    fun setIntent(intent: Boolean) {
+        _estadoUsuario.value = _estadoUsuario.value.copy(intent = intent)
+    }
+
+    fun setErrorType(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorType = b)
+    }
+
+    fun setErrorCell(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCell = b)
+    }
+
+    fun setErrorCorreo(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCorreo = b)
+    }
+
+    fun setErrorLengthPassword(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorLengthPassword = b)
     }
 
 }

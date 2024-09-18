@@ -57,8 +57,10 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
     var valorApellidoPaterno by rememberSaveable { mutableStateOf(estado.value.apellido_paterno) }
     var valorApellidoMaterno by rememberSaveable { mutableStateOf(estado.value.apellido_materno) }
     var valorConfirmacionPassword by rememberSaveable { mutableStateOf(estado.value.confirmacion_password) }
+    var valortelefono by rememberSaveable { mutableStateOf(estado.value.telefono) }
+    var valorAvisos by rememberSaveable { mutableStateOf(estado.value.aviso) }
+    var valorMarketing by rememberSaveable { mutableStateOf(estado.value.marketing) }
     val estadoErrors = btVM.estadoErrors.collectAsState()
-    var isChecked by remember { mutableStateOf(false) }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -89,23 +91,44 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             Etiqueta("Nombre*", Modifier.padding(bottom = 3.dp))
             Inputtexto(estado.value.nombre,{
                 nuevoTexto ->
-                valorNombre = nuevoTexto.toString()
+                btVM.setIntent(false)
+                if (nuevoTexto.length > 20 || nuevoTexto.any {it.isDigit()}) {
+                    btVM.setErrorType(true)
+                } else{
+                    btVM.setErrorType(false)
+                }
+                valorNombre = nuevoTexto
                 btVM.setNombreUsuario(valorNombre)
             })
             Etiqueta("Apellido Paterno*", Modifier.padding(bottom = 3.dp))
             Inputtexto(estado.value.apellido_paterno,
                 {
                     nuevoTexto ->
-                    valorApellidoPaterno = nuevoTexto.toString()
+                    btVM.setIntent(false)
+                    if (nuevoTexto.length > 20 || nuevoTexto.any {it.isDigit()}) {
+                        btVM.setErrorType(true)
+                    } else{
+                        btVM.setErrorType(false)
+                    }
+                    valorApellidoPaterno = nuevoTexto
                     btVM.setApellidoPaternoUsuario(valorApellidoPaterno)
                 })
             Etiqueta("Apellido Materno*", Modifier.padding(bottom = 3.dp))
             Inputtexto(estado.value.apellido_materno,
                 {
                     nuevoTexto ->
-                    valorApellidoMaterno = nuevoTexto.toString()
+                    btVM.setIntent(false)
+                    if (nuevoTexto.length > 20 || nuevoTexto.any {it.isDigit()}) {
+                        btVM.setErrorType(true)
+                    } else{
+                        btVM.setErrorType(false)
+                    }
+                    valorApellidoMaterno = nuevoTexto
                     btVM.setApellidoMaternoUsuario(valorApellidoMaterno)
                 })
+            if (estadoErrors.value.errorType){
+                Etiqueta("Todos los campos deben ser llenados. Solo puedes usar letras y no se puede superar los 20 caracteres.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+            }
             Etiqueta("Fecha de Nacimiento", Modifier.padding(bottom = 3.dp))
             //DatePicker(state = DatePickerState(locale = CalendarLocale.GERMAN))
 
@@ -137,36 +160,68 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             }
 
             //DatePickerScreen(modifier = Modifier.padding(bottom = 3.dp,start = 16.dp).background(MaterialTheme.colorScheme.onTertiary))
-
+            Etiqueta("Telefono*", Modifier.padding(bottom = 3.dp))
+            Inputtexto(estado.value.telefono,
+                {
+                        nuevoTexto ->
+                    if (nuevoTexto.length != 10 || nuevoTexto.any {it.isLetter()}) {
+                        btVM.setErrorCell(true)
+                    } else{
+                        btVM.setErrorCell(false)
+                    }
+                    btVM.setIntent(false)
+                    valortelefono = nuevoTexto
+                    btVM.setTelefonoUsuario(valortelefono)
+                },
+                keyBoardType = KeyboardType.Number)
+            if (estadoErrors.value.errorCell){
+                Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+            }
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
             Inputtexto(estado.value.correo,
                 {
                     nuevoTexto ->
-                    valorCorreo = nuevoTexto.toString()
+                    if (nuevoTexto.length > 50 || !nuevoTexto.contains("@") || !nuevoTexto.contains(".")) {
+                        btVM.setErrorCorreo(true)
+                    } else{
+                        btVM.setErrorCorreo(false)
+                    }
+                    btVM.setIntent(false)
+                    valorCorreo = nuevoTexto
                     btVM.setCorreoUsuario(valorCorreo)
                 },
                 keyBoardType = KeyboardType.Email)
+            if (estadoErrors.value.errorCorreo){
+                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+            }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.password,
                 { nuevoTexto ->
-                    valorPassword = nuevoTexto.toString()
+                    if (nuevoTexto.length < 8) {
+                        btVM.setErrorLengthPassword(true)
+                    } else{
+                        btVM.setErrorLengthPassword(false)
+                    }
+                    btVM.setIntent(false)
+                    valorPassword = nuevoTexto
                     btVM.setContrasenaUsuario(valorPassword)
                     btVM.checkPasswordErrors()})
+            if (estadoErrors.value.errorLengthPassword){
+                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) ,color= MaterialTheme.colorScheme.onPrimary)
+            }
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.confirmacion_password,
                 { nuevoTexto ->
-                    valorPassword = nuevoTexto.toString()
-                    btVM.setConfirmacionContrasenaUsuario(valorPassword)
+                    btVM.setIntent(false)
+                    valorConfirmacionPassword = nuevoTexto
+                    btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
                     btVM.checkPasswordErrors()})
-            if (estadoErrors.value.errorContraseñas){
-                Text("Las contraseñas no coinciden",
-                    Modifier
-                        .padding(bottom = 3.dp)
-                        .fillMaxWidth(), color = MaterialTheme.colorScheme.onPrimary, fontSize = 16.sp,style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
+            if (estadoErrors.value.errorContrasenas){
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.onPrimary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
-                    Text(text = "Aviso de privacidad y leyenda de devolución",
+                    Text(text = "He leído y acepto el aviso de privacidad y leyenda de devolución",
                         modifier = Modifier,
                         style = MaterialTheme.typography.bodyMedium.copy(
                             textDecoration = TextDecoration.Underline
@@ -175,14 +230,19 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     )
                 }
                 Checkbox(
-                    checked = isChecked,
-                    onCheckedChange = { isChecked = it },
+                    checked = valorAvisos,
+                    onCheckedChange = {
+                        btVM.setIntent(false)
+                        valorAvisos = it },
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .weight(1f)
 
                 )
 
+            }
+            if (!valorAvisos && estado.value.intent){
+                Etiqueta("Debes confirmar que haz leído y aceptado el aviso de privacidad y leyenda de devolución")
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -193,8 +253,10 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     )
                 }
                 Checkbox(
-                    checked = isChecked,
-                    onCheckedChange = { isChecked = it },
+                    checked = valorMarketing,
+                    onCheckedChange = {
+                        btVM.setIntent(false)
+                        valorMarketing = it },
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .weight(1f)
@@ -203,7 +265,20 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             }
             Spacer(modifier = Modifier.padding(16.dp))
-            TextButton(onClick = {navController.navigate(Pantallas.RUTA_LOGIN)},
+            TextButton(onClick = {
+                btVM.setIntent(true)
+                if(valorNombre.isNotEmpty() && valorApellidoPaterno.isNotEmpty() && valorApellidoMaterno.isNotEmpty()
+                    && valorCorreo.isNotEmpty() && valorPassword.isNotEmpty() && !estadoErrors.value.errorContrasenas
+                    && valortelefono.isNotEmpty() && valorAvisos) {
+                    navController.navigate(Pantallas.RUTA_LOGIN)
+                                    } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
+                                        btVM.setErrorType(true)
+                                    } else if (valortelefono.isEmpty()){
+                                        btVM.setErrorCell(true)
+                                    } else if (!valorAvisos){
+                                        btVM.setErrorLogin(true)
+                                    }
+                                 },
                 modifier = Modifier
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)

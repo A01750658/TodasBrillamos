@@ -33,6 +33,7 @@ sealed class Pantallas (
         const val RUTA_CONTACTO = "Contacto"
         const val RUTA_DIRECCIONES = "MenuDirecciones"
         const val RUTA_AVISO = "Aviso"
+        const val RUTA_CARRITO = "Carrito"
     }
 
     //Pantallas Menu
@@ -52,6 +53,9 @@ sealed class Pantallas (
     data object Info: Pantallas(RUTA_INFO, "Info", Icons.Default.Star)
     data object Contacto: Pantallas(RUTA_CONTACTO,"Contacto", Icons.Default.Star)
     data object MenuDirecciones: Pantallas("MenuDirecciones", "MenuDirecciones", Icons.Default.Star)
+
+    //Pantallas tienda
+    data object BotonProducto: Pantallas(RUTA_CARRITO, "Carrito", Icons.Default.ShoppingCart)
 
 
 

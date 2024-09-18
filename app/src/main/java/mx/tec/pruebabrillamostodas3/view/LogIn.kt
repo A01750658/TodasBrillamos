@@ -84,8 +84,10 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
                     } else {
-                        if (nuevoTexto.contains("@")){
-                            /*TODO*/
+                        if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
+                            btVM.setErrorCorreo(true)
+                        } else {
+                            btVM.setErrorCorreo(false)
                         }
                         valorCorreo = nuevoTexto
                         btVM.setCorreoUsuario(valorCorreo)
@@ -93,13 +95,20 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     }
                 },
                 keyBoardType = KeyboardType.Email)
+            if (estadoErrors.value.errorCorreo) {
+                Etiqueta(
+                    texto = "Debe de ser un correo electrónico",
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.password,
                 { nuevoTexto ->
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
                     } else {
-                        valorPassword = nuevoTexto.toString()
+                        valorPassword = nuevoTexto
                         btVM.setContrasenaUsuario(valorPassword)
                         btVM.setErrorLogin(false)
                     }
@@ -147,7 +156,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                 }
 
             }
-
+            Spacer(modifier = Modifier.padding(16.dp))
 
         }
     }
