@@ -63,7 +63,7 @@ class ModelConnection {
     }
 
     fun createUser(nombre: String, apellido_paterno: String, apellido_materno: String,
-        fecha_nacimiento: String, correo: String, password: String, terminos: Int): Usuario {
+        fecha_nacimiento: String, correo: String, password: String, terminos: Int,publicidad : Int): Usuario {
         return Usuario(
             nombre,
             apellido_paterno,
@@ -71,7 +71,8 @@ class ModelConnection {
             fecha_nacimiento,
             correo,
             password,
-            terminos
+            terminos,
+            publicidad
         )
     }
 

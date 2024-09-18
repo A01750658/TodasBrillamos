@@ -10,5 +10,6 @@ data class Usuario(
     val fecha_nacimiento: String,
     val email: String,
     val password: String,
-    val terminos : Int
+    val terminos : Int,
+    val publicidad : Int
 )

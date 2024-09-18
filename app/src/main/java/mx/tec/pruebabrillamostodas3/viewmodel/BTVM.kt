@@ -29,6 +29,7 @@ class BTVM: ViewModel() {
     //EstadoDatePicker
     private val _showDatePicker = MutableLiveData(false)
     val showDatePicker: LiveData<Boolean> = _showDatePicker
+
     fun setShowDatePicker(show: Boolean) {
         _showDatePicker.value = show
     }
@@ -57,7 +58,6 @@ class BTVM: ViewModel() {
     val estadoSeleccionado: StateFlow<Int> = _estadoSeleccionado
 
 
-
     //Estado usuario
     private val _estadoUsuario = MutableStateFlow<EstadoUsuario>(EstadoUsuario())
     val estadoUsuario: StateFlow<EstadoUsuario> = _estadoUsuario
@@ -66,9 +66,6 @@ class BTVM: ViewModel() {
     private val _estadoErrors = MutableStateFlow<EstadoErrors>(EstadoErrors())
     val estadoErrors: StateFlow<EstadoErrors> = _estadoErrors
 
-
-    val user =
-        modelo.createUser("Cesar", "Dia", "Jueves", "06-MAR-2003", "cesar@gmail.com", "1234554",1)
 
     fun getProductos() {
         viewModelScope.launch {
@@ -87,7 +84,7 @@ class BTVM: ViewModel() {
                                 precio_normal = producto.precio_normal,
                                 precio_rebajado = producto.precio_rebajado,
                                 rebaja = producto.rebaja,
-                                imagen = modelo.getProductImage(producto.id)
+                                imagen = modeloR.getProductImage(producto.id)
                             )
                         )
                     }
@@ -100,24 +97,6 @@ class BTVM: ViewModel() {
 
     }
 
-    fun getImagenProd(_estadoLista: List<Producto>) {
-        viewModelScope.launch {
-            for (producto in estadoLista.value) {
-
-                _estadoProducto2.value = _estadoProducto2.value.copy(
-                    id = producto.id,
-                    nombre = producto.nombre,
-                    descripcion = producto.descripcion,
-                    precio_normal = producto.precio_normal,
-                    precio_rebajado = producto.precio_rebajado,
-                    rebaja = producto.rebaja,
-                    imagen = modelo.getProductImage(producto.id)
-                )
-                estadoListaProducto.value.add(_estadoProducto2.value)
-
-            }
-        }
-    }
     fun setEstadoSeleccionado(IdProd: Int) {
         _estadoSeleccionado.value = IdProd
     }
@@ -130,7 +109,6 @@ class BTVM: ViewModel() {
         }
         return EstadoProducto()
     }
-
 
 
     fun addAddress(direccion: Direccion) {
@@ -165,24 +143,53 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun addUser(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String,terminos :Int) {
-        val user = modelo.createUser(
+    fun signUp(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String,terminos :Boolean, publicidad : Boolean) {
+        val terminos : Int = if (terminos) 1 else 0
+        val publicidad : Int = if (publicidad) 1 else 0
+        val user : Usuario = modelo.createUser(
             nombre,
             apellido_paterno,
             apellido_materno,
             fecha_nacimiento,
             correo,
             password,
-            terminos
+            terminos,
+            publicidad
         )
         viewModelScope.launch {
             try {
                 val response = modeloR.signUp(user)
+                if (response.result=="error"){
+                    throw Exception("Could not create User")
+                }
             } catch (e: Exception) {
                 println(e)
             }
         }
     }
+
+    fun login(email : String, password: String){
+        viewModelScope.launch {
+            try {
+                val response = modeloR.getJWTKey(email, password)
+
+                if (response.message != "Success generating token") {
+                    throw Exception(response.message)
+                }
+                val userData = modeloR.getUserData(response.data)
+
+                setUserKey(response.data)
+                setUserId(response.id)
+                setNombreUsuario(userData.nombre)
+                setApellidoMaternoUsuario(userData.apellido_materno)
+                setApellidoPaternoUsuario(userData.apellido_paterno)
+            } catch (e: Exception) {
+                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+
+            }
+        }
+    }
+
     fun openWebPage(url: String, context: Context, startActivity: (Intent) -> Unit) {
         try {
             val intent = Intent(Intent.ACTION_VIEW)
@@ -193,21 +200,7 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun login(email : String, password: String){
-        viewModelScope.launch {
-            try {
-                val response = modeloR.getJWTKey(email, password)
-                if (response.message != "Success generating token") {
-                    throw Exception(response.message)
-                }
-                setUserKey(response.data)
-                setUserId(response.id)
-            } catch (e: Exception) {
-                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
 
-            }
-        }
-    }
 
     fun enviarCorreo(correo:String,context:Context) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
