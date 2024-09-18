@@ -68,7 +68,7 @@ fun MenuDirecciones(btVM: BTVM, navController: NavHostController){
 
                 )
             Titulo(
-                titulo = "Direcciones",
+                titulo = "Dirección",
                 color = MaterialTheme.colorScheme.primaryContainer,
                 fontSize = 50
             )
@@ -94,7 +94,7 @@ fun MenuDirecciones(btVM: BTVM, navController: NavHostController){
                         .fillMaxWidth()
                 )
                 Subtitulo(
-                    "Direcciones Registradas",
+                    "Direccion Registrada",
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.onTertiary
                 )

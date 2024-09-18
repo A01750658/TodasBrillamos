@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -18,13 +20,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun InputContraseña(text: String, onValueChange: (Any?) -> Unit, modifier: Modifier = Modifier){
+fun InputContraseña(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, onDone: () -> Unit = {}){
     var passwordVisible by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
     OutlinedTextField(
         value = text,
         onValueChange = onValueChange ,
@@ -44,7 +50,16 @@ fun InputContraseña(text: String, onValueChange: (Any?) -> Unit, modifier: Modi
             .padding(horizontal = 16.dp)
             .padding(bottom = 16.dp)
             .clip(RoundedCornerShape(50.dp))
-            .background(MaterialTheme.colorScheme.onTertiary)
+            .background(MaterialTheme.colorScheme.onTertiary),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                onDone()
+                focusManager.clearFocus()
+            }
+        )
 
     )
 }

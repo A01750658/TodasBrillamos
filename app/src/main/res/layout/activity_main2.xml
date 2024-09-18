@@ -13,7 +13,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="105dp"
         android:layout_marginBottom="332dp"
-        android:src="@drawable/logobrilla"
+        android:src="@drawable/log"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

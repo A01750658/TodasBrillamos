@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -80,16 +81,37 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
             Inputtexto(estado.value.correo, onValueChange =
                 {
                     nuevoTexto ->
-                    valorCorreo = nuevoTexto.toString()
-                    btVM.setCorreoUsuario(valorCorreo)
-                    btVM.setErrorLogin(false)
-                })
+                    if (nuevoTexto.contains("\n")){
+                        /*TODO*/
+                    } else {
+                        if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
+                            btVM.setErrorCorreo(true)
+                        } else {
+                            btVM.setErrorCorreo(false)
+                        }
+                        valorCorreo = nuevoTexto
+                        btVM.setCorreoUsuario(valorCorreo)
+                        btVM.setErrorLogin(false)
+                    }
+                },
+                keyBoardType = KeyboardType.Email)
+            if (estadoErrors.value.errorCorreo) {
+                Etiqueta(
+                    texto = "Debe de ser un correo electrónico",
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.password,
                 { nuevoTexto ->
-                    valorPassword = nuevoTexto.toString()
-                    btVM.setContrasenaUsuario(valorPassword)
-                    btVM.setErrorLogin(false)
+                    if (nuevoTexto.contains("\n")){
+                        /*TODO*/
+                    } else {
+                        valorPassword = nuevoTexto
+                        btVM.setContrasenaUsuario(valorPassword)
+                        btVM.setErrorLogin(false)
+                    }
                 })
             if (estadoErrors.value.errorLogin) {
                 Etiqueta( "El correo o la contraseña son incorrectos",
@@ -104,8 +126,10 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { /*TODO*/ })
             TextButton(onClick = {
-                btVM.setLoading(true)
-                btVM.login(estado.value.correo, estado.value.password)
+                if (!estadoErrors.value.errorLogin) {
+                    btVM.setLoading(true)
+                    btVM.login(estado.value.correo, estado.value.password)
+                }
                 },
                 Modifier
                     .padding(horizontal = 100.dp)
@@ -132,7 +156,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                 }
 
             }
-
+            Spacer(modifier = Modifier.padding(16.dp))
 
         }
     }

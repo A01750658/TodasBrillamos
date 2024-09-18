@@ -17,6 +17,7 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import java.sql.Blob
 
 @Composable
@@ -38,36 +40,53 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
 
     Column (modifier = modifier
         .padding(vertical = 10.dp)
+        .height(270.dp)
+        .padding(horizontal = 5.dp)
+        .border(2.dp, MaterialTheme.colorScheme.tertiary, RoundedCornerShape(25)), horizontalAlignment = Alignment.CenterHorizontally
+
         ){
         ElevatedButton(
             onClick = { onClick() },
             shape = RoundedCornerShape(25),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
             modifier = modifier
-                .height(128.dp)
-                .width(128.dp)
+                .height(270.dp)
+                .width(205.dp)
                 .padding(horizontal = 3.dp)
         ) {
-            Image(
-                painter = BitmapPainter(Image(imagen).asImageBitmap()),
-                contentDescription = "Elemento",
-                modifier = modifier.fillMaxSize()
-            )
-        }
-        Column (modifier= Modifier.fillMaxWidth()){
-            Row{
+            Column (modifier= Modifier
+                .fillMaxWidth()
+
+            ) {
+                Image(
+                    painter = BitmapPainter(Image(imagen).asImageBitmap()),
+                    contentDescription = "Elemento",
+                    modifier = modifier.height(128.dp).fillMaxWidth()
+                )
+                Text(
+                    text = "$" + precio.toString(),
+                    textAlign = TextAlign.Center,
+                    modifier = modifier
+                        .padding(vertical = 5.dp)
+                        .fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 20.sp),
+
+                    )
                 Text(
                     text = nombre,
                     textAlign = TextAlign.Center,
                     modifier = modifier
-                        .width(128.dp).padding(vertical = 3.dp),
+                        .padding(vertical = 5.dp)
+                        .fillMaxWidth(),
                     color = MaterialTheme.colorScheme.primaryContainer,
                     style = MaterialTheme.typography.bodyMedium,
-                )
+
+                    )
             }
         }
     }
 }
+
 
 fun Image(image: ByteArray): Bitmap{
 
