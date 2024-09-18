@@ -118,13 +118,13 @@ class BTVM: ViewModel() {
             }
         }
     }
-    fun setEstadoSeleccionado(position: Int) {
-        _estadoSeleccionado.value = position
+    fun setEstadoSeleccionado(IdProd: Int) {
+        _estadoSeleccionado.value = IdProd
     }
 
     fun getSelectedProduct() : EstadoProducto{
-        estadoListaProducto.value.forEachIndexed { index, estadoProducto ->
-            if (index == estadoSeleccionado.value) {
+        estadoListaProducto.value.forEach { estadoProducto ->
+            if (estadoProducto.id == estadoSeleccionado.value) {
                 return estadoProducto
             }
         }
