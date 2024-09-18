@@ -7,5 +7,6 @@ data class EstadoErrors(
     val errorType: Boolean = false,
     val errorCell: Boolean = false,
     val errorCorreo: Boolean = false,
-    val errorLengthPassword: Boolean = false
+    val errorLengthPassword: Boolean = false,
+    val errorMessage : String = ""
 )

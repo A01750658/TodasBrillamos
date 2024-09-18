@@ -15,7 +15,7 @@ const val getJWTKeyEndpoint = "getToken/"
 const val getProductImageEndpoint = "product_images/"
 const val getProductsWithTokenEndpoint = "productos/"
 const val addAddressWithTokenEndpoint = "add/address"
-
+const val getUserDataWithTokenEndpoint = "get/user_data"
 
 interface TodasBrillamosAPI
 {
@@ -30,12 +30,12 @@ interface TodasBrillamosAPI
         "User-Agent:Retrofit"
     )
     @GET(getProductImageEndpoint)
-    suspend fun getProductImage(@Query("image_id") image_id : Int): ByteArray
+    suspend fun getProductImage(@Query("image_id") image_id : String): ResponseBody
 
     @Headers(
         "User-Agent:Retrofit"
     )
-    @POST("add/user")
+    @POST(addUserEndpoint)
     suspend fun addUser(@Body user: Usuario): ResponseFormat
 
     @Headers(
@@ -56,4 +56,9 @@ interface TodasBrillamosAPI
     @POST(addAddressWithTokenEndpoint)
     suspend fun addAddressWithToken(@Body address: Direccion, @Query("user_token") user_token : String): ResponseFormat
 
+    @Headers(
+        "User-Agent:Retrofit"
+    )
+    @GET(getUserDataWithTokenEndpoint)
+    suspend fun getUserDataWithToken(@Query("user_token") user_token : String) : DataUsuario
 }
