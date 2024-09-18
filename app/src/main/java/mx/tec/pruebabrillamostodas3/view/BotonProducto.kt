@@ -50,7 +50,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
             shape = RoundedCornerShape(25),
             modifier = modifier
                 .height(270.dp)
-                .width(205.dp)
+                .width(180.dp)
                 .padding(horizontal = 3.dp)
         ) {
             Column (modifier= Modifier
@@ -60,13 +60,13 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
                 Image(
                     painter = BitmapPainter(Image(imagen).asImageBitmap()),
                     contentDescription = "Elemento",
-                    modifier = modifier.height(128.dp).fillMaxWidth()
+                    modifier = modifier.height(160.dp).fillMaxWidth()
                 )
                 Text(
                     text = "$" + precio.toString(),
                     textAlign = TextAlign.Center,
                     modifier = modifier
-                        .padding(vertical = 5.dp)
+                        .padding(top = 5.dp)
                         .fillMaxWidth(),
                     color = MaterialTheme.colorScheme.primaryContainer,
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 20.sp),
@@ -79,7 +79,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
                         .padding(vertical = 5.dp)
                         .fillMaxWidth(),
                     color = MaterialTheme.colorScheme.primaryContainer,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp, lineHeight = 16.sp ),
 
                     )
             }
