@@ -30,7 +30,7 @@ class ModelConnection {
             json()
         }
     }
-    private val key = generateAESKey(256)
+    private val hash = Hash().hash()
     private val addUserEndpoint =
         "https://apex.oracle.com/pls/apex/todasbrillamos/connection/add/user"
     private val addOrderEndpoint =
