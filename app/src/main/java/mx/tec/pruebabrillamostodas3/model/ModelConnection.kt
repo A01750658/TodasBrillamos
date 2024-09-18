@@ -62,19 +62,7 @@ class ModelConnection {
         return encryptedPassword.toString()
     }
 
-    fun createUser(nombre: String, apellido_paterno: String, apellido_materno: String,
-        fecha_nacimiento: String, correo: String, password: String, terminos: Int,publicidad : Int): Usuario {
-        return Usuario(
-            nombre,
-            apellido_paterno,
-            apellido_materno,
-            fecha_nacimiento,
-            correo,
-            password,
-            terminos,
-            publicidad
-        )
-    }
+
 
 
     suspend fun addUser(user: Usuario): HttpResponse {

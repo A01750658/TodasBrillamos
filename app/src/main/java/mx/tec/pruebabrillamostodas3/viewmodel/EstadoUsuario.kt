@@ -12,6 +12,7 @@ data class EstadoUsuario(
     val aviso: Boolean = false,
     val marketing: Boolean = false,
     val direccion : String = "",
+
     val key : String = "",
     val id : Int = -1,
     val loading: Boolean = false,

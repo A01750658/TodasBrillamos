@@ -11,5 +11,6 @@ data class Usuario(
     val email: String,
     val password: String,
     val terminos : Int,
-    val publicidad : Int
+    val publicidad : Int,
+    val telefono : String
 )
