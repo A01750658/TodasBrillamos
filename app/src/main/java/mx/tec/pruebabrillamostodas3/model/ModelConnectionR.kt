@@ -1,10 +1,16 @@
 package mx.tec.pruebabrillamostodas3.model
 
+/**
+ * @author Carlos Iker Fuentes Reyes
+ */
+
 import com.google.gson.Gson
 import io.ktor.client.statement.HttpResponse
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
+
 
 class ModelConnectionR {
 
