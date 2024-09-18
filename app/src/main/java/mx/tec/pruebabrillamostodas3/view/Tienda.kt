@@ -70,10 +70,10 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                     .fillMaxWidth()
             )
             LazyColumn {
-                items((estadoListaProducto.value.size + 2) / 3) { rowIndex ->
+                items((estadoListaProducto.value.size + 1) / 2) { rowIndex ->
                     LazyRow(Modifier.fillMaxWidth()) {
-                        for (colIndex in 0..2) {
-                            val index = rowIndex * 3 + colIndex
+                        for (colIndex in 0..1) {
+                            val index = rowIndex * 2 + colIndex
                             if (index < estadoListaProducto.value.size) {
                                 item {
                                     BotonProducto(
