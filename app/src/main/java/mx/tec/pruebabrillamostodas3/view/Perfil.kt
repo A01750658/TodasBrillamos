@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -126,24 +130,62 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                 UsuarioDisplay(text = estado.value.correo)
                 Spacer(
                     modifier = Modifier
+                        .padding(6.dp)
+                        .fillMaxWidth()
+                )
+                Etiqueta(
+                    "Telefono",
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    padding = 30
+                )
+                UsuarioDisplay(text = estado.value.telefono)
+                Spacer(
+                    modifier = Modifier
                         .padding(10.dp)
                         .fillMaxWidth()
                 )
-                TextButton(onClick = { navController.navigate(Pantallas.RUTA_DIRECCIONES)},
-                    Modifier
-                        .padding(horizontal = 50.dp)
-                        .padding(bottom = 16.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.tertiary)
-                ) {
+                Etiqueta(
+                    "Dirección de envió de productos",
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    padding = 30
+                )
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.onTertiary)) {
                     Text(
-                        text = "Actualizar direccion",
+                        "${estado.value.direccion.calle}, ${estado.value.direccion.numero_ext}, Num Int ${estado.value.direccion.numero_int}, ${estado.value.direccion.colonia}, ${estado.value.direccion.municipio}, ${estado.value.direccion.estado}, C.P. ${estado.value.direccion.cp}",
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .padding(vertical = 20.dp)
+                            .weight(5f),
+                        style = MaterialTheme.typography.bodySmall,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 20.sp,
-                        color = MaterialTheme.colorScheme.onTertiary
+                        color = Color.Black
                     )
+                    ElevatedButton(
+                        onClick = { navController.navigate(Pantallas.RUTA_EDITAR_DIRECCION) },
+                        modifier = Modifier
+                            .padding(vertical = 20.dp)
+                            .padding(horizontal = 10.dp)
+                            .height(50.dp)
+                            .width(110.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                            contentColor = MaterialTheme.colorScheme.onTertiary
+                        )
+                    ) {
+                        Text(
+                            "Editar",
+                            modifier = Modifier.height(20.dp),
+                            color = MaterialTheme.colorScheme.onTertiary,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
             }
         }

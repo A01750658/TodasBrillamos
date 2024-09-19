@@ -145,9 +145,6 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
         composable(Pantallas.RUTA_CONTACTO){
             Contacto(btVM)
         }
-        composable(Pantallas.RUTA_DIRECCIONES){
-            MenuDirecciones(btVM, navController)
-        }
         composable(Pantallas.RUTA_AVISO){
             AvisoyLeyenda()
         }

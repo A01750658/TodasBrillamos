@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +32,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 @Composable
 fun EditarDireccion(btVM: BTVM){
+    val estado = btVM.estadoUsuario.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -96,28 +98,28 @@ fun EditarDireccion(btVM: BTVM){
 
                 LazyColumn {
                     item{Etiqueta("Calle*")}
-                    item{Inputtexto("Vazco de Quiroga",{/*TODO*/})}
+                    item{Inputtexto(estado.value.direccion.calle,{/*TODO*/})}
                     item{
                         Row(modifier = Modifier.fillMaxWidth()){
                             Column(modifier = Modifier.weight(1f)) {
                                 Etiqueta("Numero Exterior*")
-                                Inputtexto("1234", {/*TODO*/ })
+                                Inputtexto(estado.value.direccion.numero_ext.toString(), {/*TODO*/ })
                             }
                             Column(modifier = Modifier.weight(1f)) {
                                 Etiqueta("Numero Interior")
-                                Inputtexto("1234", {/*TODO*/ })
+                                Inputtexto(estado.value.direccion.numero_int.toString(), {/*TODO*/ })
                             }
                         }
                     }
 
                     item{Etiqueta("Colonia*")}
-                    item{Inputtexto("Central",{/*TODO*/})}
+                    item{Inputtexto(estado.value.direccion.colonia,{/*TODO*/})}
                     item{Etiqueta("Municipio*")}
-                    item{Inputtexto("Santa Fe",{/*TODO*/})}
+                    item{Inputtexto(estado.value.direccion.municipio,{/*TODO*/})}
                     item{Etiqueta("Codigo Postal*")}
-                    item{Inputtexto("5867",{/*TODO*/})}
+                    item{Inputtexto(estado.value.direccion.cp.toString(),{/*TODO*/})}
                     item{Etiqueta("Estado*")}
-                    item{Inputtexto("Mexico",{/*TODO*/})}
+                    item{Inputtexto(estado.value.direccion.estado,{/*TODO*/})}
                     item{ ElevatedButton({/*TODO*/},
                         modifier = Modifier.padding(16.dp).fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary),
