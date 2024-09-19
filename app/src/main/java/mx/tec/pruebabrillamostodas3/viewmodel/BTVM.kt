@@ -186,7 +186,7 @@ class BTVM: ViewModel() {
                 setApellidoPaternoUsuario(userData.apellido_paterno)
                 setDireccionUsuario(userData.direccion)
                 setTelefonoUsuario(userData.telefono)
-                
+
             } catch (e: Exception) {
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
 
@@ -238,7 +238,7 @@ class BTVM: ViewModel() {
     fun setApellidoMaternoUsuario(apellido: String) {
         _estadoUsuario.value = _estadoUsuario.value.copy(apellido_materno = apellido)
     }
-    fun setDireccionUsuario(direccion : String){
+    fun setDireccionUsuario(direccion : Direccion){
         _estadoUsuario.value = _estadoUsuario.value.copy(direccion = direccion)
     }
     fun setConfirmacionContrasenaUsuario(contrasena: String) {

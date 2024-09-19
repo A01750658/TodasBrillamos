@@ -1,5 +1,7 @@
 package mx.tec.pruebabrillamostodas3.viewmodel
 
+import mx.tec.pruebabrillamostodas3.model.Direccion
+
 data class EstadoUsuario(
     val nombre: String = "",
     val apellido_paterno: String = "",
@@ -13,7 +15,7 @@ data class EstadoUsuario(
     val confirmacion_password: String = "",
     val aviso: Boolean = false,
     val marketing: Boolean = false,
-    val direccion : String = "",
+    val direccion : Direccion = Direccion("","","","",0,0,0,0),
 
     val key : String = "",
     val id : Int = -1,

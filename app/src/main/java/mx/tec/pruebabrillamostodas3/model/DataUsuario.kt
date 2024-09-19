@@ -5,5 +5,5 @@ data class DataUsuario(
     val apellido_paterno: String,
     val apellido_materno: String,
     val telefono : String,
-    val direccion : String
+    val direccion : Direccion
 )
