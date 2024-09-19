@@ -96,6 +96,8 @@ dependencies {
     implementation("io.ktor:ktor-client-plugins:2.0.0")
     testImplementation("io.ktor:ktor-client-mock:$ktor_version")
 
+    //Paypal
+    implementation("com.paypal.sdk:rest-api-sdk:1.14.0")
 
     //Auth
     implementation("io.ktor:ktor-client-auth:2.0.0")
