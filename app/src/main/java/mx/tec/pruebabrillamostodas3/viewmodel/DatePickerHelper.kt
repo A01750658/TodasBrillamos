@@ -1,4 +1,4 @@
-package mx.tec.pruebabrillamostodas3.model
+package mx.tec.pruebabrillamostodas3.viewmodel
 
 import android.content.Context
 import android.widget.DatePicker
