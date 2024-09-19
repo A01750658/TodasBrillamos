@@ -143,10 +143,10 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun signUp(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String,terminos :Boolean, publicidad : Boolean) {
+    fun signUp(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String,terminos :Boolean, publicidad : Boolean,telefono: String) {
         val terminos : Int = if (terminos) 1 else 0
         val publicidad : Int = if (publicidad) 1 else 0
-        val user : Usuario = modelo.createUser(
+        val user : Usuario = Usuario(
             nombre,
             apellido_paterno,
             apellido_materno,
@@ -154,7 +154,8 @@ class BTVM: ViewModel() {
             correo,
             password,
             terminos,
-            publicidad
+            publicidad,
+            telefono
         )
         viewModelScope.launch {
             try {
@@ -183,6 +184,9 @@ class BTVM: ViewModel() {
                 setNombreUsuario(userData.nombre)
                 setApellidoMaternoUsuario(userData.apellido_materno)
                 setApellidoPaternoUsuario(userData.apellido_paterno)
+                setDireccionUsuario(userData.direccion)
+                setTelefonoUsuario(userData.telefono)
+                
             } catch (e: Exception) {
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
 
@@ -233,6 +237,9 @@ class BTVM: ViewModel() {
         }
     fun setApellidoMaternoUsuario(apellido: String) {
         _estadoUsuario.value = _estadoUsuario.value.copy(apellido_materno = apellido)
+    }
+    fun setDireccionUsuario(direccion : String){
+        _estadoUsuario.value = _estadoUsuario.value.copy(direccion = direccion)
     }
     fun setConfirmacionContrasenaUsuario(contrasena: String) {
         _estadoUsuario.value = _estadoUsuario.value.copy(confirmacion_password = contrasena)

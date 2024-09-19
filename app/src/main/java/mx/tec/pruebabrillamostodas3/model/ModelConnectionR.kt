@@ -84,7 +84,7 @@ suspend fun main(){
     }
     val dInfo = modelConnection.createDataInfo(p)
     val order = Order(dInfo,201)
-    val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker2365877654@gmail.com","1234",0,1)
+    val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker23537676565877654@gmail.com","1234",0,1,"5532532512")
     println(modelConnection.addOrderWithToken(order,modelConnection.getJWTKey(us.email,us.password).data))
     println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex",54050,12,12,201)))
 // val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker2365@gmail.com","1234",0)
