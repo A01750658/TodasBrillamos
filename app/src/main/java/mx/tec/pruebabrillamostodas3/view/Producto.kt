@@ -39,7 +39,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 @Composable
 fun Producto(btVM: BTVM, modifier: Modifier ){
-    val estadoListaProducto = btVM.estadoListaProducto.collectAsState()
+    var producto = btVM.getSelectedProduct()
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -48,9 +48,9 @@ fun Producto(btVM: BTVM, modifier: Modifier ){
             //verticalArrangement = Arrangement.Center
         ){
 
-            Titulo(titulo = estadoListaProducto.value[0].nombre)
+            Titulo(titulo = producto.nombre)
             androidx.compose.foundation.Image(
-                painter = BitmapPainter(Image(estadoListaProducto.value[0].imagen).asImageBitmap()),
+                painter = BitmapPainter(Image(producto.imagen).asImageBitmap()),
                 contentDescription = "Elemento",
                 modifier = modifier.border(
                     2.dp,
@@ -58,13 +58,13 @@ fun Producto(btVM: BTVM, modifier: Modifier ){
                     RoundedCornerShape(25)
                 )
             )
-            Subtitulo(text = "$ ${estadoListaProducto.value[0].precio_normal}", fontSize = 25)
+            Subtitulo(text = "$ ${producto.precio_normal}", fontSize = 25)
             HorizontalDivider(
                 thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer
             )
             Subtitulo(text = "Descripción")
-            Text(text = estadoListaProducto.value[0].descripcion,
+            Text(text = producto.descripcion,
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,)
             Row(modifier = Modifier.padding(vertical = 10.dp)) {
@@ -77,7 +77,7 @@ fun Producto(btVM: BTVM, modifier: Modifier ){
                         .weight(1f)
                 )
                 Text(
-                    text = "${estadoListaProducto.value[0].cantidad}  unidades",
+                    text = "${producto.cantidad}  unidades",
                     style = MaterialTheme.typography.bodySmall,
                     textAlign = TextAlign.Left,
                     modifier = Modifier

@@ -62,7 +62,7 @@ import androidx.compose.ui.text.style.TextAlign
 @Composable
 fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController){
     val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
-    val estadoCantidad by viewModel.estadoCantidad.collectAsState()
+    val estadoCantidad by viewModel.estadoCantidadProductosModelo.collectAsState()
     var showMenu by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -99,7 +99,8 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                             if (index < estadoListaProducto.value.size) {
                                 item {
                                     BotonProducto(
-                                        onClick = { showMenu = true },
+                                        onClick = { viewModel.setEstadoSeleccionado(index)
+                                            showMenu = true},
                                         imagen = estadoListaProducto.value[index].imagen,
                                         nombre = estadoListaProducto.value[index].nombre,
                                         precio_n = estadoListaProducto.value[index].precio_normal,
