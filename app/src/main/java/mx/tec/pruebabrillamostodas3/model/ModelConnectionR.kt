@@ -9,7 +9,7 @@ import io.ktor.client.statement.HttpResponse
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+import java.security.MessageDigest
 
 
 class ModelConnectionR {
@@ -55,6 +55,12 @@ class ModelConnectionR {
         return response
     }
     //Password Recovery Functions
+    fun hash(password: String): String {
+        val bytes = password.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+        return digest.fold("", { str, it -> str + "%02x".format(it) })
+    }
     suspend fun getRecoveryPasswordToken(email: String): ResponseFormat {
         val response: ResponseFormat = service.getRecoveryPasswordToken(email)
         return response
