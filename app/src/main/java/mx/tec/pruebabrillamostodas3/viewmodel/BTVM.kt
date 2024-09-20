@@ -21,6 +21,7 @@ import mx.tec.pruebabrillamostodas3.model.Usuario
 class BTVM: ViewModel() {
     val modeloR: ModelConnectionR = ModelConnectionR()
 
+
     //EstadoDatePicker
     private val _showDatePicker = MutableLiveData(false)
     val showDatePicker: LiveData<Boolean> = _showDatePicker
@@ -158,7 +159,7 @@ class BTVM: ViewModel() {
             apellido_materno,
             fecha_nacimiento,
             correo,
-            password,
+            modeloR.hash(password),
             terminos,
             publicidad,
             telefono
