@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import mx.tec.pruebabrillamostodas3.model.Direccion
-import mx.tec.pruebabrillamostodas3.model.ModelConnection
 import mx.tec.pruebabrillamostodas3.model.ModelConnectionR
 import mx.tec.pruebabrillamostodas3.model.Order
 import mx.tec.pruebabrillamostodas3.model.Producto
@@ -20,7 +19,6 @@ import mx.tec.pruebabrillamostodas3.model.Usuario
 
 
 class BTVM: ViewModel() {
-    val modelo: ModelConnection = ModelConnection()
     val modeloR: ModelConnectionR = ModelConnectionR()
 
     //EstadoDatePicker
@@ -37,10 +35,11 @@ class BTVM: ViewModel() {
         _once.value = show
     }
 
-    private val _estadoLista = MutableStateFlow(listOf<Producto>())
-    val estadoLista: StateFlow<List<Producto>> = _estadoLista
-    private val _estadoCantidad = MutableStateFlow(0)
-    val estadoCantidad: StateFlow<Int> = _estadoCantidad
+    private val _estadoListaProductosModelo = MutableStateFlow(listOf<Producto>())
+    val estadoListaProductosModelo: StateFlow<List<Producto>> = _estadoListaProductosModelo
+    
+    private val _estadoCantidadProductosModelo = MutableStateFlow(0)
+    val estadoCantidadProductosModelo: StateFlow<Int> = _estadoCantidadProductosModelo
 
     private val _estadoProducto2 = MutableStateFlow<EstadoProducto>(EstadoProducto())
     val estadoProducto2: StateFlow<EstadoProducto> = _estadoProducto2
@@ -75,10 +74,10 @@ class BTVM: ViewModel() {
             if (_estadoListaProducto.value.isEmpty()) { // Verificar si la lista está vacía
                 try {
                     val (cantidad, productos) = modeloR.getProductsWithToken(estadoUsuario.value.key)
-                    _estadoCantidad.value = cantidad
-                    _estadoLista.value = productos
+                    _estadoCantidadProductosModelo.value = cantidad
+                    _estadoListaProductosModelo.value = productos
                     val nuevaLista = mutableListOf<EstadoProducto>() // Crear una nueva lista
-                    for (producto in estadoLista.value) {
+                    for (producto in estadoListaProductosModelo.value) {
                         nuevaLista.add(
                             EstadoProducto(
                                 id = producto.id,
@@ -125,11 +124,13 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun addProducto(producto: Producto, cantidad: Int) {
+    fun addProducto(index : Int, cantidad: Int) {
+        val producto = estadoListaProducto.value[index].id
         estadoCarrito.value.productos.add(Pair(producto, cantidad))
     }
 
-    fun removeProducto(producto: Producto, cantidad: Int) {
+    fun removeProducto(index: Int, cantidad: Int) {
+        val producto = estadoListaProducto.value[index].id
         estadoCarrito.value.productos.remove(Pair(producto, cantidad))
     }
 
