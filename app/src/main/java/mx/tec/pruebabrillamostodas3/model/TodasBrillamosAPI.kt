@@ -16,6 +16,7 @@ const val getProductImageEndpoint = "product_images/"
 const val getProductsWithTokenEndpoint = "productos/"
 const val addAddressWithTokenEndpoint = "add/address"
 const val getUserDataWithTokenEndpoint = "get/user_data"
+const val getRecoveryPasswordTokenEndpoint = "recover/password/get_token"
 
 interface TodasBrillamosAPI
 {
@@ -61,4 +62,9 @@ interface TodasBrillamosAPI
     )
     @GET(getUserDataWithTokenEndpoint)
     suspend fun getUserDataWithToken(@Query("user_token") user_token : String) : DataUsuario
+    @GET(getRecoveryPasswordTokenEndpoint)
+    @Headers(
+        "User-Agent:Retrofit"
+    )
+    suspend fun getRecoveryPasswordToken(@Query("in_correo_cliente") in_correo_cliente : String): ResponseFormat
 }

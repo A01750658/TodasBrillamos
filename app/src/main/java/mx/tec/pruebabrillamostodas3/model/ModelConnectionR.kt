@@ -54,6 +54,12 @@ class ModelConnectionR {
         val response : DataUsuario = service.getUserDataWithToken(user_token)
         return response
     }
+    //Password Recovery Functions
+    suspend fun getRecoveryPasswordToken(email: String): ResponseFormat {
+        val response: ResponseFormat = service.getRecoveryPasswordToken(email)
+        return response
+    }
+
 
 
     //Order Functions
@@ -85,11 +91,11 @@ suspend fun main(){
     val dInfo = modelConnection.createDataInfo(p)
     val order = Order(dInfo,201)
     val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker23537676565877654@gmail.com","1234",0,1,"5532532512")
-    println(modelConnection.addOrderWithToken(order,modelConnection.getJWTKey(us.email,us.password).data))
-    println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex",54050,12,12,201)))
+    //println(modelConnection.addOrderWithToken(order,modelConnection.getJWTKey(us.email,us.password).data))
+    //println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex",54050,12,12,201)))
 // val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker2365@gmail.com","1234",0)
     //println(modelConnection.getJWTKey(us.email,us.password))
-    println(modelConnection.signUp(us))
-    println(modelConnection.getUserData(modelConnection.getJWTKey("iker@gmail.com","1234").data))
-
+    //println(modelConnection.signUp(us))
+    //println(modelConnection.getUserData(modelConnection.getJWTKey("iker@gmail.com","1234").data))
+    println(modelConnection.getRecoveryPasswordToken("iker.fuentesreyes@gmail.com"))
 }
