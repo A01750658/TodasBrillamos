@@ -35,17 +35,19 @@ class BTVM: ViewModel() {
         _once.value = show
     }
 
+    //Estado Lista Productos proveniente de modelo
     private val _estadoListaProductosModelo = MutableStateFlow(listOf<Producto>())
     val estadoListaProductosModelo: StateFlow<List<Producto>> = _estadoListaProductosModelo
-    
+    //Estado cantidad de Productos que se van a recibir del modelo
     private val _estadoCantidadProductosModelo = MutableStateFlow(0)
     val estadoCantidadProductosModelo: StateFlow<Int> = _estadoCantidadProductosModelo
 
-    private val _estadoProducto2 = MutableStateFlow<EstadoProducto>(EstadoProducto())
-    val estadoProducto2: StateFlow<EstadoProducto> = _estadoProducto2
+
+    //Estado Lista Productos que se van a mostrar en la vista
     private val _estadoListaProducto = MutableStateFlow(mutableListOf<EstadoProducto>())
     val estadoListaProducto: StateFlow<MutableList<EstadoProducto>> = _estadoListaProducto
-    val estadoListaProducto2: MutableList<EstadoProducto> = mutableListOf<EstadoProducto>()
+
+
     private val _estadoCarrito = MutableStateFlow<Carrito>(Carrito())
     val estadoCarrito: StateFlow<Carrito> = _estadoCarrito
 
