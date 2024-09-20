@@ -15,7 +15,7 @@ data class EstadoUsuario(
     val confirmacion_password: String = "",
     val aviso: Boolean = false,
     val marketing: Boolean = false,
-    val direccion : Direccion = Direccion("","","","",0,0,0,0),
+    val direccion : Direccion = Direccion("","","","","0","0","0",0),
     val key : String = "",
     val id : Int = -1,
     val loading: Boolean = false,

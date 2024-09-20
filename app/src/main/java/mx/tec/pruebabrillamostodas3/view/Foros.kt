@@ -82,7 +82,7 @@ fun Foros(){
                         )
                         //Checar si se puede hacer con searchbar
                         Row {
-                            Inputtexto("", {}, modifier = Modifier.weight(5f))
+                            InputTexto("", {}, modifier = Modifier.weight(5f))
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "Busqueda",

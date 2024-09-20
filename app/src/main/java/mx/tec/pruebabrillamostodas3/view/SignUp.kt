@@ -1,6 +1,5 @@
 package mx.tec.pruebabrillamostodas3.view
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,10 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialogDefaults.containerColor
-import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -24,8 +20,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,18 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun SignUp(btVM: BTVM, navController: NavHostController) {
@@ -89,7 +77,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 .fillMaxWidth()
             )
             Etiqueta("Nombre*", Modifier.padding(bottom = 3.dp))
-            Inputtexto(estado.value.nombre,{
+            InputTexto(estado.value.nombre,{
                 nuevoTexto ->
                 btVM.setIntent(false)
                 if (nuevoTexto.length > 20 || nuevoTexto.any {it.isDigit()}) {
@@ -101,7 +89,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 btVM.setNombreUsuario(valorNombre)
             })
             Etiqueta("Apellido Paterno*", Modifier.padding(bottom = 3.dp))
-            Inputtexto(estado.value.apellido_paterno,
+            InputTexto(estado.value.apellido_paterno,
                 {
                     nuevoTexto ->
                     btVM.setIntent(false)
@@ -114,7 +102,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setApellidoPaternoUsuario(valorApellidoPaterno)
                 })
             Etiqueta("Apellido Materno*", Modifier.padding(bottom = 3.dp))
-            Inputtexto(estado.value.apellido_materno,
+            InputTexto(estado.value.apellido_materno,
                 {
                     nuevoTexto ->
                     btVM.setIntent(false)
@@ -161,7 +149,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             //DatePickerScreen(modifier = Modifier.padding(bottom = 3.dp,start = 16.dp).background(MaterialTheme.colorScheme.onTertiary))
             Etiqueta("Telefono*", Modifier.padding(bottom = 3.dp))
-            Inputtexto(estado.value.telefono,
+            InputTexto(estado.value.telefono,
                 {
                         nuevoTexto ->
                     if (nuevoTexto.length != 10 || nuevoTexto.any {it.isLetter()}) {
@@ -178,7 +166,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
-            Inputtexto(estado.value.correo,
+            InputTexto(estado.value.correo,
                 {
                     nuevoTexto ->
                     if (nuevoTexto.length > 50 || !nuevoTexto.contains("@") || !nuevoTexto.contains(".")) {

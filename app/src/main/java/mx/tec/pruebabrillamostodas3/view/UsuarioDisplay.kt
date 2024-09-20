@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun UsuarioDisplay(text: String, modifier: Modifier=Modifier){
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.onTertiary)

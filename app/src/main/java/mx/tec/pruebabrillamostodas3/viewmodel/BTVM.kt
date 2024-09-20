@@ -4,8 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.net.http.HttpException
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import mx.tec.pruebabrillamostodas3.model.Direccion
-import mx.tec.pruebabrillamostodas3.model.ListaProducto
 import mx.tec.pruebabrillamostodas3.model.ModelConnection
 import mx.tec.pruebabrillamostodas3.model.ModelConnectionR
 import mx.tec.pruebabrillamostodas3.model.Order
@@ -57,6 +54,10 @@ class BTVM: ViewModel() {
     private val _estadoSeleccionado = MutableStateFlow(-1)
     val estadoSeleccionado: StateFlow<Int> = _estadoSeleccionado
 
+    //Estado Expanded
+    private val _estadoExpanded = MutableStateFlow(false)
+    val estadoExpanded: StateFlow<Boolean> = _estadoExpanded
+
 
     //Estado usuario
     private val _estadoUsuario = MutableStateFlow<EstadoUsuario>(EstadoUsuario())
@@ -66,6 +67,8 @@ class BTVM: ViewModel() {
     private val _estadoErrors = MutableStateFlow<EstadoErrors>(EstadoErrors())
     val estadoErrors: StateFlow<EstadoErrors> = _estadoErrors
 
+    private val _estadoCopiaDireccion = MutableStateFlow<Direccion>(Direccion())
+    val estadoCopiaDireccion: StateFlow<Direccion> = _estadoCopiaDireccion
 
     fun getProductos() {
         viewModelScope.launch {
@@ -193,6 +196,9 @@ class BTVM: ViewModel() {
             }
         }
     }
+    fun changeAddress(){
+        _estadoUsuario.value = _estadoUsuario.value.copy(direccion = _estadoCopiaDireccion.value)
+    }
 
     fun openWebPage(url: String, context: Context, startActivity: (Intent) -> Unit) {
         try {
@@ -283,5 +289,36 @@ class BTVM: ViewModel() {
     fun setErrorLengthPassword(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorLengthPassword = b)
     }
+
+    fun copiarDireccion() {
+        _estadoCopiaDireccion.value = _estadoUsuario.value.direccion
+        println(_estadoCopiaDireccion.value.id_usuario)
+    }
+    fun setCalle(calle: String) {
+        _estadoCopiaDireccion.value = _estadoCopiaDireccion.value.copy(calle = calle)
+    }
+    fun setColonia(colonia: String) {
+        _estadoCopiaDireccion.value = _estadoCopiaDireccion.value.copy(colonia = colonia)
+    }
+    fun setMunicipio(municipio: String) {
+        _estadoCopiaDireccion.value = _estadoCopiaDireccion.value.copy(municipio = municipio)
+    }
+    fun setEstado(estado:String) {
+        _estadoCopiaDireccion.value = _estadoCopiaDireccion.value.copy(estado = estado)
+    }
+    fun setCp(cp: String) {
+        _estadoCopiaDireccion.value = _estadoCopiaDireccion.value.copy(cp = cp)
+    }
+    fun setNumeroExt(num:String){
+        _estadoCopiaDireccion.value = _estadoCopiaDireccion.value.copy(numero_exterior = num)
+    }
+    fun setNumeroInt(num:String){
+        _estadoCopiaDireccion.value = _estadoCopiaDireccion.value.copy(numero_int = num)
+    }
+    fun setExpanded(expanded: Boolean) {
+        _estadoExpanded.value = expanded
+    }
+
+
 
 }
