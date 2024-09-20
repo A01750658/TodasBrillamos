@@ -54,14 +54,24 @@ class ModelConnectionR {
         val response : DataUsuario = service.getUserDataWithToken(user_token)
         return response
     }
+    //Password Recovery Functions
+    suspend fun getRecoveryPasswordToken(email: String): ResponseFormat {
+        val response: ResponseFormat = service.getRecoveryPasswordToken(email)
+        return response
+    }
+    suspend fun changePassword(code: Int, email: String, password: String): ResponseFormat {
+        val response: ResponseFormat = service.changePassword(ChangePassword(code, email, password))
+        return response
+    }
+
 
 
     //Order Functions
-    fun createDataInfo(productos: MutableList<Pair<Producto, Int>>): String {
+    fun createDataInfo(productos: MutableList<Pair<Int, Int>>): String {
         var id_productos: String = ""
         var cantidad_producto: String = ""
         for (producto in productos) {
-            id_productos += "${producto.first.id},"
+            id_productos += "${producto.first},"
             cantidad_producto += "${producto.second},"
         }
         val result = id_productos.dropLast(1) + ";" + cantidad_producto.dropLast(1)
@@ -78,18 +88,19 @@ class ModelConnectionR {
 suspend fun main(){
     val modelConnection = ModelConnectionR()
     val lista : List<Producto> = modelConnection.getProductsWithToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlckBnbWFpbC5jb207MTIzNCIsImlhdCI6MTcyNjQ5ODg3NiwiZXhwIjoxNzI2NDk5MTc2fQ.KCwualrayru-DSqHG-Zi5IpXc3TPx8LDb1EvKOtWymA").second
-    val p :MutableList<Pair<Producto,Int>> = mutableListOf()
+    val p :MutableList<Pair<Int,Int>> = mutableListOf()
     for (i in lista){
-        p.add(Pair(i,1))
+        p.add(Pair(i.id,1))
     }
     val dInfo = modelConnection.createDataInfo(p)
     val order = Order(dInfo,201)
     val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker23537676565877654@gmail.com","1234",0,1,"5532532512")
-    println(modelConnection.addOrderWithToken(order,modelConnection.getJWTKey(us.email,us.password).data))
+    //println(modelConnection.addOrderWithToken(order,modelConnection.getJWTKey(us.email,us.password).data))
     println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex","54050","12","12",201)))
-// val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker2365@gmail.com","1234",0)
+    // val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker2365@gmail.com","1234",0)
     //println(modelConnection.getJWTKey(us.email,us.password))
-    println(modelConnection.signUp(us))
-    println(modelConnection.getUserData(modelConnection.getJWTKey("iker@gmail.com","1234").data))
-
+    //println(modelConnection.signUp(us))
+    //println(modelConnection.getUserData(modelConnection.getJWTKey("iker@gmail.com","1234").data))
+    //println(modelConnection.getRecoveryPasswordToken("iker.fuentesreyes@gmail.com"))
+    println(modelConnection.changePassword(109076427,"iker.fuentesreyes@gmail.com","777"))
 }
