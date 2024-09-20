@@ -51,14 +51,14 @@ fun CrearForo(onClick: () -> Unit) {
                 color = Color.Black,
                 padding = 30
             )
-            Inputtexto("", {}, modifier = Modifier.padding(bottom = 16.dp))
+            InputTexto("", {}, modifier = Modifier.padding(bottom = 16.dp))
             Etiqueta(
                 "Pregunta",
                 Modifier.padding(bottom = 3.dp),
                 color = Color.Black,
                 padding = 30
             )
-            Inputtexto("", {}, modifier = Modifier.padding(bottom = 16.dp))
+            InputTexto("", {}, modifier = Modifier.padding(bottom = 16.dp))
             TextButton(
                 onClick = { /*TODO*/ },
                 Modifier.padding(horizontal = 100.dp)

@@ -152,7 +152,7 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
             Carrito(btVM)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
-            EditarDireccion(btVM)
+            EditarDireccion(btVM,navController)
         }
     }
 }

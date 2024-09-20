@@ -158,19 +158,21 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.onTertiary)) {
                     Text(
-                        "${estado.value.direccion.calle}, ${estado.value.direccion.numero_ext}, Num Int ${estado.value.direccion.numero_int}, ${estado.value.direccion.colonia}, ${estado.value.direccion.municipio}, ${estado.value.direccion.estado}, C.P. ${estado.value.direccion.cp}",
+                        "${estado.value.direccion.calle} #${estado.value.direccion.numero_exterior}, Int ${estado.value.direccion.numero_int}, ${estado.value.direccion.colonia}, ${estado.value.direccion.municipio}, ${estado.value.direccion.estado}, C.P. ${estado.value.direccion.cp}",
                         modifier = Modifier
                             .padding(start = 10.dp)
                             .padding(vertical = 20.dp)
                             .weight(5f),
                         style = MaterialTheme.typography.bodySmall,
-                        textAlign = TextAlign.Center,
-                        color = Color.Black
+                        textAlign = TextAlign.Left,
+                        color = Color.Black,
+                        maxLines = 5
                     )
                     ElevatedButton(
-                        onClick = { navController.navigate(Pantallas.RUTA_EDITAR_DIRECCION) },
+                        onClick = { btVM.copiarDireccion()
+                            navController.navigate(Pantallas.RUTA_EDITAR_DIRECCION) },
                         modifier = Modifier
-                            .padding(vertical = 20.dp)
+                            .padding(top = 50.dp, bottom = 25.dp)
                             .padding(horizontal = 10.dp)
                             .height(50.dp)
                             .width(110.dp),
