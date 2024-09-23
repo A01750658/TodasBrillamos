@@ -38,7 +38,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
@@ -47,6 +49,8 @@ import com.paypal.base.rest.APIContext
 
 @Composable
 fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: Uri?){
+
+    val estadoCarrito by viewModel.estadoCarrito.collectAsState()
 
     var paymentStatus by remember { mutableStateOf("Idle") }
     var approvalUrl by remember { mutableStateOf<String?>(null) }
@@ -103,7 +107,7 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                     .size(100.dp)
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
-                )
+            )
             HorizontalDivider(
                 thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer
@@ -116,26 +120,32 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
             LazyColumn(Modifier.fillMaxWidth()) {
                 item {
                     Row(Modifier.fillMaxWidth()) {
-                        Text(text = "Total a pagar: ",
+                        Text(
+                            text = "Total a pagar: ",
                             style = MaterialTheme.typography.bodyMedium,
                             textAlign = TextAlign.Right,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .weight(6f))
-                        Text(text = "$9999.99",
+                                .weight(6f)
+                        )
+                        Text(
+                            text = "$9999.99",
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .weight(2f))
+                                .weight(2f)
+                        )
                     }
                 }
-                item{
-                    ElevatedCard(modifier = Modifier
-                        .padding(8.dp),
+                item {
+                    ElevatedCard(
+                        modifier = Modifier
+                            .padding(8.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             contentColor = MaterialTheme.colorScheme.onTertiary
-                        )) {
+                        )
+                    ) {
                         Row {
                             Text(
                                 text = "Productos",
@@ -158,47 +168,47 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                         }
                     }
                 }
-                for (i in 1 .. 5) {
-                    item {
-                        ElevatedCard(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .padding(bottom = 4.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiary
+                items(estadoCarrito.productos) { producto ->
+                    ElevatedCard(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .padding(bottom = 4.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onTertiary
+                        )
+                    ) {
+                        Row {
+                            Text(
+                                text = "Producto ${producto.first}",
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(24.dp)
+                                    .weight(3f),
+                                style = MaterialTheme.typography.bodyMedium
                             )
-                        ) {
-                            Row {
-                                Text(
-                                    text = "Producto $i",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(24.dp)
-                                        .weight(3f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = "Precio $i",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                            }
+                            Text(
+                                text = "Precio ${producto.second}",
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(24.dp)
+                                    .weight(2f),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
                         }
                     }
                 }
-                item{
-                    ElevatedCard(modifier = Modifier
-                        .padding(8.dp),
+                item {
+                    ElevatedCard(
+                        modifier = Modifier
+                            .padding(8.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.tertiary,
                             contentColor = MaterialTheme.colorScheme.onTertiary
-                        )) {
+                        )
+                    ) {
                         Row {
                             Text(
                                 text = "Total:",
@@ -221,12 +231,12 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                         }
                     }
                 }
-                item { 
+                item {
                     Spacer(modifier = Modifier.padding(35.dp))
                 }
             }
-
         }
+
         FloatingActionButton(
             onClick = {
                 paymentsViewModel.createPayment(
