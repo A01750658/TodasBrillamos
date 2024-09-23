@@ -1,5 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -45,13 +46,15 @@ import androidx.navigation.compose.rememberNavController
 import com.paypal.base.rest.APIContext
 
 @Composable
-fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, navController: NavController = rememberNavController()){
+fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: Uri?){
 
     var paymentStatus by remember { mutableStateOf("Idle") }
     var approvalUrl by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
 
-    val deepLinkUri by rememberUpdatedState((context as? ComponentActivity)?.intent?.data)
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val savedDeepLinkUriString = sharedPreferences.getString("deep_link_uri", null)
+    val deepLinkUri = savedDeepLinkUriString?.let { Uri.parse(it) }
 
     LaunchedEffect(deepLinkUri) {
         println("Shit entered the LaunchedEffect")
@@ -66,10 +69,12 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, navController
                         paymentStatus = "Payment successful: ${payment.id}"
                         println(paymentStatus)
                         // Clear the deep link data to prevent re-execution
-                        (context as? ComponentActivity)?.intent?.data = null
+                        //(context as? ComponentActivity)?.intent?.data = null
+                        sharedPreferences.edit().remove("deep_link_uri").apply()
                     },
                     onError = { error ->
                         paymentStatus = "Failed to execute payment: ${error.message}"
+                        sharedPreferences.edit().remove("deep_link_uri").apply()
                         println(paymentStatus)
                     }
                 )

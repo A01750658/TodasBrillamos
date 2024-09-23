@@ -1,5 +1,7 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.net.Uri
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -34,7 +36,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
  */
 
 @Composable
-fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel,modifier: Modifier = Modifier){
+fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier){
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
@@ -44,6 +46,8 @@ fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel,modifier: Modifier = Modifier
                 btVM,
                 paymentsVM,
                 navController,
+                flag,
+                savedDeepLinkUri,
                 modifier.padding(innerPadding)
             )
         }
@@ -116,9 +120,10 @@ fun AppBottomBar(navController: NavHostController) {
 }
 
 @Composable
-fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, modifier: Modifier = Modifier) {
+fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier) {
+
     NavHost(navController = navController,
-        startDestination = Pantallas.RUTA_LOGIN,
+        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
             Home(btVM, navController)
@@ -151,7 +156,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             AvisoyLeyenda()
         }
         composable(Pantallas.RUTA_CARRITO){
-            Carrito(btVM, paymentsVM)
+            Carrito(btVM, paymentsVM, savedDeepLinkUri)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController)
