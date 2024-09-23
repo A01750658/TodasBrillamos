@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun UsuarioDisplay(text: String, modifier: Modifier=Modifier){
+fun UsuarioDisplay(text: String, modifier: Modifier=Modifier, fontSize: Int = 22){
     Column(
         modifier = modifier.fillMaxWidth()
             .padding(horizontal = 16.dp)
@@ -30,7 +30,7 @@ fun UsuarioDisplay(text: String, modifier: Modifier=Modifier){
             text = text,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            fontSize = 22.sp
+            fontSize = fontSize.sp
         )
     }
 }

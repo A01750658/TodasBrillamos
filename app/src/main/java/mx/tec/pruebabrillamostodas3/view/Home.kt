@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +43,8 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 @Composable
 fun Home(btVM: BTVM, navController: NavHostController){
     val scrollState = rememberScrollState()
+    val configuration = LocalConfiguration.current
+    val screenOrientation = configuration.orientation
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -73,10 +76,10 @@ fun Home(btVM: BTVM, navController: NavHostController){
               Text(text = "Encuentra la mejor información disponible para ti, acerca de la menstrua" +
                       "ción, sus ciclos y más con nuestro equipo de investigación.\n" +
                       "Tampoco olvides visitar los productos que tenemos disponibles para ti.",
-                  textAlign = TextAlign.Center,
-                  style = MaterialTheme.typography.bodySmall,
+                  textAlign = TextAlign.Justify,
+                  style = MaterialTheme.typography.bodyMedium,
                   modifier = Modifier
-                      .padding(start = 10.dp, bottom = 10.dp, end = 10.dp)
+                      .padding(start = 15.dp, bottom = 10.dp, end = 15.dp)
                       .fillMaxWidth())
           }
           BotonTextandIcon(text = "Ver Catálogo", icon = Icons.Default.ShoppingCart, onClick = {navController.navigate(Pantallas.RUTA_TIENDA){
@@ -86,9 +89,9 @@ fun Home(btVM: BTVM, navController: NavHostController){
               launchSingleTop = true
               restoreState = true
           }
-          })
-          BotonTextandIcon(text = "Conoce más información",icon = Icons.Default.Info, onClick = {navController.navigate(Pantallas.RUTA_INFO)},color = MaterialTheme.colorScheme.primaryContainer, fontSize = 20)
-          BotonTextandIcon(text = "Contactanos", icon = Icons.Default.Person, onClick = { navController.navigate(Pantallas.RUTA_CONTACTO)}, color = MaterialTheme.colorScheme.secondaryContainer)
+          }, fontSize = if (screenOrientation == 1) 25 else 40)
+          BotonTextandIcon(text = " Conócenos",icon = Icons.Default.Info, onClick = {navController.navigate(Pantallas.RUTA_INFO)},color = MaterialTheme.colorScheme.primaryContainer, fontSize = if (screenOrientation == 1) 25 else 40)
+          BotonTextandIcon(text = "Contactanos", icon = Icons.Default.Person, onClick = { navController.navigate(Pantallas.RUTA_CONTACTO)}, color = MaterialTheme.colorScheme.secondaryContainer,fontSize = if (screenOrientation == 1) 25 else 40)
       }
     }
 }

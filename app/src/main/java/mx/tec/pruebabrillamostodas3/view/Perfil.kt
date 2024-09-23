@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,6 +45,8 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 fun Perfil(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
+    val configuration = LocalConfiguration.current
+    val screenOrientation = configuration.orientation
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -90,7 +93,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
                 )
-                UsuarioDisplay(text = estado.value.nombre)
+                UsuarioDisplay(text = estado.value.nombre, fontSize = if( screenOrientation == 1) 22 else 35)
                 Spacer(
                     modifier = Modifier
                         .padding(6.dp)
@@ -104,7 +107,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                             color = MaterialTheme.colorScheme.onTertiary,
                             padding = 16
                         )
-                        UsuarioDisplay(text = estado.value.apellido_paterno)
+                        UsuarioDisplay(text = estado.value.apellido_paterno, fontSize = if( screenOrientation == 1) 22 else 35)
                     }
                     Column(modifier = Modifier.weight(1f)) {
                         Etiqueta(
@@ -113,7 +116,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                             color = MaterialTheme.colorScheme.onTertiary,
                             padding = 16
                         )
-                        UsuarioDisplay(text = estado.value.apellido_materno)
+                        UsuarioDisplay(text = estado.value.apellido_materno, fontSize = if( screenOrientation == 1) 22 else 35)
                     }
                 }
                 Spacer(
@@ -127,7 +130,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
                 )
-                UsuarioDisplay(text = estado.value.correo)
+                UsuarioDisplay(text = estado.value.correo, fontSize = if( screenOrientation == 1) 22 else 35)
                 Spacer(
                     modifier = Modifier
                         .padding(6.dp)
@@ -139,7 +142,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
                 )
-                UsuarioDisplay(text = estado.value.telefono)
+                UsuarioDisplay(text = estado.value.telefono, fontSize = if( screenOrientation == 1) 22 else 35)
                 Spacer(
                     modifier = Modifier
                         .padding(10.dp)
@@ -166,7 +169,8 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                         style = MaterialTheme.typography.bodySmall,
                         textAlign = TextAlign.Left,
                         color = Color.Black,
-                        maxLines = 5
+                        maxLines = 5,
+                        fontSize = if (screenOrientation == 1) 15.sp else 25.sp
                     )
                     ElevatedButton(
                         onClick = { btVM.copiarDireccion()

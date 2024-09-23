@@ -33,13 +33,16 @@ fun BotonTextandIcon(text: String, icon: ImageVector, onClick: () -> Unit, modif
         horizontalArrangement = androidx.compose.foundation.layout.Arrangement.Center
     ){
         Text(text = text,
-            textAlign = TextAlign.Right,
+            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onTertiary,
             fontSize = fontSize.sp,
             modifier = Modifier
-                .padding(10.dp)
+                .padding(start = 3.dp)
+                .padding(vertical = 10.dp)
                 .align(Alignment.CenterVertically)
+                .fillMaxWidth()
+                .weight(5f)
         )
         Icon(
             imageVector = icon,
@@ -47,8 +50,11 @@ fun BotonTextandIcon(text: String, icon: ImageVector, onClick: () -> Unit, modif
             tint = MaterialTheme.colorScheme.onTertiary,
             modifier = Modifier
                 .padding(10.dp)
+                .padding(end=10.dp)
                 .size(50.dp)
                 .align(Alignment.CenterVertically)
+                .fillMaxWidth()
+                .weight(2f)
         )
     }
 }

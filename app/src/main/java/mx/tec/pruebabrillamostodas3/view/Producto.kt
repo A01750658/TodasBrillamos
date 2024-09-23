@@ -39,7 +39,8 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 @Composable
 fun Producto(btVM: BTVM, modifier: Modifier ){
-    var producto = btVM.getSelectedProduct()
+    val estadoSeleccionado by btVM.estadoSeleccionado.collectAsState()
+    val estadoListaProducto by btVM.estadoListaProducto.collectAsState()
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -48,9 +49,9 @@ fun Producto(btVM: BTVM, modifier: Modifier ){
             //verticalArrangement = Arrangement.Center
         ){
 
-            Titulo(titulo = producto.nombre)
+            Titulo(titulo = estadoListaProducto[estadoSeleccionado].nombre)
             androidx.compose.foundation.Image(
-                painter = BitmapPainter(Image(producto.imagen).asImageBitmap()),
+                painter = BitmapPainter(Image(estadoListaProducto[estadoSeleccionado].imagen).asImageBitmap()),
                 contentDescription = "Elemento",
                 modifier = modifier.border(
                     2.dp,
@@ -58,13 +59,13 @@ fun Producto(btVM: BTVM, modifier: Modifier ){
                     RoundedCornerShape(25)
                 )
             )
-            Subtitulo(text = "$ ${producto.precio_normal}", fontSize = 25)
+            Subtitulo(text = "$ ${estadoListaProducto[estadoSeleccionado].precio_normal}", fontSize = 25)
             HorizontalDivider(
                 thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer
             )
             Subtitulo(text = "Descripción")
-            Text(text = producto.descripcion,
+            Text(text = estadoListaProducto[estadoSeleccionado].descripcion,
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,)
             Row(modifier = Modifier.padding(vertical = 10.dp)) {
@@ -77,7 +78,7 @@ fun Producto(btVM: BTVM, modifier: Modifier ){
                         .weight(1f)
                 )
                 Text(
-                    text = "${producto.cantidad}  unidades",
+                    text = "${estadoListaProducto[estadoSeleccionado].cantidad}  unidades",
                     style = MaterialTheme.typography.bodySmall,
                     textAlign = TextAlign.Left,
                     modifier = Modifier
