@@ -27,13 +27,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
  * @author Alan Vega
  */
 
 @Composable
-fun Main(btVM: BTVM, modifier: Modifier = Modifier){
+fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel,modifier: Modifier = Modifier){
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
@@ -41,6 +42,7 @@ fun Main(btVM: BTVM, modifier: Modifier = Modifier){
             innerPadding ->
             AppNavHost(
                 btVM,
+                paymentsVM,
                 navController,
                 modifier.padding(innerPadding)
             )
@@ -114,7 +116,7 @@ fun AppBottomBar(navController: NavHostController) {
 }
 
 @Composable
-fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier) {
+fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController,
         startDestination = Pantallas.RUTA_LOGIN,
         modifier = modifier,){
@@ -149,7 +151,7 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
             AvisoyLeyenda()
         }
         composable(Pantallas.RUTA_CARRITO){
-            Carrito(btVM)
+            Carrito(btVM, paymentsVM)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController)

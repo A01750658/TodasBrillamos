@@ -323,6 +323,9 @@ class BTVM: ViewModel() {
         _estadoExpanded.value = expanded
     }
 
+    fun getEstadoUsuario() : EstadoUsuario{
+        return _estadoUsuario.value
+    }
 
 
 }

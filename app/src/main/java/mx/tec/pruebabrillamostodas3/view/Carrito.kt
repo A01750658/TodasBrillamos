@@ -28,9 +28,55 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
+import android.content.Intent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import android.net.Uri
+import androidx.activity.ComponentActivity
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.paypal.base.rest.APIContext
 
 @Composable
-fun Carrito(viewModel: BTVM,){
+fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, navController: NavController = rememberNavController()){
+
+    var paymentStatus by remember { mutableStateOf("Idle") }
+    var approvalUrl by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current
+
+    val deepLinkUri by rememberUpdatedState((context as? ComponentActivity)?.intent?.data)
+
+    LaunchedEffect(deepLinkUri) {
+        println("Shit entered the LaunchedEffect")
+        deepLinkUri?.let { uri ->
+            val paymentId = extractPaymentId(uri)
+            val payerId = extractPayerId(uri)
+            if (paymentId.isNotEmpty() && payerId.isNotEmpty()) {
+                paymentsViewModel.executePayment(
+                    paymentId = paymentId,
+                    payerId = payerId,
+                    onSuccess = { payment ->
+                        paymentStatus = "Payment successful: ${payment.id}"
+                        println(paymentStatus)
+                        // Clear the deep link data to prevent re-execution
+                        (context as? ComponentActivity)?.intent?.data = null
+                    },
+                    onError = { error ->
+                        paymentStatus = "Failed to execute payment: ${error.message}"
+                        println(paymentStatus)
+                    }
+                )
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -177,7 +223,30 @@ fun Carrito(viewModel: BTVM,){
 
         }
         FloatingActionButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                paymentsViewModel.createPayment(
+                    total = "10.00",
+                    currency = "USD",
+                    method = "paypal",
+                    intent = "sale",
+                    description = "Payment description",
+                    cancelUrl = "http://localhost:8080/cancel",
+                    successUrl = "myapp://payment",
+                    onSuccess = { url ->
+                        approvalUrl = url
+                        println(approvalUrl)
+                        println(viewModel.getEstadoUsuario())
+                        paymentStatus = "Redirecting to PayPal for approval"
+                        println(paymentStatus)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        context.startActivity(intent)
+                        println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
+                    },
+                    onError = { error ->
+                        paymentStatus = "Failed to create payment: ${error.message}"
+                    }
+                )
+            },
             containerColor = MaterialTheme.colorScheme.primary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             modifier = Modifier
@@ -193,4 +262,17 @@ fun Carrito(viewModel: BTVM,){
                 color = MaterialTheme.colorScheme.onTertiary)
         }
     }
+}
+
+
+fun extractPaymentId(uri: Uri): String {
+    // Extract paymentId from the URI
+    // Example: myapp://payment?paymentId=PAYID-12345&token=EC-12345&PayerID=12345
+    return uri.getQueryParameter("paymentId") ?: ""
+}
+
+fun extractPayerId(uri: Uri): String {
+    // Extract payerId from the URI
+    // Example: myapp://payment?paymentId=PAYID-12345&token=EC-12345&PayerID=12345
+    return uri.getQueryParameter("PayerID") ?: ""
 }
