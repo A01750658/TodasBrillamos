@@ -33,9 +33,10 @@ import androidx.compose.ui.unit.dp
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.navigation.NavController
 
 @Composable
-fun Producto(btVM: BTVM, modifier: Modifier ){
+fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
     val estadoSeleccionado by btVM.estadoSeleccionado.collectAsState()
     val estadoListaProducto by btVM.estadoListaProducto.collectAsState()
     val estadoAñadirProducto by btVM.estadoAñadirCarrito.collectAsState()
@@ -138,7 +139,12 @@ fun Producto(btVM: BTVM, modifier: Modifier ){
             }
             item {
                 ElevatedButton(
-                    onClick = { btVM.addProducto(estadoSeleccionado, estadoAñadirProducto.second) }, colors = ButtonDefaults.buttonColors(
+                    onClick = {
+                        println("Añadiendo producto $estadoSeleccionado")
+                        btVM.addProducto(estadoSeleccionado, estadoAñadirProducto.second)
+                        navController.navigate("Carrito")
+                              },
+                    colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.tertiary,
                         contentColor = MaterialTheme.colorScheme.onTertiary
                     )

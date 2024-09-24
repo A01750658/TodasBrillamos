@@ -38,19 +38,28 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.border
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.paypal.base.rest.APIContext
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 
 @Composable
 fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: Uri?){
 
     val estadoCarrito by viewModel.estadoCarrito.collectAsState()
+    val estadoListaProducto by viewModel.estadoListaProducto.collectAsState()
 
     var paymentStatus by remember { mutableStateOf("Idle") }
     var approvalUrl by remember { mutableStateOf<String?>(null) }
@@ -59,6 +68,11 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val savedDeepLinkUriString = sharedPreferences.getString("deep_link_uri", null)
     val deepLinkUri = savedDeepLinkUriString?.let { Uri.parse(it) }
+
+    var total=0
+    for (producto in estadoCarrito.productos){
+        total += estadoListaProducto[producto.first].precio_normal*producto.second
+    }
 
     LaunchedEffect(deepLinkUri) {
         println("Shit entered the LaunchedEffect")
@@ -129,7 +143,7 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                                 .weight(6f)
                         )
                         Text(
-                            text = "$9999.99",
+                            text = " $" +total.toString(),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -148,20 +162,29 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                     ) {
                         Row {
                             Text(
-                                text = "Productos",
+                                text = "Producto",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(24.dp)
+                                    .padding(vertical = 24.dp)
                                     .weight(3f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "Precio",
+                                text = "#",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(24.dp)
+                                    .padding(vertical = 24.dp)
+                                    .weight(2f),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            Text(
+                                text = "$",
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 24.dp)
                                     .weight(2f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
@@ -179,21 +202,41 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                         )
                     ) {
                         Row {
+                            Column(modifier = Modifier.weight(3f),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    painter = BitmapPainter(Image(estadoListaProducto[producto.first].imagen).asImageBitmap()),
+                                    contentDescription = "Elemento",
+                                    modifier = Modifier
+                                        .width(60.dp)
+                                        .height(70.dp)
+                                        .padding(top= 30.dp)
+                                )
+                                Text(
+                                    text = estadoListaProducto[producto.first].nombre,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                             Text(
-                                text = "Producto ${producto.first}",
+                                text = producto.second.toString(),
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(24.dp)
-                                    .weight(3f),
+                                    .padding(top = 95.dp)
+                                    .weight(2f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "Precio ${producto.second}",
+                                text = "$${estadoListaProducto[producto.first].precio_normal*producto.second}",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(24.dp)
+                                    .padding(top = 95.dp)
                                     .weight(2f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
@@ -220,7 +263,7 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "$9999.99",
+                                text = "$"+ total.toString(),
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()

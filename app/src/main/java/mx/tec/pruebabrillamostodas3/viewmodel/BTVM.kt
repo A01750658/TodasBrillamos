@@ -132,9 +132,8 @@ class BTVM: ViewModel() {
     }
 
     fun addProducto(index : Int, cantidad: Int) {
-        val producto = estadoListaProducto.value[index].id
-        estadoCarrito.value.productos.add(Pair(producto, cantidad))
-        estadoListaProducto.value[index] = estadoListaProducto.value[index].copy(cantidad = estadoListaProducto.value[index].cantidad - 1 )
+        estadoCarrito.value.productos.add(Pair(index, cantidad))
+        estadoListaProducto.value[index] = estadoListaProducto.value[index].copy(cantidad = estadoListaProducto.value[index].cantidad - cantidad )
     }
 
     fun removeProducto(index: Int, cantidad: Int) {

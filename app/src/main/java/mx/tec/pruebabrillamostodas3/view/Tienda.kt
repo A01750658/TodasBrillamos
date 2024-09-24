@@ -144,7 +144,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
             ModalBottomSheet(
                 onDismissRequest = { showMenu = false }
             ) {
-                Producto(viewModel, modifier)
+                Producto(viewModel, modifier, navController)
             }
         }
     }
