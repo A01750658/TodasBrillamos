@@ -1,6 +1,5 @@
 package mx.tec.pruebabrillamostodas3.view
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -22,12 +22,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +58,9 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 @Composable
 fun EditarDireccion(btVM: BTVM, navController: NavHostController){
+    val scrollState = rememberScrollState()
+    val scrollPosition = scrollState.value
+    val maxScrollPosition = scrollState.maxValue
     val estado = btVM.estadoCopiaDireccion.collectAsState()
     val estado_expanded = btVM.estadoExpanded.collectAsState()
     var selectedOptionText by remember { mutableStateOf(estado.value.estado) }
@@ -156,112 +162,123 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                     modifier = Modifier.padding(bottom = 16.dp),
                     color = MaterialTheme.colorScheme.onTertiary,
                 )
-                LazyColumn (
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                ) {
-                    item { Etiqueta("Calle*") }
-                    item {
-                        InputTexto(estado.value.calle,
-                            { nuevoTexto -> btVM.setCalle(nuevoTexto) })
-                    }
-                    item {
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Etiqueta("Numero Exterior*")
-                                InputTexto(
-                                    estado.value.numero_exterior,
-                                    { nuevoTexto -> btVM.setNumeroExt(nuevoTexto) },
-                                    keyBoardType = KeyboardType.Number
-                                )
-                            }
-                            Column(modifier = Modifier.weight(1f)) {
-                                Etiqueta("Numero Interior")
-                                InputTexto(
-                                    estado.value.numero_int,
-                                    { nuevoTexto -> btVM.setNumeroInt(nuevoTexto) })
-                            }
+                Column (modifier = Modifier.verticalScroll(scrollState)) {
+
+                    Etiqueta("Calle*")
+                    InputTexto(estado.value.calle,
+                        { nuevoTexto -> btVM.setCalle(nuevoTexto) })
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Etiqueta("Numero Exterior*")
+                            InputTexto(
+                                estado.value.numero_exterior,
+                                { nuevoTexto -> btVM.setNumeroExt(nuevoTexto) },
+                                keyBoardType = KeyboardType.Number
+                            )
+                        }
+                        Column(modifier = Modifier.weight(1f)) {
+                            Etiqueta("Numero Interior")
+                            InputTexto(
+                                estado.value.numero_int,
+                                { nuevoTexto -> btVM.setNumeroInt(nuevoTexto) })
                         }
                     }
-                    item { Etiqueta("Colonia*") }
-                    item {
-                        InputTexto(estado.value.colonia,
-                            { nuevoTexto -> btVM.setColonia(nuevoTexto) })
-                    }
-                    item { Etiqueta("Municipio*") }
-                    item {
-                        InputTexto(estado.value.municipio,
-                            { nuevoTexto -> btVM.setMunicipio(nuevoTexto) })
-                    }
-                    item { Etiqueta("Codigo Postal*") }
-                    item {
-                        InputTexto(
-                            estado.value.cp,
-                            { nuevoTexto -> btVM.setCp(nuevoTexto) },
-                            keyBoardType = KeyboardType.Number
-                        )
-                    }
-                    item { Etiqueta("Estado*") }
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentSize(Alignment.TopStart)
-                                .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-                                .clip(RoundedCornerShape(50.dp))
-                                .clickable(onClick = { btVM.setExpanded(true) })
-                                .background(color = MaterialTheme.colorScheme.onTertiary)
+                    Etiqueta("Colonia*")
+                    InputTexto(estado.value.colonia,
+                        { nuevoTexto -> btVM.setColonia(nuevoTexto) })
 
-                        ) {
-                            Row(modifier = Modifier
+                    Etiqueta("Municipio*")
+                    InputTexto(estado.value.municipio,
+                        { nuevoTexto -> btVM.setMunicipio(nuevoTexto) })
+                    Etiqueta("Codigo Postal*")
+                    InputTexto(
+                        estado.value.cp,
+                        { nuevoTexto -> btVM.setCp(nuevoTexto) },
+                        keyBoardType = KeyboardType.Number
+                    )
+                    Etiqueta("Estado*")
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(Alignment.TopStart)
+                            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                            .clip(RoundedCornerShape(50.dp))
+                            .clickable(onClick = { btVM.setExpanded(true) })
+                            .background(color = MaterialTheme.colorScheme.onTertiary)
+
+                    ) {
+                        Row(
+                            modifier = Modifier
                                 .padding(horizontal = 16.dp)
-                                .fillMaxWidth()) {
-                                UsuarioDisplay(text =selectedOptionText,modifier = Modifier.weight(4f))
-                                Icon(imageVector =Icons.Default.ArrowDropDown , contentDescription ="" ,modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            UsuarioDisplay(
+                                text = selectedOptionText,
+                                modifier = Modifier.weight(4f)
+                            )
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = "",
+                                modifier = Modifier
                                     .padding(top = 10.dp)
                                     .size(30.dp)
-                                    .weight(1f))
-                            }
-                            DropdownMenu(
-                                expanded = estado_expanded.value,
-                                onDismissRequest = { btVM.setExpanded(false) },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                            ) {
-                                estadosMexico.forEach { selectionOption ->
-                                    DropdownMenuItem(
-                                        onClick = {
-                                            selectedOptionText = selectionOption
-                                            btVM.setEstado(selectionOption)
-                                            btVM.setExpanded(false)
-                                        },
-                                        text = { Text(selectionOption) }
-                                    )
-                                }
+                                    .weight(1f)
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = estado_expanded.value,
+                            onDismissRequest = { btVM.setExpanded(false) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            estadosMexico.forEach { selectionOption ->
+                                DropdownMenuItem(
+                                    onClick = {
+                                        selectedOptionText = selectionOption
+                                        btVM.setEstado(selectionOption)
+                                        btVM.setExpanded(false)
+                                    },
+                                    text = { Text(selectionOption) }
+                                )
                             }
                         }
                     }
+
                     //item{InputTexto(estado.value.estado,{ nuevoTexto -> btVM.setEstado(nuevoTexto)})}
-                    item {
-                        ElevatedButton(
-                            {
-                                btVM.changeAddress()
-                                navController.navigateUp()
-                            },
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary),
-                        ) {
-                            Text(text = "Guardar", color = MaterialTheme.colorScheme.onTertiary)
-                        }
+                    ElevatedButton(
+                        {
+                            btVM.changeAddress()
+                            navController.navigateUp()
+                        },
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary),
+                    ) {
+                        Text(text = "Guardar", color = MaterialTheme.colorScheme.onTertiary)
                     }
                 }
-                Spacer(modifier = Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth())
+            }
+        }
+        if(scrollPosition != maxScrollPosition) {
+            Box(modifier = Modifier
+                .clip(RoundedCornerShape(50.dp))
+                .offset(x = 16.dp, y = 16.dp)
+                .padding(bottom = 20.dp, end = 20.dp)
+                .align(Alignment.BottomEnd)
+                .background(MaterialTheme.colorScheme.tertiary)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Generar",
+                    Modifier.size(30.dp),
+                    tint = MaterialTheme.colorScheme.onTertiary
+                )
+
             }
         }
     }
+    Spacer(modifier = Modifier.padding(bottom = 5.dp))
 }
