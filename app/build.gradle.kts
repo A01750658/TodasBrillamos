@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.foundation.desktop)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

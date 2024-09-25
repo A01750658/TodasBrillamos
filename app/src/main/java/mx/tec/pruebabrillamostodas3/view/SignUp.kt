@@ -280,7 +280,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     //Aquí registrarse entonces xd
                     val fecha = "%02d/%02d/%04d".format(day, month, year)
                     btVM.signUp(valorNombre, valorApellidoPaterno, valorApellidoMaterno, fecha, valorCorreo, valorPassword, valorAvisos, valorMarketing, valortelefono)
-                    
+
                     navController.navigate(Pantallas.RUTA_LOGIN)
 
                                     } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
