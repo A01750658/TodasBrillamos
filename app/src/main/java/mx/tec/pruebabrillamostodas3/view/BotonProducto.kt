@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +31,8 @@ import java.sql.Blob
 
 @Composable
 fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio_n: Int, precio_r: Int, rebaja: Int, modifier: Modifier = Modifier){
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp
     var precio: Int
     if (rebaja == 1){
         precio = precio_r
@@ -50,7 +53,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
             shape = RoundedCornerShape(25),
             modifier = modifier
                 .height(270.dp)
-                .width(180.dp)
+                .width(if (screenWidth < 370) 180.dp else (screenWidth/2.25).dp)
                 .padding(horizontal = 3.dp)
         ) {
             Column (modifier= Modifier
@@ -79,7 +82,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
                         .padding(vertical = 5.dp)
                         .fillMaxWidth(),
                     color = MaterialTheme.colorScheme.primaryContainer,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp, lineHeight = 16.sp ),
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = if (screenWidth < 500) (screenWidth/30).sp else (screenWidth/45).sp, lineHeight = 16.sp ),
 
                     )
             }

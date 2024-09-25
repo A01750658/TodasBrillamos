@@ -26,13 +26,19 @@ import androidx.compose.ui.text.style.TextAlign
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import mx.tec.pruebabrillamostodas3.R
 
 /**
  * @author Santiago Chevez
+ * @autor Andrés Cabrera
  */
 @Composable
 fun LogIn(btVM: BTVM, navController: NavHostController){
@@ -45,16 +51,19 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondary)
+            .paint(
+                // Replace with your image id
+                painterResource(id = R.drawable.twoback),
+                contentScale = ContentScale.FillBounds)
             .verticalScroll(scrollState),
 
-    ){
+        ){
         Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.primary)
+                .background(Color(0xFFE91E63).copy(alpha = 0.7f))
         ){
             Titulo(titulo ="LOG IN", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary)
             Spacer(modifier = Modifier
@@ -69,21 +78,21 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
             )
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.correo, onValueChange =
-                {
+            {
                     nuevoTexto ->
-                    if (nuevoTexto.contains("\n")){
-                        /*TODO*/
+                if (nuevoTexto.contains("\n")){
+                    /*TODO*/
+                } else {
+                    if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
+                        btVM.setErrorCorreo(true)
                     } else {
-                        if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
-                            btVM.setErrorCorreo(true)
-                        } else {
-                            btVM.setErrorCorreo(false)
-                        }
-                        valorCorreo = nuevoTexto
-                        btVM.setCorreoUsuario(valorCorreo)
-                        btVM.setErrorLogin(false)
+                        btVM.setErrorCorreo(false)
                     }
-                },
+                    valorCorreo = nuevoTexto
+                    btVM.setCorreoUsuario(valorCorreo)
+                    btVM.setErrorLogin(false)
+                }
+            },
                 keyBoardType = KeyboardType.Email)
             if (estadoErrors.value.errorCorreo) {
                 Etiqueta(
@@ -109,7 +118,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     modifier =
                     Modifier
                         .padding(bottom = 3.dp)
-                        //.background(MaterialTheme.colorScheme.tertiaryContainer)
+                    //.background(MaterialTheme.colorScheme.tertiaryContainer)
                 )
                 btVM.setLoading(false)
             }
@@ -120,13 +129,13 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     btVM.setLoading(true)
                     btVM.login(estado.value.correo, estado.value.password)
                 }
-                },
+            },
                 Modifier
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.tertiary)
-                    ){
+            ){
                 Text(
                     text = "Acceder",
                     textAlign = TextAlign.Center,

@@ -52,6 +52,9 @@ class BTVM: ViewModel() {
     private val _estadoCarrito = MutableStateFlow<Carrito>(Carrito())
     val estadoCarrito: StateFlow<Carrito> = _estadoCarrito
 
+    private val _estadoañadirCarrito = MutableStateFlow<Pair<Int,Int>>(Pair(0,0))
+    val estadoAñadirCarrito: StateFlow<Pair<Int,Int>> = _estadoañadirCarrito
+
     //Estado Producto Seleccionado
     private val _estadoSeleccionado = MutableStateFlow(-1)
     val estadoSeleccionado: StateFlow<Int> = _estadoSeleccionado
@@ -89,7 +92,8 @@ class BTVM: ViewModel() {
                                 precio_normal = producto.precio_normal,
                                 precio_rebajado = producto.precio_rebajado,
                                 rebaja = producto.rebaja,
-                                imagen = modeloR.getProductImage(producto.id)
+                                imagen = modeloR.getProductImage(producto.id),
+                                cantidad= producto.cantidad
                             )
                         )
                     }
@@ -128,8 +132,8 @@ class BTVM: ViewModel() {
     }
 
     fun addProducto(index : Int, cantidad: Int) {
-        val producto = estadoListaProducto.value[index].id
-        estadoCarrito.value.productos.add(Pair(producto, cantidad))
+        estadoCarrito.value.productos.add(Pair(index, cantidad))
+        estadoListaProducto.value[index] = estadoListaProducto.value[index].copy(cantidad = estadoListaProducto.value[index].cantidad - cantidad )
     }
 
     fun removeProducto(index: Int, cantidad: Int) {
@@ -244,7 +248,7 @@ class BTVM: ViewModel() {
     }
     fun setApellidoPaternoUsuario(apellido: String) {
         _estadoUsuario.value = _estadoUsuario.value.copy(apellido_paterno = apellido)
-        }
+    }
     fun setApellidoMaternoUsuario(apellido: String) {
         _estadoUsuario.value = _estadoUsuario.value.copy(apellido_materno = apellido)
     }
@@ -321,6 +325,30 @@ class BTVM: ViewModel() {
     }
     fun setExpanded(expanded: Boolean) {
         _estadoExpanded.value = expanded
+    }
+
+    fun getEstadoUsuario() : EstadoUsuario{
+        return _estadoUsuario.value
+    }
+
+    fun setEstadoAñadirCarrito(producto: Int){
+        if (_estadoañadirCarrito.value.first != producto){
+            _estadoañadirCarrito.value = Pair(producto,0)
+        }
+    }
+    fun sumarorestarproducto(sign: Int, producto: Int){
+        if (sign == 1){
+            if(_estadoañadirCarrito.value.second == estadoListaProducto.value[producto].cantidad){
+                return
+            }
+            _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto, second = _estadoañadirCarrito.value.second+1)
+        }
+        else{
+            if (_estadoañadirCarrito.value.second == 0){
+                return
+            }
+            _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto,second = _estadoañadirCarrito.value.second-1)
+        }
     }
 
 

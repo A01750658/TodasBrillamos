@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -47,6 +48,8 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
     val estado = btVM.estadoCopiaDireccion.collectAsState()
     val estado_expanded = btVM.estadoExpanded.collectAsState()
     var selectedOptionText by remember { mutableStateOf(estado.value.estado) }
+    val configuration = LocalConfiguration.current
+    val screenOrientation = configuration.orientation
     val estadosMexico = listOf(
         "Aguascalientes",
         "Baja California",
@@ -94,32 +97,33 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                 .border(5.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(16.dp))
         )
         {
-            Icon(
-                imageVector = Icons.Default.LocationOn,
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier
-                    .padding(10.dp)
-                    .size(80.dp)
-                    .fillMaxWidth(),
+            if (screenOrientation == 1) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.primaryContainer,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(80.dp)
+                        .fillMaxWidth(),
 
+                    )
+                Titulo(
+                    titulo = "Editar Dirección",
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    fontSize = 50
                 )
-            Titulo(
-                titulo = "Editar Dirección",
-                color = MaterialTheme.colorScheme.primaryContainer,
-                fontSize = 50
-            )
-            HorizontalDivider(
-                thickness = 2.dp,
-                color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            Spacer(
-                modifier = Modifier
-                    .padding(6.dp)
-                    .fillMaxWidth()
-            )
-
+                HorizontalDivider(
+                    thickness = 2.dp,
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                Spacer(
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .fillMaxWidth()
+                )
+            }
             Column(
                 modifier = Modifier
                     .clip(RoundedCornerShape(16.dp)) // This Column has the clip modifier

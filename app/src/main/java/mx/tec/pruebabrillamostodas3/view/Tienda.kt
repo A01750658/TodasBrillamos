@@ -50,6 +50,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 
 /**
@@ -64,33 +65,37 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
     val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
     val estadoCantidad by viewModel.estadoCantidadProductosModelo.collectAsState()
     var showMenu by remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
+    val screenOrientation = configuration.orientation
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.secondary)
 
-        ) {
+    ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
 
         ) {
-            Titulo(
-                "ZAZIL",
-                color = MaterialTheme.colorScheme.primaryContainer,
-                fontSize = 90
-            )
-            Subtitulo("Cambia el mundo con un solo gesto.")
-            HorizontalDivider(
-                thickness = 2.dp,
-                color = MaterialTheme.colorScheme.primaryContainer
-            )
-            Spacer(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-            )
+            if (screenOrientation == 1) {
+                Titulo(
+                    "ZAZIL",
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    fontSize = 90
+                )
+                Subtitulo("Cambia el mundo con un solo gesto.")
+                HorizontalDivider(
+                    thickness = 2.dp,
+                    color = MaterialTheme.colorScheme.primaryContainer
+                )
+                Spacer(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                )
+            }
             LazyColumn {
                 items((estadoListaProducto.value.size + 1) / 2) { rowIndex ->
                     LazyRow(Modifier.fillMaxWidth()) {
@@ -139,7 +144,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
             ModalBottomSheet(
                 onDismissRequest = { showMenu = false }
             ) {
-                Producto(viewModel, modifier)
+                Producto(viewModel, modifier, navController)
             }
         }
     }

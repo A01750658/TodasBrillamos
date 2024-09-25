@@ -1,5 +1,7 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.net.Uri
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -27,21 +29,25 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
  * @author Alan Vega
  */
 
 @Composable
-fun Main(btVM: BTVM, modifier: Modifier = Modifier){
+fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier){
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
             bottomBar = {AppBottomBar(navController)}){
-            innerPadding ->
+                innerPadding ->
             AppNavHost(
                 btVM,
+                paymentsVM,
                 navController,
+                flag,
+                savedDeepLinkUri,
                 modifier.padding(innerPadding)
             )
         }
@@ -82,7 +88,7 @@ fun AppBottomBar(navController: NavHostController) {
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
 
-        ){
+            ){
             val pilaNavegacion by navController.currentBackStackEntryAsState()
             val pantallaActual = pilaNavegacion?.destination
 
@@ -114,9 +120,10 @@ fun AppBottomBar(navController: NavHostController) {
 }
 
 @Composable
-fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier) {
+fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier) {
+
     NavHost(navController = navController,
-        startDestination = Pantallas.RUTA_LOGIN,
+        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
             Home(btVM, navController)
@@ -149,7 +156,7 @@ fun AppNavHost(btVM: BTVM, navController: NavHostController, modifier: Modifier 
             AvisoyLeyenda()
         }
         composable(Pantallas.RUTA_CARRITO){
-            Carrito(btVM)
+            Carrito(btVM, paymentsVM, savedDeepLinkUri)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController)

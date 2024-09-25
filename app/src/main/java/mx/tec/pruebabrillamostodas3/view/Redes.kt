@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
@@ -38,6 +39,8 @@ import mx.tec.pruebabrillamostodas3.R
 fun Redes(vmodel: BTVM){
     val context = LocalContext.current // Obtener el contexto
     val scrollState = rememberScrollState()
+    val configuration = LocalConfiguration.current
+    val screenOrientation = configuration.orientation
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,7 +63,7 @@ fun Redes(vmodel: BTVM){
                         context.startActivity(intent)
                     }
                 },
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimary, fontSize = if (screenOrientation == 1) 25 else 40
             )
             BotonTextandIcon(
                 text = "Instagram",
@@ -68,7 +71,7 @@ fun Redes(vmodel: BTVM){
                 onClick = {vmodel.openWebPage("https://www.instagram.com/fundaciontodasbrillamos/?igshid=NTc4MTIwNjQ2YQ%3D%3D", context) { intent ->
                     context.startActivity(intent)
                 }},
-                color = MaterialTheme.colorScheme.onSecondary
+                color = MaterialTheme.colorScheme.onSecondary, fontSize = if (screenOrientation == 1) 25 else 40
             )
             BotonTextandIcon(
                 text = "TikTok",
@@ -76,7 +79,7 @@ fun Redes(vmodel: BTVM){
                 onClick = { vmodel.openWebPage("https://www.tiktok.com/@todas.brillamos", context) { intent ->
                     context.startActivity(intent)
                 } },
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer, fontSize = if (screenOrientation == 1) 25 else 40
             )
             BotonTextandIcon(
                 text = "Whatsapp",
@@ -84,7 +87,7 @@ fun Redes(vmodel: BTVM){
                 onClick = { vmodel.openWebPage("https://wa.me/525628083883", context) { intent ->
                     context.startActivity(intent)
                 } },
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                color = MaterialTheme.colorScheme.onSecondaryContainer, fontSize = if (screenOrientation == 1) 25 else 40
             )
             BotonTextandIcon(
                 text = "YouTube",
@@ -92,7 +95,7 @@ fun Redes(vmodel: BTVM){
                 onClick = { vmodel.openWebPage("https://www.youtube.com/@FundacionTodasBrillamos", context) { intent ->
                     context.startActivity(intent)
                 }},
-                color = MaterialTheme.colorScheme.onTertiaryContainer
+                color = MaterialTheme.colorScheme.onTertiaryContainer, fontSize = if (screenOrientation == 1) 25 else 40
             )
         }
 

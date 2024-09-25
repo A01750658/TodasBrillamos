@@ -1,5 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -28,9 +29,77 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
+import android.content.Intent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import android.net.Uri
+import androidx.activity.ComponentActivity
+import androidx.compose.foundation.border
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.paypal.base.rest.APIContext
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 
 @Composable
-fun Carrito(viewModel: BTVM,){
+fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: Uri?){
+
+    val estadoCarrito by viewModel.estadoCarrito.collectAsState()
+    val estadoListaProducto by viewModel.estadoListaProducto.collectAsState()
+
+    var paymentStatus by remember { mutableStateOf("Idle") }
+    var approvalUrl by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current
+
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val savedDeepLinkUriString = sharedPreferences.getString("deep_link_uri", null)
+    val deepLinkUri = savedDeepLinkUriString?.let { Uri.parse(it) }
+
+    var total=0
+    for (producto in estadoCarrito.productos){
+        total += estadoListaProducto[producto.first].precio_normal*producto.second
+    }
+
+    LaunchedEffect(deepLinkUri) {
+        println("Shit entered the LaunchedEffect")
+        deepLinkUri?.let { uri ->
+            val paymentId = extractPaymentId(uri)
+            val payerId = extractPayerId(uri)
+            if (paymentId.isNotEmpty() && payerId.isNotEmpty()) {
+                paymentsViewModel.executePayment(
+                    paymentId = paymentId,
+                    payerId = payerId,
+                    onSuccess = { payment ->
+                        paymentStatus = "Payment successful: ${payment.id}"
+                        println(paymentStatus)
+                        // Clear the deep link data to prevent re-execution
+                        //(context as? ComponentActivity)?.intent?.data = null
+                        sharedPreferences.edit().remove("deep_link_uri").apply()
+                    },
+                    onError = { error ->
+                        paymentStatus = "Failed to execute payment: ${error.message}"
+                        sharedPreferences.edit().remove("deep_link_uri").apply()
+                        println(paymentStatus)
+                    }
+                )
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -52,7 +121,7 @@ fun Carrito(viewModel: BTVM,){
                     .size(100.dp)
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
-                )
+            )
             HorizontalDivider(
                 thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer
@@ -65,34 +134,49 @@ fun Carrito(viewModel: BTVM,){
             LazyColumn(Modifier.fillMaxWidth()) {
                 item {
                     Row(Modifier.fillMaxWidth()) {
-                        Text(text = "Total a pagar: ",
+                        Text(
+                            text = "Total a pagar: ",
                             style = MaterialTheme.typography.bodyMedium,
                             textAlign = TextAlign.Right,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .weight(6f))
-                        Text(text = "$9999.99",
+                                .weight(6f)
+                        )
+                        Text(
+                            text = " $" +total.toString(),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .weight(2f))
+                                .weight(2f)
+                        )
                     }
                 }
-                item{
-                    ElevatedCard(modifier = Modifier
-                        .padding(8.dp),
+                item {
+                    ElevatedCard(
+                        modifier = Modifier
+                            .padding(8.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             contentColor = MaterialTheme.colorScheme.onTertiary
-                        )) {
+                        )
+                    ) {
                         Row {
                             Text(
-                                text = "Productos",
+                                text = "Producto",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(24.dp)
+                                    .padding(vertical = 24.dp)
                                     .weight(3f),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            Text(
+                                text = "Cantidad",
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 24.dp)
+                                    .weight(2f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
@@ -100,54 +184,74 @@ fun Carrito(viewModel: BTVM,){
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(24.dp)
+                                    .padding(vertical = 24.dp)
                                     .weight(2f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
                     }
                 }
-                for (i in 1 .. 5) {
-                    item {
-                        ElevatedCard(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .padding(bottom = 4.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiary
-                            )
-                        ) {
-                            Row {
-                                Text(
-                                    text = "Producto $i",
-                                    textAlign = TextAlign.Center,
+                items(estadoCarrito.productos) { producto ->
+                    ElevatedCard(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .padding(bottom = 4.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onTertiary
+                        )
+                    ) {
+                        Row {
+                            Column(modifier = Modifier.weight(3f),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    painter = BitmapPainter(Image(estadoListaProducto[producto.first].imagen).asImageBitmap()),
+                                    contentDescription = "Elemento",
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(24.dp)
-                                        .weight(3f),
-                                    style = MaterialTheme.typography.bodyMedium
+                                        .width(60.dp)
+                                        .height(70.dp)
+                                        .padding(top= 30.dp)
                                 )
                                 Text(
-                                    text = "Precio $i",
+                                    text = estadoListaProducto[producto.first].nombre,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(24.dp)
-                                        .weight(2f),
+                                        .padding(vertical = 24.dp),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                             }
+                            Text(
+                                text = producto.second.toString(),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 95.dp)
+                                    .weight(2f),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            Text(
+                                text = "$${estadoListaProducto[producto.first].precio_normal*producto.second}",
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 95.dp)
+                                    .weight(2f),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
                         }
                     }
                 }
-                item{
-                    ElevatedCard(modifier = Modifier
-                        .padding(8.dp),
+                item {
+                    ElevatedCard(
+                        modifier = Modifier
+                            .padding(8.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.tertiary,
                             contentColor = MaterialTheme.colorScheme.onTertiary
-                        )) {
+                        )
+                    ) {
                         Row {
                             Text(
                                 text = "Total:",
@@ -159,7 +263,7 @@ fun Carrito(viewModel: BTVM,){
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "$9999.99",
+                                text = "$"+ total.toString(),
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -170,14 +274,37 @@ fun Carrito(viewModel: BTVM,){
                         }
                     }
                 }
-                item { 
+                item {
                     Spacer(modifier = Modifier.padding(35.dp))
                 }
             }
-
         }
+
         FloatingActionButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                paymentsViewModel.createPayment(
+                    total = "10.00",
+                    currency = "USD",
+                    method = "paypal",
+                    intent = "sale",
+                    description = "Payment description",
+                    cancelUrl = "http://localhost:8080/cancel",
+                    successUrl = "myapp://payment",
+                    onSuccess = { url ->
+                        approvalUrl = url
+                        println(approvalUrl)
+                        println(viewModel.getEstadoUsuario())
+                        paymentStatus = "Redirecting to PayPal for approval"
+                        println(paymentStatus)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        context.startActivity(intent)
+                        println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
+                    },
+                    onError = { error ->
+                        paymentStatus = "Failed to create payment: ${error.message}"
+                    }
+                )
+            },
             containerColor = MaterialTheme.colorScheme.primary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             modifier = Modifier
@@ -193,4 +320,17 @@ fun Carrito(viewModel: BTVM,){
                 color = MaterialTheme.colorScheme.onTertiary)
         }
     }
+}
+
+
+fun extractPaymentId(uri: Uri): String {
+    // Extract paymentId from the URI
+    // Example: myapp://payment?paymentId=PAYID-12345&token=EC-12345&PayerID=12345
+    return uri.getQueryParameter("paymentId") ?: ""
+}
+
+fun extractPayerId(uri: Uri): String {
+    // Extract payerId from the URI
+    // Example: myapp://payment?paymentId=PAYID-12345&token=EC-12345&PayerID=12345
+    return uri.getQueryParameter("PayerID") ?: ""
 }
