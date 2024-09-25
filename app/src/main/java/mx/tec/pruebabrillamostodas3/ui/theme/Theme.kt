@@ -44,6 +44,7 @@ private val LightColorScheme = lightColorScheme(
     tertiaryContainer = AmarilloComodidad,
     onTertiary = Blanco,
     onBackground = Borde,
+    inversePrimary = aviso,
 
     onPrimary = Facebook,
     onSecondary = Intagram,

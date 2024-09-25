@@ -28,7 +28,6 @@ fun TempleteForo(Pregunta: String = "Pregunta", Respuestas: List<String>,onClick
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondary),
     ){
         Column {
             Titulo(

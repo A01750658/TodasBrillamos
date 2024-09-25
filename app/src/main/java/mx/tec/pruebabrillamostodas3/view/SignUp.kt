@@ -1,6 +1,7 @@
 package mx.tec.pruebabrillamostodas3.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -61,7 +63,8 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             .fillMaxSize()
             .paint(
                 painterResource(id = R.drawable.twoback),
-                contentScale = ContentScale.FillBounds)
+                contentScale = ContentScale.FillBounds
+            )
             .verticalScroll(scrollState),
 
         ){
@@ -122,7 +125,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setApellidoMaternoUsuario(valorApellidoMaterno)
                 })
             if (estadoErrors.value.errorType){
-                Etiqueta("Todos los campos deben ser llenados. Solo puedes usar letras y no se puede superar los 20 caracteres.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.surface)
+                Etiqueta("Todos los campos deben ser llenados. Solo puedes usar letras y no se puede superar los 20 caracteres.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
             }
             Etiqueta("Fecha de Nacimiento", Modifier.padding(bottom = 3.dp))
             //DatePicker(state = DatePickerState(locale = CalendarLocale.GERMAN))
@@ -186,7 +189,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 },
                 keyBoardType = KeyboardType.Email)
             if (estadoErrors.value.errorCorreo){
-                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.password,
@@ -201,7 +204,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setContrasenaUsuario(valorPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorLengthPassword){
-                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) ,color= MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) ,color= MaterialTheme.colorScheme.inversePrimary)
             }
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.confirmacion_password,
@@ -211,7 +214,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorContrasenas){
-                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.inversePrimary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -220,7 +223,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                         style = MaterialTheme.typography.bodyMedium.copy(
                             textDecoration = TextDecoration.Underline
                         ),
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
                 Checkbox(
@@ -230,20 +233,24 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                         valorAvisos = it },
                     modifier = Modifier
                         .padding(start = 8.dp)
-                        .weight(1f)
-
+                        .weight(1f),
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = MaterialTheme.colorScheme.primaryContainer,
+                        uncheckedColor = MaterialTheme.colorScheme.onTertiary,
+                        checkmarkColor = MaterialTheme.colorScheme.onTertiary
+                    )
                 )
 
             }
             if (!valorAvisos && estado.value.intent){
-                Etiqueta("Debes confirmar que haz leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.surface)
+                Etiqueta("Debes confirmar que haz leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
                     Text(text = "Permitir el uso de datos con fines de marketing",
                         modifier = Modifier,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
                 Checkbox(
@@ -253,8 +260,12 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                         valorMarketing = it },
                     modifier = Modifier
                         .padding(start = 8.dp)
-                        .weight(1f)
-
+                        .weight(1f),
+                    colors = CheckboxDefaults.colors(
+                    checkedColor = MaterialTheme.colorScheme.primaryContainer,
+                    uncheckedColor = MaterialTheme.colorScheme.onTertiary,
+                    checkmarkColor = MaterialTheme.colorScheme.onTertiary
+                    )
                 )
 
             }
@@ -277,7 +288,9 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
+                    .border(1.dp, MaterialTheme.colorScheme.onBackground, RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.tertiary)){
+
                 Text(
                     text = "Registrarse",
                     textAlign = TextAlign.Center,
@@ -288,6 +301,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 )
             }
             PreguntaBoton("¿Ya tienes cuenta?","Inicia sesión", {navController.navigate(Pantallas.RUTA_LOGIN)})
+            Spacer(modifier = Modifier.padding(16.dp))
 
 
         }

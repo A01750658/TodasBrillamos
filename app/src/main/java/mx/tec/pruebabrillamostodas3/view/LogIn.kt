@@ -97,7 +97,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
             if (estadoErrors.value.errorCorreo) {
                 Etiqueta(
                     texto = "Debe de ser un correo electrónico",
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.inversePrimary,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
@@ -114,7 +114,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                 })
             if (estadoErrors.value.errorLogin) {
                 Etiqueta( "El correo o la contraseña son incorrectos",
-                    color = MaterialTheme.colorScheme.tertiaryContainer,
+                    color = MaterialTheme.colorScheme.inversePrimary,
                     modifier =
                     Modifier
                         .padding(bottom = 3.dp)
@@ -151,9 +151,6 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
             }
             if (estado.value.key != ""){
                 navController.navigate(Pantallas.RUTA_APP_HOME)
-                LaunchedEffect(Unit) {
-                    btVM.getProductos()
-                }
 
             }
             Spacer(modifier = Modifier.padding(16.dp))
