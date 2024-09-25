@@ -18,6 +18,7 @@ const val addAddressWithTokenEndpoint = "add/address"
 const val getUserDataWithTokenEndpoint = "get/user_data"
 const val getRecoveryPasswordTokenEndpoint = "recover/password/get_token"
 const val changePasswordEndpoint = "recover/password/change_password"
+const val getOrderInfoWithTokenEndpoint = "get_order/"
 interface TodasBrillamosAPI
 {
 
@@ -74,4 +75,9 @@ interface TodasBrillamosAPI
     @POST(changePasswordEndpoint)
     suspend fun changePassword(@Body change: ChangePassword ): ResponseFormat
 
+    @Headers(
+        "User-Agent:Retrofit"
+    )
+    @GET(getOrderInfoWithTokenEndpoint)
+    suspend fun getOrderInfoWithToken(@Query("user_token") user_token : String): Orders
 }

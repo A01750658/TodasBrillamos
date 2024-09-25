@@ -90,7 +90,15 @@ class ModelConnectionR {
         val response : ResponseFormat = service.addOrderWithToken(order, userToken)
         return response
     }
+    suspend fun getOrderInfo(userToken: String) : HashMap<Int,List<Orderproducts>>{
 
+        val response : Orders = service.getOrderInfoWithToken(userToken)
+        val userOrders : HashMap<Int,List<Orderproducts>> = hashMapOf()
+        for (order in response.ordenes){
+            userOrders[order.id_orden] = order.orden
+        }
+        return userOrders
+    }
 }
 
 suspend fun main(){
@@ -113,4 +121,5 @@ suspend fun main(){
     //println(modelConnection.getUserData(modelConnection.getJWTKey("iker@gmail.com","1234").data))
     //println(modelConnection.getRecoveryPasswordToken("iker.fuentesreyes@gmail.com"))
     //println(modelConnection.changePassword(109076427,"iker.fuentesreyes@gmail.com","777"))
+    println(modelConnection.getOrderInfo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tOzA0MDAiLCJpYXQiOjE3MjcyODA2NDQsImV4cCI6MTcyNzI4MDk0NH0.xQ3muy9SPCltMit4muOIcEPRrBe3rOjYMACnuscBLO4"))
 }
