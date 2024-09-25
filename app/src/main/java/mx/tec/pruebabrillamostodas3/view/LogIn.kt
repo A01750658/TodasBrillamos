@@ -1,6 +1,7 @@
 package mx.tec.pruebabrillamostodas3.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -52,7 +53,6 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
         modifier = Modifier
             .fillMaxSize()
             .paint(
-                // Replace with your image id
                 painterResource(id = R.drawable.twoback),
                 contentScale = ContentScale.FillBounds)
             .verticalScroll(scrollState),
@@ -63,7 +63,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
-                .background(Color(0xFFE91E63).copy(alpha = 0.7f))
+                .background(Color(0xFFE91E63).copy(alpha = 0.6f))
         ){
             Titulo(titulo ="LOG IN", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary)
             Spacer(modifier = Modifier
@@ -134,6 +134,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
+                    .border(1.dp, MaterialTheme.colorScheme.onBackground, RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.tertiary)
             ){
                 Text(

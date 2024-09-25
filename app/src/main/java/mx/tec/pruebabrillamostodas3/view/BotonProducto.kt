@@ -45,7 +45,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
         .padding(vertical = 10.dp)
         .height(270.dp)
         .padding(horizontal = 5.dp)
-        .border(2.dp, MaterialTheme.colorScheme.tertiary, RoundedCornerShape(25)), horizontalAlignment = Alignment.CenterHorizontally
+        .border(1.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(25)), horizontalAlignment = Alignment.CenterHorizontally
 
         ){
         ElevatedButton(
