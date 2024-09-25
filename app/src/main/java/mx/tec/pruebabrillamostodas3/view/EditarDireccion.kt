@@ -1,19 +1,27 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import androidx.compose.foundation.ScrollbarStyle
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.LocationOn
@@ -36,9 +44,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import io.ktor.websocket.Frame
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
@@ -88,13 +100,13 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.secondary)
 
-        ) {
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
-                .border(5.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(16.dp))
+            //.border(5.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(16.dp))
         )
         {
             if (screenOrientation == 1) {
@@ -126,26 +138,30 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
             }
             Column(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(16.dp)) // This Column has the clip modifier
+                    .padding(bottom = 10.dp)
+                    .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.primary)
-                    .padding(bottom = 50.dp)
+
             ) {
-                Spacer(
-                    modifier = Modifier
-                        .padding(6.dp)
-                        .fillMaxWidth()
+                Spacer(modifier = Modifier
+                    .padding(6.dp)
+                    .fillMaxWidth()
                 )
                 Subtitulo(
                     "Direccion",
                     modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.onTertiary
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    fontSize = 32,
                 )
                 HorizontalDivider(
                     thickness = 2.dp,
                     modifier = Modifier.padding(bottom = 16.dp),
                     color = MaterialTheme.colorScheme.onTertiary,
                 )
-                LazyColumn {
+                LazyColumn (
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(16.dp))
+                ) {
                     item { Etiqueta("Calle*") }
                     item {
                         InputTexto(estado.value.calle,
@@ -193,7 +209,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentSize(Alignment.TopStart)
-                                .padding(top = 8.dp, start = 16.dp,end=16.dp)
+                                .padding(top = 8.dp, start = 16.dp, end = 16.dp)
                                 .clip(RoundedCornerShape(50.dp))
                                 .clickable(onClick = { btVM.setExpanded(true) })
                                 .background(color = MaterialTheme.colorScheme.onTertiary)
@@ -244,8 +260,10 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                         }
                     }
                 }
+                Spacer(modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxWidth())
             }
         }
     }
-    Spacer(modifier = Modifier.padding(bottom = 5.dp))
 }
