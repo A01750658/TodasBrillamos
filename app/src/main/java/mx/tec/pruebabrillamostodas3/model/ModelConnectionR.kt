@@ -57,7 +57,9 @@ class ModelConnectionR {
     //Password Recovery Functions
     fun hash(password: String): String {
         val bytes = password.toByteArray()
+
         val md = MessageDigest.getInstance("SHA-256")
+        println(md)
         val digest = md.digest(bytes)
         return digest.fold("", { str, it -> str + "%02x".format(it) })
     }
@@ -93,20 +95,22 @@ class ModelConnectionR {
 
 suspend fun main(){
     val modelConnection = ModelConnectionR()
+    println(modelConnection.hash("AAAAA"))
     val lista : List<Producto> = modelConnection.getProductsWithToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlckBnbWFpbC5jb207MTIzNCIsImlhdCI6MTcyNjQ5ODg3NiwiZXhwIjoxNzI2NDk5MTc2fQ.KCwualrayru-DSqHG-Zi5IpXc3TPx8LDb1EvKOtWymA").second
-    val p :MutableList<Pair<Int,Int>> = mutableListOf()
-    for (i in lista){
+    println(lista)
+//val p :MutableList<Pair<Int,Int>> = mutableListOf()
+    /*for (i in lista){
         p.add(Pair(i.id,1))
-    }
-    val dInfo = modelConnection.createDataInfo(p)
-    val order = Order(dInfo,201)
-    val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker23537676565877654@gmail.com","1234",0,1,"5532532512")
+    }*/
+    //val dInfo = modelConnection.createDataInfo(p)
+    //val order = Order(dInfo,201)
+    //val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker23537676565877654@gmail.com","1234",0,1,"5532532512")
     //println(modelConnection.addOrderWithToken(order,modelConnection.getJWTKey(us.email,us.password).data))
-    println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex","54050","12","12",201)))
+    //println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex","54050","12","12",201)))
     // val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker2365@gmail.com","1234",0)
     //println(modelConnection.getJWTKey(us.email,us.password))
     //println(modelConnection.signUp(us))
     //println(modelConnection.getUserData(modelConnection.getJWTKey("iker@gmail.com","1234").data))
     //println(modelConnection.getRecoveryPasswordToken("iker.fuentesreyes@gmail.com"))
-    println(modelConnection.changePassword(109076427,"iker.fuentesreyes@gmail.com","777"))
+    //println(modelConnection.changePassword(109076427,"iker.fuentesreyes@gmail.com","777"))
 }
