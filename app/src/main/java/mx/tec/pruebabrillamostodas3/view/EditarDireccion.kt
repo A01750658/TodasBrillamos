@@ -263,7 +263,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
         }
         if(scrollPosition != maxScrollPosition) {
             Box(modifier = Modifier
-                .clip(RoundedCornerShape(50.dp))
+                .clip(RoundedCornerShape(30.dp))
                 .offset(x = 16.dp, y = 16.dp)
                 .padding(bottom = 20.dp, end = 20.dp)
                 .align(Alignment.BottomEnd)

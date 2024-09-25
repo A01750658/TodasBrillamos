@@ -157,6 +157,8 @@ class BTVM: ViewModel() {
     fun signUp(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String,terminos :Boolean, publicidad : Boolean,telefono: String) {
         val terminos : Int = if (terminos) 1 else 0
         val publicidad : Int = if (publicidad) 1 else 0
+        println(terminos)
+        println(publicidad)
         val user : Usuario = Usuario(
             nombre,
             apellido_paterno,
@@ -202,7 +204,6 @@ class BTVM: ViewModel() {
 
             } catch (e: Exception) {
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
-
             }
         }
     }
