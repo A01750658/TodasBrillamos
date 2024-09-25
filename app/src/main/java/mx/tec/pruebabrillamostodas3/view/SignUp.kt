@@ -27,12 +27,17 @@ import androidx.compose.ui.text.style.TextAlign
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import mx.tec.pruebabrillamostodas3.R
 
 @Composable
 fun SignUp(btVM: BTVM, navController: NavHostController) {
@@ -54,7 +59,9 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondary)
+            .paint(
+                painterResource(id = R.drawable.twoback),
+                contentScale = ContentScale.FillBounds)
             .verticalScroll(scrollState),
 
         ){
@@ -63,7 +70,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.primary)
+                .background((MaterialTheme.colorScheme.primary).copy(alpha = 0.6f))
         ){
             Titulo(titulo ="SIGN UP", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary)
             Spacer(modifier = Modifier
@@ -115,7 +122,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setApellidoMaternoUsuario(valorApellidoMaterno)
                 })
             if (estadoErrors.value.errorType){
-                Etiqueta("Todos los campos deben ser llenados. Solo puedes usar letras y no se puede superar los 20 caracteres.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("Todos los campos deben ser llenados. Solo puedes usar letras y no se puede superar los 20 caracteres.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.surface)
             }
             Etiqueta("Fecha de Nacimiento", Modifier.padding(bottom = 3.dp))
             //DatePicker(state = DatePickerState(locale = CalendarLocale.GERMAN))
@@ -130,7 +137,6 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Text(
                     text = "Seleccionar Fecha",
                     textAlign = TextAlign.Center,
-
                     style = MaterialTheme.typography.bodyMedium,
                     fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.onTertiary
@@ -214,7 +220,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                         style = MaterialTheme.typography.bodyMedium.copy(
                             textDecoration = TextDecoration.Underline
                         ),
-                        color = MaterialTheme.colorScheme.secondaryContainer
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Checkbox(
@@ -230,14 +236,14 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             }
             if (!valorAvisos && estado.value.intent){
-                Etiqueta("Debes confirmar que haz leído y aceptado el aviso de privacidad y leyenda de devolución")
+                Etiqueta("Debes confirmar que haz leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.surface)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
                     Text(text = "Permitir el uso de datos con fines de marketing",
                         modifier = Modifier,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.secondaryContainer
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Checkbox(

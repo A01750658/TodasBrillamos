@@ -15,8 +15,8 @@ private val DarkColorScheme = darkColorScheme(
     primary = RosaLibertad,
     primaryContainer = AzulTranquilidad,
     secondary = RosaBrillamos,
-    secondaryContainer = VerdeSostenible,
-    tertiary = NaranjaConfianza,
+    secondaryContainer = AzulSostenible,
+    tertiary = RosaConfianza,
     tertiaryContainer = AmarilloComodidad,
 
 )
@@ -39,10 +39,11 @@ private val LightColorScheme = lightColorScheme(
     primary = RosaLibertad,
     primaryContainer = AzulTranquilidad,
     secondary = RosaBrillamos,
-    secondaryContainer = VerdeSostenible,
-    tertiary = NaranjaConfianza,
+    secondaryContainer = AzulSostenible,
+    tertiary = RosaConfianza,
     tertiaryContainer = AmarilloComodidad,
     onTertiary = Blanco,
+    onBackground = Borde,
 
     onPrimary = Facebook,
     onSecondary = Intagram,
