@@ -16,11 +16,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.view.Main
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
-
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+object PreferencesKeys {
+    val username_saved = stringPreferencesKey("user_name")
+    val password_saved = stringPreferencesKey("password")
+}
 class MainActivity : ComponentActivity() {
     private val btVM : BTVM by viewModels()
     private val paymentsVM: PaymentsViewModel by viewModels()
