@@ -171,7 +171,7 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "#",
+                                text = "Cantidad",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -180,7 +180,7 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "$",
+                                text = "Precio",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()

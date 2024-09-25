@@ -13,14 +13,14 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun Titulo(titulo: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primary, fontSize: Int = 48, lineHeight: Int = 80){
 
-        Text(
-            text = titulo,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
-            color = color,
-            fontSize = fontSize.sp,
-            modifier = modifier.fillMaxWidth(),
-            lineHeight = lineHeight.sp
-        )
+    Text(
+        text = titulo,
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.titleLarge,
+        color = color,
+        fontSize = fontSize.sp,
+        modifier = modifier.fillMaxWidth(),
+        lineHeight = lineHeight.sp
+    )
 
 }

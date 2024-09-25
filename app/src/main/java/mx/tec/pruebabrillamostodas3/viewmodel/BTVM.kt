@@ -248,7 +248,7 @@ class BTVM: ViewModel() {
     }
     fun setApellidoPaternoUsuario(apellido: String) {
         _estadoUsuario.value = _estadoUsuario.value.copy(apellido_paterno = apellido)
-        }
+    }
     fun setApellidoMaternoUsuario(apellido: String) {
         _estadoUsuario.value = _estadoUsuario.value.copy(apellido_materno = apellido)
     }
@@ -342,7 +342,7 @@ class BTVM: ViewModel() {
                 return
             }
             _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto, second = _estadoañadirCarrito.value.second+1)
-            }
+        }
         else{
             if (_estadoañadirCarrito.value.second == 0){
                 return

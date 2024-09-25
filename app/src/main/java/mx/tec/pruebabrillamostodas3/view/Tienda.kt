@@ -72,7 +72,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.secondary)
 
-        ) {
+    ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp)

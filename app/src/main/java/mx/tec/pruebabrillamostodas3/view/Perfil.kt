@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.room.util.copy
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 /**
@@ -80,7 +81,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
 
             Column(modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.primary)
+                .background((MaterialTheme.colorScheme.primary).copy(alpha = 0.7f))
             ) {
                 Spacer(
                     modifier = Modifier

@@ -41,7 +41,7 @@ fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLink
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
             bottomBar = {AppBottomBar(navController)}){
-            innerPadding ->
+                innerPadding ->
             AppNavHost(
                 btVM,
                 paymentsVM,
@@ -88,7 +88,7 @@ fun AppBottomBar(navController: NavHostController) {
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
 
-        ){
+            ){
             val pilaNavegacion by navController.currentBackStackEntryAsState()
             val pantallaActual = pilaNavegacion?.destination
 

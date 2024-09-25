@@ -143,7 +143,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                         println("Añadiendo producto $estadoSeleccionado")
                         btVM.addProducto(estadoSeleccionado, estadoAñadirProducto.second)
                         navController.navigate("Carrito")
-                              },
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.tertiary,
                         contentColor = MaterialTheme.colorScheme.onTertiary
