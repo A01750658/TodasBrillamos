@@ -23,6 +23,7 @@ val RosaLibertad = Color(0xFFD5507C)
 val AzulSostenible = Color(0xFF395173)
 val Blanco = Color(0xFFFFFFFF)
 val Borde = Color(0xFF2F4858)
+val aviso = Color(0xFF564146)
 
 val Facebook = Color(0xFF4ED4F7).copy(alpha = 0.8f)
 val Intagram = Color(0xFFFE7893).copy(alpha = 0.8f)
