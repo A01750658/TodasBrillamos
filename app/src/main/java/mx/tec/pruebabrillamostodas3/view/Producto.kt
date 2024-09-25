@@ -61,7 +61,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
             )}
             item {
                 Subtitulo(
-                    text = "$ ${estadoListaProducto[estadoSeleccionado].precio_normal}",
+                    text = "$${estadoListaProducto[estadoSeleccionado].precio_normal} MXN",
                     fontSize = 25
                 )
             }
