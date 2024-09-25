@@ -278,7 +278,8 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     && valortelefono.isNotEmpty() && valorAvisos && day != 0 && month != 0 && year != 0) {
 
                     //Aquí registrarse entonces xd
-                    val fecha = "%02d/%02d/%04d".format(day, month, year)
+                    val months = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+                    val fecha = "%02d-%s-%04d".format(day, months[month - 1], year)
                     println(valorNombre +" "+ valorApellidoPaterno +" "+ valorApellidoMaterno+ " "+ fecha+ " "+ valorCorreo+ " "+ valorPassword + " "+ valorAvisos+ " "+ valorMarketing)
                     btVM.signUp(valorNombre, valorApellidoPaterno, valorApellidoMaterno, fecha, valorCorreo, valorPassword, valorAvisos, valorMarketing, valortelefono)
 
