@@ -287,6 +287,10 @@ class BTVM: ViewModel() {
         _estadoUsuario.value = _estadoUsuario.value.copy(año_nacimiento = year, mes_nacimiento = month, día_nacimiento = day)
     }
 
+    fun getFecha(): Triple<Int, Int, Int> {
+        return Triple(_estadoUsuario.value.año_nacimiento, _estadoUsuario.value.mes_nacimiento, _estadoUsuario.value.día_nacimiento)
+    }
+
     fun setErrorType(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorType = b)
     }
