@@ -53,7 +53,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
             shape = RoundedCornerShape(25),
             modifier = modifier
                 .height(270.dp)
-                .width(if (screenWidth < 370) 180.dp else (screenWidth/2.25).dp)
+                .width(if (screenWidth < 370) 180.dp else (screenWidth/2.30).dp)
                 .padding(horizontal = 3.dp)
         ) {
             Column (modifier= Modifier

@@ -15,7 +15,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -53,18 +55,27 @@ fun Foros(){
                 } else if (showBottomSheet2) {
                     TempleteForo("Acaso ¿Esta es la pregunta más interesante sobre el tema?", listOf("Súper si", "Nah", "Tal vez", "Como crees!"), {showBottomSheet2 = false})
                 } else{
-                    Column(
+                    Column( horizontalAlignment =  Alignment.CenterHorizontally,
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .fillMaxWidth()
 
                     ) {
-                        Titulo(
-                            "ZAZIL",
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            fontSize = 90
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "",
+                            tint = MaterialTheme.colorScheme.primaryContainer,
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .size(100.dp)
+                                .fillMaxWidth(),
+
+                            )
+                        Titulo(titulo = "Foros", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 50)
+                        Spacer(modifier = Modifier
+                            .padding(6.dp)
+                            .fillMaxWidth()
                         )
-                        Subtitulo("Cambia el mundo con un solo gesto.")
                         HorizontalDivider(
                             thickness = 2.dp,
                             color = MaterialTheme.colorScheme.primaryContainer

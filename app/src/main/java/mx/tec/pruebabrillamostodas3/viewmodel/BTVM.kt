@@ -52,7 +52,7 @@ class BTVM: ViewModel() {
     private val _estadoCarrito = MutableStateFlow<Carrito>(Carrito())
     val estadoCarrito: StateFlow<Carrito> = _estadoCarrito
 
-    private val _estadoañadirCarrito = MutableStateFlow<Pair<Int,Int>>(Pair(0,0))
+    private val _estadoañadirCarrito = MutableStateFlow<Pair<Int,Int>>(Pair(0,1))
     val estadoAñadirCarrito: StateFlow<Pair<Int,Int>> = _estadoañadirCarrito
 
     //Estado Producto Seleccionado
@@ -283,6 +283,10 @@ class BTVM: ViewModel() {
         _estadoUsuario.value = _estadoUsuario.value.copy(intent = intent)
     }
 
+    fun setFecha(day: Int, month: Int, year: Int) {
+        _estadoUsuario.value = _estadoUsuario.value.copy(año_nacimiento = year, mes_nacimiento = month, día_nacimiento = day)
+    }
+
     fun setErrorType(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorType = b)
     }
@@ -334,7 +338,7 @@ class BTVM: ViewModel() {
 
     fun setEstadoAñadirCarrito(producto: Int){
         if (_estadoañadirCarrito.value.first != producto){
-            _estadoañadirCarrito.value = Pair(producto,0)
+            _estadoañadirCarrito.value = Pair(producto,1)
         }
     }
     fun sumarorestarproducto(sign: Int, producto: Int){
@@ -345,7 +349,7 @@ class BTVM: ViewModel() {
             _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto, second = _estadoañadirCarrito.value.second+1)
         }
         else{
-            if (_estadoañadirCarrito.value.second == 0){
+            if (_estadoañadirCarrito.value.second == 1){
                 return
             }
             _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto,second = _estadoañadirCarrito.value.second-1)

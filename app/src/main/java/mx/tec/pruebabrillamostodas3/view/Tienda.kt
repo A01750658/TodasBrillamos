@@ -39,6 +39,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,19 +74,28 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
             .background(MaterialTheme.colorScheme.secondary)
 
     ) {
-        Column(
+        Column( horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
 
         ) {
             if (screenOrientation == 1) {
-                Titulo(
-                    "ZAZIL",
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    fontSize = 90
+                Icon(
+                    imageVector = Icons.Default.ShoppingCart,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.primaryContainer,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(100.dp)
+                        .fillMaxWidth(),
+
+                    )
+                Titulo(titulo = "Catálogo", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 50)
+                Spacer(modifier = Modifier
+                    .padding(6.dp)
+                    .fillMaxWidth()
                 )
-                Subtitulo("Cambia el mundo con un solo gesto.")
                 HorizontalDivider(
                     thickness = 2.dp,
                     color = MaterialTheme.colorScheme.primaryContainer

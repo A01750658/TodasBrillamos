@@ -3,15 +3,20 @@ package mx.tec.pruebabrillamostodas3.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,12 +52,26 @@ fun Redes(vmodel: BTVM){
             .background(MaterialTheme.colorScheme.secondary)
             .verticalScroll(scrollState)
     ){
-        Column(modifier = Modifier
+        Column( horizontalAlignment =  Alignment.CenterHorizontally,
+            modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth())
         {
-            Titulo("ZAZIL", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 90)
-            Subtitulo("Cambia el mundo con un solo gesto.")
+            Icon(
+                imageVector = Icons.Default.ThumbUp,
+                contentDescription = "",
+                tint = MaterialTheme.colorScheme.primaryContainer,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(100.dp)
+                    .fillMaxWidth(),
+
+                )
+            Titulo(titulo = "Redes", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 50)
+            Spacer(modifier = Modifier
+                .padding(6.dp)
+                .fillMaxWidth()
+            )
             HorizontalDivider(thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer,
                 modifier = Modifier.padding(bottom = 16.dp))
