@@ -283,6 +283,10 @@ class BTVM: ViewModel() {
         _estadoUsuario.value = _estadoUsuario.value.copy(intent = intent)
     }
 
+    fun setFecha(day: Int, month: Int, year: Int) {
+        _estadoUsuario.value = _estadoUsuario.value.copy(año_nacimiento = year, mes_nacimiento = month, día_nacimiento = day)
+    }
+
     fun setErrorType(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorType = b)
     }
