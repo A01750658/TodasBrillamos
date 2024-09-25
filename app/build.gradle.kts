@@ -69,7 +69,8 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.okhttp)
     implementation(libs.coroutinesRetrofit)
-
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     //Navegación
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.fragment.ktx)

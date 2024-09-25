@@ -1,6 +1,8 @@
 package mx.tec.pruebabrillamostodas3.viewmodel
 
+import android.content.Context
 import android.net.Uri
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paypal.base.rest.APIContext
@@ -9,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.paypal.api.payments.*
+import mx.tec.pruebabrillamostodas3.PreferencesKeys
+import mx.tec.pruebabrillamostodas3.dataStore
 
 /**
  * @author Alan Vega
@@ -83,6 +87,26 @@ class PaymentsViewModel: ViewModel() {
             } catch (e: PayPalRESTException) {
                 e.printStackTrace()
                 onError(e)
+            }
+        }
+    }
+    fun saveUserData(context: Context, username: String,password: String) {
+        viewModelScope.launch {
+            context.dataStore.edit { preferences ->
+                preferences[PreferencesKeys.username_saved] = username
+                preferences[PreferencesKeys.password_saved] = password
+            }
+        }
+    }
+    fun readUserData(context: Context, btvm : BTVM = BTVM()) {
+        viewModelScope.launch {
+            context.dataStore.data.collect { preferences ->
+                val username = preferences[PreferencesKeys.username_saved]
+                val password = preferences[PreferencesKeys.password_saved]
+                if (username != null && password != null) {
+                    btvm.login(username, password);
+                }
+
             }
         }
     }
