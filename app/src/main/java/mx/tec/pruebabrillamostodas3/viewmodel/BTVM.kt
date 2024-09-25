@@ -163,7 +163,8 @@ class BTVM: ViewModel() {
             apellido_materno,
             fecha_nacimiento,
             correo,
-            modeloR.hash(password),
+            //modeloR.hash(password),
+            password,
             terminos,
             publicidad,
             telefono
