@@ -197,6 +197,7 @@ class BTVM: ViewModel() {
                 setApellidoPaternoUsuario(userData.apellido_paterno)
                 setDireccionUsuario(userData.direccion)
                 setTelefonoUsuario(userData.telefono)
+                getProductos()
 
             } catch (e: Exception) {
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
