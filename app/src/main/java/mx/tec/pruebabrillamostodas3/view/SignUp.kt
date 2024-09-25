@@ -275,7 +275,10 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 if(valorNombre.isNotEmpty() && valorApellidoPaterno.isNotEmpty() && valorApellidoMaterno.isNotEmpty()
                     && valorCorreo.isNotEmpty() && valorPassword.isNotEmpty() && !estadoErrors.value.errorContrasenas
                     && valortelefono.isNotEmpty() && valorAvisos) {
+
+                    //Aquí registrarse entonces xd
                     navController.navigate(Pantallas.RUTA_LOGIN)
+
                                     } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
                                         btVM.setErrorType(true)
                                     } else if (valortelefono.isEmpty()){
