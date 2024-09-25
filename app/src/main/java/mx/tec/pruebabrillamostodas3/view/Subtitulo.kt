@@ -18,7 +18,7 @@ fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = Materi
         text = text,
         fontSize = fontSize.sp,
         textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.bodySmall,
+        style = MaterialTheme.typography.bodyMedium,
         fontStyle = FontStyle.Italic,
         color = color,
         modifier = modifier.padding(15.dp)

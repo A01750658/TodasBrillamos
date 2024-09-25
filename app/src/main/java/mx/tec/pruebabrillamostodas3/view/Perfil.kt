@@ -75,7 +75,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                 color = MaterialTheme.colorScheme.primaryContainer,
                 modifier = Modifier.padding(bottom = 16.dp))
             Spacer(modifier = Modifier
-                .padding(6.dp)
+                .padding(2.dp)
                 .fillMaxWidth()
             )
 
@@ -85,7 +85,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
             ) {
                 Spacer(
                     modifier = Modifier
-                        .padding(6.dp)
+                        .padding(2.dp)
                         .fillMaxWidth()
                 )
                 Etiqueta(
@@ -195,6 +195,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     }
                 }
             }
+            Spacer(modifier = Modifier.padding(10.dp).fillMaxWidth())
         }
     }
 }

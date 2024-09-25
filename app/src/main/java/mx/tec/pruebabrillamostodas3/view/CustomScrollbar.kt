@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Scrollbar(
+fun CustomScrollbar(
     state: LazyListState,
     modifier: Modifier = Modifier
 ) {
@@ -45,7 +45,7 @@ fun Scrollbar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(scrollbarHeight.dp)
-                    .background(Color.Red)
+                    .background(Color.Black)
             )
         }
     }
