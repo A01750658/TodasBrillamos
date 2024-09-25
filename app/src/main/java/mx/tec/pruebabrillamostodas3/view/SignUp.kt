@@ -148,7 +148,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             if (showDatePicker) {
                 Dialog(onDismissRequest = { btVM.setShowDatePicker(false) }) {
-                    DatePickerScreen(
+                    DatePickerScreen(btVM,
                         modifier = Modifier
                             .padding(bottom = 3.dp, start = 16.dp)
                             .background(MaterialTheme.colorScheme.onTertiary)
