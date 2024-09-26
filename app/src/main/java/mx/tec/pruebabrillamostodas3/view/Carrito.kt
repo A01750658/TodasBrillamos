@@ -55,6 +55,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 
+/**
+ * @author Santiago Chevez
+ * @autor Andrés Cabrera
+ * @author Alan Vega
+ * Pantalla con el carrito de productos
+ */
+
 @Composable
 fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: Uri?){
 
