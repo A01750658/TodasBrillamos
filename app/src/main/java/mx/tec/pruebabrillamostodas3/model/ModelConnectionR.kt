@@ -2,6 +2,7 @@ package mx.tec.pruebabrillamostodas3.model
 
 /**
  * @author Carlos Iker Fuentes Reyes
+ *
  */
 
 import com.google.gson.Gson
