@@ -138,7 +138,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                 )
                 Spacer(
                     modifier = Modifier
-                        .padding(6.dp)
+                        .padding(3.dp)
                         .fillMaxWidth()
                 )
             }
@@ -150,7 +150,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
 
             ) {
                 Spacer(modifier = Modifier
-                    .padding(6.dp)
+                    .padding(3.dp)
                     .fillMaxWidth()
                 )
                 Subtitulo(
