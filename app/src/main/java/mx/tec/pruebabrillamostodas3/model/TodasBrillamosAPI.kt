@@ -146,6 +146,12 @@ interface TodasBrillamosAPI
     @Headers(
         "User-Agent:Retrofit"
     )
+    /**
+     * Función que actualiza una dirección de un usuario
+     * @param address [Direccion]: Dirección a actualizar
+     * @param user_token [String]: Token del usuario
+     * @return [ResponseFormat]: Respuesta del servidor.
+     */
     @POST(updateAddressWithTokenEndpoint)
     suspend fun updateAddressWithToken(@Body address: Direccion, @Query("user_token") user_token : String): ResponseFormat
 

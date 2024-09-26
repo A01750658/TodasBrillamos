@@ -2,7 +2,8 @@ package mx.tec.pruebabrillamostodas3.model
 
 /**
  * @author Carlos Iker Fuentes Reyes
- *
+ * Clase que se encarga de la conexión con el servidor haciendo uso de retrofit y de la clase
+ * abstracta TodasBrillamosAPI
  */
 
 import com.google.gson.Gson
@@ -14,52 +15,102 @@ import java.security.MessageDigest
 
 
 class ModelConnectionR {
-
+    //Instancia de retrofit con el URL base de la API
     private val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl("https://apex.oracle.com/pls/apex/todasbrillamos/connection/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+    //Servicio que llamará a las funciones de la clase a
     private val service by lazy {
         retrofit.create(TodasBrillamosAPI::class.java)
     }
 
     //Product functions
+    /**
+     * Función que descarga los productos de la base de datos y genera un Pair con la cantidad y la lista de productos
+     * @param userToken: Token del usuario
+     * @return [Pair]: Pair con la cantidad [Int] y la lista de productos [ListaProducto]
+     */
     suspend fun getProductsWithToken(userToken: String): Pair<Int, List<Producto>> {
         val response: ListaProducto = service.getProductos(userToken)
         val return_value: Pair<Int, List<Producto>> =
             Pair(response.cantidad, response.productos)
         return return_value
     }
+
+    /**
+     * Función que descarga la imagen de un producto con base en su id
+     * @param imageId: Id de la imagen
+     * @return [ByteArray]: Imagen
+     */
     suspend fun getProductImage(imageId: Int): ByteArray {
         val response: ResponseBody = service.getProductImage(imageId.toString())
         return response.bytes()
     }
 
     //User Functions
+    /**
+     * Función que agrega un usuario a la base de datos
+     * @param user[Usuario]: Usuario a agregar
+     * @return [ResponseFormat]: Respuesta del servidor
+     */
     suspend fun signUp(user: Usuario): ResponseFormat {
         val response: ResponseFormat = service.addUser(user)
         return response
     }
 
+    /**
+     * Función que obtiene el token de un usuario
+     * @param user[String]: Email del usuario
+     * @param password[String]: Contraseña del usuario
+     * @return [JWT_KEY]: Token del usuario
+     */
+
     suspend fun getJWTKey(user: String, password: String): JWT_KEY {
         val response: JWT_KEY = service.getJWTKey(user, password)
         return response
     }
+
+    /**
+     * Función que agrega una dirección a la base de datos
+     * @param user_token [String]: Token del usuario
+     * @param address [Direccion]: Dirección a agregar
+     * @return [ResponseFormat] : respuesta del servidor
+     */
     suspend fun addAddress(user_token: String, address: Direccion): ResponseFormat {
         val response: ResponseFormat = service.addAddressWithToken(address, user_token)
         return response
     }
+
+    /**
+     * Función que actualiza una dirección a la base de datos
+     * @param user_token [String]: Token del usuario
+     * @param address [Direccion]: Dirección a agregar
+     * @return [ResponseFormat] : respuesta del servidor
+     */
     suspend fun updateAddress(user_token: String, address: Direccion): ResponseFormat {
         val response: ResponseFormat = service.updateAddressWithToken(address, user_token)
         return response
     }
+
+    /**
+     * Función que obtiene los datos del usuario
+     * @param user_token [String]
+     * @return [DataUsuario] : la información del usuario
+     */
     suspend fun getUserData(user_token: String) : DataUsuario{
         val response : DataUsuario = service.getUserDataWithToken(user_token)
         return response
     }
+
     //Password Recovery Functions
+    /**
+     * Función que genera un hash de una contraseña
+     * @param password[String]: Contraseña a hashear
+     * @return [String]: Hash de la contraseña
+     */
     fun hash(password: String): String {
         val bytes = password.toByteArray()
 
@@ -68,18 +119,34 @@ class ModelConnectionR {
         val digest = md.digest(bytes)
         return digest.fold("", { str, it -> str + "%02x".format(it) })
     }
+
+    /**
+     * Función que obtiene el token de recuperación de contraseña
+     * @param email[String]: Email del usuario
+     * @return [ResponseFormat]: Respuesta del servidor
+     */
     suspend fun getRecoveryPasswordToken(email: String): ResponseFormat {
         val response: ResponseFormat = service.getRecoveryPasswordToken(email)
         return response
     }
+
+    /**
+     * Función que cambia la contraseña de un usuario
+     * @param code[Int]: Código de recuperación de contraseña
+     * @param email[String]: Email del usuario
+     * @param password[String]: Nueva contraseña
+     */
     suspend fun changePassword(code: Int, email: String, password: String): ResponseFormat {
         val response: ResponseFormat = service.changePassword(ChangePassword(code, email, password))
         return response
     }
 
-
-
     //Order Functions
+    /**
+     * Función que acomoda la información de una lista de productos en un string para mandar a la base de datos
+     * @param productos[MutableList<Pair<Int,Int>>]: Lista de productos a enviar
+     * @return [String]: String con la información de los productos
+     */
     fun createDataInfo(productos: MutableList<Pair<Int, Int>>): String {
         var id_productos: String = ""
         var cantidad_producto: String = ""
@@ -91,10 +158,22 @@ class ModelConnectionR {
         return result
     }
 
+    /**
+     * Función que agrega una orden a la base de datos
+     * @param order[Order]: Orden a agregar
+     * @param userToken [String]
+     * @return [ResponseFormat]: Respuesta del servidor
+     */
     suspend fun addOrderWithToken(order: Order, userToken: String): ResponseFormat {
         val response : ResponseFormat = service.addOrderWithToken(order, userToken)
         return response
     }
+
+    /**
+     * Función que obtiene la información de las ordenes que ha realizado un usuario
+     * @param userToken [String] Token del usuario
+     * @return [HashMap<Int,List<Orderproducts>>]: Mapa con las ordenes del usuario
+     */
     suspend fun getOrderInfo(userToken: String) : HashMap<Int,List<Orderproducts>>{
 
         val response : Orders = service.getOrderInfoWithToken(userToken)
