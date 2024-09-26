@@ -43,8 +43,6 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
-    var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
-    val context = LocalContext.current
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -110,8 +108,8 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
             }
             TextButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
+                    btVM.recuperarContrasena(valorCorreo)
                     btVM.setLoading(true)
-                    btVM.login(estado.value.correo, estado.value.password)
                 }
             },
                 Modifier
@@ -133,9 +131,6 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
             }
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
-            }
-            if (estado.value.key != ""){
-                navController.navigate(Pantallas.RUTA_APP_HOME)
             }
             Spacer(modifier = Modifier.padding(16.dp))
 
