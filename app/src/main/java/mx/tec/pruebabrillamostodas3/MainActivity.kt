@@ -24,6 +24,7 @@ import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.view.Main
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
+import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 object PreferencesKeys {
@@ -33,6 +34,7 @@ object PreferencesKeys {
 class MainActivity : ComponentActivity() {
     private val btVM : BTVM by viewModels()
     private val paymentsVM: PaymentsViewModel by viewModels()
+    private val valVM: ValidationsVM by viewModels()
     var flag: Boolean = false
 
     override fun onNewIntent(intent: Intent) {
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
                 flag = true
             }
 
-            Main(btVM, paymentsVM, flag, savedDeepLinkUri)
+            Main(btVM, paymentsVM, flag, savedDeepLinkUri, valVM)
         }
     }
     override fun onStart(){

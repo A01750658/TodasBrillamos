@@ -399,5 +399,26 @@ class BTVM: ViewModel() {
         }
     }
 
+    fun setErrorCalle(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCalle = b)
+    }
+    fun setErrorMunicipio(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorMunicipio = b)
+    }
+    fun setErrorColonia(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorColonia = b)
+    }
+    fun setErrorCp(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCp = b)
+    }
+    fun setErrorNumeroExt(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorNumeroExt = b)
+    }
+    fun setErrorNumeroInt(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorNumeroInt = b)
+    }
+    fun setErrorEstado(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorEstado = b)
+    }
 
 }

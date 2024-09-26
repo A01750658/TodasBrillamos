@@ -18,16 +18,20 @@ class ValidationsVM : ViewModel() {
         return validation.validatePhoneNumber(phoneNumber)
     }
 
-    fun validateUrl(url: String): String? {
-        return validation.findUrl(url)
+    fun validateUrl(url: String): Boolean {
+        return !(validation.findUrl(url)==null)
     }
 
-    fun validateForbiddenWords(text: String): String? {
-        return validation.findForbiddenWords(text)
+    fun validateForbiddenWords(text: String): Boolean {
+        return !(validation.findForbiddenWords(text)==null)
     }
 
-    fun validateSpecialCharacters(text: String): String? {
-        return validation.findSpecialCharacters(text)
+    fun validateSpecialCharacters(text: String): Boolean {
+        return !(validation.findSpecialCharacters(text)==null)
+    }
+    fun validateJustNumbers(text : String):Boolean{
+        return validation.validateJustNumbers(text)
+
     }
 
 

@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
+import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 /**
  * @author Alan Vega
@@ -44,7 +45,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
  * @param modifier modificador
  */
 @Composable
-fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?, modifier: Modifier = Modifier){
+fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?, validationsVM: ValidationsVM ,modifier: Modifier = Modifier){
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
@@ -56,6 +57,7 @@ fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLink
                 navController,
                 flag,
                 savedDeepLinkUri,
+                validationsVM,
                 modifier.padding(innerPadding)
             )
         }
@@ -181,7 +183,7 @@ fun AppBottomBar(navController: NavHostController) {
  * @param modifier modificador
  */
 @Composable
-fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier) {
+fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
 
     NavHost(navController = navController,
         startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
@@ -220,7 +222,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             Carrito(btVM, paymentsVM, savedDeepLinkUri)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
-            EditarDireccion(btVM,navController)
+            EditarDireccion(btVM,navController,validationsVM)
         }
         composable(Pantallas.RUTA_RECUPERARCONTRASEÑA){
             RecuperarContraseña(btVM ,navController)

@@ -11,6 +11,12 @@ class Validations {
     val forbidden_words_regex = Regex(".*putit[oa]s?|put[oa@]|chingada|pendej[ao]|maldit[oa]|terrorismo|sexo|sexo.*")
     //find special characters
     val number_special_chars_regex = Regex("[^a-zA-Z0-9\\s]+")
+    val just_numbers_regex = Regex("\\d*")
+
+
+    fun validateJustNumbers(nums: String) :Boolean{
+        return just_numbers_regex.matches(nums)
+    }
     /**
      * Función que valida si un string es una url
      * @param email String

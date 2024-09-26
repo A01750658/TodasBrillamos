@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import io.ktor.websocket.Frame
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 /**
  * @author Santiago Chevez
@@ -65,12 +66,13 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
  */
 
 @Composable
-fun EditarDireccion(btVM: BTVM, navController: NavHostController){
+fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM: ValidationsVM){
     val scrollState = rememberScrollState()
     val scrollPosition = scrollState.value
     val maxScrollPosition = scrollState.maxValue
     val estado = btVM.estadoCopiaDireccion.collectAsState()
     val usuario = btVM.estadoUsuario.collectAsState()
+    val estadoErrors = btVM.estadoErrors.collectAsState()
     val estado_expanded = btVM.estadoExpanded.collectAsState()
     var selectedOptionText by remember { mutableStateOf(estado.value.estado) }
     val configuration = LocalConfiguration.current
@@ -175,13 +177,28 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
 
                     Etiqueta("Calle*")
                     InputTexto(estado.value.calle,
-                        { nuevoTexto -> btVM.setCalle(nuevoTexto) })
+                        { nuevoTexto -> btVM.setCalle(nuevoTexto)
+                        if(nuevoTexto.isEmpty() || validationsVM.validateSpecialCharacters(nuevoTexto)){
+                            btVM.setErrorCalle(true)
+                        } else{
+                            btVM.setErrorCalle(false)
+                        }
+                        })
+                    if (estadoErrors.value.errorCalle) {
+                        Etiqueta("La calle no puede estar vacia y no puede contener caracteres especiales", modifier = Modifier.padding(bottom=10.dp))
+                    }
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.weight(1f)) {
                             Etiqueta("Numero Exterior*")
                             InputTexto(
                                 estado.value.numero_exterior,
-                                { nuevoTexto -> btVM.setNumeroExt(nuevoTexto) },
+                                { nuevoTexto -> btVM.setNumeroExt(nuevoTexto)
+                                if(nuevoTexto == "" || !validationsVM.validateJustNumbers(nuevoTexto)){
+                                    btVM.setErrorNumeroExt(true)
+                                }else{
+                                    btVM.setErrorNumeroExt(false)
+                                }
+                                },
                                 keyBoardType = KeyboardType.Number
                             )
                         }
@@ -189,22 +206,54 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                             Etiqueta("Numero Interior")
                             InputTexto(
                                 estado.value.numero_int,
-                                { nuevoTexto -> btVM.setNumeroInt(nuevoTexto) })
+                                { nuevoTexto -> btVM.setNumeroInt(nuevoTexto)
+                                if (!validationsVM.validateJustNumbers(nuevoTexto)){
+                                    btVM.setErrorNumeroInt(true)
+                                    } else{
+                                        btVM.setErrorNumeroInt(false)
+                                    }},
+                                keyBoardType = KeyboardType.Number)
                         }
+                    }
+                    if (estadoErrors.value.errorNumeroExt || estadoErrors.value.errorNumeroInt) {
+                        Etiqueta("El numero interior y exterior deben ser números y el número exterior no puede estar vacio", modifier = Modifier.padding(bottom = 10.dp))
                     }
                     Etiqueta("Colonia*")
                     InputTexto(estado.value.colonia,
-                        { nuevoTexto -> btVM.setColonia(nuevoTexto) })
-
+                        { nuevoTexto -> btVM.setColonia(nuevoTexto)
+                            if(nuevoTexto == "" || validationsVM.validateSpecialCharacters(nuevoTexto)){
+                                btVM.setErrorColonia(true)
+                            }else{
+                                btVM.setErrorColonia(false)
+                            }})
+                    if (estadoErrors.value.errorColonia) {
+                        Etiqueta("La colonia no puede estar vacia o tener caracteres especiales", modifier= Modifier.padding(bottom = 10.dp))
+                    }
                     Etiqueta("Municipio*")
                     InputTexto(estado.value.municipio,
-                        { nuevoTexto -> btVM.setMunicipio(nuevoTexto) })
-                    Etiqueta("Codigo Postal*")
+                        { nuevoTexto -> btVM.setMunicipio(nuevoTexto)
+                            if(nuevoTexto == "" || validationsVM.validateSpecialCharacters(nuevoTexto)){
+                                btVM.setErrorMunicipio(true)
+                            }else{
+                                btVM.setErrorMunicipio(false)
+                            }})
+                    if (estadoErrors.value.errorMunicipio) {
+                        Etiqueta("El municipio no puede estar vacio o tener caracteres especiales", modifier=Modifier.padding(bottom=10.dp))
+                    }
+                    Etiqueta("Código Postal*")
                     InputTexto(
                         estado.value.cp,
-                        { nuevoTexto -> btVM.setCp(nuevoTexto) },
+                        { nuevoTexto -> btVM.setCp(nuevoTexto)
+                            if(nuevoTexto.length !=5 || !validationsVM.validateJustNumbers(nuevoTexto) ){
+                                btVM.setErrorCp(true)
+                            }else{
+                                btVM.setErrorCp(false)
+                            }},
                         keyBoardType = KeyboardType.Number
                     )
+                    if (estadoErrors.value.errorCp) {
+                        Etiqueta("El código postal no puede estar vacio o tener caracteres especiales y debe tener 5 números", modifier=Modifier.padding(bottom = 10.dp))
+                    }
                     Etiqueta("Estado*")
                     Box(
                         modifier = Modifier
@@ -247,23 +296,42 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                                         selectedOptionText = selectionOption
                                         btVM.setEstado(selectionOption)
                                         btVM.setExpanded(false)
+                                        btVM.setErrorEstado(false)
                                     },
                                     text = { Text(selectionOption) }
                                 )
                             }
                         }
                     }
-
+                    if (estadoErrors.value.errorEstado) {
+                        Etiqueta("El estado no puede estar vacio", modifier = Modifier.padding(bottom = 10.dp))
+                    }
                     //item{InputTexto(estado.value.estado,{ nuevoTexto -> btVM.setEstado(nuevoTexto)})}
                     ElevatedButton(
                         {
-                            if (usuario.value.direccion.calle == ""){
-                                btVM.addAddress(estado.value)
-                            }else{
-                                btVM.updateAddress(estado.value)
+                            if(!estadoErrors.value.errorCalle && !estadoErrors.value.errorColonia && !estadoErrors.value.errorCp && !estadoErrors.value.errorEstado && !estadoErrors.value.errorMunicipio
+                                && !estadoErrors.value.errorNumeroExt && estadosMexico.contains(estado.value.estado)) {
+                                if (estado.value.numero_int==""){
+                                    btVM.setNumeroInt("0")
+                                }
+                                if (usuario.value.direccion.calle == "") {
+                                    btVM.addAddress(estado.value)
+                                } else {
+                                    btVM.updateAddress(estado.value)
+                                }
+                                btVM.changeAddress()
+                                navController.navigateUp()
+                            } else{
+                                if (estado.value.calle == "") {
+                                    btVM.setErrorCalle(true)
+                                }
+                                if(estado.value.municipio == ""){
+                                    btVM.setErrorMunicipio(true)
+                                }
+                                if (estado.value.estado == ""){
+                                    btVM.setErrorEstado(true)
+                                }
                             }
-                            btVM.changeAddress()
-                            navController.navigateUp()
                         },
                         modifier = Modifier
                             .padding(16.dp)
