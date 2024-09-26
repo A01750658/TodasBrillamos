@@ -36,6 +36,10 @@ class BTVM: ViewModel() {
         _once.value = show
     }
 
+    //EstadoDatePicker
+    private val _contraseñaPerdida = MutableLiveData(false)
+    val contraseñaPerdida: LiveData<Boolean> = _contraseñaPerdida
+
     //Estado Lista Productos proveniente de modelo
     private val _estadoListaProductosModelo = MutableStateFlow(listOf<Producto>())
     val estadoListaProductosModelo: StateFlow<List<Producto>> = _estadoListaProductosModelo
@@ -359,6 +363,26 @@ class BTVM: ViewModel() {
                 return
             }
             _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto,second = _estadoañadirCarrito.value.second-1)
+        }
+    }
+
+    fun recuperarContrasena(email: String){
+        viewModelScope.launch {
+            try {
+                val response = modeloR.getRecoveryPasswordToken(email)
+                if (response.result == "error") {
+                    throw Exception("Could not recover password")
+                }
+                println(response.message)
+                //cambiar estado loading a false
+                _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
+                //cambiar estado contraseña perdida a true
+                _contraseñaPerdida.value = true
+            }
+            catch (e: Exception) {
+                println(e)
+                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+            }
         }
     }
 

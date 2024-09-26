@@ -60,7 +60,7 @@ fun Foros(){
                         showBottomSheet = false
                     }
                 } else if (showBottomSheet2) {
-                    TempleteForo("Acaso ¿Esta es la pregunta más interesante sobre el tema?", listOf("Súper si", "Nah", "Tal vez", "Como crees!"), {showBottomSheet2 = false})
+                    TempleteForo("Acaso ¿Esta es la pregunta más interesante sobre el tema?", listOf("Súper si", "Nah", "Tal vez", "Como crees!"))
                 } else{
                     Column( horizontalAlignment =  Alignment.CenterHorizontally,
                         modifier = Modifier
