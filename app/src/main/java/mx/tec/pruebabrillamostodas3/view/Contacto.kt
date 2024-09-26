@@ -33,7 +33,8 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 /**
  * @author Santiago Chevez
-* @author Alan Vega
+ * @author Alan Vega
+ * Pestaña con los datos de contacto
  */
 
 @Composable

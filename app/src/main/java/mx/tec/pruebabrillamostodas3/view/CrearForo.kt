@@ -23,6 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+/**
+ * @author Santiago Chevez
+ * Pantalla para nueva publicación en el foro
+ */
+
 @Composable
 fun CrearForo(onClick: () -> Unit) {
     Box(
