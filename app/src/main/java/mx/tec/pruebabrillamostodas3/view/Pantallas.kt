@@ -37,6 +37,7 @@ sealed class Pantallas (
         const val RUTA_CARRITO = "Carrito"
         const val RUTA_EDITAR_DIRECCION = "EditarDireccion"
         const val RUTA_RECUPERARCONTRASEÑA = "RecuperarContraseña"
+        const val RUTA_NUEVA_CONTRASEÑA = "NuevaContraseña"
     }
 
     //Pantallas Menu
@@ -52,6 +53,7 @@ sealed class Pantallas (
     data object SignUp: Pantallas(RUTA_SIGNUP, "Sign Up", Icons.Default.Star)
     data object Aviso: Pantallas(RUTA_AVISO, "Aviso", Icons.Default.Star)
     data object RecuperarContraseña: Pantallas(RUTA_RECUPERARCONTRASEÑA, "RecuperarContraseña", Icons.Default.Star)
+    data object NuevaContraseña: Pantallas(RUTA_NUEVA_CONTRASEÑA, "NuevaContraseña", Icons.Default.Star)
 
     //Pantallas que están en Home
     data object Info: Pantallas(RUTA_INFO, "Info", Icons.Default.Star)

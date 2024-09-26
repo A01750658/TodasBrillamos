@@ -225,5 +225,8 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         composable(Pantallas.RUTA_RECUPERARCONTRASEÑA){
             RecuperarContraseña(btVM ,navController)
         }
+        composable(Pantallas.RUTA_NUEVA_CONTRASEÑA){
+            NuevaContraseña(btVM, navController)
+        }
     }
 }
