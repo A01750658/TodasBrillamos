@@ -23,8 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+/**
+ * @author Santiago Chevez
+ * Este es el template para todos los foros que vayan a haber en la aplicación
+ * @param Pregunta es la pregunta que se va a hacer en el foro
+ * @param Respuestas es la lista de respuestas que se van a mostrar en el foro
+ */
 @Composable
-fun TempleteForo(Pregunta: String = "Pregunta", Respuestas: List<String>,onClick: () -> Unit) {
+fun TempleteForo(Pregunta: String = "Pregunta", Respuestas: List<String>) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +71,7 @@ fun TempleteForo(Pregunta: String = "Pregunta", Respuestas: List<String>,onClick
             }
         }
         FloatingActionButton(
-            onClick = { onClick() },
+            onClick = {  },
             containerColor = MaterialTheme.colorScheme.tertiary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             modifier = Modifier
