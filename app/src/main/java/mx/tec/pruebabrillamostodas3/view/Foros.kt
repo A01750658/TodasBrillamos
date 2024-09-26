@@ -37,6 +37,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+/**
+ * @author Santiago Chevez
+ * @autor Andrés Cabrera
+ * @author Alan Vega
+ * Pantalla donde se muestran las publicaciones en el foro
+ */
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun Foros(){
@@ -161,7 +168,7 @@ fun Foros(){
                             }
                             FloatingActionButton(
                                 onClick = { showBottomSheet= true },
-                                containerColor = MaterialTheme.colorScheme.onTertiary,
+                                containerColor = MaterialTheme.colorScheme.tertiary,
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 modifier = Modifier
                                     .align(Alignment.BottomEnd)

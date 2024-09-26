@@ -157,13 +157,16 @@ class BTVM: ViewModel() {
     fun signUp(nombre: String, apellido_paterno: String, apellido_materno: String, fecha_nacimiento: String, correo: String, password: String,terminos :Boolean, publicidad : Boolean,telefono: String) {
         val terminos : Int = if (terminos) 1 else 0
         val publicidad : Int = if (publicidad) 1 else 0
+        println(terminos)
+        println(publicidad)
         val user : Usuario = Usuario(
             nombre,
             apellido_paterno,
             apellido_materno,
             fecha_nacimiento,
             correo,
-            modeloR.hash(password),
+            //modeloR.hash(password),
+            password,
             terminos,
             publicidad,
             telefono
@@ -201,7 +204,6 @@ class BTVM: ViewModel() {
 
             } catch (e: Exception) {
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
-
             }
         }
     }
@@ -285,6 +287,10 @@ class BTVM: ViewModel() {
 
     fun setFecha(day: Int, month: Int, year: Int) {
         _estadoUsuario.value = _estadoUsuario.value.copy(año_nacimiento = year, mes_nacimiento = month, día_nacimiento = day)
+    }
+
+    fun getFecha(): Triple<Int, Int, Int> {
+        return Triple(_estadoUsuario.value.año_nacimiento, _estadoUsuario.value.mes_nacimiento, _estadoUsuario.value.día_nacimiento)
     }
 
     fun setErrorType(b: Boolean) {

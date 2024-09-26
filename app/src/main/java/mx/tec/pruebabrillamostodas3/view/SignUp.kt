@@ -271,12 +271,18 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             }
             Spacer(modifier = Modifier.padding(16.dp))
             TextButton(onClick = {
+                val (day, month, year) = btVM.getFecha()
                 btVM.setIntent(true)
                 if(valorNombre.isNotEmpty() && valorApellidoPaterno.isNotEmpty() && valorApellidoMaterno.isNotEmpty()
                     && valorCorreo.isNotEmpty() && valorPassword.isNotEmpty() && !estadoErrors.value.errorContrasenas
-                    && valortelefono.isNotEmpty() && valorAvisos) {
+                    && valortelefono.isNotEmpty() && valorAvisos && day != 0 && month != 0 && year != 0) {
 
                     //Aquí registrarse entonces xd
+                    val months = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+                    val fecha = "%02d-%s-%04d".format(day, months[month - 1], year)
+                    println(valorNombre +" "+ valorApellidoPaterno +" "+ valorApellidoMaterno+ " "+ fecha+ " "+ valorCorreo+ " "+ valorPassword + " "+ valorAvisos+ " "+ valorMarketing)
+                    btVM.signUp(valorNombre, valorApellidoPaterno, valorApellidoMaterno, fecha, valorCorreo, valorPassword, valorAvisos, valorMarketing, valortelefono)
+
                     navController.navigate(Pantallas.RUTA_LOGIN)
 
                                     } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){

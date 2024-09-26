@@ -134,7 +134,6 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 println(estadoListaProducto.value.size)}
 
-
         }
         FloatingActionButton(
             onClick = { navController.navigate("Carrito") },
@@ -148,7 +147,6 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                 imageVector = Icons.Default.ShoppingCart,
                 contentDescription = "Generar"
             )
-
         }
         if (showMenu) {
             ModalBottomSheet(

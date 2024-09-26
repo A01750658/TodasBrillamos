@@ -29,6 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.sql.Blob
 
+/**
+ * @author Santiago Chevez
+ * @autor Andrés Cabrera
+ * @author Alan Vega
+ * Boton para seleccionar un producto en la tienda
+ */
+
 @Composable
 fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio_n: Int, precio_r: Int, rebaja: Int, modifier: Modifier = Modifier){
     val configuration = LocalConfiguration.current

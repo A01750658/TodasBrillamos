@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.navigation.NavController
 
@@ -44,8 +45,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
     btVM.setEstadoAñadirCarrito(estadoSeleccionado)
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(16.dp)
-        .wrapContentHeight(),
+        .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         //verticalArrangement = Arrangement.Center
     ){

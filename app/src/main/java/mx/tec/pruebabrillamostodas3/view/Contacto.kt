@@ -33,7 +33,8 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 /**
  * @author Santiago Chevez
-* @author Alan Vega
+ * @author Alan Vega
+ * Pestaña con los datos de contacto
  */
 
 @Composable
@@ -104,7 +105,7 @@ fun Contacto(vModel: BTVM) {
                         text = "Ubicación",
                         icon = Icons.Default.LocationOn,
                         onClick = { vModel.ubicacion("Fundación Todas Brillamos", context) },
-                        color = MaterialTheme.colorScheme.tertiaryContainer
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
             }

@@ -19,6 +19,7 @@ fragmentKtx = "1.8.2"
 runtimeLivedata = "1.7.0"
 roomKtx = "2.6.1"
 
+
 [libraries]
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gson" }
@@ -45,6 +46,7 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

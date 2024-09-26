@@ -15,6 +15,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * @author Santiago Chevez
+ * @autor Andrés Cabrera
+ * Etiqueta para nombrar los inputs
+ */
+
 @Composable
 fun Etiqueta(texto: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.onTertiary, padding: Int = 16) {
 
