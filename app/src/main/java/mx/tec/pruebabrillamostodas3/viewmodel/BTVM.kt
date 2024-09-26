@@ -346,6 +346,10 @@ class BTVM: ViewModel() {
         return _estadoUsuario.value
     }
 
+    fun setCodigoUsuario(codigo: Int){
+        _estadoUsuario.value = _estadoUsuario.value.copy(codigo = codigo)
+    }
+
     fun setEstadoAñadirCarrito(producto: Int){
         if (_estadoañadirCarrito.value.first != producto){
             _estadoañadirCarrito.value = Pair(producto,1)

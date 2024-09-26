@@ -41,7 +41,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
-    var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
+    var valorCodigo by rememberSaveable { mutableStateOf(estado.value.codigo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
 
     Box(
@@ -72,24 +72,26 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                 .padding(6.dp)
                 .fillMaxWidth()
             )
-            Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
+            Etiqueta("Código de recuperación*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.correo, onValueChange =
             {
                     nuevoTexto ->
                 if (nuevoTexto.contains("\n")){
                     /*TODO*/
                 } else {
-                    if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
+                    if (nuevoTexto.length != 8 ) {
                         btVM.setErrorCorreo(true)
+                        //Error codigo longitud
+                        //no existe
                     } else {
                         btVM.setErrorCorreo(false)
                     }
-                    valorCorreo = nuevoTexto
-                    btVM.setCorreoUsuario(valorCorreo)
-                    btVM.setErrorLogin(false)
+                    valorCodigo = nuevoTexto.toInt()
+                    btVM.setCodigoUsuario(valorCodigo)
+                    btVM.setErrorLogin(false) //error codigo
                 }
             },
-                keyBoardType = KeyboardType.Email)
+                keyBoardType = KeyboardType.Number)
 
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.password,
@@ -122,7 +124,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
             }
             TextButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
-                    btVM.recuperarContrasena(valorCorreo)
+                    //btVM.recuperarContrasena(valorCorreo)
                     btVM.setLoading(true)
                 }
             },
