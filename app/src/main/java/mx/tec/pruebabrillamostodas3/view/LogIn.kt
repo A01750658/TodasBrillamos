@@ -1,5 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -30,12 +31,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.R
+import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
  * @author Santiago Chevez
@@ -45,12 +48,13 @@ import mx.tec.pruebabrillamostodas3.R
  * @param navController Controlador de navegación de la aplicación.
  */
 @Composable
-fun LogIn(btVM: BTVM, navController: NavHostController){
+fun LogIn(btVM: BTVM, navController: NavHostController, paymentsVM: PaymentsViewModel){
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
+    val context = LocalContext.current
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -131,6 +135,7 @@ fun LogIn(btVM: BTVM, navController: NavHostController){
                 if (!estadoErrors.value.errorLogin) {
                     btVM.setLoading(true)
                     btVM.login(estado.value.correo, estado.value.password)
+                    paymentsVM.saveUserData(context, estado.value.correo, estado.value.password)
                 }
             },
                 Modifier
