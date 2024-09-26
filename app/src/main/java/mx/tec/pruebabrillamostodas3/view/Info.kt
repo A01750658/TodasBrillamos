@@ -49,6 +49,23 @@ fun Info(vModel: BTVM) {
                 .fillMaxWidth()
 
         ) {
+            Carrusel(listOf("Sobre la marca","¿Cómo lo hacemos?","¿Qué estamos haciendo?", "Nuestra Misión", "¿Qué queremos que sea el mundo?", "Nuestra visión"),
+                listOf("Zazil es una marca comprometida con el bienestar de las mujeres y el" +
+                        "cuidado del medio ambiente. Su misión es proporcionar soluciones in" +
+                        "novadoras y sostenibles para el período menstrual. ",
+                    "¿Cómo lo hacen? A través de la creación de toallas femeninas reutilizables.",
+                    "En Zazil, no solo estamos redefiniendo la menstruación, sino también el " +
+                            "impacto que tiene en la economía y el medio ambiente.",
+                    "Nuestra misión es empoderar a las mujeres a tomar decisiones informadas sobre su salud" +
+                            "menstrual mientras generan un impacto positivo en su bienestar financie" +
+                            "ro y en el planeta.",
+                    "Imaginamos un mundo donde la menstruación no solo es sostenible para" +
+                            " el planeta, sino también empoderadora para todas las mujeres. Quer" +
+                            "emos que cada elección consciente de Zazil contribuya a la creación" +
+                            "de comunidades fuertes, mujeres empoderadas económicamente y un ento" +
+                            "rno más saludable y equitativo.",
+                    "Nuestra visión es que Zazil no sea solo un producto, sino una fuerza positiva que tra" +
+                            "nsforma la forma en que vivimos la menstruación, promoviendo el bienestar personal y global."))
             Titulo("ZAZIL", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 90)
             Subtitulo("Cambia el mundo con un solo gesto.")
             HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.primaryContainer)

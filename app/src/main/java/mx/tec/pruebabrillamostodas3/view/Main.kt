@@ -34,8 +34,14 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
  * @author Alan Vega
+ * @author Santiago Chevez
+ * Esta es la pantalla principal de la aplicación tiene el topbar y el bottom bar ademas del contenido de la aplicación
+ * @param btVM Viewmodel principal de la aplicación.
+ * @param paymentsVM Viewmodel de pagos.
+ * @param flag si ya se logeo o no.
+ * @param savedDeepLinkUri Link
+ * @param modifier modificador
  */
-
 @Composable
 fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier){
     val navController = rememberNavController()
@@ -55,6 +61,13 @@ fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLink
     }
 }
 
+/**
+ * @author Alan Vega
+ * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * Función de la top bar y la mestra en las pantallas necesarias
+ * @param navController Controlador de navegación de la aplicación.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(navController: NavHostController) {
@@ -107,6 +120,12 @@ fun AppTopBar(navController: NavHostController) {
     }
 }
 
+/**
+ * @author Alan Vega
+ * @author Santiago Chevez
+ * Esta funcion es el como se ve la bottom bar y la muestra en las pantallas necesarias
+ * @param navController Controlador de navegación de la aplicación.
+ */
 @Composable
 fun AppBottomBar(navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
@@ -147,6 +166,18 @@ fun AppBottomBar(navController: NavHostController) {
     }
 }
 
+/**
+ * @author Alan Vega
+ * @author Santiago Chevez
+ * Esta es la función principal del controlador de la vista de la aplicación
+ * Muestra la panatalla requerida
+ * @param btVM Viewmodel principal de la aplicación.
+ * @param paymentsVM Viewmodel de pagos.
+ * @param navController Controlador de navegación de la aplicación.
+ * @param flag si ya se logeo o no.
+ * @param savedDeepLinkUri Link
+ * @param modifier modificador
+ */
 @Composable
 fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier) {
 

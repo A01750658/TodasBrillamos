@@ -36,6 +36,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.navigation.NavController
 
+/**
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @param btVM Viewmodel principal de la aplicación.
+ */
 @Composable
 fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
     val estadoSeleccionado by btVM.estadoSeleccionado.collectAsState()

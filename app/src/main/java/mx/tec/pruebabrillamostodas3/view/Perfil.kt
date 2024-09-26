@@ -40,6 +40,9 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 /**
  * @author Santiago Chevez
  * @author Alan Vega
+ * @author Andrés Cabrera
+ * @param btVM Viewmodel principal de la aplicación.
+ * @param navController Controlador de navegación de la aplicación.
  */
 
 @Composable

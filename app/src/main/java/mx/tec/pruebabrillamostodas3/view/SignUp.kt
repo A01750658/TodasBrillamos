@@ -41,8 +41,16 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.R
 
+/**
+ * @author Santiago Chevez
+ * @author Cesar FLores
+ * Esta es la pantalla del SignUP donde se integran distintos elementos creados para hacer la pantalla
+ * @param btVM el viewModel principal de la aplicación
+ * @param navController el controlador de navegación de la aplicación
+ */
 @Composable
 fun SignUp(btVM: BTVM, navController: NavHostController) {
+    //Variables de estado, scrollState, y de los valores introducidos por el usuario
     val scrollState = rememberScrollState()
     val showDatePicker by btVM.showDatePicker.observeAsState(false)
     val estado = btVM.estadoUsuario.collectAsState()
