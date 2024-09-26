@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -46,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.Font
@@ -144,7 +146,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                 modifier = Modifier
                     .padding(bottom = 10.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background((MaterialTheme.colorScheme.primary).copy(alpha = 0.75f))
 
             ) {
                 Spacer(modifier = Modifier
@@ -263,20 +265,17 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
         }
         if(scrollPosition != maxScrollPosition) {
             Box(modifier = Modifier
-                .clip(RoundedCornerShape(30.dp))
-                .offset(x = 16.dp, y = 16.dp)
-                .padding(bottom = 20.dp, end = 20.dp)
-                .align(Alignment.BottomEnd)
-                .background(MaterialTheme.colorScheme.tertiary)
+                .clip(CircleShape)
+                .size(40.dp)
+                //.padding(bottom = 20.dp)
+                .align(Alignment.BottomCenter)
 
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = "Generar",
                     Modifier.size(30.dp),
-                    tint = MaterialTheme.colorScheme.onTertiary
                 )
-
             }
         }
     }

@@ -161,7 +161,7 @@ fun Foros(){
                             }
                             FloatingActionButton(
                                 onClick = { showBottomSheet= true },
-                                containerColor = MaterialTheme.colorScheme.onTertiary,
+                                containerColor = MaterialTheme.colorScheme.tertiary,
                                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                 modifier = Modifier
                                     .align(Alignment.BottomEnd)

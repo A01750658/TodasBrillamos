@@ -104,7 +104,7 @@ fun Contacto(vModel: BTVM) {
                         text = "Ubicación",
                         icon = Icons.Default.LocationOn,
                         onClick = { vModel.ubicacion("Fundación Todas Brillamos", context) },
-                        color = MaterialTheme.colorScheme.tertiaryContainer
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
             }
