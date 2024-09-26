@@ -1,5 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.content.Context
 import android.net.Uri
 import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,7 +38,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
  */
 
 @Composable
-fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier){
+fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?, modifier: Modifier = Modifier){
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
@@ -172,7 +173,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             SignUp(btVM, navController)
         }
         composable(Pantallas.RUTA_LOGIN){
-            LogIn(btVM, navController)
+            LogIn(btVM, navController, paymentsVM)
         }
         composable(Pantallas.RUTA_INFO){
             Info(btVM)

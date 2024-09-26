@@ -89,6 +89,9 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                         // Clear the deep link data to prevent re-execution
                         //(context as? ComponentActivity)?.intent?.data = null
                         sharedPreferences.edit().remove("deep_link_uri").apply()
+                        paymentsViewModel.readUserData(context, viewModel)
+                        paymentsViewModel.delUserData(context)
+
                     },
                     onError = { error ->
                         paymentStatus = "Failed to execute payment: ${error.message}"
