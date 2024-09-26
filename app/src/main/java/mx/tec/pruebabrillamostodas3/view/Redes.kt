@@ -37,6 +37,8 @@ import mx.tec.pruebabrillamostodas3.R
  * @author Santiago Chevez
  * @author Alan Vega
  * @author Andrés Cabrera
+ * Esta es la pantalla de redes sociales de la organización.
+ * @param vmodel Viewmodel principal de la aplicación.
  */
 
 

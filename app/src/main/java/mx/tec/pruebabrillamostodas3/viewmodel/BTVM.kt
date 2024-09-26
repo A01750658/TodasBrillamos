@@ -134,6 +134,15 @@ class BTVM: ViewModel() {
             }
         }
     }
+    fun updateAddress(direccion: Direccion) {
+        viewModelScope.launch {
+            try {
+                modeloR.updateAddress(estadoUsuario.value.key,  direccion)
+            } catch (e: Exception) {
+                println(e)
+            }
+        }
+    }
 
     fun addProducto(index : Int, cantidad: Int) {
         estadoCarrito.value.productos.add(Pair(index, cantidad))

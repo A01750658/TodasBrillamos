@@ -27,6 +27,7 @@ const val getUserDataWithTokenEndpoint = "get/user_data"
 const val getRecoveryPasswordTokenEndpoint = "recover/password/get_token"
 const val changePasswordEndpoint = "recover/password/change_password"
 const val getOrderInfoWithTokenEndpoint = "get_order/"
+const val updateAddressWithTokenEndpoint = "edit/address/"
 interface TodasBrillamosAPI
 {
 
@@ -142,4 +143,16 @@ interface TodasBrillamosAPI
      */
     @GET(getOrderInfoWithTokenEndpoint)
     suspend fun getOrderInfoWithToken(@Query("user_token") user_token : String): Orders
+    @Headers(
+        "User-Agent:Retrofit"
+    )
+    /**
+     * Función que actualiza una dirección de un usuario
+     * @param address [Direccion]: Dirección a actualizar
+     * @param user_token [String]: Token del usuario
+     * @return [ResponseFormat]: Respuesta del servidor.
+     */
+    @POST(updateAddressWithTokenEndpoint)
+    suspend fun updateAddressWithToken(@Body address: Direccion, @Query("user_token") user_token : String): ResponseFormat
+
 }

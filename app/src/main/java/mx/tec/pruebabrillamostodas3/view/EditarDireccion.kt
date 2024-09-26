@@ -70,6 +70,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
     val scrollPosition = scrollState.value
     val maxScrollPosition = scrollState.maxValue
     val estado = btVM.estadoCopiaDireccion.collectAsState()
+    val usuario = btVM.estadoUsuario.collectAsState()
     val estado_expanded = btVM.estadoExpanded.collectAsState()
     var selectedOptionText by remember { mutableStateOf(estado.value.estado) }
     val configuration = LocalConfiguration.current
@@ -256,6 +257,11 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController){
                     //item{InputTexto(estado.value.estado,{ nuevoTexto -> btVM.setEstado(nuevoTexto)})}
                     ElevatedButton(
                         {
+                            if (usuario.value.direccion.calle == ""){
+                                btVM.addAddress(estado.value)
+                            }else{
+                                btVM.updateAddress(estado.value)
+                            }
                             btVM.changeAddress()
                             navController.navigateUp()
                         },

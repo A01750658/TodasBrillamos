@@ -51,6 +51,20 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
     val estado = btVM.estadoUsuario.collectAsState()
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
+    var direccion = ""
+    println(estado.value.direccion.calle)
+    println(estado.value.direccion.numero_int.toInt())
+    if (estado.value.direccion.calle != "") {
+        if (estado.value.direccion.numero_int == "" || estado.value.direccion.numero_int.toInt() == -1 || estado.value.direccion.numero_int.toInt() == 0){
+            direccion="${estado.value.direccion.calle} #${estado.value.direccion.numero_exterior}, ${estado.value.direccion.colonia}, ${estado.value.direccion.municipio}, ${estado.value.direccion.estado}, C.P. ${estado.value.direccion.cp}"
+        }
+        else{
+            direccion="${estado.value.direccion.calle} #${estado.value.direccion.numero_exterior}, Int ${estado.value.direccion.numero_int}, ${estado.value.direccion.colonia}, ${estado.value.direccion.municipio}, ${estado.value.direccion.estado}, C.P. ${estado.value.direccion.cp}"
+        }
+
+    }
+    else{ direccion = "No hay dirección de envío registrada"}
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -158,6 +172,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
                 )
+
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -165,7 +180,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     .clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.onTertiary)) {
                     Text(
-                        "${estado.value.direccion.calle} #${estado.value.direccion.numero_exterior}, Int ${estado.value.direccion.numero_int}, ${estado.value.direccion.colonia}, ${estado.value.direccion.municipio}, ${estado.value.direccion.estado}, C.P. ${estado.value.direccion.cp}",
+                        text= direccion,
                         modifier = Modifier
                             .padding(start = 10.dp)
                             .padding(vertical = 20.dp)
