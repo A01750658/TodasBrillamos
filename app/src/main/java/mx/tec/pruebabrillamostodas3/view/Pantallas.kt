@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
 * @author Alan Vega
+ * @author Santiago Chevez
+ * Esta clase tiene las pantallas de la aplicación y sus rutas
  */
 
 sealed class Pantallas (

@@ -55,6 +55,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 
+/**
+ * @author Santiago Chevez
+ * @autor Andrés Cabrera
+ * @author Alan Vega
+ * Pantalla con el carrito de productos
+ */
+
 @Composable
 fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: Uri?){
 
@@ -89,6 +96,9 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                         // Clear the deep link data to prevent re-execution
                         //(context as? ComponentActivity)?.intent?.data = null
                         sharedPreferences.edit().remove("deep_link_uri").apply()
+                        paymentsViewModel.readUserData(context, viewModel)
+                        paymentsViewModel.delUserData(context)
+
                     },
                     onError = { error ->
                         paymentStatus = "Failed to execute payment: ${error.message}"

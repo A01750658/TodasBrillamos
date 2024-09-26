@@ -26,7 +26,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-
+/**
+ * @author Santiago Chevez
+ * Esta es una función el la que se crea el imput de las contraseñas, donde no se ve lo que escribe el usuario a menos que pique un boton
+ * @param text el texto que esta escribiendo el usuario
+ * @param onValueChange es una función que define lo que debe de hacer cuando el usuario escribe un texto
+ * @param modifier es el modificador
+ * @param onDone es una función que dice que hacer cuando el usario acaba de escribir
+ */
 @Composable
 fun InputContraseña(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, onDone: () -> Unit = {}){
     var passwordVisible by remember { mutableStateOf(false) }

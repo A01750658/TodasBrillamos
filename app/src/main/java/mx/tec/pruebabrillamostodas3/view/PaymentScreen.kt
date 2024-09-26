@@ -8,7 +8,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
-
+/**
+ * @author Alan Vega
+ * Esta es la pantalla de pagos en donde se podrá pagar los pedidos de la tienda
+ * @param viewModel Viewmodel de pagos
+ */
 @Composable
 fun PaymentScreen(viewModel: PaymentsViewModel = viewModel()) {
     var paymentStatus by remember { mutableStateOf("Idle") }

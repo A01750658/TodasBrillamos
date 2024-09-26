@@ -111,4 +111,13 @@ class PaymentsViewModel: ViewModel() {
         }
     }
 
+    fun delUserData(context: Context){
+        viewModelScope.launch{
+            context.dataStore.edit { preferences ->
+                preferences.remove(PreferencesKeys.username_saved)
+                preferences.remove(PreferencesKeys.username_saved)
+            }
+        }
+    }
+
 }

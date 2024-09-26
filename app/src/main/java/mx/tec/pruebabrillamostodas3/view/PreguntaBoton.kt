@@ -13,7 +13,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
+/**
+ * @author Santiago Chevez
+ * Este Boton sirve para mostrar un texto y luego un botón
+ * @param textPregunta texto de la pregunta
+ * @param textBoton texto del botón
+ * @param onClick acción del botón
+ */
 @Composable
 fun PreguntaBoton(textPregunta: String, textBoton: String, onClick: ()-> Unit, modifier: Modifier=Modifier, color:Color= MaterialTheme.colorScheme.onTertiary){
     Row {
