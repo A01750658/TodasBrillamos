@@ -22,6 +22,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * @author Santiago Chevez
+ * Boton con texto e icono para redes sociales y contacto
+ */
+
 @Composable
 fun BotonTextandIcon(text: String, icon: ImageVector, onClick: () -> Unit, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.tertiary, fontSize: Int = 25){
     Row(modifier = modifier

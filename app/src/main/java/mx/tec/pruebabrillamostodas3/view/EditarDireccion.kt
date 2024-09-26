@@ -58,6 +58,12 @@ import androidx.navigation.NavHostController
 import io.ktor.websocket.Frame
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * @author Santiago Chevez
+ * @autor Andrés Cabrera
+ * Pantalla para editar la dirección en la aplicación
+ */
+
 @Composable
 fun EditarDireccion(btVM: BTVM, navController: NavHostController){
     val scrollState = rememberScrollState()

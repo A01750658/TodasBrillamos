@@ -9,6 +9,10 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.DatePickerHelper
 
 
+/**
+ * @author Cesar Flores
+ * Calendario para seleccionar fecha de nacimiento al registrarse
+ */
 
 @Composable
 fun DatePickerScreen(btVM: BTVM, modifier: Modifier = Modifier){

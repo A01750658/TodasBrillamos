@@ -41,6 +41,8 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 /**
  * @author Santiago Chevez
  * @author Alan Vega
+ * @author Andres Cabrera
+ * Pantalla principal de la aplicación
  */
 
 @Composable
