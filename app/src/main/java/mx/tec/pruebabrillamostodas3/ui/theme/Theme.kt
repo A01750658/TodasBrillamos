@@ -37,10 +37,10 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color(0xFF1C1B1F),
     */
     primary = RosaLibertad,
-    primaryContainer = AzulTranquilidad,
+    primaryContainer = VerdeSostenible,
     secondary = RosaBrillamos,
-    secondaryContainer = AzulSostenible,
-    tertiary = RosaConfianza,
+    secondaryContainer = AzulTranquilidad,
+    tertiary = NaranjaConfianza,
     tertiaryContainer = AmarilloComodidad,
     onTertiary = Blanco,
     onBackground = Borde,

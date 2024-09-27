@@ -84,14 +84,14 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.primaryContainer,
+                    tint = MaterialTheme.colorScheme.secondaryContainer,
                     modifier = Modifier
                         .padding(10.dp)
                         .size(100.dp)
                         .fillMaxWidth(),
 
                     )
-                Titulo(titulo = "Catálogo", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 50)
+                Titulo(titulo = "Catálogo", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
                 Spacer(modifier = Modifier
                     .padding(6.dp)
                     .fillMaxWidth()

@@ -128,7 +128,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                 Icon(
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.primaryContainer,
+                    tint = MaterialTheme.colorScheme.secondaryContainer,
                     modifier = Modifier
                         .padding(10.dp)
                         .size(80.dp)
@@ -137,7 +137,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                     )
                 Titulo(
                     titulo = "Editar Dirección",
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.secondaryContainer,
                     fontSize = 50
                 )
                 HorizontalDivider(

@@ -78,7 +78,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
                     modifier = modifier
                         .padding(top = 5.dp)
                         .fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.secondaryContainer,
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 20.sp),
 
                     )
@@ -88,7 +88,7 @@ fun BotonProducto(onClick: () -> Unit, imagen: ByteArray, nombre: String, precio
                     modifier = modifier
                         .padding(vertical = 5.dp)
                         .fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.secondaryContainer,
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = if (screenWidth < 500) (screenWidth/30).sp else (screenWidth/45).sp, lineHeight = 16.sp ),
 
                     )

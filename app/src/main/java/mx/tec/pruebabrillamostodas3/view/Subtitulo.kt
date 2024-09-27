@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
  * @param fontSize Tamaño de fuente del subtitulo
  */
 @Composable
-fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primaryContainer,fontSize: Int = 16){
+fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.secondaryContainer,fontSize: Int = 16){
     Text(
         text = text,
         fontSize = fontSize.sp,

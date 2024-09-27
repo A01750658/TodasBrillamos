@@ -71,14 +71,14 @@ fun Foros(){
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = "",
-                            tint = MaterialTheme.colorScheme.primaryContainer,
+                            tint = MaterialTheme.colorScheme.secondaryContainer,
                             modifier = Modifier
                                 .padding(10.dp)
                                 .size(100.dp)
                                 .fillMaxWidth(),
 
                             )
-                        Titulo(titulo = "Foros", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 50)
+                        Titulo(titulo = "Foros", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
                         Spacer(modifier = Modifier
                             .padding(6.dp)
                             .fillMaxWidth()

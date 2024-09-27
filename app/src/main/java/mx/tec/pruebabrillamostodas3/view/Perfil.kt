@@ -80,14 +80,14 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.primaryContainer,
+                tint = MaterialTheme.colorScheme.secondaryContainer,
                 modifier = Modifier
                     .padding(10.dp)
                     .size(100.dp)
                     .fillMaxWidth(),
 
             )
-            Titulo(titulo = "Perfil", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 50)
+            Titulo(titulo = "Perfil", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
             HorizontalDivider(thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer,
                 modifier = Modifier.padding(bottom = 16.dp))

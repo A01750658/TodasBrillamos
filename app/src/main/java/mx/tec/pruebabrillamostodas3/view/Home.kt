@@ -37,6 +37,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import mx.tec.pruebabrillamostodas3.R
 
 /**
  * @author Santiago Chevez
@@ -57,9 +60,15 @@ fun Home(btVM: BTVM, navController: NavHostController){
             .verticalScroll(scrollState)
     )
     {
-      Column(modifier = Modifier.padding(horizontal = 16.dp)){
-          Titulo("ZAZIL",color= MaterialTheme.colorScheme.primaryContainer, fontSize = 90)
-          Subtitulo("Cambia el mundo con un solo gesto.")
+      Column(horizontalAlignment =  Alignment.CenterHorizontally,
+          modifier = Modifier.padding(horizontal = 16.dp)){
+          Image(painter = painterResource(id = R.drawable.log),
+              contentDescription = "Logo",
+              modifier = Modifier
+                  .size(170.dp)
+                  .padding(20.dp))
+          //Titulo("ZAZIL",color= MaterialTheme.colorScheme.secondaryContainer, fontSize = 90)
+          Subtitulo("Cambia el mundo con un solo gesto.", fontSize = if (screenOrientation == 1) 20 else 30)
           HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.primaryContainer)
           Column(
               Modifier
@@ -73,21 +82,22 @@ fun Home(btVM: BTVM, navController: NavHostController){
                   .background(color = MaterialTheme.colorScheme.onTertiary)){
               Text(text = "¡Una menstruación sostenible!",
                   textAlign = TextAlign.Center,
-                  style = MaterialTheme.typography.bodyMedium,
+                  style = MaterialTheme.typography.bodyMedium.copy(fontSize = 22.sp),
                   color = MaterialTheme.colorScheme.tertiary,
                   modifier = Modifier
                       .padding(10.dp)
-                      .fillMaxWidth())
-              Text(text = "Encuentra la mejor información disponible para ti, acerca de la menstrua" +
-                      "ción, sus ciclos y más con nuestro equipo de investigación.\n" +
-                      "Tampoco olvides visitar los productos que tenemos disponibles para ti.",
+                      .fillMaxWidth(),
+                  )
+              Text(text = "Encuentra los mejores productos de la marca ZAZIL para ti, que son reutilizables" +
+                      " e incluso son sonstenibles.\n" +
+                      "Tampoco olvides visitar la sección de información para aprender más sobre la menstruación.",
                   textAlign = TextAlign.Center,
-                  style = MaterialTheme.typography.bodySmall,
+                  style = MaterialTheme.typography.bodySmall.copy(fontSize = 18.sp),
                   modifier = Modifier
-                      .padding(start = 12.dp, bottom = 10.dp, end = 15.dp)
+                      .padding(start = 15.dp, bottom = 10.dp, end = 15.dp)
                       .fillMaxWidth())
           }
-          BotonTextandIcon(text = "Ver Catálogo", icon = Icons.Default.ShoppingCart, onClick = {navController.navigate(Pantallas.RUTA_TIENDA){
+          BotonTextandIcon(text = "Ver Catálogo", icon = Icons.Default.ShoppingCart, color=MaterialTheme.colorScheme.tertiary, onClick = {navController.navigate(Pantallas.RUTA_TIENDA){
               popUpTo(navController.graph.findStartDestination().id){
                   saveState = true
               }
@@ -96,7 +106,7 @@ fun Home(btVM: BTVM, navController: NavHostController){
           }
           }, fontSize = if (screenOrientation == 1) 25 else 40)
           BotonTextandIcon(text = " Conócenos",icon = Icons.Default.Info, onClick = {navController.navigate(Pantallas.RUTA_INFO)},color = MaterialTheme.colorScheme.primaryContainer, fontSize = if (screenOrientation == 1) 25 else 40)
-          BotonTextandIcon(text = "Contáctanos", icon = Icons.Default.Person, onClick = { navController.navigate(Pantallas.RUTA_CONTACTO)}, color = MaterialTheme.colorScheme.secondaryContainer,fontSize = if (screenOrientation == 1) 25 else 40)
+          //BotonTextandIcon(text = "Contáctanos", icon = Icons.Default.Person, onClick = { navController.navigate(Pantallas.RUTA_CONTACTO)}, color = MaterialTheme.colorScheme.secondaryContainer,fontSize = if (screenOrientation == 1) 25 else 40)
       }
     }
 }
