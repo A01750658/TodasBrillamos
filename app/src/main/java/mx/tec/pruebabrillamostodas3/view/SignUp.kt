@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -70,7 +72,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .paint(
-                painterResource(id = R.drawable.twoback),
+                painterResource(id = R.drawable.finalback),
                 contentScale = ContentScale.FillBounds
             )
             .verticalScroll(scrollState),
@@ -83,7 +85,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 .clip(RoundedCornerShape(16.dp))
                 .background((MaterialTheme.colorScheme.primary).copy(alpha = 0.6f))
         ){
-            Titulo(titulo ="SIGN UP", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary)
+            Titulo(titulo ="Registro", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary)
             Spacer(modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .background(MaterialTheme.colorScheme.onTertiary)
@@ -278,7 +280,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             }
             Spacer(modifier = Modifier.padding(16.dp))
-            TextButton(onClick = {
+            ElevatedButton(onClick = {
                 val (day, month, year) = btVM.getFecha()
                 btVM.setIntent(true)
                 if(valorNombre.isNotEmpty() && valorApellidoPaterno.isNotEmpty() && valorApellidoMaterno.isNotEmpty()
@@ -305,8 +307,13 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .border(1.dp, MaterialTheme.colorScheme.onBackground, RoundedCornerShape(16.dp))
-                    .background(MaterialTheme.colorScheme.tertiary)){
+                    .border(1.dp, MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(32.dp))
+                    //.background(MaterialTheme.colorScheme.tertiary)
+            ,colors= ButtonDefaults.elevatedButtonColors(
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                contentColor = MaterialTheme.colorScheme.onTertiary
+            )
+            ){
 
                 Text(
                     text = "Registrarse",

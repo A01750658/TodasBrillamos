@@ -12,8 +12,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * Es el formato de los subtitulos que s epueden encotnrar en la aplicación.
+ * @param text Texto del subtitulo
+ * @param modifier Modificador
+ * @param color Color del subtitulo
+ * @param fontSize Tamaño de fuente del subtitulo
+ */
 @Composable
-fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primaryContainer,fontSize: Int = 16){
+fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.secondaryContainer,fontSize: Int = 16){
     Text(
         text = text,
         fontSize = fontSize.sp,
@@ -21,7 +30,7 @@ fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = Materi
         style = MaterialTheme.typography.bodyMedium,
         fontStyle = FontStyle.Italic,
         color = color,
-        modifier = modifier.padding(15.dp)
+        modifier = modifier.padding(bottom = 15.dp)
             .fillMaxWidth()
     )
 }

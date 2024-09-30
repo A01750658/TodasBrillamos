@@ -36,6 +36,10 @@ class BTVM: ViewModel() {
         _once.value = show
     }
 
+    //EstadoDatePicker
+    private val _contraseñaPerdida = MutableLiveData(false)
+    val contraseñaPerdida: LiveData<Boolean> = _contraseñaPerdida
+
     //Estado Lista Productos proveniente de modelo
     private val _estadoListaProductosModelo = MutableStateFlow(listOf<Producto>())
     val estadoListaProductosModelo: StateFlow<List<Producto>> = _estadoListaProductosModelo
@@ -127,6 +131,15 @@ class BTVM: ViewModel() {
             } catch (e: Exception) {
                 println(e)
 
+            }
+        }
+    }
+    fun updateAddress(direccion: Direccion) {
+        viewModelScope.launch {
+            try {
+                modeloR.updateAddress(estadoUsuario.value.key,  direccion)
+            } catch (e: Exception) {
+                println(e)
             }
         }
     }
@@ -342,6 +355,10 @@ class BTVM: ViewModel() {
         return _estadoUsuario.value
     }
 
+    fun setCodigoUsuario(codigo: Int){
+        _estadoUsuario.value = _estadoUsuario.value.copy(codigo = codigo)
+    }
+
     fun setEstadoAñadirCarrito(producto: Int){
         if (_estadoañadirCarrito.value.first != producto){
             _estadoañadirCarrito.value = Pair(producto,1)
@@ -362,5 +379,46 @@ class BTVM: ViewModel() {
         }
     }
 
+    fun recuperarContrasena(email: String){
+        viewModelScope.launch {
+            try {
+                val response = modeloR.getRecoveryPasswordToken(email)
+                if (response.result == "error") {
+                    throw Exception("Could not recover password")
+                }
+                println(response.message)
+                //cambiar estado loading a false
+                _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
+                //cambiar estado contraseña perdida a true
+                _contraseñaPerdida.value = true
+            }
+            catch (e: Exception) {
+                println(e)
+                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+            }
+        }
+    }
+
+    fun setErrorCalle(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCalle = b)
+    }
+    fun setErrorMunicipio(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorMunicipio = b)
+    }
+    fun setErrorColonia(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorColonia = b)
+    }
+    fun setErrorCp(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCp = b)
+    }
+    fun setErrorNumeroExt(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorNumeroExt = b)
+    }
+    fun setErrorNumeroInt(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorNumeroInt = b)
+    }
+    fun setErrorEstado(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorEstado = b)
+    }
 
 }

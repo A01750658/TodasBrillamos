@@ -55,7 +55,7 @@ fun Contacto(vModel: BTVM) {
         ) {
             Titulo(
                 "ZAZIL",
-                color = MaterialTheme.colorScheme.primaryContainer,
+                color = MaterialTheme.colorScheme.secondaryContainer,
                 fontSize = 90
             )
             Subtitulo("Cambia el mundo con un solo gesto.")

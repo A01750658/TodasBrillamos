@@ -40,7 +40,10 @@ import androidx.navigation.NavController
  * @author Santiago Chevez
  * @author Alan Vega
  * @author Andrés Cabrera
+ * Es el Pop Up del producto seleccionado
  * @param btVM Viewmodel principal de la aplicación.
+ * @param modifier Modificador
+ * @param navController Controlador de navegación de la aplicación.
  */
 @Composable
 fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){

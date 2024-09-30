@@ -1,28 +1,83 @@
 package mx.tec.pruebabrillamostodas3.model
 
 class Validations {
+    //verify email
     val email_regex = Regex(".*@[gmail|hotmail|outlook|yahoo]+\\.com")
+    //verify url
     val url_regex = Regex("([http|https]+://.+)|(www.+)")
+    //verify phone number
     val phone_number_regex = Regex("(\\+?\\d{2})?[0-9]{10}")
+    //verify forbidden words
     val forbidden_words_regex = Regex(".*putit[oa]s?|put[oa@]|chingada|pendej[ao]|maldit[oa]|terrorismo|sexo|sexo.*")
+    //find special characters
+    val number_special_chars_regex = Regex("[^a-zA-Z0-9\\s]+")
+    val just_numbers_regex = Regex("\\d*")
 
+
+    fun validateJustNumbers(nums: String) :Boolean{
+        return just_numbers_regex.matches(nums)
+    }
+    /**
+     * Función que valida si un string es una url
+     * @param email String
+     * @return [Boolean]
+     */
     fun validateEmail(email: String): Boolean {
         return email_regex.matches(email)
     }
+
+    /**
+     * Función que valida si un string es una url
+     * @param url String
+     * @return String?
+     */
     fun findUrl(url: String): String? {
         return url_regex.find(url)?.value
     }
+
+    /**
+     * Función que valida si un string es un número de teléfono
+     * @param phoneNumber String
+     * @return [Boolean]
+     */
     fun validatePhoneNumber(phoneNumber: String): Boolean {
         return phone_number_regex.matches(phoneNumber)
     }
+
+    /**
+     * Función que valida si un string contiene palabras prohibidas
+     * @param text String
+     * @return String?
+     */
     fun findForbiddenWords(text: String): String? {
         return forbidden_words_regex.find(text)?.value
     }
+
+    /**
+     * Función que valida si un string contiene un email
+     * @param text String
+     * @return String?
+     */
     fun findEmail(text: String): String? {
         return email_regex.find(text)?.value
     }
+
+    /**
+     * Función que valida si un string contiene un número de teléfono
+     * @param text String
+     * @return String?
+     */
     fun findPhoneNumber(text: String): String? {
         return phone_number_regex.find(text)?.value
+    }
+
+    /**
+     * Función que valida si un string contiene caracteres especiales
+     * @param text String
+     * @return String?
+     */
+    fun findSpecialCharacters(text: String): String? {
+        return number_special_chars_regex.find(text)?.value
     }
 }
 
@@ -38,8 +93,9 @@ fun main(){
        println("Encontrado")
    }
 
-    println(validation.findForbiddenWords("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.\n puto"))
+    if(validation.number_special_chars_regex.find("AA677(((AA")!=null){
+       println("AAAA")
+    }
 
-    println(validation.findPhoneNumber("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.\n 5532532512"))
 
 }

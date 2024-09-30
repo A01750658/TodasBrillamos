@@ -60,7 +60,7 @@ fun Foros(){
                         showBottomSheet = false
                     }
                 } else if (showBottomSheet2) {
-                    TempleteForo("Acaso ¿Esta es la pregunta más interesante sobre el tema?", listOf("Súper si", "Nah", "Tal vez", "Como crees!"), {showBottomSheet2 = false})
+                    TempleteForo("Acaso ¿Esta es la pregunta más interesante sobre el tema?", listOf("Súper si", "Nah", "Tal vez", "Como crees!"))
                 } else{
                     Column( horizontalAlignment =  Alignment.CenterHorizontally,
                         modifier = Modifier
@@ -71,14 +71,14 @@ fun Foros(){
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = "",
-                            tint = MaterialTheme.colorScheme.primaryContainer,
+                            tint = MaterialTheme.colorScheme.secondaryContainer,
                             modifier = Modifier
                                 .padding(10.dp)
                                 .size(100.dp)
                                 .fillMaxWidth(),
 
                             )
-                        Titulo(titulo = "Foros", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 50)
+                        Titulo(titulo = "Foros", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
                         Spacer(modifier = Modifier
                             .padding(6.dp)
                             .fillMaxWidth()

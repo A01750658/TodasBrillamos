@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
@@ -37,6 +40,8 @@ import mx.tec.pruebabrillamostodas3.R
  * @author Santiago Chevez
  * @author Alan Vega
  * @author Andrés Cabrera
+ * Esta es la pantalla de redes sociales de la organización.
+ * @param vmodel Viewmodel principal de la aplicación.
  */
 
 
@@ -60,14 +65,14 @@ fun Redes(vmodel: BTVM){
             Icon(
                 imageVector = Icons.Default.ThumbUp,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.primaryContainer,
+                tint = MaterialTheme.colorScheme.secondaryContainer,
                 modifier = Modifier
                     .padding(10.dp)
                     .size(100.dp)
                     .fillMaxWidth(),
 
                 )
-            Titulo(titulo = "Redes", color = MaterialTheme.colorScheme.primaryContainer, fontSize = 50)
+            Titulo(titulo = "Redes y Contacto", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
             Spacer(modifier = Modifier
                 .padding(6.dp)
                 .fillMaxWidth()
@@ -115,6 +120,25 @@ fun Redes(vmodel: BTVM){
                     context.startActivity(intent)
                 }},
                 color = MaterialTheme.colorScheme.onTertiaryContainer, fontSize = if (screenOrientation == 1) 25 else 40
+            )
+            BotonTextandIcon(
+                text = "Telefono",
+                icon = Icons.Default.Phone,
+                onClick = { vmodel.llamada("+52 56 2808 3883", context)
+                },
+                color = MaterialTheme.colorScheme.primaryContainer.copy(0.8f)
+            )
+            BotonTextandIcon(
+                text = "Correo electrónico",
+                icon = Icons.Default.Email,
+                onClick = { vmodel.enviarCorreo("Contacto@fundaciontodasbrillamos.org", context) },
+                color = MaterialTheme.colorScheme.secondaryContainer.copy(0.8f)
+            )
+            BotonTextandIcon(
+                text = "Ubicación",
+                icon = Icons.Default.LocationOn,
+                onClick = { vmodel.ubicacion("Fundación Todas Brillamos", context) },
+                color = MaterialTheme.colorScheme.tertiary.copy(0.8f)
             )
         }
 

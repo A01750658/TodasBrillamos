@@ -19,5 +19,6 @@ data class EstadoUsuario(
     val key : String = "",
     val id : Int = -1,
     val loading: Boolean = false,
-    val intent: Boolean = false
+    val intent: Boolean = false,
+    val codigo: Int = 0
 )

@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import mx.tec.pruebabrillamostodas3.ui.theme.PruebaBrillamosTodas3Theme
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
+import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 /**
  * @author Alan Vega
@@ -44,7 +45,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
  * @param modifier modificador
  */
 @Composable
-fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?, modifier: Modifier = Modifier){
+fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?, validationsVM: ValidationsVM ,modifier: Modifier = Modifier){
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
@@ -56,6 +57,7 @@ fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLink
                 navController,
                 flag,
                 savedDeepLinkUri,
+                validationsVM,
                 modifier.padding(innerPadding)
             )
         }
@@ -131,7 +133,8 @@ fun AppTopBar(navController: NavHostController) {
 fun AppBottomBar(navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO){
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASEÑA){
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
@@ -180,7 +183,7 @@ fun AppBottomBar(navController: NavHostController) {
  * @param modifier modificador
  */
 @Composable
-fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier) {
+fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
 
     NavHost(navController = navController,
         startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_PAGOS,
@@ -219,7 +222,13 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             Carrito(btVM, navController)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
-            EditarDireccion(btVM,navController)
+            EditarDireccion(btVM,navController,validationsVM)
+        }
+        composable(Pantallas.RUTA_RECUPERARCONTRASEÑA){
+            RecuperarContraseña(btVM ,navController)
+        }
+        composable(Pantallas.RUTA_NUEVA_CONTRASEÑA){
+            NuevaContraseña(btVM, navController)
         }
         composable(Pantallas.RUTA_PAGOS){
             PaymentScreen(btVM, paymentsVM)
