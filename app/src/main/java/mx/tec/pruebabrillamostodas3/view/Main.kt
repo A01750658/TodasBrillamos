@@ -183,7 +183,7 @@ fun AppBottomBar(navController: NavHostController) {
 fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,modifier: Modifier = Modifier) {
 
     NavHost(navController = navController,
-        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
+        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_PAGOS,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
             Home(btVM, navController)
@@ -216,10 +216,13 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             AvisoyLeyenda()
         }
         composable(Pantallas.RUTA_CARRITO){
-            Carrito(btVM, paymentsVM, savedDeepLinkUri)
+            Carrito(btVM, navController)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController)
+        }
+        composable(Pantallas.RUTA_PAGOS){
+            PaymentScreen(btVM, paymentsVM)
         }
     }
 }

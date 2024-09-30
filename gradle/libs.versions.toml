@@ -19,7 +19,6 @@ fragmentKtx = "1.8.2"
 runtimeLivedata = "1.7.0"
 roomKtx = "2.6.1"
 
-
 [libraries]
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gson" }

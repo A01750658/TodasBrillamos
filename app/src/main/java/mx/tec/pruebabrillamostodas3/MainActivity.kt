@@ -77,9 +77,4 @@ class MainActivity : ComponentActivity() {
         return uriString?.let { Uri.parse(it) }
     }
 
-    private fun removeDeepLinkUri(){
-        val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().remove("deep_link_uri").apply()
-    }
-
 }

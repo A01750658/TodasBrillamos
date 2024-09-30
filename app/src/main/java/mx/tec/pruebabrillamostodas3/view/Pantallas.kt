@@ -36,6 +36,7 @@ sealed class Pantallas (
         const val RUTA_AVISO = "Aviso"
         const val RUTA_CARRITO = "Carrito"
         const val RUTA_EDITAR_DIRECCION = "EditarDireccion"
+        const val RUTA_PAGOS = "Pagos"
     }
 
     //Pantallas Menu
@@ -50,13 +51,13 @@ sealed class Pantallas (
     data object LogIn: Pantallas(RUTA_LOGIN, "Log In", Icons.Default.Star)
     data object SignUp: Pantallas(RUTA_SIGNUP, "Sign Up", Icons.Default.Star)
     data object Aviso: Pantallas(RUTA_AVISO, "Aviso", Icons.Default.Star)
-
     //Pantallas que están en Home
     data object Info: Pantallas(RUTA_INFO, "Info", Icons.Default.Star)
     data object Contacto: Pantallas(RUTA_CONTACTO,"Contacto", Icons.Default.Star)
 
     //Pantallas tienda
     data object BotonProducto: Pantallas(RUTA_CARRITO, "Carrito", Icons.Default.ShoppingCart)
+    data object Pagos: Pantallas(RUTA_PAGOS, "Pagos",Icons.Default.Star)
 
     //Pantallas perfil
     data object EditarDireccion: Pantallas(RUTA_EDITAR_DIRECCION, "EditarDireccion", Icons.Default.Email)
