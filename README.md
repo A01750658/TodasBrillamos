@@ -20,7 +20,7 @@ El equipo de trabajo dictaminó que estos objetivos son los más importantes par
 
 ## Diagrama Base de Datos
 Aquí tenemos nuestro diseño para la base de datos. 
-![Diagrama para Base de Datos](ReadMeResource/BD.png)
+![Diagrama para Base de Datos](BD.png)
 
 El diagrama cuenta con 6 entidades (3 de las cuales se basaron en la información proporcionada por el socio-formador). 
 1. Usuario. [Datos de cuenta y dirección de envío] 
