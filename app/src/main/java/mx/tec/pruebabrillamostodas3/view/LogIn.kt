@@ -44,7 +44,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
  * @author Santiago Chevez
- * @autor Andrés Cabrera
+ * @author Andrés Cabrera
  * Pantalla del inicio de sesión del usuario. Utilza las funciones de elementos de la vista y del viewmodel
  * @param btVM Viewmodel principal de la aplicación.
  * @param navController Controlador de navegación de la aplicación.

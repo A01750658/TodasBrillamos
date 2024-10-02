@@ -57,7 +57,7 @@ import androidx.compose.foundation.layout.width
 
 /**
  * @author Santiago Chevez
- * @autor Andrés Cabrera
+ * @author Andrés Cabrera
  * @author Alan Vega
  * Pantalla con el carrito de productos
  */

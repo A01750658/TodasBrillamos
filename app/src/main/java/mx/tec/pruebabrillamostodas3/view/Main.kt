@@ -171,6 +171,7 @@ fun AppBottomBar(navController: NavHostController) {
 /**
  * @author Alan Vega
  * @author Santiago Chevez
+ * @author Andrés Cabrera
  * Esta es la función principal del controlador de la vista de la aplicación
  * Muestra la panatalla requerida
  * @param btVM Viewmodel principal de la aplicación.
@@ -182,7 +183,6 @@ fun AppBottomBar(navController: NavHostController) {
  */
 @Composable
 fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
-
     NavHost(navController = navController,
         startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
         modifier = modifier,){
