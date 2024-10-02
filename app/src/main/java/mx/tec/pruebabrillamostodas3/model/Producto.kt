@@ -27,5 +27,6 @@ data class Producto(
     val precio_normal: Int,
     val precio_rebajado: Int,
     val cantidad: Int,
-    val rebaja: Int
+    val rebaja: Int,
+    val categoria : String
 )

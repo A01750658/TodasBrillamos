@@ -78,7 +78,9 @@ class BTVM: ViewModel() {
 
     private val _estadoCopiaDireccion = MutableStateFlow<Direccion>(Direccion())
     val estadoCopiaDireccion: StateFlow<Direccion> = _estadoCopiaDireccion
+    var copiaListaProductos = mutableListOf<EstadoProducto>()
 
+    var listaFiltradaPorCategoria = mutableListOf<EstadoProducto>()
     fun getProductos() {
         viewModelScope.launch {
             if (_estadoListaProducto.value.isEmpty()) { // Verificar si la lista está vacía
@@ -96,18 +98,33 @@ class BTVM: ViewModel() {
                                 precio_normal = producto.precio_normal,
                                 precio_rebajado = producto.precio_rebajado,
                                 rebaja = producto.rebaja,
+                                categoria = producto.categoria,
                                 imagen = modeloR.getProductImage(producto.id),
                                 cantidad= producto.cantidad
                             )
                         )
                     }
                     _estadoListaProducto.value = nuevaLista // Emitir la nueva lista
+                    copiaListaProductos = nuevaLista
                 } catch (e: Exception) {
                     println(e)
                 }
             }
         }
 
+    }
+    fun setListaFiltradaPorCategoria(categoria:String) {
+        for(producto in estadoListaProducto.value){
+            if(producto.categoria == categoria){
+                listaFiltradaPorCategoria.add(producto)
+            }
+        }
+        copiaListaProductos = _estadoListaProducto.value
+        _estadoListaProducto.value = listaFiltradaPorCategoria
+    }
+    fun resetListaFiltradaPorCategoria() {
+        _estadoListaProducto.value = copiaListaProductos
+        listaFiltradaPorCategoria.clear()
     }
 
     fun setEstadoSeleccionado(IdProd: Int) {

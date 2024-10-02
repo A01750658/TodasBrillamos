@@ -8,5 +8,6 @@ data class EstadoProducto(
     val precio_rebajado: Int = 0,
     val cantidad: Int = 0,
     val rebaja: Int = 0,
+    val categoria :String = "",
     val imagen: ByteArray = ByteArray(0)
 )
