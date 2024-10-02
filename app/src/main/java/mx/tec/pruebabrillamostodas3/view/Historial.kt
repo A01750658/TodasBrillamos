@@ -22,6 +22,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -40,11 +41,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Historial() {
+fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController) {
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
+    var showMenu by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -128,19 +133,76 @@ fun Historial() {
                                         .weight(2f),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
-                                Text(text = "Estado",
+                                Text(
+                                    text = "Estado",
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(vertical = 24.dp)
                                         .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium)
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
                             }
                         }
                     }
+                    item {
+                        ElevatedCard(
+                            onClick = { showMenu = true },
+                            modifier = Modifier
+                                .padding(1.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiary
+                            )
+                        ) {
+                            Row {
+                                Text(
+                                    text = "1",
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp)
+                                        .weight(2f),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = "01/01/2021",
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp)
+                                        .weight(2f),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = "\$ 100.00",
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp)
+                                        .weight(2f),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = "Entregado",
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp)
+                                        .weight(2f),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
 
-                    
+                        }
+                    }
+
                 }
+            }
+        }
+        if (showMenu) {
+            ModalBottomSheet(onDismissRequest = { showMenu = false }) {
+                Detalles(viewModel, modifier, navController)
             }
         }
     }

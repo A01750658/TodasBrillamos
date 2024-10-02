@@ -261,7 +261,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         }
 
         composable(Pantallas.RUTA_HISTORIAL){
-            Historial()
+            Historial(btVM, modifier, navController)
         }
     }
 }
