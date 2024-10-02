@@ -1,8 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
-import android.content.Context
 import android.net.Uri
-import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -195,7 +193,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             Redes(btVM)
         }
         composable(Pantallas.RUTA_FOROS){
-            Foros()
+            Foros(navController)
         }
         composable(Pantallas.RUTA_PERFIL){
             Perfil(btVM, navController)
@@ -229,6 +227,12 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         }
         composable(Pantallas.RUTA_NUEVA_CONTRASEÑA){
             NuevaContraseña(btVM, navController)
+        }
+        composable(Pantallas.RUTA_CREARFORO){
+            CrearForo(navController){}
+        }
+        composable(Pantallas.RUTA_FORO+"/{idforo}"){
+            TempleteForo(idForo = it.arguments?.getString("idforo")!!)
         }
     }
 }

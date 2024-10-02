@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.dp
 fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, onDone: () -> Unit = {}, keyBoardType: KeyboardType = KeyboardType.Text){
     val focusManager = LocalFocusManager.current
     OutlinedTextField(value = text,
-        onValueChange = onValueChange,
+        onValueChange = {
+            onValueChange(it)
+            onSearch(it)},
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -29,7 +31,7 @@ fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modif
             )
         },
         placeholder = {
-            Text("Search...")
+            Text("Buscar...")
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -43,5 +45,8 @@ fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modif
             focusManager.clearFocus()
         }
     ))
+}
+fun onSearch(it: String){
+    println("Buscando $it")
 
 }
