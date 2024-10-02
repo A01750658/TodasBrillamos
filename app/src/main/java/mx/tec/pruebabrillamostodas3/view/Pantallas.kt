@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 /**
 * @author Alan Vega
  * @author Santiago Chevez
+ * @author Andrés Cabrera
+ *
  * Esta clase tiene las pantallas de la aplicación y sus rutas
  */
 
@@ -41,6 +43,7 @@ sealed class Pantallas (
         const val RUTA_CREARFORO = "CrearForo"
         const val RUTA_FORO = "Foro"
         const val RUTA_PAGOS = "Pagos"
+        const val RUTA_HISTORIAL = "Historial"
     }
 
     //Pantallas Menu
@@ -65,6 +68,7 @@ sealed class Pantallas (
     //Pantallas tienda
     data object BotonProducto: Pantallas(RUTA_CARRITO, "Carrito", Icons.Default.ShoppingCart)
     data object Pagos: Pantallas(RUTA_PAGOS, "Pagos", Icons.Default.Star)
+    data object Historial: Pantallas(RUTA_HISTORIAL, "Historial", Icons.Default.Star)
 
     //Pantallas perfil
     data object EditarDireccion: Pantallas(RUTA_EDITAR_DIRECCION, "EditarDireccion", Icons.Default.Email)
