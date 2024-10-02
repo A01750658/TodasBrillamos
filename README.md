@@ -18,6 +18,18 @@ Como equipo, proponemos un proyecto que cumpla lo siguiente:
 
 El equipo de trabajo dictaminó que estos objetivos son los más importantes para poder cumplir con los objetivos de la organización socio-formadora, puesto que engloban los comentarios que hicieron respecto a sus necesidades actuales.
 
+## Diagrama Base de Datos
+Aquí tenemos nuestro diseño para la base de datos. 
+![Diagrama para Base de Datos](ReadMeResource/BD.png)
+
+El diagrama cuenta con 6 entidades (3 de las cuales se basaron en la información proporcionada por el socio-formador). 
+1. Usuario. [Datos de cuenta y dirección de envío] 
+2. Foro [Pregunta clave que detona la conversación]
+3. Comentario [Respuesta al foro o a otro comentario. Esta es una entidad débil ya que no existe no no se tiene un foro] 
+4. Orden [Pedido realizado por el usuario]
+5. Producto [Productos que se encuentran disponibles para la venta]
+6. Categoría [Clasificación de productos]
+
 ## Enlace página de administración
 
 Aquí pueden ver nuestra página de administración desarrollada en Oracle Apex:
