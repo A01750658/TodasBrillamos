@@ -217,7 +217,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             AvisoyLeyenda()
         }
         composable(Pantallas.RUTA_CARRITO){
-            Carrito(btVM, paymentsVM, savedDeepLinkUri)
+            Carrito(btVM, navController)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController,validationsVM)

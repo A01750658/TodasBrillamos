@@ -40,6 +40,7 @@ sealed class Pantallas (
         const val RUTA_NUEVA_CONTRASEÑA = "NuevaContraseña"
         const val RUTA_CREARFORO = "CrearForo"
         const val RUTA_FORO = "Foro"
+        const val RUTA_PAGOS = "Pagos"
     }
 
     //Pantallas Menu
@@ -63,6 +64,7 @@ sealed class Pantallas (
 
     //Pantallas tienda
     data object BotonProducto: Pantallas(RUTA_CARRITO, "Carrito", Icons.Default.ShoppingCart)
+    data object Pagos: Pantallas(RUTA_PAGOS, "Pagos", Icons.Default.Star)
 
     //Pantallas perfil
     data object EditarDireccion: Pantallas(RUTA_EDITAR_DIRECCION, "EditarDireccion", Icons.Default.Email)
