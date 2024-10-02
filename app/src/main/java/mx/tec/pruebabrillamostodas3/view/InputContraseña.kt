@@ -66,7 +66,6 @@ fun InputContraseña(text: String, onValueChange: (String) -> Unit, modifier: Mo
                 onDone()
                 focusManager.clearFocus()
             }
-        )
-
+        ),
     )
 }

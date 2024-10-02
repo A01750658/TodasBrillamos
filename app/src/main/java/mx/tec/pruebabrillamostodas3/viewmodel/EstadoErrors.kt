@@ -15,5 +15,6 @@ data class EstadoErrors(
     val errorColonia: Boolean = false,
     val errorMunicipio: Boolean = false,
     val errorCp: Boolean = false,
-    val errorEstado: Boolean = false
+    val errorEstado: Boolean = false,
+    val errorCodigo: Boolean = false
 )

@@ -38,7 +38,7 @@ import androidx.navigation.NavHostController
 
 /**
  * @author Santiago Chevez
- * @autor Andrés Cabrera
+ * @author Andrés Cabrera
  * @author Alan Vega
  * Pantalla donde se muestran las publicaciones en el foro
  */

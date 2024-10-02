@@ -132,7 +132,8 @@ fun AppBottomBar(navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASEÑA){
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASEÑA
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_NUEVA_CONTRASEÑA){
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
@@ -171,6 +172,7 @@ fun AppBottomBar(navController: NavHostController) {
 /**
  * @author Alan Vega
  * @author Santiago Chevez
+ * @author Andrés Cabrera
  * Esta es la función principal del controlador de la vista de la aplicación
  * Muestra la panatalla requerida
  * @param btVM Viewmodel principal de la aplicación.
@@ -182,7 +184,6 @@ fun AppBottomBar(navController: NavHostController) {
  */
 @Composable
 fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
-
     NavHost(navController = navController,
         startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
         modifier = modifier,){
@@ -205,7 +206,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             SignUp(btVM, navController)
         }
         composable(Pantallas.RUTA_LOGIN){
-            LogIn(btVM, navController, paymentsVM)
+            LogIn(btVM, navController, paymentsVM, validationsVM)
         }
         composable(Pantallas.RUTA_INFO){
             Info(btVM)
@@ -217,7 +218,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             AvisoyLeyenda()
         }
         composable(Pantallas.RUTA_CARRITO){
-            Carrito(btVM, paymentsVM, savedDeepLinkUri)
+            Carrito(btVM, navController)
         }
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController,validationsVM)
@@ -233,6 +234,9 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         }
         composable(Pantallas.RUTA_FORO+"/{idforo}"){
             TempleteForo(idForo = it.arguments?.getString("idforo")!!)
+        }
+        composable(Pantallas.RUTA_PAGOS){
+            PaymentScreen(btVM,paymentsVM)
         }
     }
 }

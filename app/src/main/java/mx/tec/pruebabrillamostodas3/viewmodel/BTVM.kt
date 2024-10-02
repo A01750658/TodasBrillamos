@@ -80,6 +80,11 @@ class BTVM: ViewModel() {
     val estadoCopiaDireccion: StateFlow<Direccion> = _estadoCopiaDireccion
     var copiaListaProductos = mutableListOf<EstadoProducto>()
 
+    //Estado categorias
+    private val _estadoCategorias : MutableStateFlow<MutableSet<String>> = MutableStateFlow(mutableSetOf<String>())
+    val estadoCategorias : StateFlow<MutableSet<String>> = _estadoCategorias
+
+    //Estado de la lista filtrada por categoría
     var listaFiltradaPorCategoria = mutableListOf<EstadoProducto>()
     fun getProductos() {
         viewModelScope.launch {
@@ -103,6 +108,7 @@ class BTVM: ViewModel() {
                                 cantidad= producto.cantidad
                             )
                         )
+                        _estadoCategorias.value.add(producto.categoria)
                     }
                     _estadoListaProducto.value = nuevaLista // Emitir la nueva lista
                     copiaListaProductos = nuevaLista
@@ -113,15 +119,18 @@ class BTVM: ViewModel() {
         }
 
     }
-    fun setListaFiltradaPorCategoria(categoria:String) {
-        for(producto in estadoListaProducto.value){
-            if(producto.categoria == categoria){
+    //Función para filtrar productos por categoría
+    fun setListaFiltradaPorCategoria(categoria: String) {
+        listaFiltradaPorCategoria.clear() //limpia lista
+        for (producto in copiaListaProductos) {
+            if (producto.categoria == categoria) {
                 listaFiltradaPorCategoria.add(producto)
             }
         }
-        copiaListaProductos = _estadoListaProducto.value
         _estadoListaProducto.value = listaFiltradaPorCategoria
     }
+
+    //Función para resetear la lista filtrada por categoría
     fun resetListaFiltradaPorCategoria() {
         _estadoListaProducto.value = copiaListaProductos
         listaFiltradaPorCategoria.clear()
@@ -396,6 +405,10 @@ class BTVM: ViewModel() {
         }
     }
 
+    fun setContraseñaPerdida(b: Boolean) {
+        _contraseñaPerdida.value = b
+    }
+
     fun recuperarContrasena(email: String){
         viewModelScope.launch {
             try {
@@ -412,6 +425,22 @@ class BTVM: ViewModel() {
             catch (e: Exception) {
                 println(e)
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+            }
+        }
+    }
+
+    fun changePassword(code: Int, email: String, password: String){
+        viewModelScope.launch {
+            try {
+                val response = modeloR.changePassword(code, email, password)
+                if (response.result == "error") {
+                    throw Exception("Could not change password")
+                }
+                _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
+            }
+            catch (e: Exception) {
+                println(e)
+                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)//cambio de contraseña
             }
         }
     }

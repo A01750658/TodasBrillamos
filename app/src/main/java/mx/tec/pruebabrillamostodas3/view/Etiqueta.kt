@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 
 /**
  * @author Santiago Chevez
- * @autor Andrés Cabrera
+ * @author Andrés Cabrera
  * Etiqueta para nombrar los inputs
  */
 

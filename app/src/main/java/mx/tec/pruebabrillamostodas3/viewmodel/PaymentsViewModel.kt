@@ -14,18 +14,26 @@ import com.paypal.api.payments.*
 import mx.tec.pruebabrillamostodas3.PreferencesKeys
 import mx.tec.pruebabrillamostodas3.dataStore
 
+
 /**
  * @author Alan Vega
+ *
+ * ViewModel para tratar la parte de los pagos
  */
 
 class PaymentsViewModel: ViewModel() {
 
+    //Datos de cuenta para conexión con API, para despliegue en producción se tienen que cambiar los valores
     private val apiContext: APIContext = APIContext(
         "AVaA8e03cxh_wVdXiJ4Zz3yfQnq1d4y_0XR-_2V75Er4_YlEKn40AeUGICZZtE68-akwRUPq5L2vK_NI",
         "ELbBJmbOI-qkAQ72da-xOKWOQzcSw-BPylIBST7WUa_m0n8LB97JXx4Vw3JThHow1SO-Vm39XlbsDt6J",
         "sandbox"
     )
 
+    /**
+     * Función que crea los pagos en Paypal, recibe el monto a pagar como un String,
+     * @param
+     */
     fun createPayment(
         total: String,
         currency: String,
@@ -70,6 +78,27 @@ class PaymentsViewModel: ViewModel() {
         }
     }
 
+    private fun createPaymentRequest(
+        total: String,
+        currency: String,
+        method: String,
+        intent: String,
+        description: String,
+        cancelUrl: String,
+        successUrl: String
+    ): PaymentRequest {
+        return PaymentRequest(
+            total = total,
+            currency = currency,
+            method = method,
+            intent = intent,
+            description = description,
+            cancelUrl = cancelUrl,
+            successUrl = successUrl
+        )
+    }
+
+
     fun executePayment(
         paymentId: String,
         payerId: String,
@@ -90,6 +119,10 @@ class PaymentsViewModel: ViewModel() {
             }
         }
     }
+
+
+
+
     fun saveUserData(context: Context, username: String,password: String) {
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
@@ -121,3 +154,13 @@ class PaymentsViewModel: ViewModel() {
     }
 
 }
+
+data class PaymentRequest(
+    val total: String,
+    val currency: String,
+    val method: String,
+    val intent: String,
+    val description: String,
+    val cancelUrl: String,
+    val successUrl: String
+)

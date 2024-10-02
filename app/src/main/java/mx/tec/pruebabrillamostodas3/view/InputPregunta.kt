@@ -1,5 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -7,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -35,7 +37,8 @@ fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modif
         },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp)
+            .background(MaterialTheme.colorScheme.onTertiary),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyBoardType,
             imeAction = ImeAction.Done),

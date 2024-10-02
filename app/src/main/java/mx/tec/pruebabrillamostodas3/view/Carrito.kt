@@ -54,60 +54,24 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.navigation.NavHostController
 
 /**
  * @author Santiago Chevez
- * @autor Andrés Cabrera
+ * @author Andrés Cabrera
  * @author Alan Vega
  * Pantalla con el carrito de productos
  */
 
 @Composable
-fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: Uri?){
+fun Carrito(viewModel: BTVM, navController: NavHostController){
 
     val estadoCarrito by viewModel.estadoCarrito.collectAsState()
     val estadoListaProducto by viewModel.estadoListaProducto.collectAsState()
 
-    var paymentStatus by remember { mutableStateOf("Idle") }
-    var approvalUrl by remember { mutableStateOf<String?>(null) }
-    val context = LocalContext.current
-
-    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    val savedDeepLinkUriString = sharedPreferences.getString("deep_link_uri", null)
-    val deepLinkUri = savedDeepLinkUriString?.let { Uri.parse(it) }
-
     var total=0
     for (producto in estadoCarrito.productos){
         total += estadoListaProducto[producto.first].precio_normal*producto.second
-    }
-
-    LaunchedEffect(deepLinkUri) {
-        println("Shit entered the LaunchedEffect")
-        deepLinkUri?.let { uri ->
-            val paymentId = extractPaymentId(uri)
-            val payerId = extractPayerId(uri)
-            if (paymentId.isNotEmpty() && payerId.isNotEmpty()) {
-                paymentsViewModel.executePayment(
-                    paymentId = paymentId,
-                    payerId = payerId,
-                    onSuccess = { payment ->
-                        paymentStatus = "Payment successful: ${payment.id}"
-                        println(paymentStatus)
-                        // Clear the deep link data to prevent re-execution
-                        //(context as? ComponentActivity)?.intent?.data = null
-                        sharedPreferences.edit().remove("deep_link_uri").apply()
-                        paymentsViewModel.readUserData(context, viewModel)
-                        paymentsViewModel.delUserData(context)
-
-                    },
-                    onError = { error ->
-                        paymentStatus = "Failed to execute payment: ${error.message}"
-                        sharedPreferences.edit().remove("deep_link_uri").apply()
-                        println(paymentStatus)
-                    }
-                )
-            }
-        }
     }
 
     Box(
@@ -253,37 +217,37 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
                         }
                     }
                 }
-                item {
-                    ElevatedCard(
-                        modifier = Modifier
-                            .padding(8.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.tertiary,
-                            contentColor = MaterialTheme.colorScheme.onTertiary
-                        )
-                    ) {
-                        Row {
-                            Text(
-                                text = "Total:",
-                                textAlign = TextAlign.Right,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(24.dp)
-                                    .weight(3f),
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Text(
-                                text = "$"+ total.toString(),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(24.dp)
-                                    .weight(2f),
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
-                }
+//                item {
+//                    ElevatedCard(
+//                        modifier = Modifier
+//                            .padding(8.dp),
+//                        colors = CardDefaults.cardColors(
+//                            containerColor = MaterialTheme.colorScheme.tertiary,
+//                            contentColor = MaterialTheme.colorScheme.onTertiary
+//                        )
+//                    ) {
+//                        Row {
+//                            Text(
+//                                text = "Total:",
+//                                textAlign = TextAlign.Right,
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(24.dp)
+//                                    .weight(3f),
+//                                style = MaterialTheme.typography.bodyMedium
+//                            )
+//                            Text(
+//                                text = if (estadoListaProducto[producto.first].rebaja==0) "$${estadoListaProducto[producto.first].precio_normal*producto.second}" else "$${estadoListaProducto[producto.first].precio_normal*producto.second}",
+//                                textAlign = TextAlign.Center,
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(24.dp)
+//                                    .weight(2f),
+//                                style = MaterialTheme.typography.bodyMedium
+//                            )
+//                        }
+//                    }
+//                }
                 item {
                     Spacer(modifier = Modifier.padding(35.dp))
                 }
@@ -292,28 +256,7 @@ fun Carrito(viewModel: BTVM, paymentsViewModel: PaymentsViewModel, deepLinkUri: 
 
         FloatingActionButton(
             onClick = {
-                paymentsViewModel.createPayment(
-                    total = "10.00",
-                    currency = "USD",
-                    method = "paypal",
-                    intent = "sale",
-                    description = "Payment description",
-                    cancelUrl = "http://localhost:8080/cancel",
-                    successUrl = "myapp://payment",
-                    onSuccess = { url ->
-                        approvalUrl = url
-                        println(approvalUrl)
-                        println(viewModel.getEstadoUsuario())
-                        paymentStatus = "Redirecting to PayPal for approval"
-                        println(paymentStatus)
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        context.startActivity(intent)
-                        println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
-                    },
-                    onError = { error ->
-                        paymentStatus = "Failed to create payment: ${error.message}"
-                    }
-                )
+                navController.navigate("Pagos")
             },
             containerColor = MaterialTheme.colorScheme.primary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
