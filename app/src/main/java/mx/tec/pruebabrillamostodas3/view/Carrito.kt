@@ -54,6 +54,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.filled.Delete
 import androidx.navigation.NavHostController
 
 /**
@@ -67,11 +68,14 @@ import androidx.navigation.NavHostController
 fun Carrito(viewModel: BTVM, navController: NavHostController){
 
     val estadoCarrito by viewModel.estadoCarrito.collectAsState()
-    val estadoListaProducto by viewModel.estadoListaProducto.collectAsState()
 
     var total=0
     for (producto in estadoCarrito.productos){
-        total += estadoListaProducto[producto.first].precio_normal*producto.second
+        if (producto.first.rebaja==0){
+            total += producto.first.precio_normal*producto.second
+        } else{
+            total += producto.first.precio_rebajado*producto.second
+        }
     }
 
     Box(
@@ -89,7 +93,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
             Icon(
                 imageVector = Icons.Default.ShoppingCart,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.primaryContainer,
+                tint = MaterialTheme.colorScheme.secondaryContainer,
                 modifier = Modifier
                     .padding(10.dp)
                     .size(100.dp)
@@ -162,6 +166,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                                     .weight(2f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
+                            Text(text = "", modifier = Modifier.weight(1f))
                         }
                     }
                 }
@@ -179,16 +184,19 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                             Column(modifier = Modifier.weight(3f),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally) {
-                                Image(
-                                    painter = BitmapPainter(Image(estadoListaProducto[producto.first].imagen).asImageBitmap()),
-                                    contentDescription = "Elemento",
-                                    modifier = Modifier
-                                        .width(60.dp)
-                                        .height(70.dp)
-                                        .padding(top= 30.dp)
-                                )
+
+                                    Image(
+                                        painter = BitmapPainter(
+                                            Image(producto.first.imagen).asImageBitmap()
+                                        ),
+                                        contentDescription = "Elemento",
+                                        modifier = Modifier
+                                            .width(60.dp)
+                                            .height(70.dp)
+                                            .padding(top = 30.dp)
+                                    )
                                 Text(
-                                    text = estadoListaProducto[producto.first].nombre,
+                                    text = producto.first.nombre,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -206,13 +214,22 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "$${estadoListaProducto[producto.first].precio_normal*producto.second}",
+                                text = if (producto.first.rebaja==0) "$${producto.first.precio_normal * producto.second}" else "$${producto.first.precio_normal * producto.second}",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 95.dp)
                                     .weight(2f),
                                 style = MaterialTheme.typography.bodyMedium
+                            )
+                            Icon(imageVector = Icons.Default.Delete,
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .clickable {
+                                        viewModel.removeProducto(producto.first, producto.second)
+                                    }
+                                    .weight(1f)
+                                    .padding(top = 95.dp)
                             )
                         }
                     }
@@ -237,7 +254,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = if (estadoListaProducto[producto.first].rebaja==0) "$${estadoListaProducto[producto.first].precio_normal*producto.second}" else "$${estadoListaProducto[producto.first].precio_normal*producto.second}",
+                                text = "$$total",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()

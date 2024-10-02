@@ -56,8 +56,8 @@ class BTVM: ViewModel() {
     private val _estadoCarrito = MutableStateFlow<Carrito>(Carrito())
     val estadoCarrito: StateFlow<Carrito> = _estadoCarrito
 
-    private val _estadoañadirCarrito = MutableStateFlow<Pair<Int,Int>>(Pair(0,1))
-    val estadoAñadirCarrito: StateFlow<Pair<Int,Int>> = _estadoañadirCarrito
+    private val _estadoañadirCarrito = MutableStateFlow<Pair<EstadoProducto,Int>>(Pair(EstadoProducto(1,"","",0,0,0,0,""),1))
+    val estadoAñadirCarrito: StateFlow<Pair<EstadoProducto,Int>> = _estadoañadirCarrito
 
     //Estado Producto Seleccionado
     private val _estadoSeleccionado = MutableStateFlow(-1)
@@ -170,21 +170,26 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun addProducto(index : Int, cantidad: Int) {
-        estadoCarrito.value.productos.add(Pair(index, cantidad))
-        estadoListaProducto.value[index] = estadoListaProducto.value[index].copy(cantidad = estadoListaProducto.value[index].cantidad - cantidad )
+    fun addProducto(producto: EstadoProducto, cantidad: Int) {
+        estadoCarrito.value.productos.add(Pair(producto, cantidad))
     }
 
-    fun removeProducto(index: Int, cantidad: Int) {
-        val producto = estadoListaProducto.value[index].id
-        estadoCarrito.value.productos.remove(Pair(producto, cantidad))
+    fun removeProducto(producto: EstadoProducto, cantidad: Int) {
+        val newProductos = estadoCarrito.value.productos.toMutableList()
+        newProductos.remove(Pair(producto, cantidad))
+        _estadoCarrito.value = estadoCarrito.value.copy(productos = newProductos)
     }
 
 
     fun addOrder(id: Int) {
+        var newList: MutableList<Pair<Int, Int>> = mutableListOf()
+        for (producto in estadoCarrito.value.productos) {
+            newList.add(Pair(producto.first.id, producto.second))
+        }
+
         viewModelScope.launch {
             try {
-                var orden: Order = Order(modeloR.createDataInfo(estadoCarrito.value.productos), estadoUsuario.value.id)
+                var orden: Order = Order(modeloR.createDataInfo(newList), estadoUsuario.value.id)
                 val response = modeloR.addOrderWithToken(orden, estadoUsuario.value.key)
             }
             catch (e: Exception) {
@@ -385,14 +390,14 @@ class BTVM: ViewModel() {
         _estadoUsuario.value = _estadoUsuario.value.copy(codigo = codigo)
     }
 
-    fun setEstadoAñadirCarrito(producto: Int){
+    fun setEstadoAñadirCarrito(producto: EstadoProducto){
         if (_estadoañadirCarrito.value.first != producto){
             _estadoañadirCarrito.value = Pair(producto,1)
         }
     }
-    fun sumarorestarproducto(sign: Int, producto: Int){
+    fun sumarorestarproducto(sign: Int, producto: EstadoProducto){
         if (sign == 1){
-            if(_estadoañadirCarrito.value.second == estadoListaProducto.value[producto].cantidad){
+            if(_estadoañadirCarrito.value.second == producto.cantidad){
                 return
             }
             _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto, second = _estadoañadirCarrito.value.second+1)
@@ -446,5 +451,6 @@ class BTVM: ViewModel() {
     fun setErrorEstado(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorEstado = b)
     }
+    
 
 }
