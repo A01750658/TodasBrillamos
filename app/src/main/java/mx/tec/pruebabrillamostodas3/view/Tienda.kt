@@ -128,8 +128,8 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                         }
                     }
                 }
-
             }
+
             if (estadoListaProducto.value.isEmpty()) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 println(estadoListaProducto.value.size)}

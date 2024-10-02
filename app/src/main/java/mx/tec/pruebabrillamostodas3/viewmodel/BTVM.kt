@@ -80,6 +80,9 @@ class BTVM: ViewModel() {
     val estadoCopiaDireccion: StateFlow<Direccion> = _estadoCopiaDireccion
     var copiaListaProductos = mutableListOf<EstadoProducto>()
 
+    private val _estadoCategorias : MutableStateFlow<MutableSet<String>> = MutableStateFlow(mutableSetOf<String>())
+    val estadoCategorias : StateFlow<MutableSet<String>> = _estadoCategorias
+
     var listaFiltradaPorCategoria = mutableListOf<EstadoProducto>()
     fun getProductos() {
         viewModelScope.launch {
@@ -103,6 +106,7 @@ class BTVM: ViewModel() {
                                 cantidad= producto.cantidad
                             )
                         )
+                        _estadoCategorias.value.add(producto.categoria)
                     }
                     _estadoListaProducto.value = nuevaLista // Emitir la nueva lista
                     copiaListaProductos = nuevaLista
@@ -114,12 +118,13 @@ class BTVM: ViewModel() {
 
     }
     fun setListaFiltradaPorCategoria(categoria:String) {
+        _estadoListaProducto.value = copiaListaProductos
         for(producto in estadoListaProducto.value){
             if(producto.categoria == categoria){
                 listaFiltradaPorCategoria.add(producto)
             }
         }
-        copiaListaProductos = _estadoListaProducto.value
+        //copiaListaProductos = _estadoListaProducto.value
         _estadoListaProducto.value = listaFiltradaPorCategoria
     }
     fun resetListaFiltradaPorCategoria() {
