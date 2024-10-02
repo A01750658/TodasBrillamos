@@ -63,6 +63,7 @@ import androidx.compose.ui.text.style.TextAlign
  * @author Santiago Chevez
  * @author Alan Vega
  * @author Andrés Cabrera
+ * Es la pantalla principal de los catalogos de productos
  */
 
 

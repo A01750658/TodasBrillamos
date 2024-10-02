@@ -150,7 +150,6 @@ fun LogIn(
                 Modifier
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
-                    .border(1.dp, MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(32.dp))
                     //.background(MaterialTheme.colorScheme.tertiary)
                 ,colors= ButtonDefaults.elevatedButtonColors(
                     containerColor = MaterialTheme.colorScheme.tertiary,

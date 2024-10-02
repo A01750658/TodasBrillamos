@@ -308,7 +308,6 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .border(1.dp, MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(32.dp))
                     //.background(MaterialTheme.colorScheme.tertiary)
             ,colors= ButtonDefaults.elevatedButtonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary,
@@ -321,7 +320,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     color = MaterialTheme.colorScheme.onTertiary
                 )
             }
