@@ -36,9 +36,13 @@ class BTVM: ViewModel() {
         _once.value = show
     }
 
-    //EstadoDatePicker
+    //Estado contraseña perdida
     private val _contraseñaPerdida = MutableLiveData(false)
     val contraseñaPerdida: LiveData<Boolean> = _contraseñaPerdida
+
+    //Estado cambio de contraseña
+    private val _cambioContraseña = MutableLiveData(false)
+    val cambioContraseña: LiveData<Boolean> = _cambioContraseña
 
     //Estado Lista Productos proveniente de modelo
     private val _estadoListaProductosModelo = MutableStateFlow(listOf<Producto>())
@@ -442,6 +446,7 @@ class BTVM: ViewModel() {
                     throw Exception("Could not change password")
                 }
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
+                setCambioContraseña(true)
             }
             catch (e: Exception) {
                 println(e)
@@ -449,6 +454,11 @@ class BTVM: ViewModel() {
             }
         }
     }
+
+    fun setCambioContraseña(b: Boolean) {
+        _cambioContraseña.value = b
+    }
+
     fun setErrorCodigo(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorCodigo = b)
     }

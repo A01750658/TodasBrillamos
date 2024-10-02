@@ -151,6 +151,11 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
             }
+            if (btVM.cambioContraseña.value == true) {
+                //cambia a la pantalla login
+                navController.navigate(Pantallas.RUTA_LOGIN)
+                btVM.setCambioContraseña(false)
+            }
             Spacer(modifier = Modifier.padding(16.dp))
 
         }
