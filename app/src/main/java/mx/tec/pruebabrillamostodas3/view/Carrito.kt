@@ -217,37 +217,37 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                         }
                     }
                 }
-                item {
-                    ElevatedCard(
-                        modifier = Modifier
-                            .padding(8.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.tertiary,
-                            contentColor = MaterialTheme.colorScheme.onTertiary
-                        )
-                    ) {
-                        Row {
-                            Text(
-                                text = "Total:",
-                                textAlign = TextAlign.Right,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(24.dp)
-                                    .weight(3f),
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Text(
-                                text = if (estadoListaProducto[producto.first].rebaja==0) "$${estadoListaProducto[producto.first].precio_normal*producto.second}" else "$${estadoListaProducto[producto.first].precio_normal*producto.second}",
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(24.dp)
-                                    .weight(2f),
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
-                }
+//                item {
+//                    ElevatedCard(
+//                        modifier = Modifier
+//                            .padding(8.dp),
+//                        colors = CardDefaults.cardColors(
+//                            containerColor = MaterialTheme.colorScheme.tertiary,
+//                            contentColor = MaterialTheme.colorScheme.onTertiary
+//                        )
+//                    ) {
+//                        Row {
+//                            Text(
+//                                text = "Total:",
+//                                textAlign = TextAlign.Right,
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(24.dp)
+//                                    .weight(3f),
+//                                style = MaterialTheme.typography.bodyMedium
+//                            )
+//                            Text(
+//                                text = if (estadoListaProducto[producto.first].rebaja==0) "$${estadoListaProducto[producto.first].precio_normal*producto.second}" else "$${estadoListaProducto[producto.first].precio_normal*producto.second}",
+//                                textAlign = TextAlign.Center,
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(24.dp)
+//                                    .weight(2f),
+//                                style = MaterialTheme.typography.bodyMedium
+//                            )
+//                        }
+//                    }
+//                }
                 item {
                     Spacer(modifier = Modifier.padding(35.dp))
                 }
