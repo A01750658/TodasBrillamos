@@ -132,7 +132,8 @@ fun AppBottomBar(navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASEÑA){
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASEÑA
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_NUEVA_CONTRASEÑA){
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,

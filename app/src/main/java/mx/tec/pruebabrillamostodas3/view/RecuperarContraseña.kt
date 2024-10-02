@@ -136,6 +136,7 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
             if (btVM.contraseñaPerdida.value == true) {
                 //cambia a la pantalla nueva contraseña
                 navController.navigate(Pantallas.RUTA_NUEVA_CONTRASEÑA)
+                btVM.setContraseñaPerdida(false)
             }
         }
     }

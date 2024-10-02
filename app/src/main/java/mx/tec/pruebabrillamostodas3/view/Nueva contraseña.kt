@@ -73,7 +73,8 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                 .fillMaxWidth()
             )
             Etiqueta("Código de recuperación*", Modifier.padding(bottom = 3.dp))
-            InputTexto(estado.value.correo, onValueChange =
+
+            InputTexto(estado.value.codigo.toString(), onValueChange =
             {
                     nuevoTexto ->
                 if (nuevoTexto.contains("\n")){
@@ -86,9 +87,16 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                     } else {
                         btVM.setErrorCorreo(false)
                     }
-                    valorCodigo = nuevoTexto.toInt()
+
+                    if (nuevoTexto.length > 0){
+                        valorCodigo = nuevoTexto.toInt()
+                    }
+                    else{
+                        valorCodigo = 0
+                    }
+
                     btVM.setCodigoUsuario(valorCodigo)
-                    btVM.setErrorLogin(false) //error codigo
+                    btVM.setErrorLogin(false) //error recuperar contraseña
                 }
             },
                 keyBoardType = KeyboardType.Number)
@@ -101,7 +109,6 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                     } else {
                         valorPassword = nuevoTexto
                         btVM.setContrasenaUsuario(valorPassword)
-                        btVM.setErrorLogin(false)
                     }
                 })
 
@@ -124,7 +131,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
             }
             TextButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
-                    //btVM.recuperarContrasena(valorCorreo)
+                    btVM.changePassword(valorCodigo, estado.value.correo ,valorPassword)
                     btVM.setLoading(true)
                 }
             },
@@ -137,7 +144,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                     .background(MaterialTheme.colorScheme.tertiary)
             ){
                 Text(
-                    text = "Click para recuperar",
+                    text = "Click para cambiar",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodyMedium,

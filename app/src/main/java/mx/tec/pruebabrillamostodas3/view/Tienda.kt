@@ -47,6 +47,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
@@ -100,11 +101,27 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                         .fillMaxWidth(),
                 )
                 Titulo(titulo = "Catálogo", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
+                Spacer(modifier = Modifier.padding(6.dp).fillMaxWidth())
+                HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.primaryContainer)
+                Spacer(modifier = Modifier.padding(8.dp).fillMaxWidth())
 
                 // Menú desplegable de categorías
                 Box(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-                    Button(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
-                        Text(text = "Ver por: $selectedCategoria")
+                    Button(onClick = { expanded = true }) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically // Alinear verticalmente al centro
+                        ) {
+                            Text(
+                                text = "Filtrar por: $selectedCategoria",
+                                color = MaterialTheme.colorScheme.onTertiary
+                            )
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowDown,
+                                contentDescription = "Arrow down icon",
+                                modifier = Modifier.padding(start = 8.dp), // Espacio entre el texto y el ícono
+                                tint = MaterialTheme.colorScheme.onTertiary // Color del ícono
+                            )
+                        }
                     }
 
                     DropdownMenu(
@@ -113,7 +130,9 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Todas") },
+                            text = {
+                                Text("Todas", color = MaterialTheme.colorScheme.onSurface) // Cambia el color aquí
+                            },
                             onClick = {
                                 selectedCategoria = "Todas"
                                 viewModel.resetListaFiltradaPorCategoria()
@@ -122,29 +141,19 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                         )
                         estadoCategorias.value.forEach { categoria ->
                             DropdownMenuItem(
-                                text = { Text(categoria) },
+                                text = {
+                                    Text(categoria, color = MaterialTheme.colorScheme.primary) // Cambia el color aquí
+                                },
                                 onClick = {
-
-                                    if (categorySelected){
-                                        selectedCategoria = categoria
-                                        viewModel.resetListaFiltradaPorCategoria()
-                                        viewModel.setListaFiltradaPorCategoria(categoria)
-                                        expanded = false
-                                    }
-
                                     selectedCategoria = categoria
-                                    viewModel.setListaFiltradaPorCategoria(categoria) // Aplicar el filtro
+                                    viewModel.setListaFiltradaPorCategoria(categoria)
                                     expanded = false
-                                    categorySelected = true
                                 }
                             )
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.padding(6.dp).fillMaxWidth())
-                HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.primaryContainer)
-                Spacer(modifier = Modifier.padding(8.dp).fillMaxWidth())
             }
 
             // Lista de productos filtrada

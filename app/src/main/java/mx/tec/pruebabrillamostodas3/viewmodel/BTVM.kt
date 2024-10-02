@@ -410,6 +410,10 @@ class BTVM: ViewModel() {
         }
     }
 
+    fun setContraseñaPerdida(b: Boolean) {
+        _contraseñaPerdida.value = b
+    }
+
     fun recuperarContrasena(email: String){
         viewModelScope.launch {
             try {
@@ -426,6 +430,22 @@ class BTVM: ViewModel() {
             catch (e: Exception) {
                 println(e)
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+            }
+        }
+    }
+
+    fun changePassword(code: Int, email: String, password: String){
+        viewModelScope.launch {
+            try {
+                val response = modeloR.changePassword(code, email, password)
+                if (response.result == "error") {
+                    throw Exception("Could not change password")
+                }
+                _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
+            }
+            catch (e: Exception) {
+                println(e)
+                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)//cambio de contraseña
             }
         }
     }

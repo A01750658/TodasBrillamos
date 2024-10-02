@@ -183,27 +183,48 @@ class ModelConnectionR {
         }
         return userOrders
     }
+    //Función de foros
+    /**
+     * Función que obtiene la información de los foros
+     * @param userToken [String] token del usuario obtenido por medio de la función getJWTKey
+     * @return [ListaForo] : información de los foros
+     */
+    suspend fun getForo(userToken: String) : ListaForo{
+        val response : ListaForo = service.getForoWithToken(userToken)
+        return response
+    }
+    /**
+     * Función que obtiene los comentarios de un foro
+     * @param userToken [String] token del usuario obtenido por medio de la función getJWTKey
+     * @return [ListaComentario] : lista de comentarios
+     */
+    suspend fun getComments(userToken: String,id:Int) : ListaComentario{
+        val response : ListaComentario = service.getCommentWithToken(userToken,id)
+        return response
+    }
 }
 
 suspend fun main(){
     val modelConnection = ModelConnectionR()
-    println(modelConnection.hash("AAAAA"))
+    //println(modelConnection.hash("AAAAA"))
     val lista : List<Producto> = modelConnection.getProductsWithToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlckBnbWFpbC5jb207MTIzNCIsImlhdCI6MTcyNjQ5ODg3NiwiZXhwIjoxNzI2NDk5MTc2fQ.KCwualrayru-DSqHG-Zi5IpXc3TPx8LDb1EvKOtWymA").second
-    println(lista)
+    //println(lista)
 //val p :MutableList<Pair<Int,Int>> = mutableListOf()
     /*for (i in lista){
         p.add(Pair(i.id,1))
     }*/
     //val dInfo = modelConnection.createDataInfo(p)
     //val order = Order(dInfo,201)
-    val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker23537676565877654@gmail.com","1234",0,1,"5532532512")
+    //val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker23537676565877654@gmail.com","1234",0,1,"5532532512")
     //println(modelConnection.addOrderWithToken(order,modelConnection.getJWTKey(us.email,us.password).data))
-    println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex","54050","12","12",2)))
+    //println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex","54050","12","12",2)))
     // val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker2365@gmail.com","1234",0)
     //println(modelConnection.getJWTKey(us.email,us.password))
     //println(modelConnection.signUp(us))
     //println(modelConnection.getUserData(modelConnection.getJWTKey("iker@gmail.com","1234").data))
     //println(modelConnection.getRecoveryPasswordToken("iker.fuentesreyes@gmail.com"))
     //println(modelConnection.changePassword(109076427,"iker.fuentesreyes@gmail.com","777"))
-    println(modelConnection.getOrderInfo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tOzA0MDAiLCJpYXQiOjE3MjcyODA2NDQsImV4cCI6MTcyNzI4MDk0NH0.xQ3muy9SPCltMit4muOIcEPRrBe3rOjYMACnuscBLO4"))
+    //println(modelConnection.getOrderInfo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tOzA0MDAiLCJpYXQiOjE3MjcyODA2NDQsImV4cCI6MTcyNzI4MDk0NH0.xQ3muy9SPCltMit4muOIcEPRrBe3rOjYMACnuscBLO4"))
+    println(modelConnection.getForo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tO3Jvb3QiLCJpYXQiOjE3Mjc4OTQ4MjksImV4cCI6MTcyNzg5NTEyOX0.CS7cV7M4NgdydxJwZPBKrXnf6wjJ61YbRy8QRZ7jmNM"))
+    println(modelConnection.getComments("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tO3Jvb3QiLCJpYXQiOjE3Mjc4OTQ4MjksImV4cCI6MTcyNzg5NTEyOX0.CS7cV7M4NgdydxJwZPBKrXnf6wjJ61YbRy8QRZ7jmNM",161))
 }

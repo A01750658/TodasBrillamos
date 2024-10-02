@@ -28,6 +28,8 @@ const val getRecoveryPasswordTokenEndpoint = "recover/password/get_token"
 const val changePasswordEndpoint = "recover/password/change_password"
 const val getOrderInfoWithTokenEndpoint = "get_order/"
 const val updateAddressWithTokenEndpoint = "edit/address/"
+const val getForoWithTokenEndpoint = "get/foro"
+const val getCommentsWithTokenEndpoint = "get/comments"
 interface TodasBrillamosAPI
 {
 
@@ -155,4 +157,25 @@ interface TodasBrillamosAPI
     @POST(updateAddressWithTokenEndpoint)
     suspend fun updateAddressWithToken(@Body address: Direccion, @Query("user_token") user_token : String): ResponseFormat
 
+    @Headers(
+        "User-Agent:Retrofit"
+    )
+    /**
+     * Función que obtiene los foros creados
+     * @param user_token [String]: Token del usuario
+     * @return [ListaForo]: Información de los foros.
+     */
+    @GET(getForoWithTokenEndpoint)
+    suspend fun getForoWithToken(@Query("user_token") user_token : String): ListaForo
+
+    @Headers(
+        "User-Agent:Retrofit"
+    )
+    /**
+     * Función que obtiene los comentarios/respuestas a un foro
+     * @param user_token [String]: Token del usuario
+     * @return [ListaForo]: Información de los foros.
+     */
+    @GET(getCommentsWithTokenEndpoint)
+    suspend fun getCommentWithToken(@Query("user_token") user_token : String, @Query("foro_id") id_foro : Int): ListaComentario
 }
