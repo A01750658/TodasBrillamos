@@ -56,6 +56,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
     val showDatePicker by btVM.showDatePicker.observeAsState(false)
     val estado = btVM.estadoUsuario.collectAsState()
+    val estadoFecha by btVM.estadoFecha.observeAsState()
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
     var valorNombre by rememberSaveable { mutableStateOf(estado.value.nombre) }
@@ -148,7 +149,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     .background(MaterialTheme.colorScheme.tertiary)
             ){
                 Text(
-                    text = "Seleccionar Fecha",
+                    text = estadoFecha.toString(),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium,
                     fontSize = 20.sp,

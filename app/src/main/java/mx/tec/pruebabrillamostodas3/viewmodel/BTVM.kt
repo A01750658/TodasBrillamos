@@ -21,6 +21,13 @@ import mx.tec.pruebabrillamostodas3.model.Usuario
 class BTVM: ViewModel() {
     val modeloR: ModelConnectionR = ModelConnectionR()
 
+    //EstadoFecha
+    private val _estadoFecha = MutableLiveData("Seleccionar Fecha")
+    val estadoFecha: LiveData<String> = _estadoFecha
+
+    fun setEstadoFecha(fecha: String) {
+        _estadoFecha.value = fecha
+    }
 
     //EstadoDatePicker
     private val _showDatePicker = MutableLiveData(false)
@@ -343,6 +350,10 @@ class BTVM: ViewModel() {
 
     fun setFecha(day: Int, month: Int, year: Int) {
         _estadoUsuario.value = _estadoUsuario.value.copy(año_nacimiento = year, mes_nacimiento = month, día_nacimiento = day)
+
+        val months = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+        val fecha = "%02d-%s-%04d".format(day, months[month - 1], year)
+        setEstadoFecha(fecha)
     }
 
     fun getFecha(): Triple<Int, Int, Int> {
