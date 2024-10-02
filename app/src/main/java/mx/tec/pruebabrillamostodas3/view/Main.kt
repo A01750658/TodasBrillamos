@@ -205,7 +205,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             SignUp(btVM, navController)
         }
         composable(Pantallas.RUTA_LOGIN){
-            LogIn(btVM, navController, paymentsVM)
+            LogIn(btVM, navController, paymentsVM, validationsVM)
         }
         composable(Pantallas.RUTA_INFO){
             Info(btVM)
@@ -233,6 +233,9 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         }
         composable(Pantallas.RUTA_FORO+"/{idforo}"){
             TempleteForo(idForo = it.arguments?.getString("idforo")!!)
+        }
+        composable(Pantallas.RUTA_PAGOS){
+            PaymentScreen(btVM,paymentsVM)
         }
     }
 }
