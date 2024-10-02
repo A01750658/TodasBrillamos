@@ -31,7 +31,7 @@ import java.sql.Blob
 
 /**
  * @author Santiago Chevez
- * @autor Andrés Cabrera
+ * @author Andrés Cabrera
  * @author Alan Vega
  * Boton para seleccionar un producto en la tienda
  */

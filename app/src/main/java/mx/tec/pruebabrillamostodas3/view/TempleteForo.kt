@@ -30,18 +30,19 @@ import androidx.compose.ui.unit.dp
  * @param Respuestas es la lista de respuestas que se van a mostrar en el foro
  */
 @Composable
-fun TempleteForo(Pregunta: String = "Pregunta", Respuestas: List<String>) {
+fun TempleteForo(idForo:String) {
+    var respuestas= listOf("Respuesta 1", "Respuesta 2", "Respuesta 3")
     Box(
         modifier = Modifier
             .fillMaxSize()
     ){
         Column {
             Titulo(
-                "Foro",
-                color = MaterialTheme.colorScheme.primaryContainer,
+                "Pregunta",
+                color = MaterialTheme.colorScheme.secondaryContainer,
                 fontSize = 90
             )
-            Subtitulo(Pregunta)
+            Subtitulo("¿Pregunta? $idForo")
             HorizontalDivider(thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer
             )
@@ -52,7 +53,7 @@ fun TempleteForo(Pregunta: String = "Pregunta", Respuestas: List<String>) {
             )
             Subtitulo("Respuestas")
             LazyColumn() {
-                for (i in Respuestas) {
+                for (i in respuestas) {
                     item {
                         ElevatedCard(
                             modifier = Modifier
@@ -69,20 +70,6 @@ fun TempleteForo(Pregunta: String = "Pregunta", Respuestas: List<String>) {
                     }
                 }
             }
-        }
-        FloatingActionButton(
-            onClick = {  },
-            containerColor = MaterialTheme.colorScheme.tertiary,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(16.dp),
-        ) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Generar"
-            )
-
         }
     }
 }

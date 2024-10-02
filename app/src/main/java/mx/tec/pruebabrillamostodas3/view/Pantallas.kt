@@ -38,6 +38,8 @@ sealed class Pantallas (
         const val RUTA_EDITAR_DIRECCION = "EditarDireccion"
         const val RUTA_RECUPERARCONTRASEÑA = "RecuperarContraseña"
         const val RUTA_NUEVA_CONTRASEÑA = "NuevaContraseña"
+        const val RUTA_CREARFORO = "CrearForo"
+        const val RUTA_FORO = "Foro"
     }
 
     //Pantallas Menu
@@ -64,6 +66,10 @@ sealed class Pantallas (
 
     //Pantallas perfil
     data object EditarDireccion: Pantallas(RUTA_EDITAR_DIRECCION, "EditarDireccion", Icons.Default.Email)
+
+    //Pantallas Foros
+    data object CrearForo: Pantallas(RUTA_CREARFORO, "CrearForo", Icons.Default.Email)
+    data object Foro: Pantallas(RUTA_FORO, "Foro", Icons.Default.Email)
 
 
 

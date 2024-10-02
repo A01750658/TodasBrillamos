@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,7 +28,7 @@ import androidx.compose.ui.text.input.KeyboardType
  * @param onDone es una función que dice que hacer cuando el usario acaba de escribir
  */
 @Composable
-fun InputTexto(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, padding: Int = 16, onDone: () -> Unit = {}, keyBoardType: KeyboardType = KeyboardType.Text){
+fun InputTexto(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, padding: Int = 16, onDone: () -> Unit = {}, keyBoardType: KeyboardType = KeyboardType.Text, placeHolder: String =""){
     val focusManager = LocalFocusManager.current
     OutlinedTextField(
         value = text,
@@ -47,6 +48,9 @@ fun InputTexto(text: String, onValueChange: (String) -> Unit, modifier: Modifier
                 onDone()
                 focusManager.clearFocus()
             }
-        )
+        ),
+        placeholder = {
+            Text(placeHolder)
+        }
     )
 }

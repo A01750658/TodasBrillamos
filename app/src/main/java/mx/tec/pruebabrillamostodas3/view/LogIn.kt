@@ -1,6 +1,5 @@
 package mx.tec.pruebabrillamostodas3.view
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -17,9 +16,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,16 +38,22 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
+import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 /**
  * @author Santiago Chevez
- * @autor Andrés Cabrera
+ * @author Andrés Cabrera
  * Pantalla del inicio de sesión del usuario. Utilza las funciones de elementos de la vista y del viewmodel
  * @param btVM Viewmodel principal de la aplicación.
  * @param navController Controlador de navegación de la aplicación.
  */
 @Composable
-fun LogIn(btVM: BTVM, navController: NavHostController, paymentsVM: PaymentsViewModel){
+fun LogIn(
+    btVM: BTVM,
+    navController: NavHostController,
+    paymentsVM: PaymentsViewModel,
+    validationsVM: ValidationsVM
+){
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
@@ -92,17 +95,20 @@ fun LogIn(btVM: BTVM, navController: NavHostController, paymentsVM: PaymentsView
                 if (nuevoTexto.contains("\n")){
                     /*TODO*/
                 } else {
-                    if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
-                        btVM.setErrorCorreo(true)
-                    } else {
+                    if (validationsVM.validateEmail(nuevoTexto)){
                         btVM.setErrorCorreo(false)
+                    } else {
+                        btVM.setErrorCorreo(true)
                     }
                     valorCorreo = nuevoTexto
                     btVM.setCorreoUsuario(valorCorreo)
                     btVM.setErrorLogin(false)
                 }
             },
-                keyBoardType = KeyboardType.Email)
+                keyBoardType = KeyboardType.Email,
+                placeHolder = "usuario@dominio.com"
+
+            )
             if (estadoErrors.value.errorCorreo) {
                 Etiqueta(
                     texto = "Debe de ser un correo electrónico",
@@ -120,7 +126,8 @@ fun LogIn(btVM: BTVM, navController: NavHostController, paymentsVM: PaymentsView
                         btVM.setContrasenaUsuario(valorPassword)
                         btVM.setErrorLogin(false)
                     }
-                })
+                },
+                )
             if (estadoErrors.value.errorLogin) {
                 Etiqueta( "El correo o la contraseña son incorrectos",
                     color = MaterialTheme.colorScheme.inversePrimary,

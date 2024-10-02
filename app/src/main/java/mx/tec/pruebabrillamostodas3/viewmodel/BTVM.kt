@@ -78,7 +78,14 @@ class BTVM: ViewModel() {
 
     private val _estadoCopiaDireccion = MutableStateFlow<Direccion>(Direccion())
     val estadoCopiaDireccion: StateFlow<Direccion> = _estadoCopiaDireccion
+    var copiaListaProductos = mutableListOf<EstadoProducto>()
 
+    //Estado categorias
+    private val _estadoCategorias : MutableStateFlow<MutableSet<String>> = MutableStateFlow(mutableSetOf<String>())
+    val estadoCategorias : StateFlow<MutableSet<String>> = _estadoCategorias
+
+    //Estado de la lista filtrada por categoría
+    var listaFiltradaPorCategoria = mutableListOf<EstadoProducto>()
     fun getProductos() {
         viewModelScope.launch {
             if (_estadoListaProducto.value.isEmpty()) { // Verificar si la lista está vacía
@@ -96,18 +103,37 @@ class BTVM: ViewModel() {
                                 precio_normal = producto.precio_normal,
                                 precio_rebajado = producto.precio_rebajado,
                                 rebaja = producto.rebaja,
+                                categoria = producto.categoria,
                                 imagen = modeloR.getProductImage(producto.id),
                                 cantidad= producto.cantidad
                             )
                         )
+                        _estadoCategorias.value.add(producto.categoria)
                     }
                     _estadoListaProducto.value = nuevaLista // Emitir la nueva lista
+                    copiaListaProductos = nuevaLista
                 } catch (e: Exception) {
                     println(e)
                 }
             }
         }
 
+    }
+    //Función para filtrar productos por categoría
+    fun setListaFiltradaPorCategoria(categoria: String) {
+        listaFiltradaPorCategoria.clear() //limpia lista
+        for (producto in copiaListaProductos) {
+            if (producto.categoria == categoria) {
+                listaFiltradaPorCategoria.add(producto)
+            }
+        }
+        _estadoListaProducto.value = listaFiltradaPorCategoria
+    }
+
+    //Función para resetear la lista filtrada por categoría
+    fun resetListaFiltradaPorCategoria() {
+        _estadoListaProducto.value = copiaListaProductos
+        listaFiltradaPorCategoria.clear()
     }
 
     fun setEstadoSeleccionado(IdProd: Int) {

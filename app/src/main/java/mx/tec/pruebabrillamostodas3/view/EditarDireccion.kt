@@ -61,7 +61,7 @@ import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 /**
  * @author Santiago Chevez
- * @autor Andrés Cabrera
+ * @author Andrés Cabrera
  * Pantalla para editar la dirección en la aplicación
  */
 
@@ -336,7 +336,8 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary),
+                        colors = ButtonDefaults.buttonColors(
+                            MaterialTheme.colorScheme.secondaryContainer),
                     ) {
                         Text(text = "Guardar", color = MaterialTheme.colorScheme.onTertiary)
                     }
