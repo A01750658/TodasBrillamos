@@ -381,7 +381,7 @@ class BTVM: ViewModel() {
         return _estadoUsuario.value
     }
 
-    fun setCodigoUsuario(codigo: Int){
+    fun setCodigoUsuario(codigo: String){
         _estadoUsuario.value = _estadoUsuario.value.copy(codigo = codigo)
     }
 
@@ -443,6 +443,9 @@ class BTVM: ViewModel() {
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)//cambio de contraseña
             }
         }
+    }
+    fun setErrorCodigo(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCodigo = b)
     }
 
     fun setErrorCalle(b: Boolean) {

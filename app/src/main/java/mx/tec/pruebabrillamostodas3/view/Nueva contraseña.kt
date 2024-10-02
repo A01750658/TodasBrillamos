@@ -43,6 +43,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
     val estadoErrors = btVM.estadoErrors.collectAsState()
     var valorCodigo by rememberSaveable { mutableStateOf(estado.value.codigo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
+    var valorConfirmacionPassword by rememberSaveable { mutableStateOf(estado.value.confirmacion_password) }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -74,32 +75,32 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
             )
             Etiqueta("Código de recuperación*", Modifier.padding(bottom = 3.dp))
 
-            InputTexto(estado.value.codigo.toString(), onValueChange =
+            InputTexto(estado.value.codigo, onValueChange =
             {
                     nuevoTexto ->
                 if (nuevoTexto.contains("\n")){
                     /*TODO*/
                 } else {
                     if (nuevoTexto.length != 8 ) {
-                        btVM.setErrorCorreo(true)
+                        btVM.setErrorCodigo(true)
                         //Error codigo longitud
                         //no existe
                     } else {
-                        btVM.setErrorCorreo(false)
+                        btVM.setErrorCodigo(false)
                     }
-
-                    if (nuevoTexto.length > 0){
-                        valorCodigo = nuevoTexto.toInt()
-                    }
-                    else{
-                        valorCodigo = 0
-                    }
-
+                    valorCodigo = nuevoTexto
                     btVM.setCodigoUsuario(valorCodigo)
                     btVM.setErrorLogin(false) //error recuperar contraseña
                 }
             },
                 keyBoardType = KeyboardType.Number)
+            if (estadoErrors.value.errorCodigo) {
+                Etiqueta(
+                    texto = "El código debe tener 8 dígitos",
+                    color = MaterialTheme.colorScheme.inversePrimary,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
 
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContraseña(estado.value.password,
@@ -109,29 +110,24 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                     } else {
                         valorPassword = nuevoTexto
                         btVM.setContrasenaUsuario(valorPassword)
+                        btVM.checkPasswordErrors()
                     }
                 })
 
-            if (estadoErrors.value.errorCorreo) {
-                Etiqueta(
-                    texto = "Debe de ser un correo electrónico",
-                    color = MaterialTheme.colorScheme.inversePrimary,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
+            Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
+            InputContraseña(estado.value.confirmacion_password,
+                { nuevoTexto ->
+                    btVM.setIntent(false)
+                    valorConfirmacionPassword = nuevoTexto
+                    btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
+                    btVM.checkPasswordErrors()})
+            if (estadoErrors.value.errorContrasenas){
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.inversePrimary)
             }
-            if (estadoErrors.value.errorLogin) {
-                Etiqueta( "El correo no es válido",
-                    color = MaterialTheme.colorScheme.inversePrimary,
-                    modifier =
-                    Modifier
-                        .padding(bottom = 3.dp)
-                    //.background(MaterialTheme.colorScheme.tertiaryContainer)
-                )
-                btVM.setLoading(false)
-            }
+
             TextButton(onClick = {
-                if (!estadoErrors.value.errorLogin) {
-                    btVM.changePassword(valorCodigo, estado.value.correo ,valorPassword)
+                if (!estadoErrors.value.errorCodigo && !estadoErrors.value.errorContrasenas) {
+                    btVM.changePassword(valorCodigo.toInt(), estado.value.correo ,valorPassword)
                     btVM.setLoading(true)
                 }
             },
