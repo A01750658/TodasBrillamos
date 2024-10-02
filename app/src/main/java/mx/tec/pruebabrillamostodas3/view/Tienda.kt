@@ -47,6 +47,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -117,15 +118,6 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            // Ícono de menú antes del texto
-                            Icon(
-                                imageVector = Icons.Default.Menu, 
-                                contentDescription = "Menu icon",
-                                modifier = Modifier.padding(end = 8.dp),
-                                tint = MaterialTheme.colorScheme.onTertiary
-                            )
-
-                            // Texto de "Filtrar por"
                             Text(
                                 text = "Filtrar por: $selectedCategoria",
                                 color = MaterialTheme.colorScheme.onTertiary
@@ -207,7 +199,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
 
         // Botón flotante para navegar al carrito
         FloatingActionButton(
-            onClick = { navController.navigate("Carrito") },
+            onClick = { navController.navigate(Pantallas.RUTA_CARRITO) },
             containerColor = MaterialTheme.colorScheme.tertiary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             modifier = Modifier
@@ -221,6 +213,17 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
             ModalBottomSheet(onDismissRequest = { showMenu = false }) {
                 Producto(viewModel, modifier, navController)
             }
+        }
+        // Botón flotante para navegar al historial de compras
+        FloatingActionButton(
+            onClick = { navController.navigate(Pantallas.RUTA_HISTORIAL) },
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(top = 16.dp, start = 16.dp),
+        ) {
+            Icon(imageVector = Icons.Default.List, contentDescription = "Generar", tint = MaterialTheme.colorScheme.onTertiary)
         }
     }
 }
