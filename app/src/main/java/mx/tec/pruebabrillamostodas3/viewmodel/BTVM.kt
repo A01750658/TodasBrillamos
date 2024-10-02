@@ -84,6 +84,10 @@ class BTVM: ViewModel() {
     private val _estadoCategorias : MutableStateFlow<MutableSet<String>> = MutableStateFlow(mutableSetOf<String>())
     val estadoCategorias : StateFlow<MutableSet<String>> = _estadoCategorias
 
+    //Estado categoria seleccionada
+    private val _categoriaSeleccionada = MutableStateFlow("Todas")
+    val categoriaSeleccionada: StateFlow<String> = _categoriaSeleccionada
+
     //Estado de la lista filtrada por categoría
     var listaFiltradaPorCategoria = mutableListOf<EstadoProducto>()
     fun getProductos() {
@@ -128,6 +132,10 @@ class BTVM: ViewModel() {
             }
         }
         _estadoListaProducto.value = listaFiltradaPorCategoria
+    }
+
+    fun setCategoriaSeleccionada(categoria: String) {
+        _categoriaSeleccionada.value = categoria
     }
 
     //Función para resetear la lista filtrada por categoría
