@@ -120,16 +120,16 @@ class BTVM: ViewModel() {
 
     }
     //Función para filtrar productos por categoría
-    fun setListaFiltradaPorCategoria(categoria:String) {
-        _estadoListaProducto.value = copiaListaProductos
-        for(producto in estadoListaProducto.value){
-            if(producto.categoria == categoria){
+    fun setListaFiltradaPorCategoria(categoria: String) {
+        listaFiltradaPorCategoria.clear() //limpia lista
+        for (producto in copiaListaProductos) {
+            if (producto.categoria == categoria) {
                 listaFiltradaPorCategoria.add(producto)
             }
         }
-        //copiaListaProductos = _estadoListaProducto.value
         _estadoListaProducto.value = listaFiltradaPorCategoria
     }
+
     //Función para resetear la lista filtrada por categoría
     fun resetListaFiltradaPorCategoria() {
         _estadoListaProducto.value = copiaListaProductos

@@ -72,6 +72,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
     val estadoCategorias = viewModel.estadoCategorias.collectAsState() // Obtenemos las categorías
     var expanded by remember { mutableStateOf(false) } // Estado para mostrar el DropdownMenu
     var selectedCategoria by remember { mutableStateOf("Todas") } // Categoría seleccionada
+    var categorySelected: Boolean = false
 
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
@@ -103,7 +104,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                 // Menú desplegable de categorías
                 Box(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
                     Button(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
-                        Text(text = "Filtrar por: $selectedCategoria")
+                        Text(text = "Ver por: $selectedCategoria")
                     }
 
                     DropdownMenu(
@@ -112,7 +113,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Todas") }, // Corrección: se pasa el Text como lambda
+                            text = { Text("Todas") },
                             onClick = {
                                 selectedCategoria = "Todas"
                                 viewModel.resetListaFiltradaPorCategoria()
@@ -123,9 +124,18 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                             DropdownMenuItem(
                                 text = { Text(categoria) },
                                 onClick = {
+
+                                    if (categorySelected){
+                                        selectedCategoria = categoria
+                                        viewModel.resetListaFiltradaPorCategoria()
+                                        viewModel.setListaFiltradaPorCategoria(categoria)
+                                        expanded = false
+                                    }
+
                                     selectedCategoria = categoria
                                     viewModel.setListaFiltradaPorCategoria(categoria) // Aplicar el filtro
                                     expanded = false
+                                    categorySelected = true
                                 }
                             )
                         }
