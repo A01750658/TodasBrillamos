@@ -57,7 +57,6 @@ fun Redes(vmodel: BTVM) {
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
 
-    // Caja que contiene todo el contenido de la pantalla, con fondo y soporte para desplazamiento vertical
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -91,7 +90,7 @@ fun Redes(vmodel: BTVM) {
             Spacer(modifier = Modifier.padding(6.dp).fillMaxWidth())
 
             HorizontalDivider(
-                thickness = 2.dp,  // Grosor de la línea
+                thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer, modifier = Modifier.padding(bottom = 16.dp)
             )
 

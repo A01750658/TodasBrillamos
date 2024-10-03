@@ -36,6 +36,24 @@ import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * Esta es la pantalla de recuperar contraseña.
+ *
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Augusto
+ *
+ * @param vmodel Viewmodel principal de la aplicación.
+ * @param btVM Viewmodel de la pantalla.
+ * @param estado Estado de la pantalla.
+ * @param estadoErrors Estado de los errores de la pantalla.
+ * @param valorCorreo Valor del correo electrónico.
+ *
+ *
+ */
+
 @Composable
 fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
     val scrollState = rememberScrollState()
