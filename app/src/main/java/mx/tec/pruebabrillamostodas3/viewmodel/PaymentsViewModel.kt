@@ -152,8 +152,11 @@ class PaymentsViewModel: ViewModel() {
     fun addOrder(context: Context,btvm: BTVM){
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
+
                 val orden = preferences[PreferencesKeys.user_order]
                 if (orden != null) {
+                    println("SI tengo orden: ")
+                    println(orden)
                     btvm.addOrder(orden)
                 }
             }
@@ -181,7 +184,9 @@ class PaymentsViewModel: ViewModel() {
         viewModelScope.launch{
             context.dataStore.edit { preferences ->
                 preferences.remove(PreferencesKeys.username_saved)
-                preferences.remove(PreferencesKeys.username_saved)
+                preferences.remove(PreferencesKeys.password_saved)
+                preferences.remove(PreferencesKeys.user_email)
+                preferences.remove(PreferencesKeys.user_order)
             }
         }
     }
