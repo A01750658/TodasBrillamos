@@ -37,16 +37,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 /**
+ * Pantalla donde se muestran las publicaciones en el foro en nuestro caso preguntas frecuentes o preguntas realizadas por los usuarios
  * @author Santiago Chevez
  * @author Andrés Cabrera
  * @author Alan Vega
- * Pantalla donde se muestran las publicaciones en el foro
+ * @param navController controlador de navegación de la aplicación
  */
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun Foros(navController: NavHostController) {
     var searchText by remember { mutableStateOf("") }
+    //Variable para concocener la orientación de la pantalla
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
     Box(
@@ -63,6 +63,7 @@ fun Foros(navController: NavHostController) {
                 .fillMaxWidth()
 
         ) {
+            //Si la orientación es vertical se muestra el titulo y el icono
             if (screenOrientation == 1) {
                 Icon(
                     imageVector = Icons.Default.Star,
@@ -95,7 +96,7 @@ fun Foros(navController: NavHostController) {
                 color = MaterialTheme.colorScheme.primary,
                 thickness = 2.dp
             )
-
+            //Se muestran las publicaciones
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumn{
                     for (i in 1..3) {
@@ -116,6 +117,7 @@ fun Foros(navController: NavHostController) {
                         }
                     }
                 }
+                //Se muestra el boton para crear una nueva publicación
                 FloatingActionButton(
                     onClick = { navController.navigate("CrearForo") },
                     containerColor = MaterialTheme.colorScheme.tertiary,

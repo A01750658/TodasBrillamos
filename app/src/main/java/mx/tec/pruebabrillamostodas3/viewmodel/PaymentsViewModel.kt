@@ -14,15 +14,24 @@ import com.paypal.api.payments.*
 import mx.tec.pruebabrillamostodas3.PreferencesKeys
 import mx.tec.pruebabrillamostodas3.dataStore
 
-
 /**
- * @author Alan Vega
+ * ViewModel para tratar la parte de los pagos, incluye la integración con Paypal y la gestion de datos
+ * del usuario.
  *
- * ViewModel para tratar la parte de los pagos
+ * @author Alan Vega
+ * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
+ * @property apiContext Contexto de la API de Paypal
+ * @constructor Crea un objeto de la clase PaymentsViewModel
+ * @see APIContext
+ * @return Objeto de la clase PaymentsViewModel
+ *
  */
 
 class PaymentsViewModel: ViewModel() {
-
     //Datos de cuenta para conexión con API, para despliegue en producción se tienen que cambiar los valores
     private val apiContext: APIContext = APIContext(
         "AVaA8e03cxh_wVdXiJ4Zz3yfQnq1d4y_0XR-_2V75Er4_YlEKn40AeUGICZZtE68-akwRUPq5L2vK_NI",
@@ -30,10 +39,7 @@ class PaymentsViewModel: ViewModel() {
         "sandbox"
     )
 
-    /**
-     * Función que crea los pagos en Paypal, recibe el monto a pagar como un String,
-     * @param
-     */
+    // Función que crea los pagos en Paypal, recibe el monto a pagar como un String
     fun createPayment(
         total: String,
         currency: String,
@@ -63,17 +69,19 @@ class PaymentsViewModel: ViewModel() {
                             this.returnUrl = successUrl
                         }
                     }
-                    payment.create(apiContext)
+                    payment.create(apiContext) // Crea el pago en Paypal
                 }
+
+                // Obtiene la URL de aprobación del pago para redirigir al usuario
                 val approvalUrl = payment.links.find { it.rel == "approval_url" }?.href
                 if (approvalUrl != null) {
-                    onSuccess(approvalUrl)
+                    onSuccess(approvalUrl) // Llama a la función de éxito con la URL de aprobación
                 } else {
-                    onError(Exception("Approval URL not found"))
+                    onError(Exception("Approval URL not found")) // Llama a la función de error si no se encuentra la URL
                 }
             } catch (e: PayPalRESTException) {
                 e.printStackTrace()
-                onError(e)
+                onError(e) // Llama a la función de error si hay una excepción
             }
         }
     }
@@ -98,7 +106,7 @@ class PaymentsViewModel: ViewModel() {
         )
     }
 
-
+    // Función para ejecutar un pago en paypal después de que el usuario lo aprueba
     fun executePayment(
         paymentId: String,
         payerId: String,
@@ -110,19 +118,17 @@ class PaymentsViewModel: ViewModel() {
                 val payment = withContext(Dispatchers.IO) {
                     val payment = Payment().apply { this.id = paymentId }
                     val paymentExecution = PaymentExecution().apply { this.payerId = payerId }
-                    payment.execute(apiContext, paymentExecution)
+                    payment.execute(apiContext, paymentExecution) // Ejecuta el pago en Paypal
                 }
-                onSuccess(payment)
+                onSuccess(payment) // Llama a la función de éxito con el pago
             } catch (e: PayPalRESTException) {
                 e.printStackTrace()
-                onError(e)
+                onError(e) // Llama a la función de error si hay una excepción
             }
         }
     }
 
-
-
-
+    // Función para guardar los datos del usuario
     fun saveUserData(context: Context, username: String,password: String) {
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
@@ -131,6 +137,8 @@ class PaymentsViewModel: ViewModel() {
             }
         }
     }
+
+    // Función para leer los datos del usuario y hacer login
     fun readUserData(context: Context, btvm : BTVM = BTVM()) {
         viewModelScope.launch {
             context.dataStore.data.collect { preferences ->
@@ -144,6 +152,7 @@ class PaymentsViewModel: ViewModel() {
         }
     }
 
+    // Función para eliminar los datos del usuario
     fun delUserData(context: Context){
         viewModelScope.launch{
             context.dataStore.edit { preferences ->
@@ -155,6 +164,7 @@ class PaymentsViewModel: ViewModel() {
 
 }
 
+// Clase que representa la solicitud de pago
 data class PaymentRequest(
     val total: String,
     val currency: String,

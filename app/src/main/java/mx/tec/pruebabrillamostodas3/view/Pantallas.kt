@@ -11,11 +11,19 @@ import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
-* @author Alan Vega
+ * Esta clase tiene las pantallas de la aplicación y sus rutas
+ *
+ * @author Alan Vega
  * @author Santiago Chevez
  * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
  *
- * Esta clase tiene las pantallas de la aplicación y sus rutas
+ * @param ruta Ruta de la pantalla
+ * @param etiqueta Etiqueta de la pantalla
+ * @param icono Icono de la pantalla
+ * @param listaPantallas Lista de pantallas
+ *
  */
 
 sealed class Pantallas (
@@ -25,7 +33,10 @@ sealed class Pantallas (
 ){
     companion object{
 
+        // Lista de pantallas del menú
         var listaPantallas = listOf(Redes, Foros, Home, Tienda, Perfil)
+
+        // Rutas para todas las pantallas creadas
         const val RUTA_APP_HOME = "Home"
         const val RUTA_REDES = "Redes"
         const val RUTA_FOROS = "Foros"
@@ -76,8 +87,5 @@ sealed class Pantallas (
     //Pantallas Foros
     data object CrearForo: Pantallas(RUTA_CREARFORO, "CrearForo", Icons.Default.Email)
     data object Foro: Pantallas(RUTA_FORO, "Foro", Icons.Default.Email)
-
-
-
 
 }

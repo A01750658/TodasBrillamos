@@ -36,8 +36,27 @@ import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * Esta es la pantalla de recuperar contraseña, en donde el usuario puede ingresar su correo electrónico
+ * para recibir la recuperación de contraseña. Si el correo es válido, el sistema procede con el proceso de recuperación.
+ *
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Augusto
+ *
+ * @param vmodel Viewmodel principal de la aplicación.
+ * @param btVM Viewmodel de la pantalla.
+ * @param estado Estado de la pantalla.
+ * @param estadoErrors Estado de los errores de la pantalla.
+ * @param valorCorreo Valor del correo electrónico.
+ *
+ */
+
 @Composable
 fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
+    // Estados para manejar la información de usuario y errores del ViewModel
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
@@ -59,6 +78,7 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color(0xFFE91E63).copy(alpha = 0.6f))
         ){
+            //Titulo
             Titulo(titulo ="Recuperar\ncontraseña", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary, lineHeight = 45)
             Spacer(modifier = Modifier
                 .padding(horizontal = 16.dp)
@@ -70,24 +90,28 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
                 .padding(6.dp)
                 .fillMaxWidth()
             )
+            // Campo de entrada para el correo electrónico
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.correo, onValueChange =
             {
                     nuevoTexto ->
                 if (nuevoTexto.contains("\n")){
+                    // No hace nada si contiene un salto de línea
                     /*TODO*/
                 } else {
+                    // Validación que el formato del correo sea el correcto
                     if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
-                        btVM.setErrorCorreo(true)
+                        btVM.setErrorCorreo(true) // Marca error si no contiene '@' o '.'
                     } else {
-                        btVM.setErrorCorreo(false)
+                        btVM.setErrorCorreo(false) // Elimina el error si es válido
                     }
                     valorCorreo = nuevoTexto
-                    btVM.setCorreoUsuario(valorCorreo)
-                    btVM.setErrorLogin(false)
+                    btVM.setCorreoUsuario(valorCorreo) // Actualiza el correo en el ViewModel
+                    btVM.setErrorLogin(false) // Reinicia el error de inicio de sesión
                 }
             },
-                keyBoardType = KeyboardType.Email)
+                keyBoardType = KeyboardType.Email) // Teclado específico para escribir el correo
+            // Muestra un mensaje de error si el correo es inválido
             if (estadoErrors.value.errorCorreo) {
                 Etiqueta(
                     texto = "Debe de ser un correo electrónico",
@@ -95,20 +119,22 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
+            // Muestra un mensaje de error si el correo es inválido
             if (estadoErrors.value.errorLogin) {
                 Etiqueta( "El correo no es válido",
                     color = MaterialTheme.colorScheme.inversePrimary,
                     modifier =
                     Modifier
                         .padding(bottom = 3.dp)
-                    //.background(MaterialTheme.colorScheme.tertiaryContainer)
                 )
-                btVM.setLoading(false)
+                btVM.setLoading(false) // Detiene el estado de carga
             }
+            // Botón para solicitar la recuperación de la contraseña
+
             TextButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
-                    btVM.recuperarContrasena(valorCorreo)
-                    btVM.setLoading(true)
+                    btVM.recuperarContrasena(valorCorreo) // Llama al método para recuperar la contraseña
+                    btVM.setLoading(true) // Activa el estado de carga
                 }
             },
                 Modifier
@@ -128,14 +154,16 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
                     color = MaterialTheme.colorScheme.onTertiary
                 )
             }
+            // Muestra un indicador de carga si el estado `loading` está activo
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
             }
             Spacer(modifier = Modifier.padding(16.dp))
+            // Comprueba si la contraseña ha sido recuperada
             if (btVM.contrasenaPerdida.value == true) {
                 //cambia a la pantalla nueva contraseña
                 navController.navigate(Pantallas.RUTA_NUEVA_CONTRASENA)
-                btVM.setContrasenaPerdida(false)
+                btVM.setContrasenaPerdida(false) // Hace un reset de la contraseña perdida en el ViewModel
             }
         }
     }

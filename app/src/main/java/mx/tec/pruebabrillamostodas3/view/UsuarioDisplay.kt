@@ -1,13 +1,5 @@
 package mx.tec.pruebabrillamostodas3.view
 
-/**
- * Función que muestra el nombre de usuario en la pantalla.
- * @author Santiago Chevez
- * @author Alan Vega
- * @author Andrés Cabrera
- * @author Iker Fuentes
- */
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +15,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
+/**
+ * Función que muestra el nombre de usuario en la pantalla.
+ *
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
+ * @param Text Nombre que se mostrará en la pantalla.
+ *
+ */
 
 @Composable
 fun UsuarioDisplay(text: String, modifier: Modifier = Modifier, fontSize: Int = 22) {

@@ -41,17 +41,16 @@ import androidx.navigation.NavController
 import mx.tec.pruebabrillamostodas3.viewmodel.EstadoProducto
 
 /**
+ * Función que nos muestra los detalles de alguna orden que se haya realizado
  * @author Santiago Chevez
- * @author Alan Vega
  * @author Andrés Cabrera
- * Es el Pop Up del producto seleccionado
  * @param btVM Viewmodel principal de la aplicación.
  * @param modifier Modificador
  * @param navController Controlador de navegación de la aplicación.
  */
 @Composable
-fun Detalles(viewModel: BTVM, modifier: Modifier, navController: NavController ){
-    val estadoCarrito by viewModel.estadoCarrito.collectAsState()
+fun Detalles(btVM: BTVM, modifier: Modifier, navController: NavController ){
+    val estadoCarrito by btVM.estadoCarrito.collectAsState()
 
     var total=0
     for (producto in estadoCarrito.productos){
@@ -61,6 +60,7 @@ fun Detalles(viewModel: BTVM, modifier: Modifier, navController: NavController )
             total += producto.first.precio_rebajado*producto.second
         }
     }
+    //Tabla de los productos y el total que se pago
     LazyColumn(Modifier.fillMaxWidth()) {
         item {
             ElevatedCard(

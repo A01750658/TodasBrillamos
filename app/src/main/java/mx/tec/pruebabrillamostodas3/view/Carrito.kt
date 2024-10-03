@@ -55,21 +55,26 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavHostController
 
 /**
+ * Pantalla con el carrito de productos, en esta pantalla se muestran los productos que el usuario quiere comprar
  * @author Santiago Chevez
  * @author Andrés Cabrera
  * @author Alan Vega
- * Pantalla con el carrito de productos
+ * @param viewModel ViewModel de la aplicación
+ * @param navController Controlador de navegación
  */
-
 @Composable
 fun Carrito(viewModel: BTVM, navController: NavHostController){
 
     val estadoCarrito by viewModel.estadoCarrito.collectAsState()
-
-    var total=0
+    //Para saber la orientación de la pantalla
+    val configuration = LocalConfiguration.current
+    val screenOrientation = configuration.orientation
+    //Suma el total a pagar
+    var total=0f
     for (producto in estadoCarrito.productos){
         if (producto.first.rebaja==0){
             total += producto.first.precio_normal*producto.second
@@ -77,6 +82,8 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
             total += producto.first.precio_rebajado*producto.second
         }
     }
+
+    viewModel.setTotalCarrito(total)
 
     Box(
         modifier = Modifier
@@ -90,25 +97,29 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                 .fillMaxWidth()
 
         ) {
-            Icon(
-                imageVector = Icons.Default.ShoppingCart,
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.secondaryContainer,
-                modifier = Modifier
-                    .padding(10.dp)
-                    .size(100.dp)
-                    .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally),
-            )
-            HorizontalDivider(
-                thickness = 2.dp,
-                color = MaterialTheme.colorScheme.primaryContainer
-            )
-            Spacer(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-            )
+            //Si esta vertical sí se muestra, de lo contrario, no se muestra
+            if (screenOrientation == 1) {
+                Icon(
+                    imageVector = Icons.Default.ShoppingCart,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.secondaryContainer,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(100.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.CenterHorizontally),
+                )
+                HorizontalDivider(
+                    thickness = 2.dp,
+                    color = MaterialTheme.colorScheme.primaryContainer
+                )
+                Spacer(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                )
+            }
+            //Tabla del carrito
             LazyColumn(Modifier.fillMaxWidth()) {
                 item {
                     Row(Modifier.fillMaxWidth()) {
@@ -129,6 +140,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                         )
                     }
                 }
+                //Headers tabla
                 item {
                     ElevatedCard(
                         modifier = Modifier
@@ -170,6 +182,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                         }
                     }
                 }
+                //Productos de la tabla
                 items(estadoCarrito.productos) { producto ->
                     ElevatedCard(
                         modifier = Modifier
@@ -234,6 +247,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                         }
                     }
                 }
+                //Total a pagar
                 item {
                     ElevatedCard(
                         modifier = Modifier
@@ -270,7 +284,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                 }
             }
         }
-
+        //Botón flotante para llevar al usuario a la pantalla de pagos
         FloatingActionButton(
             onClick = {
                 navController.navigate("Pagos")

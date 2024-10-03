@@ -13,31 +13,36 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
  * @author Alan Vega
- * Esta es la pantalla de pagos en donde se podrá pagar los pedidos de la tienda
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Santiago Chevez
+ * @author Cesar Flores
+ *
  * @param viewModel Viewmodel de pagos
+ * @param paymentsViewModel Viewmodel de pagos
+ * @param context Contexto de la aplicación
+ * @param savedDeepLinkUriString URI de la dirección profunda guardada
+ * @param paymentStatus Estado del pago
+ * @param approvalUrl URL de aprobación
+ * @param paymentId ID del pago
+ * @param payerId ID del pagador
+ *
  */
+
 @Composable
 fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewModel()) {
-
-    var paymentStatus by remember { mutableStateOf("Idle") }
-    var approvalUrl by remember { mutableStateOf<String?>(null) }
-    val context = LocalContext.current
-
+    var paymentStatus by remember { mutableStateOf("Idle") } // Estado del pago que indica su progreso, exito o fallo
+    var approvalUrl by remember { mutableStateOf<String?>(null) } // URL de aprobación de PayPal
+    val context = LocalContext.current // Contexto de la aplicación
     val estadoCarrito by viewModel.estadoCarrito.collectAsState()
 
-    var total=0
-    for (producto in estadoCarrito.productos){
-        if (producto.first.rebaja==0){
-            total += producto.first.precio_normal*producto.second
-        } else{
-            total += producto.first.precio_rebajado*producto.second
-        }
-    }
+    val total: Float = estadoCarrito.total
 
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val savedDeepLinkUriString = sharedPreferences.getString("deep_link_uri", null)
     val deepLinkUri = savedDeepLinkUriString?.let { Uri.parse(it) }
 
+    // Efecto lanzado que se ejecuta cuando hay un deep link URI, procesando el pago en base a ese URI
     LaunchedEffect(deepLinkUri) {
         println("Shit entered the LaunchedEffect")
         deepLinkUri?.let { uri ->
@@ -52,10 +57,11 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         println(paymentStatus)
                         // Clear the deep link data to prevent re-execution
                         //(context as? ComponentActivity)?.intent?.data = null
-                        sharedPreferences.edit().remove("deep_link_uri").apply()
+                        sharedPreferences.edit().remove("deep_link_uri").apply() // Limpia el deep link para evitar la reejecución del pago
+
+                        // Lee los datos del usuario actualizados tras el pago y luego los elimina
                         paymentsViewModel.readUserData(context, viewModel)
                         paymentsViewModel.delUserData(context)
-
 
                     },
                     onError = { error ->
@@ -69,21 +75,23 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
     }
 
     Column {
-        ElevatedButton(onClick = {
+        ElevatedButton(onClick = { // Botón para realizar el pago con PayPal
             paymentsViewModel.createPayment(
-                total = "10.00",
-                currency = "MXN",
-                method = "paypal",
-                intent = "sale",
-                description = "Payment description",
-                cancelUrl = "http://localhost:8080/cancel",
-                successUrl = "myapp://payment",
+                total = "${total}", // Monto total del pago
+                currency = "MXN", // Moneda
+                method = "paypal", // Método de pago (PayPal)
+                intent = "sale", // Tipo de transacción (Venta)
+                description = "Payment description", // Descripción del pago
+                cancelUrl = "http://localhost:8080/cancel", // URL de cancelación
+                successUrl = "myapp://payment", // URL de éxito
                 onSuccess = { url ->
                     approvalUrl = url
                     println(approvalUrl)
                     println(viewModel.getEstadoUsuario())
                     paymentStatus = "Redirecting to PayPal for approval"
                     println(paymentStatus)
+
+                    // Redirige a la página de PayPal para la aprobación
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                     context.startActivity(intent)
                     println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
@@ -96,21 +104,24 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             Text("Pay with PayPal")
         }
 
+        // Botón para realizar el pago con tarjeta de crédito
         ElevatedButton(onClick = {
                 paymentsViewModel.createPayment(
-                    total = "10.00",
-                    currency = "MXN",
-                    method = "credit_card", // Change to "credit_card" for credit card payments
-                    intent = "sale",
-                    description = "Payment description",
-                    cancelUrl = "http://localhost:8080/cancel",
-                    successUrl = "myapp://payment",
+                    total = "10.00", // Monto total del pago
+                    currency = "MXN", // Moneda
+                    method = "credit_card", // Cambio a tarjeta de crédito
+                    intent = "sale", // Tipo de transacción (Venta)
+                    description = "Payment description", // Descripción del pago
+                    cancelUrl = "http://localhost:8080/cancel", // URL de cancelación
+                    successUrl = "myapp://payment", // URL de éxito
                     onSuccess = { url ->
                         approvalUrl = url
                         println(approvalUrl)
                         println(viewModel.getEstadoUsuario())
                         paymentStatus = "Redirecting to PayPal for approval"
                         println(paymentStatus)
+
+                        // Redirige a la página de Pago con tarjeta de crédito para la aprobación
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                         context.startActivity(intent)
                         println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")

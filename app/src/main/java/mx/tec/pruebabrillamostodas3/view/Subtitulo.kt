@@ -13,13 +13,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
+ * Es el formato de los subtitulos que se pueden encontrar en la aplicación.
+ *
  * @author Santiago Chevez
  * @author Andrés Cabrera
- * Es el formato de los subtitulos que s epueden encotnrar en la aplicación.
+ * @author Alan Vega
+ * @author Iker Fuentes
+ * @author Cesar Augusto
+ *
  * @param text Texto del subtitulo
- * @param modifier Modificador
  * @param color Color del subtitulo
- * @param fontSize Tamaño de fuente del subtitulo
  */
 @Composable
 fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.secondaryContainer,fontSize: Int = 16){

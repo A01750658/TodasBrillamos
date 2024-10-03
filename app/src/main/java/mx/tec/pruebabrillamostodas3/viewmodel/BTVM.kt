@@ -11,12 +11,25 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import mx.tec.pruebabrillamostodas3.model.Comentario
 import mx.tec.pruebabrillamostodas3.model.Direccion
+import mx.tec.pruebabrillamostodas3.model.Foro
+import mx.tec.pruebabrillamostodas3.model.ListaForo
 import mx.tec.pruebabrillamostodas3.model.ModelConnectionR
 import mx.tec.pruebabrillamostodas3.model.Order
 import mx.tec.pruebabrillamostodas3.model.Producto
 import mx.tec.pruebabrillamostodas3.model.Usuario
 
+/**
+ * Clase que contiene la lógica de negocio de la aplicación
+ *
+ * @author Iker Fuentes
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andres Cabrera
+ * @author Cesar Augusto
+ *
+ */
 
 class BTVM: ViewModel() {
     val modeloR: ModelConnectionR = ModelConnectionR()
@@ -58,7 +71,6 @@ class BTVM: ViewModel() {
     private val _estadoCantidadProductosModelo = MutableStateFlow(0)
     val estadoCantidadProductosModelo: StateFlow<Int> = _estadoCantidadProductosModelo
 
-
     //Estado Lista Productos que se van a mostrar en la vista
     private val _estadoListaProducto = MutableStateFlow(mutableListOf<EstadoProducto>())
     val estadoListaProducto: StateFlow<MutableList<EstadoProducto>> = _estadoListaProducto
@@ -67,8 +79,8 @@ class BTVM: ViewModel() {
     private val _estadoCarrito = MutableStateFlow<Carrito>(Carrito())
     val estadoCarrito: StateFlow<Carrito> = _estadoCarrito
 
-    private val _estadoañadirCarrito = MutableStateFlow<Pair<EstadoProducto,Int>>(Pair(EstadoProducto(1,"","",0,0,0,0,""),1))
-    val estadoAñadirCarrito: StateFlow<Pair<EstadoProducto,Int>> = _estadoañadirCarrito
+    private val _estadoanadirCarrito = MutableStateFlow<Pair<EstadoProducto,Int>>(Pair(EstadoProducto(1,"","",0,0,0,0,""),1))
+    val estadoAnadirCarrito: StateFlow<Pair<EstadoProducto,Int>> = _estadoanadirCarrito
 
     //Estado Producto Seleccionado
     private val _estadoSeleccionado = MutableStateFlow(-1)
@@ -101,6 +113,13 @@ class BTVM: ViewModel() {
 
     //Estado de la lista filtrada por categoría
     var listaFiltradaPorCategoria = mutableListOf<EstadoProducto>()
+    //Foros
+    private val _estadoForo : MutableStateFlow<List<Foro>> = MutableStateFlow<List<Foro>>(listOf())
+    val estadoForo: StateFlow<List<Foro>> = _estadoForo
+    //Comentarios
+    private val _estadoComentarios : MutableStateFlow<List<Comentario>> = MutableStateFlow<List<Comentario>>(listOf())
+    val estadoComentarios: StateFlow<List<Comentario>> = _estadoComentarios
+
     fun getProductos() {
         viewModelScope.launch {
             if (_estadoListaProducto.value.isEmpty()) { // Verificar si la lista está vacía
@@ -283,6 +302,16 @@ class BTVM: ViewModel() {
             // Manejar la excepción, por ejemplo, mostrando un mensaje al usuario
         }
     }
+    fun getForos(){
+        viewModelScope.launch {
+            _estadoForo.value = modeloR.getForo(getEstadoUsuario().key).foros
+        }
+    }
+    fun getComments(id:Int){
+        viewModelScope.launch {
+            _estadoComentarios.value = modeloR.getComments(getEstadoUsuario().key,id).comentarios
+        }
+    }
 
     fun enviarCorreo(correo:String,context:Context) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -347,7 +376,7 @@ class BTVM: ViewModel() {
     }
 
     fun setFecha(day: Int, month: Int, year: Int) {
-        _estadoUsuario.value = _estadoUsuario.value.copy(año_nacimiento = year, mes_nacimiento = month, día_nacimiento = day)
+        _estadoUsuario.value = _estadoUsuario.value.copy(ano_nacimiento = year, mes_nacimiento = month, día_nacimiento = day)
 
         val months = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
         val fecha = "%02d-%s-%04d".format(day, months[month - 1], year)
@@ -355,7 +384,7 @@ class BTVM: ViewModel() {
     }
 
     fun getFecha(): Triple<Int, Int, Int> {
-        return Triple(_estadoUsuario.value.año_nacimiento, _estadoUsuario.value.mes_nacimiento, _estadoUsuario.value.día_nacimiento)
+        return Triple(_estadoUsuario.value.ano_nacimiento, _estadoUsuario.value.mes_nacimiento, _estadoUsuario.value.día_nacimiento)
     }
 
     fun setErrorType(b: Boolean) {
@@ -411,23 +440,23 @@ class BTVM: ViewModel() {
         _estadoUsuario.value = _estadoUsuario.value.copy(codigo = codigo)
     }
 
-    fun setEstadoAñadirCarrito(producto: EstadoProducto){
-        if (_estadoañadirCarrito.value.first != producto){
-            _estadoañadirCarrito.value = Pair(producto,1)
+    fun setEstadoAnadirCarrito(producto: EstadoProducto){
+        if (_estadoanadirCarrito.value.first != producto){
+            _estadoanadirCarrito.value = Pair(producto,1)
         }
     }
     fun sumarorestarproducto(sign: Int, producto: EstadoProducto){
         if (sign == 1){
-            if(_estadoañadirCarrito.value.second == producto.cantidad){
+            if(_estadoanadirCarrito.value.second == producto.cantidad){
                 return
             }
-            _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto, second = _estadoañadirCarrito.value.second+1)
+            _estadoanadirCarrito.value = _estadoanadirCarrito.value.copy(first = producto, second = _estadoanadirCarrito.value.second+1)
         }
         else{
-            if (_estadoañadirCarrito.value.second == 1){
+            if (_estadoanadirCarrito.value.second == 1){
                 return
             }
-            _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto,second = _estadoañadirCarrito.value.second-1)
+            _estadoanadirCarrito.value = _estadoanadirCarrito.value.copy(first = producto,second = _estadoanadirCarrito.value.second-1)
         }
     }
 
@@ -500,6 +529,10 @@ class BTVM: ViewModel() {
     }
     fun setErrorEstado(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorEstado = b)
+    }
+
+    fun setTotalCarrito(total: Float){
+        _estadoCarrito.value.total = total
     }
     
 

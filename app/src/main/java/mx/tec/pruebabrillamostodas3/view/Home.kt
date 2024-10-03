@@ -42,14 +42,14 @@ import androidx.compose.ui.res.painterResource
 import mx.tec.pruebabrillamostodas3.R
 
 /**
+ * Pantalla principal de la aplicación donde se muestra información de la marca y sobre la aplicación
  * @author Santiago Chevez
  * @author Alan Vega
  * @author Andres Cabrera
- * Pantalla principal de la aplicación
+ * @param navController necesario para navegar entre distintas pantallas
  */
-
 @Composable
-fun Home(btVM: BTVM, navController: NavHostController){
+fun Home(navController: NavHostController){
     val scrollState = rememberScrollState()
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation

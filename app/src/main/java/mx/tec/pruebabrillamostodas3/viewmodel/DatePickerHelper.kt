@@ -6,8 +6,25 @@ import android.widget.Toast
 import java.util.Calendar
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
-class DatePickerHelper (private val context: Context) {
+/**
+ * Clase que representa un DatePickerHelper en la aplicación para su inicialización y gestión.
+ *
+ * @author Alan Vega
+ * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
+ * @param context Contexto de la aplicación.
+ * @constructor Crea un DatePickerHelper con el contexto de la aplicación.
+ * @property datePicker DatePicker que se va a inicializar.
+ * @property btVM ViewModel de la aplicación.
+ * @property selectedDate Fecha seleccionada en el DatePicker.
+ *
+ */
 
+class DatePickerHelper (private val context: Context) {
+    // Función que inicializa el DatePicker y maneja la fecha seleccionada
     fun initializeDatePicker(datePicker: DatePicker, btVM: BTVM) {
         val today = Calendar.getInstance()
         var date = Triple(0,0,0)

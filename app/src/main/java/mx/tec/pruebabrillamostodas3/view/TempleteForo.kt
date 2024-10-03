@@ -24,41 +24,56 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 /**
- * @author Santiago Chevez
  * Este es el template para todos los foros que vayan a haber en la aplicación
+ *
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Augusto
+ *
  * @param Pregunta es la pregunta que se va a hacer en el foro
  * @param Respuestas es la lista de respuestas que se van a mostrar en el foro
+ *
  */
 @Composable
-fun TempleteForo(idForo:String) {
-    var respuestas= listOf("Respuesta 1", "Respuesta 2", "Respuesta 3")
+fun TempleteForo(idForo: String) {
+    // Lista de respuestas de ejemplo.
+    var respuestas = listOf("Respuesta 1", "Respuesta 2", "Respuesta 3")
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-    ){
+    ) {
         Column {
+            // Título que muestra la pregunta del foro.
             Titulo(
                 "Pregunta",
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 fontSize = 90
             )
+            // Subtítulo que contiene la pregunta realizada en base al id del foro.
             Subtitulo("¿Pregunta? $idForo")
-            HorizontalDivider(thickness = 2.dp,
+
+            HorizontalDivider(
+                thickness = 2.dp,
                 color = MaterialTheme.colorScheme.primaryContainer
             )
-            Spacer(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-            )
+
+            Spacer(modifier = Modifier.padding(8.dp).fillMaxWidth() )
+
+            // Indica la sección de respuestas.
             Subtitulo("Respuestas")
-            LazyColumn() {
+
+            // Lista de respuestas.
+            LazyColumn {
                 for (i in respuestas) {
                     item {
                         ElevatedCard(
                             modifier = Modifier
                                 .padding(8.dp)
                         ) {
+                            // Muestra cada respuesta centrada dentro de la tarjeta.
                             Text(
                                 text = i,
                                 textAlign = TextAlign.Center,

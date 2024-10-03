@@ -1,5 +1,18 @@
 package mx.tec.pruebabrillamostodas3.viewmodel
 
+
+/**
+ * Clase que representa el estado de los errores en la aplicación.
+ * Contiene los atributos necesarios para la visualización de los errores en la aplicación.
+ *
+ * @author Alan Vega
+ * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
+ */
+
 data class EstadoErrors(
     val errorContrasenas: Boolean = false,
     val errorLogin: Boolean = false,
