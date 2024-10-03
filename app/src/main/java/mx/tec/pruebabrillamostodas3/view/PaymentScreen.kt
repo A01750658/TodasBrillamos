@@ -3,11 +3,26 @@ package mx.tec.pruebabrillamostodas3.view
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
@@ -30,14 +45,32 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
  */
 
 @Composable
-fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewModel()) {
+fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewModel(), navController: NavHostController) {
     var paymentStatus by remember { mutableStateOf("Idle") } // Estado del pago que indica su progreso, exito o fallo
     var approvalUrl by remember { mutableStateOf<String?>(null) } // URL de aprobación de PayPal
     val context = LocalContext.current // Contexto de la aplicación
     val estadoCarrito by viewModel.estadoCarrito.collectAsState()
+    val estadoUsuario by viewModel.estadoUsuario.collectAsState()
+
+    val configuration = LocalConfiguration.current
+    val screenOrientation = configuration.orientation
+
+    // Construcción de la dirección de envío del usuario en base a la información disponible
+    var direccion = ""
+    println(estadoUsuario.direccion.calle)
+    println(estadoUsuario.direccion.numero_int.toInt())
+    if (estadoUsuario.direccion.calle != "") {
+        if (estadoUsuario.direccion.numero_int == "" || estadoUsuario.direccion.numero_int.toInt() == -1 || estadoUsuario.direccion.numero_int.toInt() == 0){
+            direccion="${estadoUsuario.direccion.calle} #${estadoUsuario.direccion.numero_exterior}, ${estadoUsuario.direccion.colonia}, ${estadoUsuario.direccion.municipio}, ${estadoUsuario.direccion.estado}, C.P. ${estadoUsuario.direccion.cp}"
+        }
+        else{
+            direccion="${estadoUsuario.direccion.calle} #${estadoUsuario.direccion.numero_exterior}, Int ${estadoUsuario.direccion.numero_int}, ${estadoUsuario.direccion.colonia}, ${estadoUsuario.direccion.municipio}, ${estadoUsuario.direccion.estado}, C.P. ${estadoUsuario.direccion.cp}"
+        }
+
+    }
+    else{ direccion = "No hay dirección de envío registrada"}
 
     val total: Float = estadoCarrito.total
-
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val savedDeepLinkUriString = sharedPreferences.getString("deep_link_uri", null)
     val deepLinkUri = savedDeepLinkUriString?.let { Uri.parse(it) }
@@ -58,9 +91,10 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         // Clear the deep link data to prevent re-execution
                         //(context as? ComponentActivity)?.intent?.data = null
                         sharedPreferences.edit().remove("deep_link_uri").apply() // Limpia el deep link para evitar la reejecución del pago
-
                         // Lee los datos del usuario actualizados tras el pago y luego los elimina
-                        paymentsViewModel.readUserData(context, viewModel)
+
+                        paymentsViewModel.readUserData(context)
+                        //paymentsViewModel.addOrder(context, viewModel)
                         paymentsViewModel.delUserData(context)
 
                     },
@@ -73,43 +107,54 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             }
         }
     }
-
-    Column {
-        ElevatedButton(onClick = { // Botón para realizar el pago con PayPal
-            paymentsViewModel.createPayment(
-                total = "${total}", // Monto total del pago
-                currency = "MXN", // Moneda
-                method = "paypal", // Método de pago (PayPal)
-                intent = "sale", // Tipo de transacción (Venta)
-                description = "Payment description", // Descripción del pago
-                cancelUrl = "http://localhost:8080/cancel", // URL de cancelación
-                successUrl = "myapp://payment", // URL de éxito
-                onSuccess = { url ->
-                    approvalUrl = url
-                    println(approvalUrl)
-                    println(viewModel.getEstadoUsuario())
-                    paymentStatus = "Redirecting to PayPal for approval"
-                    println(paymentStatus)
-
-                    // Redirige a la página de PayPal para la aprobación
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    context.startActivity(intent)
-                    println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
-                },
-                onError = { error ->
-                    paymentStatus = "Failed to create payment: ${error.message}"
-                }
+    Column{
+        // Muestra la dirección de envío del usuario para editar
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 16.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.onTertiary)) {
+            Text( // Texto de la dirección
+                text= direccion,
+                modifier = Modifier
+                    .padding(start = 10.dp)
+                    .padding(vertical = 20.dp)
+                    .weight(5f),
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Left,
+                color = Color.Black,
+                maxLines = 5,
+                fontSize = if (screenOrientation == 1) 15.sp else 25.sp
             )
-        }) {
-            Text("Pay with PayPal")
+            ElevatedButton( // Botón para editar la dirección
+                onClick = { viewModel.copiarDireccion() // Copia la dirección del viewmodel
+                    navController.navigate(Pantallas.RUTA_EDITAR_DIRECCION) }, // Navega a la pantalla de edición de dirección
+                modifier = Modifier
+                    .padding(top = 50.dp, bottom = 25.dp)
+                    .padding(horizontal = 10.dp)
+                    .height(50.dp)
+                    .width(110.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                )
+            ) {
+                Text(
+                    "Editar",
+                    modifier = Modifier.height(20.dp),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
 
-        // Botón para realizar el pago con tarjeta de crédito
-        ElevatedButton(onClick = {
+        Column {
+            ElevatedButton(onClick = { // Botón para realizar el pago con PayPal
                 paymentsViewModel.createPayment(
-                    total = "10.00", // Monto total del pago
+                    total = "${total}", // Monto total del pago
                     currency = "MXN", // Moneda
-                    method = "credit_card", // Cambio a tarjeta de crédito
+                    method = "paypal", // Método de pago (PayPal)
                     intent = "sale", // Tipo de transacción (Venta)
                     description = "Payment description", // Descripción del pago
                     cancelUrl = "http://localhost:8080/cancel", // URL de cancelación
@@ -120,8 +165,8 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         println(viewModel.getEstadoUsuario())
                         paymentStatus = "Redirecting to PayPal for approval"
                         println(paymentStatus)
-
-                        // Redirige a la página de Pago con tarjeta de crédito para la aprobación
+                        paymentsViewModel.saveCarritoData(context, viewModel)
+                        // Redirige a la página de PayPal para la aprobación
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                         context.startActivity(intent)
                         println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
@@ -130,10 +175,10 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         paymentStatus = "Failed to create payment: ${error.message}"
                     }
                 )
-
-        }){
-
-        }
+            }) {
+                Text("Pay with PayPal")
+            }
+    }
 
     }
 }

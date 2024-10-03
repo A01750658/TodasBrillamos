@@ -258,7 +258,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             TempleteForo(idForo = it.arguments?.getString("idforo")!!)
         }
         composable(Pantallas.RUTA_PAGOS){
-            PaymentScreen(btVM,paymentsVM)
+            PaymentScreen(btVM,paymentsVM, navController)
         }
 
         composable(Pantallas.RUTA_HISTORIAL){
