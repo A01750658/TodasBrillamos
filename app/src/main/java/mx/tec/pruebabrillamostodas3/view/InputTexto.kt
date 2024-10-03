@@ -21,12 +21,14 @@ import androidx.compose.ui.text.input.KeyboardType
 
 
 /**
- * @author Santiago Chevez
  * Esta es una función el la que se crea el input de los textos
+ * @author Santiago Chevez
  * @param text el texto que esta escribiendo el usuario
  * @param onValueChange es una función que define lo que debe de hacer cuando el usuario escribe un texto
  * @param modifier es el modificador
  * @param onDone es una función que dice que hacer cuando el usario acaba de escribir
+ * @param keyBoardType es el tipo de teclado que se va a usar
+ * @param placeHolder es el texto que se va a mostrar en el input cuando el usuario no ha escrito nada
  */
 @Composable
 fun InputTexto(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, padding: Int = 16, onDone: () -> Unit = {}, keyBoardType: KeyboardType = KeyboardType.Text, placeHolder: String =""){

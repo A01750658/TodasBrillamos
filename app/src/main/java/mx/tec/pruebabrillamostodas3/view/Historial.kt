@@ -44,10 +44,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * Pantalla que nos muestra el historial de compras del usuario
+ * @author Andrés Cabrera
+ * @author Santiago Chevez
+ * @param viewModel ViewModel de la aplicación
+ * @param modifier Modificador para personalizar la apariencia de la pantalla
+ * @param navController Controlador de navegación para navegar entre pantallas
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController) {
     val configuration = LocalConfiguration.current
+    // Obtenemos la orientación de la pantalla
     val screenOrientation = configuration.orientation
     var showMenu by remember { mutableStateOf(false) }
 
@@ -62,6 +71,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                 .padding(horizontal = 6.dp)
                 .fillMaxWidth()
         ) {
+            // Si la orientación de la pantalla es horizontal se muestra el icono y el título
             if (screenOrientation == 1) {
                 Icon(
                     imageVector = Icons.Default.List,
@@ -91,7 +101,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                         .padding(8.dp)
                         .fillMaxWidth()
                 )
-
+                // Tabla de la lista de órdenes
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxWidth()

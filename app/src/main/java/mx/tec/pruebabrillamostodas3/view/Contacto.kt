@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.sp
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 /**
+ *  Pestaña con los datos de contacto de la organización
  * @author Santiago Chevez
  * @author Alan Vega
- * Pestaña con los datos de contacto
+ * @param vModel ViewModel de la aplicación
  */
-
 @Composable
 fun Contacto(vModel: BTVM) {
     val scrollState = rememberScrollState()

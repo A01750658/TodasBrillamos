@@ -10,10 +10,11 @@ import mx.tec.pruebabrillamostodas3.viewmodel.DatePickerHelper
 
 
 /**
- * @author Cesar Flores
  * Calendario para seleccionar fecha de nacimiento al registrarse
+ * @author Cesar Flores
+ * @param btVM ViewModel de la aplicación
+ * @param modifier modificador de la función
  */
-
 @Composable
 fun DatePickerScreen(btVM: BTVM, modifier: Modifier = Modifier){
     val context = LocalContext.current

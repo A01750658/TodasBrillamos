@@ -34,7 +34,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import mx.tec.pruebabrillamostodas3.R
 
-
+/**
+ * Función que se encarga de hacer un tipo carrucel en el que se tiene una imagen de fondo, titulo, e información
+ * Los parametros titulo y lista deben ser del mismo tamaño
+ * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * @param titulos Lista de los titulos de las diferentes pantallas
+ * @param lista Lista de los textos que se muestran
+ * @param colors Lista de los colores que se usan
+ * @param images Lista de las imagenes que se usan para los botones de cambiar de pantalla
+ * @param modifier Modificador de la función
+ */
 @Composable
 fun Carrusel(titulos: List<String>, lista: List<String>, colors: List<Color>, images: List<Int>, modifier: Modifier = Modifier){
     var currentSlideIndex by remember { mutableStateOf(0) }

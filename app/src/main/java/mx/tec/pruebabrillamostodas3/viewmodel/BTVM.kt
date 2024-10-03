@@ -11,7 +11,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import mx.tec.pruebabrillamostodas3.model.Comentario
 import mx.tec.pruebabrillamostodas3.model.Direccion
+import mx.tec.pruebabrillamostodas3.model.Foro
+import mx.tec.pruebabrillamostodas3.model.ListaForo
 import mx.tec.pruebabrillamostodas3.model.ModelConnectionR
 import mx.tec.pruebabrillamostodas3.model.Order
 import mx.tec.pruebabrillamostodas3.model.Producto
@@ -110,6 +113,13 @@ class BTVM: ViewModel() {
 
     //Estado de la lista filtrada por categoría
     var listaFiltradaPorCategoria = mutableListOf<EstadoProducto>()
+    //Foros
+    private val _estadoForo : MutableStateFlow<List<Foro>> = MutableStateFlow<List<Foro>>(listOf())
+    val estadoForo: StateFlow<List<Foro>> = _estadoForo
+    //Comentarios
+    private val _estadoComentarios : MutableStateFlow<List<Comentario>> = MutableStateFlow<List<Comentario>>(listOf())
+    val estadoComentarios: StateFlow<List<Comentario>> = _estadoComentarios
+
     fun getProductos() {
         viewModelScope.launch {
             if (_estadoListaProducto.value.isEmpty()) { // Verificar si la lista está vacía
@@ -290,6 +300,16 @@ class BTVM: ViewModel() {
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             // Manejar la excepción, por ejemplo, mostrando un mensaje al usuario
+        }
+    }
+    fun getForos(){
+        viewModelScope.launch {
+            _estadoForo.value = modeloR.getForo(getEstadoUsuario().key).foros
+        }
+    }
+    fun getComments(id:Int){
+        viewModelScope.launch {
+            _estadoComentarios.value = modeloR.getComments(getEstadoUsuario().key,id).comentarios
         }
     }
 

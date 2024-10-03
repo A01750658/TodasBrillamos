@@ -33,9 +33,9 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 /**
+ * Esta es la pantalla principal de la aplicación tiene el topbar y el bottom bar ademas del contenido de la aplicación
  * @author Alan Vega
  * @author Santiago Chevez
- * Esta es la pantalla principal de la aplicación tiene el topbar y el bottom bar ademas del contenido de la aplicación
  * @param btVM Viewmodel principal de la aplicación.
  * @param paymentsVM Viewmodel de pagos.
  * @param flag si ya se logeo o no.
@@ -63,10 +63,10 @@ fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLink
 }
 
 /**
+ * Función de la top bar y la mestra en las pantallas necesarias
  * @author Alan Vega
  * @author Santiago Chevez
  * @author Andrés Cabrera
- * Función de la top bar y la mestra en las pantallas necesarias
  * @param navController Controlador de navegación de la aplicación.
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -143,10 +143,10 @@ fun AppTopBar(navController: NavHostController) {
 }
 
 /**
+ * Esta funcion es el como se ve la bottom bar y la muestra en las pantallas necesarias
  * @author Alan Vega
  * @author Santiago Chevez
  * @author Andrés Cabrera
- * Esta funcion es el como se ve la bottom bar y la muestra en las pantallas necesarias
  * @param navController Controlador de navegación de la aplicación.
  */
 @Composable
@@ -192,11 +192,11 @@ fun AppBottomBar(navController: NavHostController) {
 }
 
 /**
+ * Esta es la función principal del controlador de la vista de la aplicación
+ * Muestra la panatalla requerida
  * @author Alan Vega
  * @author Santiago Chevez
  * @author Andrés Cabrera
- * Esta es la función principal del controlador de la vista de la aplicación
- * Muestra la panatalla requerida
  * @param btVM Viewmodel principal de la aplicación.
  * @param paymentsVM Viewmodel de pagos.
  * @param navController Controlador de navegación de la aplicación.
@@ -210,7 +210,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_PAGOS,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
-            Home(btVM, navController)
+            Home(navController)
         }
         composable(Pantallas.RUTA_REDES){
             Redes(btVM)

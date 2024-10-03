@@ -16,11 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
+ * Etiqueta para nombrar los distintos inputs que hay en la aplicación
  * @author Santiago Chevez
  * @author Andrés Cabrera
- * Etiqueta para nombrar los inputs
+ * @param texto texto a mostrar en la etiqueta
+ * @param modifier modificador para personalizar la etiqueta
+ * @param color color de la etiqueta
+ * @param padding padding horizontal de la etiqueta
  */
-
 @Composable
 fun Etiqueta(texto: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.onTertiary, padding: Int = 16) {
 
