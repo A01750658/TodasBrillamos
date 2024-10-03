@@ -27,7 +27,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -37,12 +36,22 @@ import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * Esta es la pantalla que se muestra una vez que se ha pasado la validación de recuperar contraseña
+ * @author Cesar Flores
+ * @param btVM Viewmodel principal de la aplicación.
+ * @param navController Controlador de navegación de la aplicación.
+ * @param modifier modificador
+ */
 @Composable
-fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
+fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
-    var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
+    var valorCodigo by rememberSaveable { mutableStateOf(estado.value.codigo) }
+    var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
+    var valorConfirmacionPassword by rememberSaveable { mutableStateOf(estado.value.confirmacion_password) }
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -60,7 +69,7 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color(0xFFE91E63).copy(alpha = 0.6f))
         ){
-            Titulo(titulo ="Recuperar\ncontraseña", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary, lineHeight = 45)
+            Titulo(titulo ="Cambia tu\ncontraseña", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary, lineHeight = 45)
             Spacer(modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .background(MaterialTheme.colorScheme.onTertiary)
@@ -71,44 +80,61 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
                 .padding(6.dp)
                 .fillMaxWidth()
             )
-            Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
-            InputTexto(estado.value.correo, onValueChange =
+            Etiqueta("Código de recuperación*", Modifier.padding(bottom = 3.dp))
+
+            InputTexto(estado.value.codigo, onValueChange =
             {
                     nuevoTexto ->
                 if (nuevoTexto.contains("\n")){
                     /*TODO*/
                 } else {
-                    if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
-                        btVM.setErrorCorreo(true)
+                    if (nuevoTexto.length != 8 ) {
+                        btVM.setErrorCodigo(true)
+                        //Error codigo longitud
+                        //no existe
                     } else {
-                        btVM.setErrorCorreo(false)
+                        btVM.setErrorCodigo(false)
                     }
-                    valorCorreo = nuevoTexto
-                    btVM.setCorreoUsuario(valorCorreo)
-                    btVM.setErrorLogin(false)
+                    valorCodigo = nuevoTexto
+                    btVM.setCodigoUsuario(valorCodigo)
+                    btVM.setErrorLogin(false) //error recuperar contraseña
                 }
             },
-                keyBoardType = KeyboardType.Email)
-            if (estadoErrors.value.errorCorreo) {
+                keyBoardType = KeyboardType.Number)
+            if (estadoErrors.value.errorCodigo) {
                 Etiqueta(
-                    texto = "Debe de ser un correo electrónico",
+                    texto = "El código debe tener 8 dígitos",
                     color = MaterialTheme.colorScheme.inversePrimary,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
-            if (estadoErrors.value.errorLogin) {
-                Etiqueta( "El correo no es válido",
-                    color = MaterialTheme.colorScheme.inversePrimary,
-                    modifier =
-                    Modifier
-                        .padding(bottom = 3.dp)
-                    //.background(MaterialTheme.colorScheme.tertiaryContainer)
-                )
-                btVM.setLoading(false)
+
+            Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
+            InputContrasena(estado.value.password,
+                { nuevoTexto ->
+                    if (nuevoTexto.contains("\n")){
+                        /*TODO*/
+                    } else {
+                        valorPassword = nuevoTexto
+                        btVM.setContrasenaUsuario(valorPassword)
+                        btVM.checkPasswordErrors()
+                    }
+                })
+
+            Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
+            InputContrasena(estado.value.confirmacion_password,
+                { nuevoTexto ->
+                    btVM.setIntent(false)
+                    valorConfirmacionPassword = nuevoTexto
+                    btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
+                    btVM.checkPasswordErrors()})
+            if (estadoErrors.value.errorContrasenas){
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.inversePrimary)
             }
+
             TextButton(onClick = {
-                if (!estadoErrors.value.errorLogin) {
-                    btVM.recuperarContrasena(valorCorreo)
+                if (!estadoErrors.value.errorCodigo && !estadoErrors.value.errorContrasenas) {
+                    btVM.changePassword(valorCodigo.toInt(), estado.value.correo ,valorPassword)
                     btVM.setLoading(true)
                 }
             },
@@ -121,7 +147,7 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
                     .background(MaterialTheme.colorScheme.tertiary)
             ){
                 Text(
-                    text = "Click para recuperar",
+                    text = "Click para cambiar",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodyMedium,
@@ -132,12 +158,13 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
             }
-            Spacer(modifier = Modifier.padding(16.dp))
-            if (btVM.contraseñaPerdida.value == true) {
-                //cambia a la pantalla nueva contraseña
-                navController.navigate(Pantallas.RUTA_NUEVA_CONTRASEÑA)
-                btVM.setContraseñaPerdida(false)
+            if (btVM.cambioContrasena.value == true) {
+                //cambia a la pantalla login
+                navController.navigate(Pantallas.RUTA_LOGIN)
+                btVM.setCambioContrasena(false)
             }
+            Spacer(modifier = Modifier.padding(16.dp))
+
         }
     }
 }

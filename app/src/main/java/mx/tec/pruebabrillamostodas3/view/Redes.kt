@@ -34,106 +34,148 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import mx.tec.pruebabrillamostodas3.R
 
-
-
 /**
+ * Esta es la pantalla de redes sociales de la organización.
+ *
  * @author Santiago Chevez
  * @author Alan Vega
  * @author Andrés Cabrera
- * Esta es la pantalla de redes sociales de la organización.
+ * @author Iker Fuentes
+ * @author Cesar Augusto
+ *
  * @param vmodel Viewmodel principal de la aplicación.
+ * @param context Contexto de la aplicación.
+ * @param configuration Configuración de la pantalla.
+ *
  */
 
 
 @Composable
-fun Redes(vmodel: BTVM){
-    val context = LocalContext.current // Obtener el contexto
+fun Redes(vmodel: BTVM) {
+    val context = LocalContext.current // Contexto de la aplicación para manejar las acciones como abrir enlaces y llamadas
     val scrollState = rememberScrollState()
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.secondary)
             .verticalScroll(scrollState)
-    ){
-        Column( horizontalAlignment =  Alignment.CenterHorizontally,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth())
-        {
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+        ) {
+            // Ícono de titulo de la pantalla
             Icon(
                 imageVector = Icons.Default.ThumbUp,
-                contentDescription = "",
+                contentDescription = null,
                 tint = MaterialTheme.colorScheme.secondaryContainer,
                 modifier = Modifier
                     .padding(10.dp)
                     .size(100.dp)
                     .fillMaxWidth(),
-
-                )
-            Titulo(titulo = "Redes y Contacto", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
-            Spacer(modifier = Modifier
-                .padding(6.dp)
-                .fillMaxWidth()
             )
-            HorizontalDivider(thickness = 2.dp,
-                color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.padding(bottom = 16.dp))
+
+            // Título de la pantalla
+            Titulo(
+                titulo = "Redes y Contacto",
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                fontSize = 50
+            )
+
+            Spacer(modifier = Modifier.padding(6.dp).fillMaxWidth())
+
+            HorizontalDivider(
+                thickness = 2.dp,
+                color = MaterialTheme.colorScheme.primaryContainer, modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            // Bot+om y texto psts Facebook
             BotonTextandIcon(
                 text = "Facebook",
                 icon = ImageVector.vectorResource(id = R.drawable.facebook),
-                onClick = {vmodel.openWebPage("https://m.facebook.com/FundacionTodasBrillamos", context) { intent ->
+                onClick = {
+                    vmodel.openWebPage("https://m.facebook.com/FundacionTodasBrillamos", context) { intent ->
                         context.startActivity(intent)
                     }
                 },
-                color = MaterialTheme.colorScheme.onPrimary, fontSize = if (screenOrientation == 1) 25 else 40
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontSize = if (screenOrientation == 1) 25 else 40
             )
+
+            // Botón y texto para Instagram
             BotonTextandIcon(
                 text = "Instagram",
                 icon = ImageVector.vectorResource(id = R.drawable.instagram),
-                onClick = {vmodel.openWebPage("https://www.instagram.com/fundaciontodasbrillamos/?igshid=NTc4MTIwNjQ2YQ%3D%3D", context) { intent ->
-                    context.startActivity(intent)
-                }},
-                color = MaterialTheme.colorScheme.onSecondary, fontSize = if (screenOrientation == 1) 25 else 40
+                onClick = {
+                    vmodel.openWebPage("https://www.instagram.com/fundaciontodasbrillamos/?igshid=NTc4MTIwNjQ2YQ%3D%3D", context) { intent ->
+                        context.startActivity(intent)
+                    }
+                },
+                color = MaterialTheme.colorScheme.onSecondary,
+                fontSize = if (screenOrientation == 1) 25 else 40
             )
+
+            // Botón y texto para TikTok
             BotonTextandIcon(
                 text = "TikTok",
                 icon = ImageVector.vectorResource(id = R.drawable.tiktok),
-                onClick = { vmodel.openWebPage("https://www.tiktok.com/@todas.brillamos", context) { intent ->
-                    context.startActivity(intent)
-                } },
-                color = MaterialTheme.colorScheme.onPrimaryContainer, fontSize = if (screenOrientation == 1) 25 else 40
+                onClick = {
+                    vmodel.openWebPage("https://www.tiktok.com/@todas.brillamos", context) { intent ->
+                        context.startActivity(intent)
+                    }
+                },
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontSize = if (screenOrientation == 1) 25 else 40
             )
+
+            // Botón y texto para WhatsApp
             BotonTextandIcon(
                 text = "Whatsapp",
                 icon = ImageVector.vectorResource(id = R.drawable.wattsapp),
-                onClick = { vmodel.openWebPage("https://wa.me/525628083883", context) { intent ->
-                    context.startActivity(intent)
-                } },
-                color = MaterialTheme.colorScheme.onSecondaryContainer, fontSize = if (screenOrientation == 1) 25 else 40
+                onClick = {
+                    vmodel.openWebPage("https://wa.me/525628083883", context) { intent ->
+                        context.startActivity(intent)
+                    }
+                },
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                fontSize = if (screenOrientation == 1) 25 else 40
             )
+
+            // Botón y texto para YouTube
             BotonTextandIcon(
                 text = "YouTube",
                 icon = ImageVector.vectorResource(id = R.drawable.youtube),
-                onClick = { vmodel.openWebPage("https://www.youtube.com/@FundacionTodasBrillamos", context) { intent ->
-                    context.startActivity(intent)
-                }},
-                color = MaterialTheme.colorScheme.onTertiaryContainer, fontSize = if (screenOrientation == 1) 25 else 40
+                onClick = {
+                    vmodel.openWebPage("https://www.youtube.com/@FundacionTodasBrillamos", context) { intent ->
+                        context.startActivity(intent)
+                    }
+                },
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                fontSize = if (screenOrientation == 1) 25 else 40
             )
+
+            // Botón y texto para telefóno
             BotonTextandIcon(
                 text = "Telefono",
                 icon = Icons.Default.Phone,
-                onClick = { vmodel.llamada("+52 56 2808 3883", context)
-                },
+                onClick = { vmodel.llamada("+52 56 2808 3883", context) },
                 color = MaterialTheme.colorScheme.primaryContainer.copy(0.8f)
             )
+
+            // Botón y texto para correo electrónico
             BotonTextandIcon(
                 text = "Correo electrónico",
                 icon = Icons.Default.Email,
                 onClick = { vmodel.enviarCorreo("Contacto@fundaciontodasbrillamos.org", context) },
                 color = MaterialTheme.colorScheme.secondaryContainer.copy(0.8f)
             )
+
+            // Botón y texto para la ubicación
             BotonTextandIcon(
                 text = "Ubicación",
                 icon = Icons.Default.LocationOn,
@@ -141,6 +183,5 @@ fun Redes(vmodel: BTVM){
                 color = MaterialTheme.colorScheme.tertiary.copy(0.8f)
             )
         }
-
     }
 }

@@ -1,12 +1,25 @@
 package mx.tec.pruebabrillamostodas3.viewmodel
 
+import com.paypal.base.rest.APIContext
 import mx.tec.pruebabrillamostodas3.model.Direccion
+
+/**
+ * Clase que contiene los atributos del estado del usuario en la aplicación.
+ * Contiene los atributos necesarios para el registro de un usuario.
+ *
+ * @author Alan Vega
+ * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
+ */
 
 data class EstadoUsuario(
     val nombre: String = "",
     val apellido_paterno: String = "",
     val apellido_materno: String = "",
-    val año_nacimiento: Int = 0,
+    val ano_nacimiento: Int = 0,
     val mes_nacimiento: Int = 0,
     val día_nacimiento: Int = 0,
     val telefono: String = "",

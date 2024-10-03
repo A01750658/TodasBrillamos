@@ -16,16 +16,33 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * Función que muestra el nombre de usuario en la pantalla.
+ *
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
+ * @param Text Nombre que se mostrará en la pantalla.
+ *
+ */
+
 @Composable
-fun UsuarioDisplay(text: String, modifier: Modifier=Modifier, fontSize: Int = 22){
+fun UsuarioDisplay(text: String, modifier: Modifier = Modifier, fontSize: Int = 22) {
+
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(16.dp)) // Borde redondeado
             .background(MaterialTheme.colorScheme.onTertiary)
             .height(50.dp),
-        verticalArrangement = Arrangement.Center // Centra el contenido de la Column
+        verticalArrangement = Arrangement.Center
     ) {
+
+        // Texto de nombre de usuario que se muestra dentro de la columna
         Text(
             text = text,
             modifier = Modifier.fillMaxWidth(),

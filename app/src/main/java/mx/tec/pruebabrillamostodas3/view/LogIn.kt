@@ -142,7 +142,7 @@ fun LogIn(
                 btVM.setLoading(false)
             }
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
-            PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { navController.navigate(Pantallas.RUTA_RECUPERARCONTRASEÑA) })
+            PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
             ElevatedButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
                     btVM.setLoading(true)

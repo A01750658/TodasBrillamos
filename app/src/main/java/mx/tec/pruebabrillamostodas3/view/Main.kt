@@ -153,8 +153,8 @@ fun AppBottomBar(navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASEÑA
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_NUEVA_CONTRASEÑA){
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASENA
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_NUEVA_CONTRASENA){
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
@@ -206,7 +206,7 @@ fun AppBottomBar(navController: NavHostController) {
 @Composable
 fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
     NavHost(navController = navController,
-        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
+        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_PAGOS,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
             Home(navController)
@@ -244,10 +244,10 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController,validationsVM)
         }
-        composable(Pantallas.RUTA_RECUPERARCONTRASEÑA){
-            RecuperarContraseña(btVM ,navController)
+        composable(Pantallas.RUTA_RECUPERARCONTRASENA){
+            RecuperarContrasena(btVM ,navController)
         }
-        composable(Pantallas.RUTA_NUEVA_CONTRASEÑA){
+        composable(Pantallas.RUTA_NUEVA_CONTRASENA){
             NuevaContrasena(btVM, navController)
         }
         composable(Pantallas.RUTA_CREARFORO){
