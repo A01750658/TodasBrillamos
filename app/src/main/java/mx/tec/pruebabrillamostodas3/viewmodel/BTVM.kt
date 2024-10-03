@@ -586,7 +586,7 @@ class BTVM: ViewModel() {
      * @author Andrés Cabrera
      */
     fun getFecha(): Triple<Int, Int, Int> {
-        return Triple(_estadoUsuario.value.ano_nacimiento, _estadoUsuario.value.mes_nacimiento, _estadoUsuario.value.día_nacimiento)
+        return Triple(_estadoUsuario.value.día_nacimiento, _estadoUsuario.value.mes_nacimiento, _estadoUsuario.value.ano_nacimiento)
     }
 
     /**
