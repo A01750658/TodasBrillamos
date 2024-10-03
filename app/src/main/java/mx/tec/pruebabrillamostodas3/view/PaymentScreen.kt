@@ -12,10 +12,6 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
- * Pantalla de pagos en la que los usuarios pueden realizar el pago de sus pedidos a través de PayPal o tarjeta de crédito.
- * La pantalla permite la creación de pagos, redirige a la página de PayPal o similar para la aprobación,
- * y luego maneja la ejecución del pago cuando se vuelve a la aplicación.
- *
  * @author Alan Vega
  * @author Andrés Cabrera
  * @author Iker Fuentes
@@ -38,8 +34,10 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
     var paymentStatus by remember { mutableStateOf("Idle") } // Estado del pago que indica su progreso, exito o fallo
     var approvalUrl by remember { mutableStateOf<String?>(null) } // URL de aprobación de PayPal
     val context = LocalContext.current // Contexto de la aplicación
+    val estadoCarrito by viewModel.estadoCarrito.collectAsState()
 
-    //Accede a las preferencias compartidas de la aplicación para obtener la URI de la dirección profunda guardada
+    val total: Float = estadoCarrito.total
+
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val savedDeepLinkUriString = sharedPreferences.getString("deep_link_uri", null)
     val deepLinkUri = savedDeepLinkUriString?.let { Uri.parse(it) }
@@ -64,6 +62,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         // Lee los datos del usuario actualizados tras el pago y luego los elimina
                         paymentsViewModel.readUserData(context, viewModel)
                         paymentsViewModel.delUserData(context)
+
                     },
                     onError = { error ->
                         paymentStatus = "Failed to execute payment: ${error.message}"
@@ -78,7 +77,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
     Column {
         ElevatedButton(onClick = { // Botón para realizar el pago con PayPal
             paymentsViewModel.createPayment(
-                total = "10.00", // Monto total del pago
+                total = "${total}", // Monto total del pago
                 currency = "MXN", // Moneda
                 method = "paypal", // Método de pago (PayPal)
                 intent = "sale", // Tipo de transacción (Venta)

@@ -530,6 +530,10 @@ class BTVM: ViewModel() {
     fun setErrorEstado(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorEstado = b)
     }
+
+    fun setTotalCarrito(total: Float){
+        _estadoCarrito.value.total = total
+    }
     
 
 }

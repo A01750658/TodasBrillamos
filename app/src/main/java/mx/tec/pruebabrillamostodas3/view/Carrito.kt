@@ -74,7 +74,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
     //Suma el total a pagar
-    var total=0
+    var total=0f
     for (producto in estadoCarrito.productos){
         if (producto.first.rebaja==0){
             total += producto.first.precio_normal*producto.second
@@ -82,6 +82,8 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
             total += producto.first.precio_rebajado*producto.second
         }
     }
+
+    viewModel.setTotalCarrito(total)
 
     Box(
         modifier = Modifier
