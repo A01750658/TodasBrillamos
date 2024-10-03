@@ -36,22 +36,31 @@ import androidx.navigation.NavController
 import mx.tec.pruebabrillamostodas3.viewmodel.EstadoProducto
 
 /**
+ * Pop Up del producto seleccionado que muestra los detalles en la tienda. Incluye la imagen del producto,
+ * descripción, precio, cantidad disponible y opciones para agregar o quitar unidades antes de añadirlo al carrito de compras.
+ *
  * @author Santiago Chevez
  * @author Alan Vega
  * @author Andrés Cabrera
- * Es el Pop Up del producto seleccionado
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
  * @param btVM Viewmodel principal de la aplicación.
- * @param modifier Modificador
- * @param navController Controlador de navegación de la aplicación.
+ * @param producto Producto seleccionado.
+ * @param estadoSeleccionado Estado del producto seleccionado.
+ * @param estadoListaProducto Estado de la lista de productos.
+ * @param estadoAnadirProducto Estado de la cantidad de productos a añadir.
+ *
  */
 @Composable
 fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
+    // Obtiene el estado actual del producto seleccionado, la lista de productos y la cantidad a añadir
     val estadoSeleccionado by btVM.estadoSeleccionado.collectAsState()
     val estadoListaProducto by btVM.estadoListaProducto.collectAsState()
-    val estadoAñadirProducto by btVM.estadoAñadirCarrito.collectAsState()
+    val estadoAnadirProducto by btVM.estadoAnadirCarrito.collectAsState()
     val producto: EstadoProducto = estadoListaProducto[estadoSeleccionado]
 
-    btVM.setEstadoAñadirCarrito(producto)
+    btVM.setEstadoAnadirCarrito(producto)
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -128,7 +137,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                                 .clickable { btVM.sumarorestarproducto(1, producto)}
                         )
                         Text(
-                            text = "${estadoAñadirProducto.second}",
+                            text = "${estadoAnadirProducto.second}",
                             Modifier
                                 .weight(1f)
                                 .fillMaxWidth()
@@ -150,7 +159,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                 ElevatedButton(
                     onClick = {
                         println("Añadiendo producto ${estadoListaProducto[estadoSeleccionado].id}")
-                        btVM.addProducto(producto, estadoAñadirProducto.second)
+                        btVM.addProducto(producto, estadoAnadirProducto.second)
                         navController.navigate("Carrito")
                     },
                     colors = ButtonDefaults.buttonColors(
