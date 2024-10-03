@@ -170,9 +170,13 @@ class PaymentsViewModel: ViewModel() {
                 val username = preferences[PreferencesKeys.username_saved]
                 val password = preferences[PreferencesKeys.password_saved]
                 val email = preferences[PreferencesKeys.user_email]
+                val orden = preferences[PreferencesKeys.user_order]
                 if (username != null && password != null && email != null) {
                     btvm.login(username, password);
                     btvm.setCorreoUsuario(email)
+                    if (orden!=null){
+                        btvm.addOrder(orden)
+                    }
                 }
 
             }
