@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
  * @param onDone es una función que dice que hacer cuando el usario acaba de escribir
  */
 @Composable
-fun InputContraseña(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, onDone: () -> Unit = {}){
+fun InputContrasena(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, onDone: () -> Unit = {}){
     var passwordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     OutlinedTextField(

@@ -284,8 +284,6 @@ class BTVM: ViewModel() {
         }
     }
 
-
-
     fun enviarCorreo(correo:String,context:Context) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:$correo")
