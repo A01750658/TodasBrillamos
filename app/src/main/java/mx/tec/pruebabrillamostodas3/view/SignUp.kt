@@ -203,7 +203,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.password,
+            InputContrasena(estado.value.password,
                 { nuevoTexto ->
                     if (nuevoTexto.length < 8) {
                         btVM.setErrorLengthPassword(true)
@@ -218,7 +218,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) ,color= MaterialTheme.colorScheme.inversePrimary)
             }
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.confirmacion_password,
+            InputContrasena(estado.value.confirmacion_password,
                 { nuevoTexto ->
                     btVM.setIntent(false)
                     valorConfirmacionPassword = nuevoTexto

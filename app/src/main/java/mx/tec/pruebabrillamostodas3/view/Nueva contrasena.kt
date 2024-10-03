@@ -154,7 +154,7 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
             if (btVM.cambioContrasena.value == true) {
                 //cambia a la pantalla login
                 navController.navigate(Pantallas.RUTA_LOGIN)
-                btVM.setCambioContraseña(false)
+                btVM.setCambioContrasena(false)
             }
             Spacer(modifier = Modifier.padding(16.dp))
 

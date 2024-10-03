@@ -27,7 +27,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -136,7 +135,7 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
             if (btVM.contrasenaPerdida.value == true) {
                 //cambia a la pantalla nueva contraseña
                 navController.navigate(Pantallas.RUTA_NUEVA_CONTRASENA)
-                btVM.setContraseñaPerdida(false)
+                btVM.setContrasenaPerdida(false)
             }
         }
     }

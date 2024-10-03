@@ -153,8 +153,8 @@ fun AppBottomBar(navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASEÑA
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_NUEVA_CONTRASEÑA){
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASENA
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_NUEVA_CONTRASENA){
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
@@ -244,11 +244,11 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController,validationsVM)
         }
-        composable(Pantallas.RUTA_RECUPERARCONTRASEÑA){
-            RecuperarContraseña(btVM ,navController)
+        composable(Pantallas.RUTA_RECUPERARCONTRASENA){
+            RecuperarContrasena(btVM ,navController)
         }
-        composable(Pantallas.RUTA_NUEVA_CONTRASEÑA){
-            NuevaContraseña(btVM, navController)
+        composable(Pantallas.RUTA_NUEVA_CONTRASENA){
+            NuevaContrasena(btVM, navController)
         }
         composable(Pantallas.RUTA_CREARFORO){
             CrearForo(navController){}
