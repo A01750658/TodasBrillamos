@@ -360,6 +360,7 @@ class BTVM: ViewModel() {
                 setApellidoPaternoUsuario(userData.apellido_paterno)
                 setDireccionUsuario(userData.direccion)
                 setTelefonoUsuario(userData.telefono)
+                setCorreoUsuario(email)
                 getProductos()
 
             } catch (e: Exception) {

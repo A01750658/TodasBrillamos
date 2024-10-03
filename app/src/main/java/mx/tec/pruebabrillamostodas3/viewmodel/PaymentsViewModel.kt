@@ -130,14 +130,15 @@ class PaymentsViewModel: ViewModel() {
     }
 
     // Función para guardar los datos del usuario
-    fun saveUserData(context: Context, username: String,password: String,email : String,btvm: BTVM) {
+    fun saveUserData(context: Context, username: String,password: String,email : String,token:String,user_id : Int) {
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
                 preferences[PreferencesKeys.username_saved] = username
                 preferences[PreferencesKeys.password_saved] = password
                 preferences[PreferencesKeys.user_email] = email
-                preferences[PreferencesKeys.user_token] = btvm.estadoUsuario.value.key
-                preferences[PreferencesKeys.user_id] = btvm.estadoUsuario.value.id
+                print("I AM SAVING DATA: "+token)
+                preferences[PreferencesKeys.user_token] = token
+                preferences[PreferencesKeys.user_id] = user_id
             }
         }
     }
@@ -175,9 +176,10 @@ class PaymentsViewModel: ViewModel() {
                 val orden = preferences[PreferencesKeys.user_order]
                 val token = preferences[PreferencesKeys.user_token]
                 val user_id = preferences[PreferencesKeys.user_id]
+                print("THIS IS THE USER TOKEN "+token)
                 if (username != null && password != null && email != null) {
                     btvm.login(username, password);
-                    btvm.setCorreoUsuario(email)
+
                     if (orden!=null && token!=null && user_id!=null){
                         btvm.addOrder(orden,token,user_id)
                     }
