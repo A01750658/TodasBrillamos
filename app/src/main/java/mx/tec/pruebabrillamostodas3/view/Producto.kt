@@ -58,18 +58,19 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
     val estadoSeleccionado by btVM.estadoSeleccionado.collectAsState()
     val estadoListaProducto by btVM.estadoListaProducto.collectAsState()
     val estadoAnadirProducto by btVM.estadoAnadirCarrito.collectAsState()
-    val producto: EstadoProducto = estadoListaProducto[estadoSeleccionado]
+    val producto: EstadoProducto = estadoListaProducto[estadoSeleccionado] // El producto seleccionado de la lista de productos
 
-    btVM.setEstadoAnadirCarrito(producto)
+    btVM.setEstadoAnadirCarrito(producto) // Establece el estado para añadir el producto al carrito
+
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        //verticalArrangement = Arrangement.Center
     ){
-        Titulo(titulo = estadoListaProducto[estadoSeleccionado].nombre, lineHeight = 48)
+        Titulo(titulo = estadoListaProducto[estadoSeleccionado].nombre, lineHeight = 48) // Titulo del producto
+        // Lista de los elementos que muestra la imagen, precio, descripción y opciones
         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-            item{Image(
+            item{Image( // Imagen del producto
                 painter = BitmapPainter(Image(estadoListaProducto[estadoSeleccionado].imagen).asImageBitmap()),
                 contentDescription = "Elemento",
                 modifier = Modifier.border(
@@ -77,7 +78,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                     MaterialTheme.colorScheme.tertiary,
                     RoundedCornerShape(25)).padding(16.dp)
             )}
-            item {
+            item {// Precio del producto
                 Subtitulo(
                     text = "$${estadoListaProducto[estadoSeleccionado].precio_normal} MXN",
                     fontSize = 25
@@ -89,7 +90,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                     color = MaterialTheme.colorScheme.primaryContainer
                 )
             }
-            item {
+            item { // Descripción del producto
                 Subtitulo(text = "Descripción")
             }
             item {
@@ -99,7 +100,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                     textAlign = TextAlign.Center,
                 )
             }
-            item {
+            item { // Cantidad disponible del producto
                 Row(modifier = Modifier.padding(vertical = 10.dp)) {
                     Text(
                         text = "Cantidad disponible: ",
@@ -119,7 +120,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                     )
                 }
             }
-            item {
+            item { // Contador para añadir o quitar unidades del producto
                 ElevatedCard(
                     modifier = Modifier
                         .width(100.dp)
@@ -128,7 +129,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                         containerColor = MaterialTheme.colorScheme.tertiary
                     )
                 ) {
-                    Row() {
+                    Row() { // Botón aumenta cantidad
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowUp,
                             contentDescription = "Agregar",
@@ -137,7 +138,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                                 .clickable { btVM.sumarorestarproducto(1, producto)}
                         )
                         Text(
-                            text = "${estadoAnadirProducto.second}",
+                            text = "${estadoAnadirProducto.second}", // Cantidad seleccionada
                             Modifier
                                 .weight(1f)
                                 .fillMaxWidth()
@@ -146,7 +147,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown,
+                            imageVector = Icons.Default.KeyboardArrowDown, // Botón disminuye cantidad
                             contentDescription = "Quitar",
                             modifier = Modifier
                                 .padding(3.dp)
@@ -155,9 +156,10 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                     }
                 }
             }
+            // Botón para agregar el producto al carrito
             item {
                 ElevatedButton(
-                    onClick = {
+                    onClick = { // Añade el producto al carrito y navega a la pantalla del carrito
                         println("Añadiendo producto ${estadoListaProducto[estadoSeleccionado].id}")
                         btVM.addProducto(producto, estadoAnadirProducto.second)
                         navController.navigate("Carrito")

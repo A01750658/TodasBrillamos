@@ -14,31 +14,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
+ * Este Boton sirve para mostrar un texto y luego un botón, con la finalidad de interactuar con el usuario a
+ * realizar una acción basada en la pregunta que se le hace.
+ *
  * @author Santiago Chevez
- * Este Boton sirve para mostrar un texto y luego un botón
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
  * @param textPregunta texto de la pregunta
  * @param textBoton texto del botón
  * @param onClick acción del botón
+ *
  */
 @Composable
 fun PreguntaBoton(textPregunta: String, textBoton: String, onClick: ()-> Unit, modifier: Modifier=Modifier, color:Color= MaterialTheme.colorScheme.onTertiary){
     Row {
-        Text(
-            text = textPregunta,
-            fontSize = 15.sp,
+        Text( // Muestra el texto de la pregunta
+            text = textPregunta, // Texto de la pregunta
+            fontSize = 15.sp, // Tamaño de la fuente
             modifier = Modifier
                 .padding(start = 16.dp, top = 13.dp)
-                .weight(3f),
+                .weight(3f), // Peso del texto para equilibrar el contenido
             color = color,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall // Estilo del texto
         )
+        // Botón que realiza la acción
         TextButton(onClick = { onClick() }, modifier = Modifier.weight(2f)) {
             Text(
-                text = textBoton,
+                text = textBoton, // Texto del botón
                 textAlign = TextAlign.Left,
                 modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.bodyMedium,
-                fontSize = 15.sp,
+                style = MaterialTheme.typography.bodyMedium, // Estilo del texto del botón
+                fontSize = 15.sp, // Tamaño de la fuente
                 color = color
             )
         }

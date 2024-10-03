@@ -12,9 +12,23 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
- * @author Alan Vega
  * Esta es la pantalla de pagos en donde se podrá pagar los pedidos de la tienda
+ *
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Santiago Chevez
+ * @author Cesar Flores
+ *
  * @param viewModel Viewmodel de pagos
+ * @param paymentsViewModel Viewmodel de pagos
+ * @param context Contexto de la aplicación
+ * @param savedDeepLinkUriString URI de la dirección profunda guardada
+ * @param paymentStatus Estado del pago
+ * @param approvalUrl URL de aprobación
+ * @param paymentId ID del pago
+ * @param payerId ID del pagador
+ *
  */
 @Composable
 fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewModel()) {
