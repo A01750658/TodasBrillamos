@@ -11,11 +11,11 @@ import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
-* @author Alan Vega
+ * Esta clase tiene las pantallas de la aplicación y sus rutas
+ * @author Alan Vega
  * @author Santiago Chevez
  * @author Andrés Cabrera
  *
- * Esta clase tiene las pantallas de la aplicación y sus rutas
  */
 
 sealed class Pantallas (
