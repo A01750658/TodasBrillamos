@@ -130,12 +130,14 @@ class PaymentsViewModel: ViewModel() {
     }
 
     // Función para guardar los datos del usuario
-    fun saveUserData(context: Context, username: String,password: String,email : String) {
+    fun saveUserData(context: Context, username: String,password: String,email : String,btvm: BTVM) {
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
                 preferences[PreferencesKeys.username_saved] = username
                 preferences[PreferencesKeys.password_saved] = password
                 preferences[PreferencesKeys.user_email] = email
+                preferences[PreferencesKeys.user_token] = btvm.estadoUsuario.value.key
+                preferences[PreferencesKeys.user_id] = btvm.estadoUsuario.value.id
             }
         }
     }
@@ -157,7 +159,7 @@ class PaymentsViewModel: ViewModel() {
                 if (orden != null) {
                     println("SI tengo orden: ")
                     println(orden)
-                    btvm.addOrder(orden)
+                    //btvm.addOrder(orden)
                 }
             }
         }
@@ -171,11 +173,13 @@ class PaymentsViewModel: ViewModel() {
                 val password = preferences[PreferencesKeys.password_saved]
                 val email = preferences[PreferencesKeys.user_email]
                 val orden = preferences[PreferencesKeys.user_order]
+                val token = preferences[PreferencesKeys.user_token]
+                val user_id = preferences[PreferencesKeys.user_id]
                 if (username != null && password != null && email != null) {
                     btvm.login(username, password);
                     btvm.setCorreoUsuario(email)
-                    if (orden!=null){
-                        btvm.addOrder(orden)
+                    if (orden!=null && token!=null && user_id!=null){
+                        btvm.addOrder(orden,token,user_id)
                     }
                 }
 
@@ -191,6 +195,8 @@ class PaymentsViewModel: ViewModel() {
                 preferences.remove(PreferencesKeys.password_saved)
                 preferences.remove(PreferencesKeys.user_email)
                 preferences.remove(PreferencesKeys.user_order)
+                preferences.remove(PreferencesKeys.user_token)
+                preferences.remove(PreferencesKeys.user_id)
             }
         }
     }

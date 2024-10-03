@@ -264,12 +264,12 @@ class BTVM: ViewModel() {
      * @author Santiago Chevez
      * @param id Id de la orden
      */
-    fun addOrder(carrito : String) {
+    fun addOrder(carrito : String,token : String,user_id:Int) {
         viewModelScope.launch {
             try {
-                var orden: Order = Order(carrito, estadoUsuario.value.id)
-                val response = modeloR.addOrderWithToken(orden, estadoUsuario.value.key)
-                println(estadoUsuario.value.key)
+                var orden: Order = Order(carrito, user_id)
+                val response = modeloR.addOrderWithToken(orden, token)
+                println(token)
                 println(response)
             }
             catch (e: Exception) {
