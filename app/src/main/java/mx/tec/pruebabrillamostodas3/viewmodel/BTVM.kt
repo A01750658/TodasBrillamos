@@ -17,6 +17,16 @@ import mx.tec.pruebabrillamostodas3.model.Order
 import mx.tec.pruebabrillamostodas3.model.Producto
 import mx.tec.pruebabrillamostodas3.model.Usuario
 
+/**
+ * Clase que contiene la lógica de negocio de la aplicación
+ *
+ * @author Iker Fuentes
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andres Cabrera
+ * @author Cesar Augusto
+ *
+ */
 
 class BTVM: ViewModel() {
     val modeloR: ModelConnectionR = ModelConnectionR()
@@ -57,7 +67,6 @@ class BTVM: ViewModel() {
     //Estado cantidad de Productos que se van a recibir del modelo
     private val _estadoCantidadProductosModelo = MutableStateFlow(0)
     val estadoCantidadProductosModelo: StateFlow<Int> = _estadoCantidadProductosModelo
-
 
     //Estado Lista Productos que se van a mostrar en la vista
     private val _estadoListaProducto = MutableStateFlow(mutableListOf<EstadoProducto>())
