@@ -2,6 +2,7 @@ package mx.tec.pruebabrillamostodas3.viewmodel
 
 import android.content.Context
 import android.net.Uri
+import androidx.compose.runtime.collectAsState
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -129,11 +130,30 @@ class PaymentsViewModel: ViewModel() {
     }
 
     // Función para guardar los datos del usuario
-    fun saveUserData(context: Context, username: String,password: String) {
+    fun saveUserData(context: Context, username: String,password: String,email : String) {
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
                 preferences[PreferencesKeys.username_saved] = username
                 preferences[PreferencesKeys.password_saved] = password
+                preferences[PreferencesKeys.user_email] = email
+            }
+        }
+    }
+    fun saveCarritoData(context: Context,btvm: BTVM){
+        val estadoCarrito = btvm.estadoCarrito.value
+        viewModelScope.launch {
+            context.dataStore.edit { preferences ->
+                preferences[PreferencesKeys.user_order] = btvm.createDataInfo(estadoCarrito.productos)
+            }
+        }
+    }
+    fun addOrder(context: Context,btvm: BTVM){
+        viewModelScope.launch {
+            context.dataStore.edit { preferences ->
+                val orden = preferences[PreferencesKeys.user_order]
+                if (orden != null) {
+                    btvm.addOrder(orden)
+                }
             }
         }
     }

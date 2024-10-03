@@ -31,6 +31,8 @@ object PreferencesKeys {
     val username_saved = stringPreferencesKey("user_name")
     val password_saved = stringPreferencesKey("password")
     val hash_password = stringPreferencesKey("hash")
+    val user_email    = stringPreferencesKey("email")
+    val user_order = stringPreferencesKey("order")
 }
 class MainActivity : ComponentActivity() {
     private val btVM : BTVM by viewModels()

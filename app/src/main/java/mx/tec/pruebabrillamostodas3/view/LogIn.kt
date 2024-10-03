@@ -147,7 +147,7 @@ fun LogIn(
                 if (!estadoErrors.value.errorLogin) {
                     btVM.setLoading(true)
                     btVM.login(estado.value.correo, estado.value.password)
-                    paymentsVM.saveUserData(context, estado.value.correo, estado.value.password)
+                    paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo)
                 }
             },
                 Modifier

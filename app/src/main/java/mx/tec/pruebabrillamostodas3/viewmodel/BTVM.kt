@@ -264,21 +264,29 @@ class BTVM: ViewModel() {
      * @author Santiago Chevez
      * @param id Id de la orden
      */
-    fun addOrder(id: Int) {
-        var newList: MutableList<Pair<Int, Int>> = mutableListOf()
-        for (producto in estadoCarrito.value.productos) {
-            newList.add(Pair(producto.first.id, producto.second))
-        }
-
+    fun addOrder(carrito : String) {
         viewModelScope.launch {
             try {
-                var orden: Order = Order(modeloR.createDataInfo(newList), estadoUsuario.value.id)
+                var orden: Order = Order(carrito, estadoUsuario.value.id)
                 val response = modeloR.addOrderWithToken(orden, estadoUsuario.value.key)
             }
             catch (e: Exception) {
                 println(e)
             }
         }
+    }
+
+    /**
+     * @author Iker Fuentes
+     * @param carrito Lista de productos a agregar
+     * @return [String] valor formateado de la lista de productos
+     */
+    fun createDataInfo(carrito : MutableList<Pair<EstadoProducto,Int>>): String {
+        var newList: MutableList<Pair<Int, Int>> = mutableListOf()
+        for (producto in carrito) {
+            newList.add(Pair(producto.first.id, producto.second))
+        }
+        return modeloR.createDataInfo(newList)
     }
 
     /**
