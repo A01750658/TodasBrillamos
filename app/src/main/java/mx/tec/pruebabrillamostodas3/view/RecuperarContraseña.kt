@@ -38,7 +38,7 @@ import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 @Composable
-fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
+fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
@@ -133,9 +133,9 @@ fun RecuperarContraseña(btVM: BTVM, navController: NavHostController, modifier:
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
             }
             Spacer(modifier = Modifier.padding(16.dp))
-            if (btVM.contraseñaPerdida.value == true) {
+            if (btVM.contrasenaPerdida.value == true) {
                 //cambia a la pantalla nueva contraseña
-                navController.navigate(Pantallas.RUTA_NUEVA_CONTRASEÑA)
+                navController.navigate(Pantallas.RUTA_NUEVA_CONTRASENA)
                 btVM.setContraseñaPerdida(false)
             }
         }

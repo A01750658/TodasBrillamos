@@ -44,12 +44,12 @@ class BTVM: ViewModel() {
     }
 
     //Estado contraseña perdida
-    private val _contraseñaPerdida = MutableLiveData(false)
-    val contraseñaPerdida: LiveData<Boolean> = _contraseñaPerdida
+    private val _contrasenaPerdida = MutableLiveData(false)
+    val contrasenaPerdida: LiveData<Boolean> = _contrasenaPerdida
 
     //Estado cambio de contraseña
-    private val _cambioContraseña = MutableLiveData(false)
-    val cambioContraseña: LiveData<Boolean> = _cambioContraseña
+    private val _cambioContrasena = MutableLiveData(false)
+    val cambioContrasena: LiveData<Boolean> = _cambioContrasena
 
     //Estado Lista Productos proveniente de modelo
     private val _estadoListaProductosModelo = MutableStateFlow(listOf<Producto>())
@@ -431,8 +431,8 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun setContraseñaPerdida(b: Boolean) {
-        _contraseñaPerdida.value = b
+    fun setContrasenaPerdida(b: Boolean) {
+        _contrasenaPerdida.value = b
     }
 
     fun recuperarContrasena(email: String){
@@ -446,7 +446,7 @@ class BTVM: ViewModel() {
                 //cambiar estado loading a false
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
                 //cambiar estado contraseña perdida a true
-                _contraseñaPerdida.value = true
+                _contrasenaPerdida.value = true
             }
             catch (e: Exception) {
                 println(e)
@@ -463,7 +463,7 @@ class BTVM: ViewModel() {
                     throw Exception("Could not change password")
                 }
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
-                setCambioContraseña(true)
+                setCambioContrasena(true)
             }
             catch (e: Exception) {
                 println(e)
@@ -472,8 +472,8 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun setCambioContraseña(b: Boolean) {
-        _cambioContraseña.value = b
+    fun setCambioContrasena(b: Boolean) {
+        _cambioContrasena.value = b
     }
 
     fun setErrorCodigo(b: Boolean) {

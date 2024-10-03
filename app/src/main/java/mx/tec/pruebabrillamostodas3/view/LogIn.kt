@@ -117,7 +117,7 @@ fun LogIn(
                 )
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.password,
+            InputContrasena(estado.value.password,
                 { nuevoTexto ->
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
@@ -139,7 +139,7 @@ fun LogIn(
                 btVM.setLoading(false)
             }
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
-            PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { navController.navigate(Pantallas.RUTA_RECUPERARCONTRASEÑA) })
+            PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
             ElevatedButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
                     btVM.setLoading(true)

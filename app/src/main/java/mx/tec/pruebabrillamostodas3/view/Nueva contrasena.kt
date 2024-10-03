@@ -37,7 +37,7 @@ import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 @Composable
-fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
+fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
@@ -103,7 +103,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
             }
 
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.password,
+            InputContrasena(estado.value.password,
                 { nuevoTexto ->
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
@@ -115,7 +115,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                 })
 
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.confirmacion_password,
+            InputContrasena(estado.value.confirmacion_password,
                 { nuevoTexto ->
                     btVM.setIntent(false)
                     valorConfirmacionPassword = nuevoTexto
@@ -151,7 +151,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
             }
-            if (btVM.cambioContraseña.value == true) {
+            if (btVM.cambioContrasena.value == true) {
                 //cambia a la pantalla login
                 navController.navigate(Pantallas.RUTA_LOGIN)
                 btVM.setCambioContraseña(false)
