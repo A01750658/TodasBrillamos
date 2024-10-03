@@ -144,6 +144,8 @@ class PaymentsViewModel: ViewModel() {
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
                 preferences[PreferencesKeys.user_order] = btvm.createDataInfo(estadoCarrito.productos)
+                print("Guardé info del carrito")
+                println(btvm.createDataInfo(estadoCarrito.productos))
             }
         }
     }
@@ -164,8 +166,10 @@ class PaymentsViewModel: ViewModel() {
             context.dataStore.data.collect { preferences ->
                 val username = preferences[PreferencesKeys.username_saved]
                 val password = preferences[PreferencesKeys.password_saved]
-                if (username != null && password != null) {
+                val email = preferences[PreferencesKeys.user_email]
+                if (username != null && password != null && email != null) {
                     btvm.login(username, password);
+                    btvm.setCorreoUsuario(email)
                 }
 
             }
