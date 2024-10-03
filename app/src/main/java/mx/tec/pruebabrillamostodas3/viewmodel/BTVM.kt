@@ -19,6 +19,11 @@ import mx.tec.pruebabrillamostodas3.model.ModelConnectionR
 import mx.tec.pruebabrillamostodas3.model.Order
 import mx.tec.pruebabrillamostodas3.model.Producto
 import mx.tec.pruebabrillamostodas3.model.Usuario
+import android.content.SharedPreferences
+import androidx.datastore.preferences.core.edit
+import mx.tec.pruebabrillamostodas3.PreferencesKeys
+import mx.tec.pruebabrillamostodas3.dataStore
+
 
 /**
  * Clase que contiene la lógica de negocio de la aplicación
@@ -307,6 +312,9 @@ class BTVM: ViewModel() {
             publicidad,
             telefono
         )
+
+        val hashPassword = modeloR.hash(password)
+
         viewModelScope.launch {
             try {
                 val response = modeloR.signUp(user)

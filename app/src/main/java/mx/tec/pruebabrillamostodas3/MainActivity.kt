@@ -30,6 +30,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 object PreferencesKeys {
     val username_saved = stringPreferencesKey("user_name")
     val password_saved = stringPreferencesKey("password")
+    val hash_password = stringPreferencesKey("hash")
 }
 class MainActivity : ComponentActivity() {
     private val btVM : BTVM by viewModels()
