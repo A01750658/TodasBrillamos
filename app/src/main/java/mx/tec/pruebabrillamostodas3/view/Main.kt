@@ -206,7 +206,7 @@ fun AppBottomBar(navController: NavHostController) {
 @Composable
 fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
     NavHost(navController = navController,
-        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
+        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_PAGOS,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
             Home(btVM, navController)
