@@ -37,13 +37,11 @@ import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 @Composable
-fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
+fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
-    var valorCodigo by rememberSaveable { mutableStateOf(estado.value.codigo) }
-    var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
-
+    var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -61,7 +59,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color(0xFFE91E63).copy(alpha = 0.6f))
         ){
-            Titulo(titulo ="Cambia tu\ncontraseña", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary, lineHeight = 45)
+            Titulo(titulo ="Recuperar\ncontraseña", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary, lineHeight = 45)
             Spacer(modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .background(MaterialTheme.colorScheme.onTertiary)
@@ -72,46 +70,24 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                 .padding(6.dp)
                 .fillMaxWidth()
             )
-            Etiqueta("Código de recuperación*", Modifier.padding(bottom = 3.dp))
-
-            InputTexto(estado.value.codigo.toString(), onValueChange =
+            Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
+            InputTexto(estado.value.correo, onValueChange =
             {
                     nuevoTexto ->
                 if (nuevoTexto.contains("\n")){
                     /*TODO*/
                 } else {
-                    if (nuevoTexto.length != 8 ) {
+                    if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
                         btVM.setErrorCorreo(true)
-                        //Error codigo longitud
-                        //no existe
                     } else {
                         btVM.setErrorCorreo(false)
                     }
-
-                    if (nuevoTexto.length > 0){
-                        valorCodigo = nuevoTexto.toInt()
-                    }
-                    else{
-                        valorCodigo = 0
-                    }
-
-                    btVM.setCodigoUsuario(valorCodigo)
-                    btVM.setErrorLogin(false) //error recuperar contraseña
+                    valorCorreo = nuevoTexto
+                    btVM.setCorreoUsuario(valorCorreo)
+                    btVM.setErrorLogin(false)
                 }
             },
-                keyBoardType = KeyboardType.Number)
-
-            Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.password,
-                { nuevoTexto ->
-                    if (nuevoTexto.contains("\n")){
-                        /*TODO*/
-                    } else {
-                        valorPassword = nuevoTexto
-                        btVM.setContrasenaUsuario(valorPassword)
-                    }
-                })
-
+                keyBoardType = KeyboardType.Email)
             if (estadoErrors.value.errorCorreo) {
                 Etiqueta(
                     texto = "Debe de ser un correo electrónico",
@@ -131,7 +107,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
             }
             TextButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
-                    btVM.changePassword(valorCodigo, estado.value.correo ,valorPassword)
+                    btVM.recuperarContrasena(valorCorreo)
                     btVM.setLoading(true)
                 }
             },
@@ -144,7 +120,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                     .background(MaterialTheme.colorScheme.tertiary)
             ){
                 Text(
-                    text = "Click para cambiar",
+                    text = "Click para recuperar",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodyMedium,
@@ -156,7 +132,11 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
             }
             Spacer(modifier = Modifier.padding(16.dp))
-
+            if (btVM.contrasenaPerdida.value == true) {
+                //cambia a la pantalla nueva contraseña
+                navController.navigate(Pantallas.RUTA_NUEVA_CONTRASENA)
+                btVM.setContrasenaPerdida(false)
+            }
         }
     }
 }

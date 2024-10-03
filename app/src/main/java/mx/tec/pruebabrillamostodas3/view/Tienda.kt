@@ -47,6 +47,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -61,6 +62,8 @@ import androidx.compose.ui.text.style.TextAlign
 /**
  * @author Santiago Chevez
  * @author Alan Vega
+ * @author Andrés Cabrera
+ * Es la pantalla principal de los catalogos de productos
  */
 
 
@@ -70,10 +73,10 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
     val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
     val estadoCantidad by viewModel.estadoCantidadProductosModelo.collectAsState()
     var showMenu by remember { mutableStateOf(false) }
-    val estadoCategorias = viewModel.estadoCategorias.collectAsState() // Obtenemos las categorías
-    var expanded by remember { mutableStateOf(false) } // Estado para mostrar el DropdownMenu
-    var selectedCategoria by remember { mutableStateOf("Todas") } // Categoría seleccionada
+    val estadoCategorias = viewModel.estadoCategorias.collectAsState()
+    var expanded by remember { mutableStateOf(false) }
     var categorySelected: Boolean = false
+    val selectedCategoria by viewModel.categoriaSeleccionada.collectAsState()
 
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
@@ -89,7 +92,6 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
         ) {
-            // Encabezado de la tienda y filtro de categoría
             if (screenOrientation == 1) {
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
@@ -101,25 +103,32 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                         .fillMaxWidth(),
                 )
                 Titulo(titulo = "Catálogo", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
-                Spacer(modifier = Modifier.padding(6.dp).fillMaxWidth())
+                Spacer(modifier = Modifier
+                    .padding(6.dp)
+                    .fillMaxWidth())
                 HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.primaryContainer)
-                Spacer(modifier = Modifier.padding(8.dp).fillMaxWidth())
+                Spacer(modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth())
 
                 // Menú desplegable de categorías
-                Box(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+                Box(modifier = Modifier
+                    .padding(8.dp)) {
                     Button(onClick = { expanded = true }) {
                         Row(
-                            verticalAlignment = Alignment.CenterVertically // Alinear verticalmente al centro
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
                         ) {
                             Text(
                                 text = "Filtrar por: $selectedCategoria",
                                 color = MaterialTheme.colorScheme.onTertiary
                             )
+
                             Icon(
                                 imageVector = Icons.Default.KeyboardArrowDown,
                                 contentDescription = "Arrow down icon",
-                                modifier = Modifier.padding(start = 8.dp), // Espacio entre el texto y el ícono
-                                tint = MaterialTheme.colorScheme.onTertiary // Color del ícono
+                                modifier = Modifier.padding(start = 8.dp),
+                                tint = MaterialTheme.colorScheme.onTertiary
                             )
                         }
                     }
@@ -131,10 +140,10 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                     ) {
                         DropdownMenuItem(
                             text = {
-                                Text("Todas", color = MaterialTheme.colorScheme.onSurface) // Cambia el color aquí
+                                Text("Todas", color = MaterialTheme.colorScheme.onSurface)
                             },
                             onClick = {
-                                selectedCategoria = "Todas"
+                                viewModel.setCategoriaSeleccionada("Todas")
                                 viewModel.resetListaFiltradaPorCategoria()
                                 expanded = false
                             }
@@ -142,10 +151,10 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                         estadoCategorias.value.forEach { categoria ->
                             DropdownMenuItem(
                                 text = {
-                                    Text(categoria, color = MaterialTheme.colorScheme.primary) // Cambia el color aquí
+                                    Text(categoria, color = MaterialTheme.colorScheme.primary)
                                 },
                                 onClick = {
-                                    selectedCategoria = categoria
+                                    viewModel.setCategoriaSeleccionada(categoria)
                                     viewModel.setListaFiltradaPorCategoria(categoria)
                                     expanded = false
                                 }
@@ -153,8 +162,8 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                         }
                     }
                 }
-
             }
+            Spacer(modifier = Modifier.padding(8.dp).fillMaxWidth())
 
             // Lista de productos filtrada
             LazyColumn {
@@ -191,7 +200,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
 
         // Botón flotante para navegar al carrito
         FloatingActionButton(
-            onClick = { navController.navigate("Carrito") },
+            onClick = { navController.navigate(Pantallas.RUTA_CARRITO) },
             containerColor = MaterialTheme.colorScheme.tertiary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             modifier = Modifier
@@ -201,11 +210,21 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
             Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "Generar")
         }
 
-        // Modal para mostrar el detalle del producto
         if (showMenu) {
             ModalBottomSheet(onDismissRequest = { showMenu = false }) {
                 Producto(viewModel, modifier, navController)
             }
+        }
+        // Botón flotante para navegar al historial de compras
+        FloatingActionButton(
+            onClick = { navController.navigate(Pantallas.RUTA_HISTORIAL) },
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(top = 16.dp, start = 16.dp),
+        ) {
+            Icon(imageVector = Icons.Default.List, contentDescription = "Generar", tint = MaterialTheme.colorScheme.onTertiary)
         }
     }
 }

@@ -21,6 +21,13 @@ import mx.tec.pruebabrillamostodas3.model.Usuario
 class BTVM: ViewModel() {
     val modeloR: ModelConnectionR = ModelConnectionR()
 
+    //EstadoFecha
+    private val _estadoFecha = MutableLiveData("Seleccionar Fecha")
+    val estadoFecha: LiveData<String> = _estadoFecha
+
+    fun setEstadoFecha(fecha: String) {
+        _estadoFecha.value = fecha
+    }
 
     //EstadoDatePicker
     private val _showDatePicker = MutableLiveData(false)
@@ -36,9 +43,13 @@ class BTVM: ViewModel() {
         _once.value = show
     }
 
-    //EstadoDatePicker
-    private val _contraseñaPerdida = MutableLiveData(false)
-    val contraseñaPerdida: LiveData<Boolean> = _contraseñaPerdida
+    //Estado contraseña perdida
+    private val _contrasenaPerdida = MutableLiveData(false)
+    val contrasenaPerdida: LiveData<Boolean> = _contrasenaPerdida
+
+    //Estado cambio de contraseña
+    private val _cambioContrasena = MutableLiveData(false)
+    val cambioContrasena: LiveData<Boolean> = _cambioContrasena
 
     //Estado Lista Productos proveniente de modelo
     private val _estadoListaProductosModelo = MutableStateFlow(listOf<Producto>())
@@ -56,8 +67,8 @@ class BTVM: ViewModel() {
     private val _estadoCarrito = MutableStateFlow<Carrito>(Carrito())
     val estadoCarrito: StateFlow<Carrito> = _estadoCarrito
 
-    private val _estadoañadirCarrito = MutableStateFlow<Pair<Int,Int>>(Pair(0,1))
-    val estadoAñadirCarrito: StateFlow<Pair<Int,Int>> = _estadoañadirCarrito
+    private val _estadoañadirCarrito = MutableStateFlow<Pair<EstadoProducto,Int>>(Pair(EstadoProducto(1,"","",0,0,0,0,""),1))
+    val estadoAñadirCarrito: StateFlow<Pair<EstadoProducto,Int>> = _estadoañadirCarrito
 
     //Estado Producto Seleccionado
     private val _estadoSeleccionado = MutableStateFlow(-1)
@@ -83,6 +94,10 @@ class BTVM: ViewModel() {
     //Estado categorias
     private val _estadoCategorias : MutableStateFlow<MutableSet<String>> = MutableStateFlow(mutableSetOf<String>())
     val estadoCategorias : StateFlow<MutableSet<String>> = _estadoCategorias
+
+    //Estado categoria seleccionada
+    private val _categoriaSeleccionada = MutableStateFlow("Todas")
+    val categoriaSeleccionada: StateFlow<String> = _categoriaSeleccionada
 
     //Estado de la lista filtrada por categoría
     var listaFiltradaPorCategoria = mutableListOf<EstadoProducto>()
@@ -130,6 +145,10 @@ class BTVM: ViewModel() {
         _estadoListaProducto.value = listaFiltradaPorCategoria
     }
 
+    fun setCategoriaSeleccionada(categoria: String) {
+        _categoriaSeleccionada.value = categoria
+    }
+
     //Función para resetear la lista filtrada por categoría
     fun resetListaFiltradaPorCategoria() {
         _estadoListaProducto.value = copiaListaProductos
@@ -170,21 +189,26 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun addProducto(index : Int, cantidad: Int) {
-        estadoCarrito.value.productos.add(Pair(index, cantidad))
-        estadoListaProducto.value[index] = estadoListaProducto.value[index].copy(cantidad = estadoListaProducto.value[index].cantidad - cantidad )
+    fun addProducto(producto: EstadoProducto, cantidad: Int) {
+        estadoCarrito.value.productos.add(Pair(producto, cantidad))
     }
 
-    fun removeProducto(index: Int, cantidad: Int) {
-        val producto = estadoListaProducto.value[index].id
-        estadoCarrito.value.productos.remove(Pair(producto, cantidad))
+    fun removeProducto(producto: EstadoProducto, cantidad: Int) {
+        val newProductos = estadoCarrito.value.productos.toMutableList()
+        newProductos.remove(Pair(producto, cantidad))
+        _estadoCarrito.value = estadoCarrito.value.copy(productos = newProductos)
     }
 
 
     fun addOrder(id: Int) {
+        var newList: MutableList<Pair<Int, Int>> = mutableListOf()
+        for (producto in estadoCarrito.value.productos) {
+            newList.add(Pair(producto.first.id, producto.second))
+        }
+
         viewModelScope.launch {
             try {
-                var orden: Order = Order(modeloR.createDataInfo(estadoCarrito.value.productos), estadoUsuario.value.id)
+                var orden: Order = Order(modeloR.createDataInfo(newList), estadoUsuario.value.id)
                 val response = modeloR.addOrderWithToken(orden, estadoUsuario.value.key)
             }
             catch (e: Exception) {
@@ -260,8 +284,6 @@ class BTVM: ViewModel() {
         }
     }
 
-
-
     fun enviarCorreo(correo:String,context:Context) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:$correo")
@@ -326,6 +348,10 @@ class BTVM: ViewModel() {
 
     fun setFecha(day: Int, month: Int, year: Int) {
         _estadoUsuario.value = _estadoUsuario.value.copy(año_nacimiento = year, mes_nacimiento = month, día_nacimiento = day)
+
+        val months = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+        val fecha = "%02d-%s-%04d".format(day, months[month - 1], year)
+        setEstadoFecha(fecha)
     }
 
     fun getFecha(): Triple<Int, Int, Int> {
@@ -381,18 +407,18 @@ class BTVM: ViewModel() {
         return _estadoUsuario.value
     }
 
-    fun setCodigoUsuario(codigo: Int){
+    fun setCodigoUsuario(codigo: String){
         _estadoUsuario.value = _estadoUsuario.value.copy(codigo = codigo)
     }
 
-    fun setEstadoAñadirCarrito(producto: Int){
+    fun setEstadoAñadirCarrito(producto: EstadoProducto){
         if (_estadoañadirCarrito.value.first != producto){
             _estadoañadirCarrito.value = Pair(producto,1)
         }
     }
-    fun sumarorestarproducto(sign: Int, producto: Int){
+    fun sumarorestarproducto(sign: Int, producto: EstadoProducto){
         if (sign == 1){
-            if(_estadoañadirCarrito.value.second == estadoListaProducto.value[producto].cantidad){
+            if(_estadoañadirCarrito.value.second == producto.cantidad){
                 return
             }
             _estadoañadirCarrito.value = _estadoañadirCarrito.value.copy(first = producto, second = _estadoañadirCarrito.value.second+1)
@@ -405,8 +431,8 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun setContraseñaPerdida(b: Boolean) {
-        _contraseñaPerdida.value = b
+    fun setContrasenaPerdida(b: Boolean) {
+        _contrasenaPerdida.value = b
     }
 
     fun recuperarContrasena(email: String){
@@ -420,7 +446,7 @@ class BTVM: ViewModel() {
                 //cambiar estado loading a false
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
                 //cambiar estado contraseña perdida a true
-                _contraseñaPerdida.value = true
+                _contrasenaPerdida.value = true
             }
             catch (e: Exception) {
                 println(e)
@@ -437,12 +463,21 @@ class BTVM: ViewModel() {
                     throw Exception("Could not change password")
                 }
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
+                setCambioContrasena(true)
             }
             catch (e: Exception) {
                 println(e)
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)//cambio de contraseña
             }
         }
+    }
+
+    fun setCambioContrasena(b: Boolean) {
+        _cambioContrasena.value = b
+    }
+
+    fun setErrorCodigo(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCodigo = b)
     }
 
     fun setErrorCalle(b: Boolean) {
@@ -466,5 +501,6 @@ class BTVM: ViewModel() {
     fun setErrorEstado(b: Boolean) {
         _estadoErrors.value = _estadoErrors.value.copy(errorEstado = b)
     }
+    
 
 }

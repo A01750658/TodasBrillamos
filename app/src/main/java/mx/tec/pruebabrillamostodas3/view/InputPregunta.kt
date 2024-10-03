@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,7 +34,7 @@ fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modif
             )
         },
         placeholder = {
-            Text("Buscar...")
+            Text("Buscar...", color = Color.LightGray)
         },
         modifier = Modifier
             .fillMaxWidth()

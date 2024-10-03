@@ -56,6 +56,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
     val showDatePicker by btVM.showDatePicker.observeAsState(false)
     val estado = btVM.estadoUsuario.collectAsState()
+    val estadoFecha by btVM.estadoFecha.observeAsState()
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
     var valorNombre by rememberSaveable { mutableStateOf(estado.value.nombre) }
@@ -148,7 +149,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     .background(MaterialTheme.colorScheme.tertiary)
             ){
                 Text(
-                    text = "Seleccionar Fecha",
+                    text = estadoFecha.toString(),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium,
                     fontSize = 20.sp,
@@ -202,7 +203,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.password,
+            InputContrasena(estado.value.password,
                 { nuevoTexto ->
                     if (nuevoTexto.length < 8) {
                         btVM.setErrorLengthPassword(true)
@@ -217,7 +218,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) ,color= MaterialTheme.colorScheme.inversePrimary)
             }
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.confirmacion_password,
+            InputContrasena(estado.value.confirmacion_password,
                 { nuevoTexto ->
                     btVM.setIntent(false)
                     valorConfirmacionPassword = nuevoTexto
@@ -307,7 +308,6 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .border(1.dp, MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(32.dp))
                     //.background(MaterialTheme.colorScheme.tertiary)
             ,colors= ButtonDefaults.elevatedButtonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary,
@@ -320,7 +320,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     color = MaterialTheme.colorScheme.onTertiary
                 )
             }

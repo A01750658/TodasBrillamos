@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -32,9 +31,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.navigation.NavController
+import mx.tec.pruebabrillamostodas3.viewmodel.EstadoProducto
 
 /**
  * @author Santiago Chevez
@@ -50,8 +49,9 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
     val estadoSeleccionado by btVM.estadoSeleccionado.collectAsState()
     val estadoListaProducto by btVM.estadoListaProducto.collectAsState()
     val estadoAñadirProducto by btVM.estadoAñadirCarrito.collectAsState()
+    val producto: EstadoProducto = estadoListaProducto[estadoSeleccionado]
 
-    btVM.setEstadoAñadirCarrito(estadoSeleccionado)
+    btVM.setEstadoAñadirCarrito(producto)
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -125,7 +125,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                             contentDescription = "Agregar",
                             modifier = Modifier
                                 .padding(3.dp)
-                                .clickable { btVM.sumarorestarproducto(1, estadoSeleccionado)}
+                                .clickable { btVM.sumarorestarproducto(1, producto)}
                         )
                         Text(
                             text = "${estadoAñadirProducto.second}",
@@ -141,7 +141,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                             contentDescription = "Quitar",
                             modifier = Modifier
                                 .padding(3.dp)
-                                .clickable { btVM.sumarorestarproducto(-1, estadoSeleccionado) }
+                                .clickable { btVM.sumarorestarproducto(-1, producto) }
                         )
                     }
                 }
@@ -149,8 +149,8 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
             item {
                 ElevatedButton(
                     onClick = {
-                        println("Añadiendo producto $estadoSeleccionado")
-                        btVM.addProducto(estadoSeleccionado, estadoAñadirProducto.second)
+                        println("Añadiendo producto ${estadoListaProducto[estadoSeleccionado].id}")
+                        btVM.addProducto(producto, estadoAñadirProducto.second)
                         navController.navigate("Carrito")
                     },
                     colors = ButtonDefaults.buttonColors(

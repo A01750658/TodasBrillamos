@@ -95,7 +95,27 @@ fun AppTopBar(navController: NavHostController) {
                     }
                 }
             )
-        }else{
+        }else if(navController.currentBackStackEntryAsState().value?.destination?.route == Pantallas.RUTA_HISTORIAL) {
+            TopAppBar(
+                title = {
+                    Text(text = "Regresar a catálogo",
+                        textAlign = TextAlign.Left,
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        fontWeight = FontWeight.Bold)
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }){
+                        Icon(imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onTertiary)
+                    }
+                }
+            )
+        } else{
             TopAppBar(
                 title = {
                     Text(
@@ -124,6 +144,7 @@ fun AppTopBar(navController: NavHostController) {
 /**
  * @author Alan Vega
  * @author Santiago Chevez
+ * @author Andrés Cabrera
  * Esta funcion es el como se ve la bottom bar y la muestra en las pantallas necesarias
  * @param navController Controlador de navegación de la aplicación.
  */
@@ -132,8 +153,8 @@ fun AppBottomBar(navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASEÑA
-        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_NUEVA_CONTRASEÑA){
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_RECUPERARCONTRASENA
+        && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_NUEVA_CONTRASENA){
         BottomAppBar(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
@@ -185,7 +206,7 @@ fun AppBottomBar(navController: NavHostController) {
 @Composable
 fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
     NavHost(navController = navController,
-        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_CARRITO,
+        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_PAGOS,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
             Home(btVM, navController)
@@ -223,11 +244,11 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         composable(Pantallas.RUTA_EDITAR_DIRECCION) {
             EditarDireccion(btVM,navController,validationsVM)
         }
-        composable(Pantallas.RUTA_RECUPERARCONTRASEÑA){
-            RecuperarContraseña(btVM ,navController)
+        composable(Pantallas.RUTA_RECUPERARCONTRASENA){
+            RecuperarContrasena(btVM ,navController)
         }
-        composable(Pantallas.RUTA_NUEVA_CONTRASEÑA){
-            NuevaContraseña(btVM, navController)
+        composable(Pantallas.RUTA_NUEVA_CONTRASENA){
+            NuevaContrasena(btVM, navController)
         }
         composable(Pantallas.RUTA_CREARFORO){
             CrearForo(navController){}
@@ -237,6 +258,10 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         }
         composable(Pantallas.RUTA_PAGOS){
             PaymentScreen(btVM,paymentsVM)
+        }
+
+        composable(Pantallas.RUTA_HISTORIAL){
+            Historial(btVM, modifier, navController)
         }
     }
 }

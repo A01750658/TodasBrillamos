@@ -22,10 +22,8 @@ fun DatePickerScreen(btVM: BTVM, modifier: Modifier = Modifier){
     AndroidView(
         factory = { context ->
             DatePicker(context).apply {
-                //datePickerHelper.initializeDatePicker(this)
-                val selectedDate = datePickerHelper.initializeDatePicker(this)
-                val (year, month, day) = selectedDate
-                btVM.setFecha(year, month, day)
+                datePickerHelper.initializeDatePicker(this, btVM)
+                //val selectedDate = datePickerHelper.initializeDatePicker(this, btVM)
             }
         },
         modifier = modifier
