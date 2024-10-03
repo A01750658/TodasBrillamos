@@ -132,7 +132,8 @@ fun AppTopBar(navController: NavHostController) {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onTertiary
                         )
                     }
                 }
