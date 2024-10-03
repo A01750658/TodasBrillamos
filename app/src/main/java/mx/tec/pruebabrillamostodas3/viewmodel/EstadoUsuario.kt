@@ -6,7 +6,7 @@ data class EstadoUsuario(
     val nombre: String = "",
     val apellido_paterno: String = "",
     val apellido_materno: String = "",
-    val año_nacimiento: Int = 0,
+    val ano_nacimiento: Int = 0,
     val mes_nacimiento: Int = 0,
     val día_nacimiento: Int = 0,
     val telefono: String = "",
