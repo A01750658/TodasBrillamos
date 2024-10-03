@@ -7,9 +7,8 @@
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="MyDatePickerStyle" parent="Theme.MaterialComponents.DayNight.Dialog">
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:background">#2196F3</item>
-        <item name="android:textSize">18sp</item>
+    <style name="MyDatePickerStyle" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">#FFD5507C</item>
+
     </style>
 </resources>

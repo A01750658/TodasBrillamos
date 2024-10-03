@@ -1,12 +1,15 @@
 package mx.tec.pruebabrillamostodas3.view
 
+import android.view.ContextThemeWrapper
 import android.widget.DatePicker
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.DatePickerHelper
+import java.util.Calendar
 
 
 /**
@@ -22,9 +25,15 @@ fun DatePickerScreen(btVM: BTVM, modifier: Modifier = Modifier){
 
     AndroidView(
         factory = { context ->
-            DatePicker(context).apply {
+            DatePicker(ContextThemeWrapper(context, R.style.MyDatePickerStyle)).apply {
                 datePickerHelper.initializeDatePicker(this, btVM)
                 //val selectedDate = datePickerHelper.initializeDatePicker(this, btVM)
+                var calendar = Calendar.getInstance()
+                calendar.add(Calendar.YEAR, -10)
+                maxDate = calendar.timeInMillis
+                calendar = Calendar.getInstance()
+                calendar.add(Calendar.YEAR, -100)
+                minDate = calendar.timeInMillis
             }
         },
         modifier = modifier
