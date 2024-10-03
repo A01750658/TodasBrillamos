@@ -269,6 +269,8 @@ class BTVM: ViewModel() {
             try {
                 var orden: Order = Order(carrito, estadoUsuario.value.id)
                 val response = modeloR.addOrderWithToken(orden, estadoUsuario.value.key)
+                println(estadoUsuario.value.key)
+                println(response)
             }
             catch (e: Exception) {
                 println(e)
