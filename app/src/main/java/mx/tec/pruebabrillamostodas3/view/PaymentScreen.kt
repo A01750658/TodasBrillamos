@@ -23,6 +23,17 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
     var approvalUrl by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
 
+    val estadoCarrito by viewModel.estadoCarrito.collectAsState()
+
+    var total=0
+    for (producto in estadoCarrito.productos){
+        if (producto.first.rebaja==0){
+            total += producto.first.precio_normal*producto.second
+        } else{
+            total += producto.first.precio_rebajado*producto.second
+        }
+    }
+
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val savedDeepLinkUriString = sharedPreferences.getString("deep_link_uri", null)
     val deepLinkUri = savedDeepLinkUriString?.let { Uri.parse(it) }
@@ -44,6 +55,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         sharedPreferences.edit().remove("deep_link_uri").apply()
                         paymentsViewModel.readUserData(context, viewModel)
                         paymentsViewModel.delUserData(context)
+
 
                     },
                     onError = { error ->
