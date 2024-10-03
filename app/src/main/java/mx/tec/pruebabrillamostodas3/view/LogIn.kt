@@ -1,7 +1,6 @@
 package mx.tec.pruebabrillamostodas3.view
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -41,11 +40,15 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 /**
+ * Pantalla del inicio de sesión del usuario. Utilza las funciones de elementos de la vista y del viewmodel
  * @author Santiago Chevez
  * @author Andrés Cabrera
- * Pantalla del inicio de sesión del usuario. Utilza las funciones de elementos de la vista y del viewmodel
+ * @author Alan Vega
+ * @author Cesar Flores
  * @param btVM Viewmodel principal de la aplicación.
  * @param navController Controlador de navegación de la aplicación.
+ * @param paymentsVM Viewmodel de pagos.
+ * @param validationsVM Viewmodel de validaciones.
  */
 @Composable
 fun LogIn(
@@ -117,7 +120,7 @@ fun LogIn(
                 )
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.password,
+            InputContrasena(estado.value.password,
                 { nuevoTexto ->
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/

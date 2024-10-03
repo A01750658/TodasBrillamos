@@ -30,10 +30,17 @@ import androidx.compose.ui.unit.sp
 import java.sql.Blob
 
 /**
+ * Boton para seleccionar un producto en la tienda, este muestra información relevante sobre el producto
  * @author Santiago Chevez
  * @author Andrés Cabrera
  * @author Alan Vega
- * Boton para seleccionar un producto en la tienda
+ * @param onClick Funcion que se ejecuta al hacer click en el boton
+ * @param imagen Imagen del producto
+ * @param nombre Nombre del producto
+ * @param precio_n Precio normal del producto
+ * @param precio_r Precio rebajado del producto
+ * @param rebaja Si el producto tiene rebaja o no
+ * @param modifier Modificador para el boton
  */
 
 @Composable

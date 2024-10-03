@@ -60,11 +60,13 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import mx.tec.pruebabrillamostodas3.viewmodel.ValidationsVM
 
 /**
+ * Pantalla para editar la dirección a la que se enviarían los productos
  * @author Santiago Chevez
  * @author Andrés Cabrera
- * Pantalla para editar la dirección en la aplicación
+ * @param btVM Viewmodel principal de la aplicación
+ * @param navController Controlador de navegación de la aplicación
+ * @param validationsVM Viewmodel de validaciones de la aplicación
  */
-
 @Composable
 fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM: ValidationsVM){
     val scrollState = rememberScrollState()

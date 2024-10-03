@@ -34,10 +34,12 @@ import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.foundation.Image
 
 /**
- * @author Alan Vega
+ * Esta función es una pantalla que nos muestra la información más relevante de Zazil.
  * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * @author Alan Vega
+ * @param vModel viewModel principal de la aplicación
  */
-
 @Composable
 fun Info(vModel: BTVM) {
     val context = LocalContext.current

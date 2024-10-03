@@ -36,8 +36,15 @@ import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.R
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
+/**
+ * Esta es la pantalla que se muestra una vez que se ha pasado la validación de recuperar contraseña
+ * @author Cesar Flores
+ * @param btVM Viewmodel principal de la aplicación.
+ * @param navController Controlador de navegación de la aplicación.
+ * @param modifier modificador
+ */
 @Composable
-fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
+fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
@@ -103,7 +110,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
             }
 
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.password,
+            InputContrasena(estado.value.password,
                 { nuevoTexto ->
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
@@ -115,7 +122,7 @@ fun NuevaContraseña(btVM: BTVM, navController: NavHostController, modifier: Mod
                 })
 
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContraseña(estado.value.confirmacion_password,
+            InputContrasena(estado.value.confirmacion_password,
                 { nuevoTexto ->
                     btVM.setIntent(false)
                     valorConfirmacionPassword = nuevoTexto
