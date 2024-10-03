@@ -27,8 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 /**
+ * Pantalla para nueva publicación en nuestro caso, publicar una pregunta que tengas sobre el tema
  * @author Santiago Chevez
- * Pantalla para nueva publicación en el foro
+ * @param navController Controlador de navegación
+ * @param onClick Función que se ejecuta al hacer clic en el botón de publicación
  */
 
 @Composable

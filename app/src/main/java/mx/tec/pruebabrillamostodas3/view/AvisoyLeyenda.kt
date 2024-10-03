@@ -13,15 +13,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import mx.tec.pruebabrillamostodas3.R
 
 /**
+ * Muestra aviso de privacidad y leyenda de devolución de Zazil
  * @author Santiago Chevez
- * Muestra aviso de privacidad
  */
 
 @Composable
@@ -31,12 +35,16 @@ fun AvisoyLeyenda(){
     Box(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.secondary)
+        .paint(
+            painterResource(id = R.drawable.finalback),
+            contentScale = ContentScale.FillBounds)
         .verticalScroll(scrollState))
     {
         Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f))
 
         ){
             Text("Aviso de privacidad y leyenda de devolución",

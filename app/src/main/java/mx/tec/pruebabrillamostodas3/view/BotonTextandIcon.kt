@@ -23,10 +23,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
- * @author Santiago Chevez
  * Boton con texto e icono para redes sociales y contacto
+ * @author Santiago Chevez
+ * @param text Texto del boton
+ * @param icon Icono del boton
+ * @param onClick Funcion que se ejecuta al hacer click en el boton
+ * @param modifier Modificador para el boton
+ * @param color Color del boton
+ * @param fontSize Tamaño de fuente del texto
  */
-
 @Composable
 fun BotonTextandIcon(text: String, icon: ImageVector, onClick: () -> Unit, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.tertiary, fontSize: Int = 25){
     Row(modifier = modifier

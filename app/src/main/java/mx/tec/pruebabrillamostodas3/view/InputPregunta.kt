@@ -20,6 +20,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
+/**
+ * Esta función es la barra de busqueda en la que se buscan las preguntas de los usuarios
+ * @author Santiago Chevez
+ * @author Andrés Cabrera
+ * @param text el texto que esta escribiendo el usuario
+ * @param onValueChange es una función que define lo que debe de hacer cuando el usuario escribe un texto
+ * @param modifier es el modificador
+ * @param onDone es una función que dice que hacer cuando el usario acaba de escribir
+ * @param keyBoardType es el tipo de teclado que se va a usar
+ */
 @Composable
 fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier, onDone: () -> Unit = {}, keyBoardType: KeyboardType = KeyboardType.Text){
     val focusManager = LocalFocusManager.current
@@ -36,7 +46,7 @@ fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modif
         placeholder = {
             Text("Buscar...", color = Color.LightGray)
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
             .background(MaterialTheme.colorScheme.onTertiary),
