@@ -193,11 +193,19 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                 AlertDialog(
                     onDismissRequest = { showDialog = true },
                     title = {
-                        Text(
-                            text = "¡Orden Completa!",
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
+                        if( paymentStatus.contains("successful")){
+                            Text(
+                                text = "¡Orden Completa!",
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                        }else{
+                            Text(
+                                text = "¡Orden Fallida!",
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     },
                     text = {
                         Text(
@@ -214,7 +222,9 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                             modifier = Modifier.fillMaxWidth(),
                             contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
                         ) {
-                            Button(onClick = { showDialog = false }) {
+                            Button(onClick = { showDialog = false
+                                navController.navigate(Pantallas.RUTA_APP_HOME)
+                            }) {
                                 Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
                             }
                         }
