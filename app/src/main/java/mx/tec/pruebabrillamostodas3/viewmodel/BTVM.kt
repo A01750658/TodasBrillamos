@@ -426,6 +426,15 @@ class BTVM: ViewModel() {
             _estadoComentarios.value = modeloR.getComments(getEstadoUsuario().key,id).comentarios
         }
     }
+    /**
+     *Función para solicitar un foro a los administradores
+     * @param pregunta [String] : pregunta del usuario
+     */
+    fun solicitarForo(pregunta:String){
+        viewModelScope.launch {
+            modeloR.addForo(_estadoUsuario.value.key,pregunta)
+        }
+    }
 
     /**
      * Función para enviar un correo

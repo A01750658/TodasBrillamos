@@ -202,7 +202,7 @@ class ModelConnectionR {
         val response : ListaComentario = service.getCommentWithToken(userToken,id)
         return response
     }
-    suspend fun addForo(userToken: String,pregunta:String,respuesta:String) : ResponseFormat{
+    suspend fun addForo(userToken: String,pregunta:String) : ResponseFormat{
         val foro : SolicitudForo = SolicitudForo(pregunta)
         val response : ResponseFormat = service.addForumSolicitationWithToken(foro,userToken)
         return response
