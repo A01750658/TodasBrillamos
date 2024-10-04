@@ -330,11 +330,30 @@ class BTVM: ViewModel() {
         viewModelScope.launch {
             try {
                 val response = modeloR.signUp(user)
+                _estadoErrors.value = _estadoErrors.value.copy(errorUniqueEmail = false)
+                _estadoErrors.value = _estadoErrors.value.copy(errorUniquePhone = false)
                 if (response.result=="error"){
+                    if (response.message == "ORA-00001: unique constraint (WKSP_TODASBRILLAMOS.USUARIO_CON) violated"){
+                        //Throw exception
+                        throw Exception("Ya existe un usuario con ese correo")
+                    }
+                    else if (response.message == "ORA-00001: unique constraint (WKSP_TODASBRILLAMOS.USUARIO_CON_TELEFONO) violated"){
+                        //Throw exception
+                        throw Exception("Ya existe un usuario con ese teléfono")
+                    }
                     throw Exception("Could not create User")
                 }
+                _estadoErrors.value = _estadoErrors.value.copy(errorSignUp = false)
             } catch (e: Exception) {
-                println(e)
+                if (e.message == "Ya existe un usuario con ese correo"){
+                    _estadoErrors.value = _estadoErrors.value.copy(errorUniqueEmail = true)
+                }
+                else if (e.message == "Ya existe un usuario con ese teléfono"){
+                    _estadoErrors.value = _estadoErrors.value.copy(errorUniquePhone = true)
+                }
+                else{
+                    _estadoErrors.value = _estadoErrors.value.copy(errorSignUp = true)
+                }
             }
         }
     }

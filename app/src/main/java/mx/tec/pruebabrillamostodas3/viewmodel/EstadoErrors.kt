@@ -29,5 +29,8 @@ data class EstadoErrors(
     val errorMunicipio: Boolean = false,
     val errorCp: Boolean = false,
     val errorEstado: Boolean = false,
-    val errorCodigo: Boolean = false
+    val errorCodigo: Boolean = false,
+    val errorUniqueEmail: Boolean = false,
+    val errorUniquePhone: Boolean = false,
+    val errorSignUp: Boolean = true
 )

@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -285,6 +286,14 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     )
                 )
             }
+
+            if (estadoErrors.value.errorUniqueEmail){
+                Etiqueta("Ya existe una cuenta con ese correo.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+            }
+            if (estadoErrors.value.errorUniquePhone){
+                Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+            }
+
             Spacer(modifier = Modifier.padding(16.dp))
 
             // Botón para registrarse
@@ -302,7 +311,9 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                         println(valorNombre +" "+ valorApellidoPaterno +" "+ valorApellidoMaterno+ " "+ fecha+ " "+ valorCorreo+ " "+ valorPassword + " "+ valorAvisos+ " "+ valorMarketing+ " "+valortelefono)
                         btVM.signUp(valorNombre, valorApellidoPaterno, valorApellidoMaterno, fecha, valorCorreo, valorPassword, valorAvisos, valorMarketing, valortelefono)
 
-                        navController.navigate(Pantallas.RUTA_LOGIN)
+                        if (!estadoErrors.value.errorSignUp){
+                            navController.navigate(Pantallas.RUTA_LOGIN)
+                        }
 
                     } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
                         btVM.setErrorType(true)
@@ -320,7 +331,8 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     containerColor = MaterialTheme.colorScheme.tertiary,
                     contentColor = MaterialTheme.colorScheme.onTertiary
                 )
-            ) {
+            )
+            {
                 Text(
                     text = "Registrarse",
                     textAlign = TextAlign.Center,
@@ -329,6 +341,12 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     fontSize = 18.sp,
                     color = MaterialTheme.colorScheme.onTertiary
                 )
+            }
+
+            LaunchedEffect(estadoErrors.value.errorSignUp) {
+                if (!estadoErrors.value.errorSignUp) {
+                    navController.navigate(Pantallas.RUTA_LOGIN)
+                }
             }
 
             // Opción para redirigir a la pantalla de inicio de sesión
