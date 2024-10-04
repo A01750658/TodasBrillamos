@@ -51,6 +51,11 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
     val context = LocalContext.current // Contexto de la aplicación
     val estadoCarrito by viewModel.estadoCarrito.collectAsState()
     val estadoUsuario by viewModel.estadoUsuario.collectAsState()
+    var showDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        showDialog = false
+    }
 
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
@@ -87,6 +92,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                     payerId = payerId,
                     onSuccess = { payment ->
                         paymentStatus = "Payment successful: ${payment.id}"
+                        showDialog = true
                         println(paymentStatus)
                         // Clear the deep link data to prevent re-execution
                         //(context as? ComponentActivity)?.intent?.data = null
@@ -96,10 +102,10 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         paymentsViewModel.readUserData(context)
                         //paymentsViewModel.addOrder(context, viewModel)
                         paymentsViewModel.delUserData(context)
-
                     },
                     onError = { error ->
                         paymentStatus = "Failed to execute payment: ${error.message}"
+                        showDialog = true
                         sharedPreferences.edit().remove("deep_link_uri").apply()
                         println(paymentStatus)
                     }
@@ -178,8 +184,27 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             }) {
                 Text("Pay with PayPal")
             }
-    }
-
+            if (showDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = true },
+                    title = { Text(text = "¡Orden Completa!",
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = TextAlign.Center) },
+                    text = {
+                        Text(text = if (paymentStatus.contains("successful")) {
+                            "Tu pago se ha procesado exitosamente. Gracias por tu compra."
+                        } else {
+                            "Hubo un problema con el pago: $paymentStatus"
+                        })
+                    },
+                    confirmButton = {
+                        Button(onClick = { showDialog = false }) {
+                            Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
+                        }
+                    }
+                )
+            }
+        }
     }
 }
 
