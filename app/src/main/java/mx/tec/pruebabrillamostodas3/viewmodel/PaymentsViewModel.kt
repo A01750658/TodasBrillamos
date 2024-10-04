@@ -87,26 +87,6 @@ class PaymentsViewModel: ViewModel() {
         }
     }
 
-    private fun createPaymentRequest(
-        total: String,
-        currency: String,
-        method: String,
-        intent: String,
-        description: String,
-        cancelUrl: String,
-        successUrl: String
-    ): PaymentRequest {
-        return PaymentRequest(
-            total = total,
-            currency = currency,
-            method = method,
-            intent = intent,
-            description = description,
-            cancelUrl = cancelUrl,
-            successUrl = successUrl
-        )
-    }
-
     // Función para ejecutar un pago en paypal después de que el usuario lo aprueba
     fun executePayment(
         paymentId: String,
