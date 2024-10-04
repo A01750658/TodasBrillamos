@@ -332,6 +332,7 @@ class BTVM: ViewModel() {
                 val response = modeloR.signUp(user)
                 _estadoErrors.value = _estadoErrors.value.copy(errorUniqueEmail = false)
                 _estadoErrors.value = _estadoErrors.value.copy(errorUniquePhone = false)
+                _estadoErrors.value = _estadoErrors.value.copy(errorConexion = false)
                 if (response.result=="error"){
                     if (response.message == "ORA-00001: unique constraint (WKSP_TODASBRILLAMOS.USUARIO_CON) violated"){
                         //Throw exception
@@ -352,6 +353,9 @@ class BTVM: ViewModel() {
                     _estadoErrors.value = _estadoErrors.value.copy(errorUniquePhone = true)
                 }
                 else{
+                    if (e is java.net.UnknownHostException && e.message?.contains("apex.oracle.com") == true) {
+                        _estadoErrors.value = _estadoErrors.value.copy(errorConexion = true)
+                    }
                     _estadoErrors.value = _estadoErrors.value.copy(errorSignUp = true)
                 }
             }

@@ -293,6 +293,9 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             if (estadoErrors.value.errorUniquePhone){
                 Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
             }
+            if (estadoErrors.value.errorConexion){
+                Etiqueta("Verifique conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+            }
 
             Spacer(modifier = Modifier.padding(16.dp))
 

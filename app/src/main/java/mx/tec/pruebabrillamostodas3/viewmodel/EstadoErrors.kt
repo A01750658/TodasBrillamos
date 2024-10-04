@@ -32,5 +32,6 @@ data class EstadoErrors(
     val errorCodigo: Boolean = false,
     val errorUniqueEmail: Boolean = false,
     val errorUniquePhone: Boolean = false,
-    val errorSignUp: Boolean = true
+    val errorSignUp: Boolean = true,
+    val errorConexion: Boolean = false
 )
