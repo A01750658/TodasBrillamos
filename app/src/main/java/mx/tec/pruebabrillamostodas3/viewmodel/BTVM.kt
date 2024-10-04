@@ -372,6 +372,7 @@ class BTVM: ViewModel() {
 
         viewModelScope.launch {
             try {
+                _estadoErrors.value = _estadoErrors.value.copy(errorConexion = false)
                 val response = modeloR.getJWTKey(email, password)
 
                 if (response.message != "Success generating token") {
@@ -395,7 +396,12 @@ class BTVM: ViewModel() {
 
 
             } catch (e: Exception) {
-                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+                if (e is java.net.UnknownHostException && e.message?.contains("apex.oracle.com") == true) {
+                    _estadoErrors.value = _estadoErrors.value.copy(errorConexion = true)
+
+                }else{
+                    _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+                }
             }
         }
     }

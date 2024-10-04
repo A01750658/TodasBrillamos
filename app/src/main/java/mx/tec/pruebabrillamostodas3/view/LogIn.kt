@@ -143,6 +143,11 @@ fun LogIn(
                 )
                 btVM.setLoading(false)
             }
+            if (estadoErrors.value.errorConexion){
+                Etiqueta("Verifique conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+                btVM.setLoading(false)
+            }
+
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = { navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
             ElevatedButton(onClick = {
