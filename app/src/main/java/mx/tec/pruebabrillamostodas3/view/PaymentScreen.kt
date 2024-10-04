@@ -41,6 +41,9 @@ import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
  * @param approvalUrl URL de aprobación
  * @param paymentId ID del pago
  * @param payerId ID del pagador
+ * @param sharedPreferences Preferencias compartidas
+ * @param deepLinkUri URI de la dirección profunda
+ * @param showDialog Indicador de diálogo
  *
  */
 
