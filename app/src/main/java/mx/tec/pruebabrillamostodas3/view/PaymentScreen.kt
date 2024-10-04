@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -190,23 +191,36 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = true },
-                    title = { Text(text = "¡Orden Completa!",
-                                    modifier = Modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center) },
+                    title = {
+                        Text(
+                            text = "¡Orden Completa!",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    },
                     text = {
-                        Text(text = if (paymentStatus.contains("successful")) {
-                            "Tu pago se ha procesado exitosamente. Gracias por tu compra."
-                        } else {
-                            "Hubo un problema con el pago: $paymentStatus"
-                        })
+                        Text(
+                            text = if (paymentStatus.contains("successful")) {
+                                "Tu pago se ha procesado exitosamente. Gracias por tu compra."
+                            } else {
+                                "Hubo un problema con el pago: $paymentStatus"
+                            }
+                        )
                     },
                     confirmButton = {
-                        Button(onClick = { showDialog = false }) {
-                            Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
+                        // Centrar el botón usando un Box
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
+                        ) {
+                            Button(onClick = { showDialog = false }) {
+                                Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
+                            }
                         }
                     }
                 )
             }
+
         }
     }
 }
