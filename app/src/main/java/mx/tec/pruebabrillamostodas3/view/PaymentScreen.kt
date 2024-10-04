@@ -103,7 +103,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         sharedPreferences.edit().remove("deep_link_uri").apply() // Limpia el deep link para evitar la reejecución del pago
                         // Lee los datos del usuario actualizados tras el pago y luego los elimina
 
-                        paymentsViewModel.readUserData(context)
+                        paymentsViewModel.readUserData(context, viewModel)
                         //paymentsViewModel.addOrder(context, viewModel)
                         paymentsViewModel.delUserData(context)
                     },
@@ -188,6 +188,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             }) {
                 Text("Pay with PayPal")
             }
+
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = true },

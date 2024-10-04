@@ -30,6 +30,7 @@ const val getOrderInfoWithTokenEndpoint = "get_order/"
 const val updateAddressWithTokenEndpoint = "edit/address/"
 const val getForoWithTokenEndpoint = "get/foro"
 const val getCommentsWithTokenEndpoint = "get/comments"
+const val addForumsolicitationWithTokenEndpoint = "add/foro"
 interface TodasBrillamosAPI
 {
 
@@ -178,4 +179,13 @@ interface TodasBrillamosAPI
      */
     @GET(getCommentsWithTokenEndpoint)
     suspend fun getCommentWithToken(@Query("user_token") user_token : String, @Query("foro_id") id_foro : Int): ListaComentario
+
+    /**
+     * Función p
+     */
+    @Headers(
+        "User-Agent:Retrofit"
+    )
+    @POST(addForumsolicitationWithTokenEndpoint)
+    suspend fun addForumSolicitationWithToken(@Body forum: SolicitudForo, @Query("user_token") user_token : String): ResponseFormat
 }

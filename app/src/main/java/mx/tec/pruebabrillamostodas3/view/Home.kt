@@ -115,8 +115,10 @@ fun Home(navController: NavHostController,btVM: BTVM,paymentsVM: PaymentsViewMod
           //BotonTextandIcon(text = "Contáctanos", icon = Icons.Default.Person, onClick = { navController.navigate(Pantallas.RUTA_CONTACTO)}, color = MaterialTheme.colorScheme.secondaryContainer,fontSize = if (screenOrientation == 1) 25 else 40)
       }
         if(estadoLoginExitoso.value){
+            println("AAAAAAAAAAAAAAAAAAAAAAAAA")
+            print(estado.value)
             paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
-            btVM.setEstadoLogin(false)
+            //btVM.setEstadoLogin(false)
         }
     }
 }

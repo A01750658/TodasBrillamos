@@ -65,6 +65,8 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
     var direccion = ""
     println(estado.value.direccion.calle)
     println(estado.value.direccion.numero_int.toInt())
+    println("HOLA ESTOY EN PERFIL")
+    println(estado.value)
     if (estado.value.direccion.calle != "") {
         if (estado.value.direccion.numero_int == "" || estado.value.direccion.numero_int.toInt() == -1 || estado.value.direccion.numero_int.toInt() == 0){
             direccion="${estado.value.direccion.calle} #${estado.value.direccion.numero_exterior}, ${estado.value.direccion.colonia}, ${estado.value.direccion.municipio}, ${estado.value.direccion.estado}, C.P. ${estado.value.direccion.cp}"

@@ -111,6 +111,7 @@ class PaymentsViewModel: ViewModel() {
 
     // Función para guardar los datos del usuario
     fun saveUserData(context: Context, username: String,password: String,email : String,token:String,user_id : Int) {
+        println("ENtered saving data")
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
                 preferences[PreferencesKeys.username_saved] = username
@@ -147,7 +148,7 @@ class PaymentsViewModel: ViewModel() {
     }
 
     // Función para leer los datos del usuario y hacer login
-    fun readUserData(context: Context, btvm : BTVM = BTVM()) {
+    fun readUserData(context: Context, btvm : BTVM) {
         viewModelScope.launch {
             context.dataStore.data.collect { preferences ->
                 val username = preferences[PreferencesKeys.username_saved]
@@ -156,11 +157,14 @@ class PaymentsViewModel: ViewModel() {
                 val orden = preferences[PreferencesKeys.user_order]
                 val token = preferences[PreferencesKeys.user_token]
                 val user_id = preferences[PreferencesKeys.user_id]
-                print("THIS IS THE USER TOKEN "+token)
-                if (username != null && password != null && email != null) {
-                    btvm.login(username, password);
+                println("THIS IS THE USER TOKEN "+token)
+                if (username != null && password != null) {
+                    println("I am about to log in with: ${username} , ${password}")
+
+                    btvm.login(username, password)
 
                     if (orden!=null && token!=null && user_id!=null){
+                        println("I am about to enter order with ${orden}, token = ${token}")
                         btvm.addOrder(orden,token,user_id)
                     }
                 }

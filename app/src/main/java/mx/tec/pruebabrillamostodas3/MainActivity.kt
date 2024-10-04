@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
     }
     override fun onStart(){
         super.onStart()
-        println("aaaaaaaaaaaaaaaaaa Chino message")
+        println("Booting")
         println(btVM.getEstadoUsuario())
     }
 

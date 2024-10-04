@@ -366,7 +366,9 @@ class BTVM: ViewModel() {
                 setCorreoUsuario(email)
                 getProductos()
                 println("LOGIN EXITOSO CRACK")
+                println("SOY VIEW MODEL")
                 _estadoLoginExitoso.value = true
+                println(_estadoUsuario.value)
 
 
             } catch (e: Exception) {
