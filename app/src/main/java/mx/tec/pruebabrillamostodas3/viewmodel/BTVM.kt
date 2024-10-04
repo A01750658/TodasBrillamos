@@ -119,7 +119,9 @@ class BTVM: ViewModel() {
     //Comentarios los comentarios de cada foro que se van a mostrar en la vista
     private val _estadoComentarios : MutableStateFlow<List<Comentario>> = MutableStateFlow<List<Comentario>>(listOf())
     val estadoComentarios: StateFlow<List<Comentario>> = _estadoComentarios
-
+    //
+    private val _estadoLoginExitoso :MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val estadoLoginExistoso :StateFlow<Boolean> = _estadoLoginExitoso
     /**
      * Función que obtiene los productos del modelo
      * @author Iker Fuentes
@@ -344,6 +346,7 @@ class BTVM: ViewModel() {
      * @param password Contraseña del usuario
      */
     fun login(email : String, password: String){
+
         viewModelScope.launch {
             try {
                 val response = modeloR.getJWTKey(email, password)
@@ -362,11 +365,18 @@ class BTVM: ViewModel() {
                 setTelefonoUsuario(userData.telefono)
                 setCorreoUsuario(email)
                 getProductos()
+                println("LOGIN EXITOSO CRACK")
+                _estadoLoginExitoso.value = true
+
 
             } catch (e: Exception) {
                 _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
             }
         }
+    }
+
+    fun setEstadoLogin(state : Boolean){
+        _estadoLoginExitoso.value = state
     }
 
     /**

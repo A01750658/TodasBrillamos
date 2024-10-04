@@ -38,8 +38,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 import androidx.compose.foundation.Image
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import mx.tec.pruebabrillamostodas3.R
+import mx.tec.pruebabrillamostodas3.viewmodel.PaymentsViewModel
 
 /**
  * Pantalla principal de la aplicación donde se muestra información de la marca y sobre la aplicación
@@ -49,10 +52,13 @@ import mx.tec.pruebabrillamostodas3.R
  * @param navController necesario para navegar entre distintas pantallas
  */
 @Composable
-fun Home(navController: NavHostController){
+fun Home(navController: NavHostController,btVM: BTVM,paymentsVM: PaymentsViewModel){
     val scrollState = rememberScrollState()
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
+    val estadoLoginExitoso = btVM.estadoLoginExistoso.collectAsState()
+    val estado = btVM.estadoUsuario.collectAsState()
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -108,5 +114,11 @@ fun Home(navController: NavHostController){
           BotonTextandIcon(text = " Conócenos",icon = Icons.Default.Info, onClick = {navController.navigate(Pantallas.RUTA_INFO)},color = MaterialTheme.colorScheme.primaryContainer, fontSize = if (screenOrientation == 1) 25 else 40)
           //BotonTextandIcon(text = "Contáctanos", icon = Icons.Default.Person, onClick = { navController.navigate(Pantallas.RUTA_CONTACTO)}, color = MaterialTheme.colorScheme.secondaryContainer,fontSize = if (screenOrientation == 1) 25 else 40)
       }
+        if(estadoLoginExitoso.value){
+            paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
+            btVM.setEstadoLogin(false)
+        }
+
     }
+
 }

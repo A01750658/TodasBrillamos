@@ -210,7 +210,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_PAGOS,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
-            Home(navController)
+            Home(navController,btVM,paymentsVM)
         }
         composable(Pantallas.RUTA_REDES){
             Redes(btVM)

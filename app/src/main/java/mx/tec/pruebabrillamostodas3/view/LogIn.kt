@@ -60,6 +60,7 @@ fun LogIn(
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
+    val estadoLoginExitoso = btVM.estadoLoginExistoso.collectAsState()
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
     val context = LocalContext.current
@@ -69,7 +70,8 @@ fun LogIn(
             .fillMaxSize()
             .paint(
                 painterResource(id = R.drawable.finalback),
-                contentScale = ContentScale.FillBounds)
+                contentScale = ContentScale.FillBounds
+            )
             .verticalScroll(scrollState),
 
         ){
@@ -147,7 +149,8 @@ fun LogIn(
                 if (!estadoErrors.value.errorLogin) {
                     btVM.setLoading(true)
                     btVM.login(estado.value.correo, estado.value.password)
-                    paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
+
+                    //paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
                 }
             },
                 Modifier
@@ -178,7 +181,9 @@ fun LogIn(
             Spacer(modifier = Modifier.padding(16.dp))
 
         }
+
     }
+
 }
 
 
