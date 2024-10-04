@@ -118,7 +118,5 @@ fun Home(navController: NavHostController,btVM: BTVM,paymentsVM: PaymentsViewMod
             paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
             btVM.setEstadoLogin(false)
         }
-
     }
-
 }
