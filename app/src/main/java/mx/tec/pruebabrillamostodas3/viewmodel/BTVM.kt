@@ -991,7 +991,11 @@ class BTVM: ViewModel() {
     fun setShowDatePicker(show: Boolean) {
         _showDatePicker.value = show
     }
-
+    /**
+     * Para cambiar el valor del estado busqueda Foro
+     * @author Santiago Chevez
+     * @param text el valor que tiene que tomar
+     */
     fun setEstadoBusquedaForo(text: String){
         _estadoBusquedaForo.value = text
     }
