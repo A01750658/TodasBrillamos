@@ -216,7 +216,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             Redes(btVM)
         }
         composable(Pantallas.RUTA_FOROS){
-            Foros(navController)
+            Foros(btVM, navController)
         }
         composable(Pantallas.RUTA_PERFIL){
             Perfil(btVM, navController)
@@ -252,10 +252,10 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             NuevaContrasena(btVM, navController)
         }
         composable(Pantallas.RUTA_CREARFORO){
-            CrearForo(navController){}
+            CrearForo(btVM, navController)
         }
         composable(Pantallas.RUTA_FORO+"/{idforo}"){
-            TempleteForo(idForo = it.arguments?.getString("idforo")!!)
+            TempleteForo(btVM,idForo = it.arguments?.getString("idforo")!!)
         }
         composable(Pantallas.RUTA_PAGOS){
             PaymentScreen(btVM,paymentsVM, navController)

@@ -1,6 +1,7 @@
 package mx.tec.pruebabrillamostodas3.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,10 +19,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import androidx.compose.material3.CardDefaults.cardColors
+import androidx.compose.ui.graphics.Color
 
 /**
  * Este es el template para todos los foros que vayan a haber en la aplicación
@@ -37,23 +43,26 @@ import androidx.compose.ui.unit.dp
  *
  */
 @Composable
-fun TempleteForo(idForo: String) {
-    // Lista de respuestas de ejemplo.
-    var respuestas = listOf("Respuesta 1", "Respuesta 2", "Respuesta 3")
+fun TempleteForo(btVM: BTVM, idForo: String) {
+    // Estado listando las respuestas.
+    val estadoForo by btVM.estadoForo.collectAsState()
+    val estadoComentarios by btVM.estadoComentarios.collectAsState()
+    var pregunta=""
+    for (foro in estadoForo) {
+        if (foro.id == idForo.toInt()) {
+            pregunta = foro.pregunta
+        }
+    }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.secondary)
     ) {
         Column {
-            // Título que muestra la pregunta del foro.
-            Titulo(
-                "Pregunta",
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                fontSize = 90
-            )
+
             // Subtítulo que contiene la pregunta realizada en base al id del foro.
-            Subtitulo("¿Pregunta? $idForo")
+            Subtitulo(pregunta, fontSize = 40, lineHeight = 60)
 
             HorizontalDivider(
                 thickness = 2.dp,
@@ -63,19 +72,22 @@ fun TempleteForo(idForo: String) {
             Spacer(modifier = Modifier.padding(8.dp).fillMaxWidth() )
 
             // Indica la sección de respuestas.
-            Subtitulo("Respuestas")
+            Subtitulo("Respuesta(s)", fontSize = 20, lineHeight = 40)
 
             // Lista de respuestas.
             LazyColumn {
-                for (i in respuestas) {
+                for (comentario in estadoComentarios) {
                     item {
                         ElevatedCard(
                             modifier = Modifier
-                                .padding(8.dp)
+                                .padding(8.dp),
+                            colors = cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                            )
                         ) {
                             // Muestra cada respuesta centrada dentro de la tarjeta.
                             Text(
-                                text = i,
+                                text = comentario.respuesta,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()

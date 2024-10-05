@@ -85,7 +85,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //HTTP
+    //HTTP QUITAR
     val ktor_version = "2.0.0"
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
@@ -101,7 +101,7 @@ dependencies {
     //Paypal
     implementation("com.paypal.sdk:rest-api-sdk:1.14.0")
 
-    //Auth
+    //Auth QUITAR
     implementation("io.ktor:ktor-client-auth:2.0.0")
     implementation("io.ktor:ktor-server-auth:$ktor_version")
     //implementation("io.ktor:ktor-client-auth-jvm:2.0.0")

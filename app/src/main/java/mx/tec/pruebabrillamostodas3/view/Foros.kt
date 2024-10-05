@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,10 +32,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
+import androidx.compose.material3.CardDefaults.cardColors
 
 /**
  * Pantalla donde se muestran las publicaciones en el foro en nuestro caso preguntas frecuentes o preguntas realizadas por los usuarios
@@ -44,11 +48,17 @@ import androidx.navigation.NavHostController
  * @param navController controlador de navegación de la aplicación
  */
 @Composable
-fun Foros(navController: NavHostController) {
-    var searchText by remember { mutableStateOf("") }
+fun Foros(btVM: BTVM, navController: NavHostController) {
+
     //Variable para concocener la orientación de la pantalla
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
+    //Estado Foro
+    val estadoListaForo by btVM.estadoForo.collectAsState()
+    //Estado Busqueda
+    val estadoBusqueda by btVM.estadoBusquedaForo.collectAsState()
+    val colors: List<Color> = listOf( MaterialTheme.colorScheme.tertiary, MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.secondaryContainer)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -91,7 +101,8 @@ fun Foros(navController: NavHostController) {
                     color = MaterialTheme.colorScheme.primaryContainer
                 )
             }
-            InputPregunta(text =searchText, onValueChange ={ nuevoTexto -> searchText = nuevoTexto} )
+            InputPregunta(text =estadoBusqueda, onValueChange ={ nuevoTexto -> btVM.setEstadoBusquedaForo(nuevoTexto)
+                println(estadoBusqueda)} )
             HorizontalDivider(
                 color = MaterialTheme.colorScheme.primary,
                 thickness = 2.dp
@@ -99,20 +110,28 @@ fun Foros(navController: NavHostController) {
             //Se muestran las publicaciones
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumn{
-                    for (i in 1..3) {
-                        item {
-                            ElevatedCard(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .clickable(onClick = { navController.navigate(Pantallas.RUTA_FORO+"/$i") })
-                            ) {
-                                Text(
-                                    text = "Foro $i",
-                                    textAlign = TextAlign.Center,
+                    for (foro in estadoListaForo) {
+                        if (estadoBusqueda.isEmpty() || foro.pregunta.contains(estadoBusqueda, ignoreCase = true)) {
+                            item {
+                                ElevatedCard(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(24.dp)
-                                )
+                                        .padding(8.dp)
+                                        .clickable(onClick = {
+                                            btVM.getComments(foro.id)
+                                            navController.navigate(Pantallas.RUTA_FORO + "/${foro.id}")
+                                        }),
+                                    colors = cardColors(
+                                        containerColor = colors[foro.id % colors.size].copy(alpha = 0.5f)
+                                    )
+                                ) {
+                                    Text(
+                                        text = foro.pregunta,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(24.dp)
+                                    )
+                                }
                             }
                         }
                     }

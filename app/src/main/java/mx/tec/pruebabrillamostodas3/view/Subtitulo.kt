@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
  * @param color Color del subtitulo
  */
 @Composable
-fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.secondaryContainer,fontSize: Int = 16){
+fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.secondaryContainer,fontSize: Int = 16, lineHeight: Int = 24){
     Text(
         text = text,
         fontSize = fontSize.sp,
@@ -34,6 +34,7 @@ fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = Materi
         fontStyle = FontStyle.Italic,
         color = color,
         modifier = modifier.padding(bottom = 15.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        lineHeight = lineHeight.sp
     )
 }

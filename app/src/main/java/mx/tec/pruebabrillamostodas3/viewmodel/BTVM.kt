@@ -122,6 +122,11 @@ class BTVM: ViewModel() {
     //
     private val _estadoLoginExitoso :MutableStateFlow<Boolean> = MutableStateFlow(false)
     val estadoLoginExistoso :StateFlow<Boolean> = _estadoLoginExitoso
+
+    //Estado busqueda de foro
+    private val _estadoBusquedaForo : MutableStateFlow<String> = MutableStateFlow("")
+    val estadoBusquedaForo : StateFlow<String> = _estadoBusquedaForo
+
     /**
      * Función que obtiene los productos del modelo
      * @author Iker Fuentes
@@ -393,6 +398,7 @@ class BTVM: ViewModel() {
                 println("SOY VIEW MODEL")
                 _estadoLoginExitoso.value = true
                 println(_estadoUsuario.value)
+                getForos()
 
 
             } catch (e: Exception) {
@@ -984,6 +990,10 @@ class BTVM: ViewModel() {
      */
     fun setShowDatePicker(show: Boolean) {
         _showDatePicker.value = show
+    }
+
+    fun setEstadoBusquedaForo(text: String){
+        _estadoBusquedaForo.value = text
     }
 
 }

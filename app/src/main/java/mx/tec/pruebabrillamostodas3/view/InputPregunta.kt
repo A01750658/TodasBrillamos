@@ -36,7 +36,7 @@ fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modif
     OutlinedTextField(value = text,
         onValueChange = {
             onValueChange(it)
-            onSearch(it)},
+            },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -59,8 +59,4 @@ fun InputPregunta(text: String, onValueChange: (String) -> Unit, modifier: Modif
             focusManager.clearFocus()
         }
     ))
-}
-fun onSearch(it: String){
-    println("Buscando $it")
-
 }

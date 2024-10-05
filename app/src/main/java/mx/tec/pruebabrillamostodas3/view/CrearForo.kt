@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import mx.tec.pruebabrillamostodas3.viewmodel.BTVM
 
 /**
  * Pantalla para nueva publicación en nuestro caso, publicar una pregunta que tengas sobre el tema
@@ -34,7 +35,7 @@ import androidx.navigation.NavHostController
  */
 
 @Composable
-fun CrearForo(navController: NavHostController, onClick: () -> Unit) {
+fun CrearForo(btVM: BTVM, navController: NavHostController) {
     var pregunta by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
@@ -71,6 +72,7 @@ fun CrearForo(navController: NavHostController, onClick: () -> Unit) {
             TextButton(
                 onClick = {
                     println("Publicando $pregunta")
+                    btVM.solicitarForo(pregunta)
                     navController.navigateUp()
                           },
                 Modifier.padding(horizontal = 100.dp)
