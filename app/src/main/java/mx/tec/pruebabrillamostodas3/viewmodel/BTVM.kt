@@ -21,8 +21,12 @@ import mx.tec.pruebabrillamostodas3.model.Producto
 import mx.tec.pruebabrillamostodas3.model.Usuario
 import android.content.SharedPreferences
 import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.viewmodel.compose.viewModel
 import mx.tec.pruebabrillamostodas3.PreferencesKeys
 import mx.tec.pruebabrillamostodas3.dataStore
+import mx.tec.pruebabrillamostodas3.model.OrderInfo
+import mx.tec.pruebabrillamostodas3.model.Orderproducts
+import mx.tec.pruebabrillamostodas3.model.Orders
 
 
 /**
@@ -126,6 +130,9 @@ class BTVM: ViewModel() {
     //Estado busqueda de foro
     private val _estadoBusquedaForo : MutableStateFlow<String> = MutableStateFlow("")
     val estadoBusquedaForo : StateFlow<String> = _estadoBusquedaForo
+    //Estado búsqeuda órdenes
+    private val _estadoHistorialOrden : MutableStateFlow<HashMap<Int,List<Orderproducts>>> = MutableStateFlow<HashMap<Int,List<Orderproducts>>>(hashMapOf())
+    val estadoHistorialOrden : StateFlow<HashMap<Int,List<Orderproducts>>> = _estadoHistorialOrden
 
     /**
      * Función que obtiene los productos del modelo
@@ -411,9 +418,26 @@ class BTVM: ViewModel() {
             }
         }
     }
-
+    /**
+     * Función para cambiar el valor del estado de login
+     * @param state [Boolean] : valor para cambiar
+     */
     fun setEstadoLogin(state : Boolean){
         _estadoLoginExitoso.value = state
+    }
+    /**
+     *
+     */
+    fun getOrderHistory() {
+        viewModelScope.launch {
+            try{
+                _estadoHistorialOrden.value = modeloR.getOrderInfo(_estadoUsuario.value.key)
+            }
+            catch (e: Exception){
+                println(e)
+            }
+
+        }
     }
 
     /**
