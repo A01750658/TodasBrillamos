@@ -49,18 +49,14 @@ import mx.tec.pruebabrillamostodas3.viewmodel.EstadoProducto
  * @param navController Controlador de navegación de la aplicación.
  */
 @Composable
-fun Detalles(btVM: BTVM, modifier: Modifier, navController: NavController){
+fun Detalles(btVM: BTVM){
 
     val estadoHistorialOrden by btVM.estadoHistorialOrden.collectAsState()
     val estadoSeleccionado by btVM.estadoSeleccionado.collectAsState()
     val productos = estadoHistorialOrden[estadoSeleccionado]
     println("ORDEN")
     println(estadoSeleccionado)
-    var total=0
     if (productos != null) {
-        for (producto in productos) {
-            total += producto.total
-        }
         //Tabla de los productos y el total que se pago
         LazyColumn(Modifier.fillMaxWidth()) {
             item {
@@ -84,15 +80,6 @@ fun Detalles(btVM: BTVM, modifier: Modifier, navController: NavController){
                         )
                         Text(
                             text = "Cantidad",
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 24.dp)
-                                .weight(2f),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = "Precio",
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -138,15 +125,6 @@ fun Detalles(btVM: BTVM, modifier: Modifier, navController: NavController){
                                 .weight(2f),
                             style = MaterialTheme.typography.bodyMedium
                         )
-                        Text(
-                            text = "$${producto.total}",
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 24.dp)
-                                .weight(2f),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
                     }
                 }
             }
@@ -170,7 +148,7 @@ fun Detalles(btVM: BTVM, modifier: Modifier, navController: NavController){
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = "$$total",
+                            text = "$${productos[0].total}",
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()

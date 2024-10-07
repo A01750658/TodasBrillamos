@@ -189,7 +189,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                     Text(
-                                        text = "\$ 100.00",
+                                        text = "$ ${orden.value[0].total}",
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -222,7 +222,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
         }
         if (showMenu) {
             ModalBottomSheet(onDismissRequest = { showMenu = false }) {
-                Detalles(viewModel, modifier, navController)
+                Detalles(viewModel)
             }
         }
     }

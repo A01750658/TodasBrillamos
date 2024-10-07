@@ -161,8 +161,10 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                 ElevatedButton(
                     onClick = { // Añade el producto al carrito y navega a la pantalla del carrito
                         println("Añadiendo producto ${estadoListaProducto[estadoSeleccionado].id}")
-                        btVM.addProducto(producto, estadoAnadirProducto.second)
-                        navController.navigate("Carrito")
+                        if(estadoAnadirProducto.second > 0) {
+                            btVM.addProducto(producto, estadoAnadirProducto.second)
+                            navController.navigate("Carrito")
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.tertiary,

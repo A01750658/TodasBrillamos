@@ -77,8 +77,6 @@ import androidx.compose.ui.text.style.TextAlign
  * @param selectedCategoria Categoría seleccionada.
  *
  */
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController) {

@@ -257,6 +257,23 @@ class BTVM: ViewModel() {
      */
     fun addProducto(producto: EstadoProducto, cantidad: Int) {
         estadoCarrito.value.productos.add(Pair(producto, cantidad))
+        var i = 0
+//        for (productol in _estadoListaProducto.value){
+//            if(productol.id==producto.id){
+//                _estadoListaProducto.value[i]=_estadoListaProducto.value[i].copy(cantidad= _estadoListaProducto.value[i].cantidad-cantidad)
+//            } else{
+//                i+=1
+//            }
+//        }
+//        i=0
+        for (productol in copiaListaProductos){
+            if(productol.id==producto.id){
+                copiaListaProductos[i]=copiaListaProductos[i].copy(cantidad= copiaListaProductos[i].cantidad-cantidad)
+            } else{
+                i+=1
+            }
+        }
+
     }
 
     /**
@@ -269,6 +286,14 @@ class BTVM: ViewModel() {
         val newProductos = estadoCarrito.value.productos.toMutableList()
         newProductos.remove(Pair(producto, cantidad))
         _estadoCarrito.value = estadoCarrito.value.copy(productos = newProductos)
+        var i = 0
+        for (productol in copiaListaProductos){
+            if(productol.id==producto.id){
+                copiaListaProductos[i]=copiaListaProductos[i].copy(cantidad= copiaListaProductos[i].cantidad+cantidad)
+            } else{
+                i+=1
+            }
+        }
     }
 
 
@@ -825,6 +850,9 @@ class BTVM: ViewModel() {
     fun setEstadoAnadirCarrito(producto: EstadoProducto){
         if (_estadoanadirCarrito.value.first != producto){
             _estadoanadirCarrito.value = Pair(producto,1)
+        }
+        if (producto.cantidad<=0){
+            _estadoanadirCarrito.value = Pair(producto,0)
         }
     }
 
