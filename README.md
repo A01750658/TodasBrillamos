@@ -1,4 +1,4 @@
-Todas Brillamos
+# Todas Brillamos
 **Autores**: *Carlos Iker Reyes, Santiago Chevez Trejo, Andrés Cabrera Alvarado, Alan Rodrigo Vega Reza, Cesar Augusto Flores Reyes*.
 
 ## Proposito
