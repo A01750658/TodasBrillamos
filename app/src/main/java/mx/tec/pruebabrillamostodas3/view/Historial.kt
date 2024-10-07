@@ -103,60 +103,58 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                         .padding(8.dp)
                         .fillMaxWidth()
                 )
+                ElevatedCard(
+                    modifier = Modifier
+                        .padding(1.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiary
+                    )
+                ) {
+                    Row {
+                        Text(
+                            text = "# Orden",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 24.dp)
+                                .weight(2f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Fecha de Compra",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 24.dp)
+                                .weight(2f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Total",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 24.dp)
+                                .weight(2f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Estado",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 24.dp)
+                                .weight(2f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
                 // Tabla de la lista de órdenes
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    item {
-                        ElevatedCard(
-                            modifier = Modifier
-                                .padding(1.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiary
-                            )
-                        ) {
-                            Row {
-                                Text(
-                                    text = "# Orden",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = "Fecha de Compra",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = "Total",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = "Estado",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                            }
-                        }
-                    }
                     for (orden in estadoHistorialOrden) {
                         item {
                             ElevatedCard(
@@ -182,7 +180,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                     Text(
-                                        text = "fecha",
+                                        text = orden.value[0].fecha_pedido,
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -200,7 +198,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                     Text(
-                                        text = "Entregado",
+                                        text = orden.value[0].estado,
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -209,11 +207,16 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }
-
                             }
                         }
                     }
-
+                    item {
+                        HorizontalDivider(
+                            thickness = 2.dp,
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                 }
             }
         }

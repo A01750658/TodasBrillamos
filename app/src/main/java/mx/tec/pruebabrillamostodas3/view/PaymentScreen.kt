@@ -82,7 +82,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
         }
 
     }
-    else{ direccion = "No hay dirección de envío registrada"}
+    else{ direccion = ""}
 
     val total: Float = estadoCarrito.total
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
