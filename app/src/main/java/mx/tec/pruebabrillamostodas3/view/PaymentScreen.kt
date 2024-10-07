@@ -3,6 +3,7 @@ package mx.tec.pruebabrillamostodas3.view
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -104,7 +105,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         showDialog = true
                         println(paymentStatus)
                         // Clear the deep link data to prevent re-execution
-                        //(context as? ComponentActivity)?.intent?.data = null
+                        (context as? ComponentActivity)?.intent?.data = null
                         sharedPreferences.edit().remove("deep_link_uri").apply() // Limpia el deep link para evitar la reejecución del pago
                         // Lee los datos del usuario actualizados tras el pago y luego los elimina
 
