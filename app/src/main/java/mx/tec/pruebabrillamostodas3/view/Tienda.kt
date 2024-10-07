@@ -231,7 +231,9 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
 
         // Botón para navegar al historial de compras
         FloatingActionButton(
-            onClick = { navController.navigate(Pantallas.RUTA_HISTORIAL) },
+            onClick = {
+                viewModel.getOrderHistory()
+                navController.navigate(Pantallas.RUTA_HISTORIAL) },
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             modifier = Modifier

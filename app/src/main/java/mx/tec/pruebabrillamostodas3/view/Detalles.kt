@@ -49,163 +49,138 @@ import mx.tec.pruebabrillamostodas3.viewmodel.EstadoProducto
  * @param navController Controlador de navegación de la aplicación.
  */
 @Composable
-fun Detalles(btVM: BTVM, modifier: Modifier, navController: NavController ){
-    val estadoCarrito by btVM.estadoCarrito.collectAsState()
+fun Detalles(btVM: BTVM, modifier: Modifier, navController: NavController){
 
+    val estadoHistorialOrden by btVM.estadoHistorialOrden.collectAsState()
+    val estadoSeleccionado by btVM.estadoSeleccionado.collectAsState()
+    val productos = estadoHistorialOrden[estadoSeleccionado]
+    println("ORDEN")
+    println(estadoSeleccionado)
     var total=0
-    for (producto in estadoCarrito.productos){
-        if (producto.first.rebaja==0){
-            total += producto.first.precio_normal*producto.second
-        } else{
-            total += producto.first.precio_rebajado*producto.second
+    if (productos != null) {
+        for (producto in productos) {
+            total += producto.total
         }
-    }
-    //Tabla de los productos y el total que se pago
-    LazyColumn(Modifier.fillMaxWidth()) {
-        item {
-            ElevatedCard(
-                modifier = Modifier
-                    .padding(8.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary
-                )
-            ) {
-                Row {
-                    Text(
-                        text = "Producto",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 24.dp)
-                            .weight(3f),
-                        style = MaterialTheme.typography.bodyMedium
+        //Tabla de los productos y el total que se pago
+        LazyColumn(Modifier.fillMaxWidth()) {
+            item {
+                ElevatedCard(
+                    modifier = Modifier
+                        .padding(8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        contentColor = MaterialTheme.colorScheme.onTertiary
                     )
-                    Text(
-                        text = "Cantidad",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 24.dp)
-                            .weight(2f),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Text(
-                        text = "Precio",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 24.dp)
-                            .weight(2f),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
-        }
-        items(estadoCarrito.productos) { producto ->
-            ElevatedCard(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .padding(bottom = 4.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onTertiary
-                )
-            ) {
-                Row {
-                    Column(modifier = Modifier.weight(3f),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally) {
-
-                        Image(
-                            painter = BitmapPainter(
-                                Image(producto.first.imagen).asImageBitmap()
-                            ),
-                            contentDescription = "Elemento",
-                            modifier = Modifier
-                                .width(60.dp)
-                                .height(70.dp)
-                                .padding(top = 30.dp)
-                        )
+                ) {
+                    Row {
                         Text(
-                            text = producto.first.nombre,
+                            text = "Producto",
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 24.dp),
+                                .padding(vertical = 24.dp)
+                                .weight(3f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Cantidad",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 24.dp)
+                                .weight(2f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Precio",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 24.dp)
+                                .weight(2f),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
-                    Text(
-                        text = producto.second.toString(),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 95.dp)
-                            .weight(2f),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Text(
-                        text = if (producto.first.rebaja==0) "$${producto.first.precio_normal * producto.second}" else "$${producto.first.precio_normal * producto.second}",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 95.dp)
-                            .weight(2f),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
                 }
             }
-        }
-        item {
-            ElevatedCard(
-                modifier = Modifier
-                    .padding(8.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onTertiary
-                )
-            ) {
-                Row {
-                    Text(
-                        text = "Total:",
-                        textAlign = TextAlign.Right,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                            .weight(3f),
-                        style = MaterialTheme.typography.bodyMedium
+            items(productos) { producto ->
+                ElevatedCard(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .padding(bottom = 4.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiary
                     )
-                    Text(
-                        text = "$$total",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                            .weight(2f),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                ) {
+                    Row {
+                        Column(
+                            modifier = Modifier.weight(3f),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+
+                            Text(
+                                text = producto.nombre,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 24.dp),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                        Text(
+                            text = producto.cantidad.toString(),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 24.dp)
+                                .weight(2f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "$${producto.total}",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 24.dp)
+                                .weight(2f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
             }
-        }
-        item {
-            Button(
-                onClick = {
-                    navController.navigate(Pantallas.RUTA_CARRITO)
-                },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-            ) {
-                Text(
-                    text = "Volver a ordenar",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onTertiary
-                )
+            item {
+                ElevatedCard(
+                    modifier = Modifier
+                        .padding(8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiary
+                    )
+                ) {
+                    Row {
+                        Text(
+                            text = "Total:",
+                            textAlign = TextAlign.Right,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp)
+                                .weight(3f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "$$total",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp)
+                                .weight(2f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
             }
-        }
-        item {
-            Spacer(modifier = Modifier.padding(35.dp))
         }
     }
 }
