@@ -408,6 +408,7 @@ class BTVM: ViewModel() {
                 getForos()
 
 
+
             } catch (e: Exception) {
                 if (e is java.net.UnknownHostException && e.message?.contains("apex.oracle.com") == true) {
                     _estadoErrors.value = _estadoErrors.value.copy(errorConexion = true)
@@ -432,6 +433,7 @@ class BTVM: ViewModel() {
         viewModelScope.launch {
             try{
                 _estadoHistorialOrden.value = modeloR.getOrderInfo(_estadoUsuario.value.key)
+                println(_estadoHistorialOrden.value)
             }
             catch (e: Exception){
                 println(e)

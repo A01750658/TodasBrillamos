@@ -59,6 +59,8 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
     // Obtenemos la orientación de la pantalla
     val screenOrientation = configuration.orientation
     var showMenu by remember { mutableStateOf(false) }
+    val estadoHistorialOrden by viewModel.estadoHistorialOrden.collectAsState()
+    val ordenesList = estadoHistorialOrden.toList()
 
     Box(
         modifier = Modifier
@@ -155,55 +157,60 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                             }
                         }
                     }
-                    item {
-                        ElevatedCard(
-                            onClick = { showMenu = true },
-                            modifier = Modifier
-                                .padding(1.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiary
-                            )
-                        ) {
-                            Row {
-                                Text(
-                                    text = "1",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
+                    for (orden in estadoHistorialOrden) {
+                        item {
+                            ElevatedCard(
+                                onClick = {
+                                    viewModel.setEstadoSeleccionado(orden.key)
+                                    showMenu = true
+                                },
+                                modifier = Modifier
+                                    .padding(1.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onTertiary
                                 )
-                                Text(
-                                    text = "01/01/2021",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = "\$ 100.00",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = "Entregado",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                            }
+                            ) {
+                                Row {
+                                    Text(
+                                        text = orden.key.toString(),
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 24.dp)
+                                            .weight(2f),
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    Text(
+                                        text = "fecha",
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 24.dp)
+                                            .weight(2f),
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    Text(
+                                        text = "\$ 100.00",
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 24.dp)
+                                            .weight(2f),
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    Text(
+                                        text = "Entregado",
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 24.dp)
+                                            .weight(2f),
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
 
+                            }
                         }
                     }
 
