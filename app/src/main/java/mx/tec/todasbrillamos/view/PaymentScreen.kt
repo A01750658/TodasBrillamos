@@ -61,7 +61,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
     var showDialog by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
 
-    paymentsViewModel.saveUserData(context,estadoUsuario.correo,estadoUsuario.password,estadoUsuario.correo,estadoUsuario.key,estadoUsuario.id)
+    //paymentsViewModel.saveUserData(context,estadoUsuario.correo,estadoUsuario.password,estadoUsuario.correo,estadoUsuario.key,estadoUsuario.id)
 
 
     LaunchedEffect(Unit) {

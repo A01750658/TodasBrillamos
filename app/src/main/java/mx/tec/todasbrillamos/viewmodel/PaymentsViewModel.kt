@@ -115,7 +115,8 @@ class PaymentsViewModel: ViewModel() {
                 preferences[PreferencesKeys.username_saved] = username
                 preferences[PreferencesKeys.password_saved] = password
                 preferences[PreferencesKeys.user_email] = email
-                print("I AM SAVING DATA: "+token)
+                println("I AM SAVING DATA: "+token)
+                println("I AM SAVING THE PASSWORD "+password)
                 preferences[PreferencesKeys.user_token] = token
                 preferences[PreferencesKeys.user_id] = user_id
             }
@@ -126,8 +127,7 @@ class PaymentsViewModel: ViewModel() {
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
                 preferences[PreferencesKeys.user_order] = btvm.createDataInfo(estadoCarrito.productos)
-                print("Guardé info del carrito")
-                println(btvm.createDataInfo(estadoCarrito.productos))
+
             }
         }
     }
@@ -158,13 +158,15 @@ class PaymentsViewModel: ViewModel() {
                 println("THIS IS THE USER TOKEN "+token)
                 if (username != null && password != null) {
                     println("I am about to log in with: ${username} , ${password}")
-
-                    btvm.login(username, password)
-
                     if (orden!=null && token!=null && user_id!=null){
                         println("I am about to enter order with ${orden}, token = ${token}")
                         btvm.addOrder(orden,token,user_id)
                     }
+                    btvm.login(username, password)
+
+                    println("ORDEN ${orden} | TOKEN ${token} | user_id ${user_id} ")
+
+
                 }
 
             }
@@ -175,6 +177,7 @@ class PaymentsViewModel: ViewModel() {
     fun delUserData(context: Context){
         viewModelScope.launch{
             context.dataStore.edit { preferences ->
+                println("I am about to delete the preference keys")
                 preferences.remove(PreferencesKeys.username_saved)
                 preferences.remove(PreferencesKeys.password_saved)
                 preferences.remove(PreferencesKeys.user_email)

@@ -19,6 +19,7 @@ import mx.tec.todasbrillamos.model.Order
 import mx.tec.todasbrillamos.model.Producto
 import mx.tec.todasbrillamos.model.Usuario
 import mx.tec.todasbrillamos.model.Orderproducts
+import mx.tec.todasbrillamos.model.ResponseFormat
 
 
 /**
@@ -125,7 +126,9 @@ class BTVM: ViewModel() {
     //Estado búsqeuda órdenes
     private val _estadoHistorialOrden : MutableStateFlow<HashMap<Int,List<Orderproducts>>> = MutableStateFlow<HashMap<Int,List<Orderproducts>>>(hashMapOf())
     val estadoHistorialOrden : StateFlow<HashMap<Int,List<Orderproducts>>> = _estadoHistorialOrden
-
+    //Estado solicitud foro
+    private val _estadoSolicitarForo : MutableStateFlow<String> = MutableStateFlow<String>("")
+    val estadoSolicitarForo : StateFlow<String> = _estadoSolicitarForo
     /**
      * Función que obtiene los productos del modelo
      * @author Iker Fuentes
@@ -299,11 +302,15 @@ class BTVM: ViewModel() {
         viewModelScope.launch {
             try {
                 var orden: Order = Order(carrito, user_id)
+
+
                 val response = modeloR.addOrderWithToken(orden, token)
-                println(token)
+                println("This is the token I used: ${token}")
+                println("This is the response i got:: ")
                 println(response)
             }
             catch (e: Exception) {
+                println("ERROR")
                 println(e)
             }
         }
@@ -401,9 +408,11 @@ class BTVM: ViewModel() {
 
         viewModelScope.launch {
             try {
+
+                println("Attempting login with ${email}, ${password}")
                 _estadoErrors.value = _estadoErrors.value.copy(errorConexion = false)
                 val response = modeloR.getJWTKey(email, password)
-
+                print(response)
                 if (response.message != "Success generating token") {
                     throw Exception(response.message)
                 }
@@ -417,6 +426,7 @@ class BTVM: ViewModel() {
                 setDireccionUsuario(userData.direccion)
                 setTelefonoUsuario(userData.telefono)
                 setCorreoUsuario(email)
+                setContrasenaUsuario(password)
                 getProductos()
                 println("LOGIN EXITOSO CRACK")
                 println("SOY VIEW MODEL")
@@ -427,6 +437,7 @@ class BTVM: ViewModel() {
 
 
             } catch (e: Exception) {
+                println("ERROR in LOGIN")
                 if (e is java.net.UnknownHostException && e.message?.contains("apex.oracle.com") == true) {
                     _estadoErrors.value = _estadoErrors.value.copy(errorConexion = true)
 
@@ -510,7 +521,8 @@ class BTVM: ViewModel() {
      */
     fun solicitarForo(pregunta:String){
         viewModelScope.launch {
-            modeloR.addForo(_estadoUsuario.value.key,pregunta)
+            val response : ResponseFormat = modeloR.addForo(_estadoUsuario.value.key,pregunta)
+            _estadoSolicitarForo.value = response.result
         }
     }
 
