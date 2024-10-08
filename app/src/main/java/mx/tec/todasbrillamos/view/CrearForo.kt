@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +40,8 @@ import mx.tec.todasbrillamos.viewmodel.BTVM
 @Composable
 fun CrearForo(btVM: BTVM, navController: NavHostController) {
     var pregunta by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+    val estadoSolicitarForo by btVM.estadoSolicitarForo.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,7 +51,7 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
             Icon(
                 imageVector = Icons.Default.AddCircle,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.secondaryContainer,
+                tint = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8f),
                 modifier = Modifier
                     .padding(10.dp)
                     .size(75.dp)
@@ -73,9 +78,10 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                 onClick = {
                     println("Publicando $pregunta")
                     btVM.solicitarForo(pregunta)
-                    navController.navigateUp()
+                    showDialog=true
                           },
-                Modifier.padding(horizontal = 100.dp)
+                Modifier
+                    .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
                     .background(MaterialTheme.colorScheme.tertiary)
             ) {
@@ -89,6 +95,49 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                 )
             }
         }
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = true },
+                title = {
 
+                    if (estadoSolicitarForo.contains("Successful")) {
+                        Text(
+                            text = "¡Solicitud de pregunta exitosa!",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }else{
+                        Text(
+                            text = "¡Solicitud de pregunta fallida!",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                },
+                text = {
+                    Text(
+                        text = if (estadoSolicitarForo.contains("Successful")) {
+                            "¡Tu pregunta será revisada y pordrá ser respondida dentro de poco!"
+                        } else {
+                            "Algo salio mal..."
+                        }
+                    )
+                },
+                confirmButton = {
+                    // Centrar el botón usando un Box
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
+                    ) {
+                        Button(onClick = {
+                            showDialog = false
+                            navController.navigateUp()
+                        }) {
+                            Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
+                        }
+                    }
+                }
+            )
+        }
     }
 }

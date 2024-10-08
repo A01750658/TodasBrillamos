@@ -105,7 +105,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 }
                 valorNombre = nuevoTexto
                 btVM.setNombreUsuario(valorNombre)
-            })
+            }, placeHolder = "Nombre")
 
             // Campo de entrada para el apellido paterno
             Etiqueta("Apellido Paterno*", Modifier.padding(bottom = 3.dp))
@@ -118,7 +118,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 }
                 valorApellidoPaterno = nuevoTexto
                 btVM.setApellidoPaternoUsuario(valorApellidoPaterno)
-            })
+            }, placeHolder = "Apellido Paterno")
 
             // Campo de entrada para el apellido materno
             Etiqueta("Apellido Materno*", Modifier.padding(bottom = 3.dp))
@@ -131,7 +131,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 }
                 valorApellidoMaterno = nuevoTexto
                 btVM.setApellidoMaternoUsuario(valorApellidoMaterno)
-            })
+            }, placeHolder = "Apellido Materno")
 
             // Mostrar errores si existen problemas con los datos ingresados
             if (estadoErrors.value.errorType) {
@@ -187,7 +187,9 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     valortelefono = nuevoTexto
                     btVM.setTelefonoUsuario(valortelefono)
                 },
-                keyBoardType = KeyboardType.Number)
+                keyBoardType = KeyboardType.Number,
+                placeHolder = "5512345678")
+
             if (estadoErrors.value.errorCell){
                 Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
@@ -204,7 +206,8 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     valorCorreo = nuevoTexto
                     btVM.setCorreoUsuario(valorCorreo)
                 },
-                keyBoardType = KeyboardType.Email)
+                keyBoardType = KeyboardType.Email,
+                placeHolder = "correo@dominio.com")
             if (estadoErrors.value.errorCorreo){
                 Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
             }
