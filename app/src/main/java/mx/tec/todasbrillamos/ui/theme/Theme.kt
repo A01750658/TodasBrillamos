@@ -42,7 +42,6 @@ private val LightColorScheme = lightColorScheme(
     inversePrimary = aviso,
     error = MoradoTranquilo,
 
-
     onPrimary = Facebook,
     onSecondary = Intagram,
     onPrimaryContainer = TikTok,

@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -60,7 +61,7 @@ fun LogIn(
     val scrollState = rememberScrollState()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
-    val estadoLoginExitoso = btVM.estadoLoginExistoso.collectAsState()
+    val estadoRegistroExitoso by btVM.estadoRegistroExitoso.observeAsState(false)
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
     val context = LocalContext.current
@@ -135,7 +136,7 @@ fun LogIn(
                 )
             if (estadoErrors.value.errorLogin) {
                 Etiqueta( "El correo o la contraseña son incorrectos",
-                    color = MaterialTheme.colorScheme.inversePrimary,
+                    color = MaterialTheme.colorScheme.error,
                     modifier =
                     Modifier
                         .padding(bottom = 3.dp)
@@ -144,17 +145,17 @@ fun LogIn(
                 btVM.setLoading(false)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
                 btVM.setLoading(false)
             }
 
-            PreguntaBoton("¿No tienes una cuenta?","Regístrate", {navController.navigate(Pantallas.RUTA_SIGNUP)})
-            PreguntaBoton("¿Olvidaste tu contraseña?","Haz clic aquí" , onClick = { navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
+            PreguntaBoton("¿No tienes una cuenta?","Regístrate", {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_SIGNUP)})
+            PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
             ElevatedButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
                     btVM.setLoading(true)
                     btVM.login(estado.value.correo, estado.value.password)
-
+                    btVM.setRegistroExitoso(false)
                     //paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
                 }
             },
@@ -175,6 +176,12 @@ fun LogIn(
                     fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.onTertiary
                 )
+            }
+            if (estadoRegistroExitoso){
+                Etiqueta("Registro Exitoso",
+                    Modifier
+                        .padding(bottom = 16.dp)
+                        .padding(start = 120.dp), color= Color(0xFF00FF00))
             }
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
