@@ -38,6 +38,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import mx.tec.todasbrillamos.model.Orderproducts
 import mx.tec.todasbrillamos.viewmodel.BTVM
 
 /**
@@ -60,7 +61,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
     val scrollState = rememberScrollState()
     val scrollPosition = scrollState.value
     val maxScrollPosition = scrollState.maxValue
-
+    val sortedKeys = sort_ordenes(estadoHistorialOrden)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -155,10 +156,10 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                     modifier = Modifier.fillMaxWidth()
                         .verticalScroll(scrollState)
                 ) {
-                    for (orden in estadoHistorialOrden) {
+                    for (orden in sortedKeys) {
                         ElevatedCard(
                             onClick = {
-                                viewModel.setEstadoSeleccionado(orden.key)
+                                viewModel.setEstadoSeleccionado(orden)
                                 showMenu = true
                             },
                             modifier = Modifier
@@ -170,7 +171,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                         ) {
                             Row {
                                 Text(
-                                    text = orden.key.toString(),
+                                    text = orden.toString(),
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -179,7 +180,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Text(
-                                    text = orden.value[0].fecha_pedido,
+                                    text = estadoHistorialOrden[orden]!![0].fecha_pedido,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -188,7 +189,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Text(
-                                    text = "$ ${orden.value[0].total}",
+                                    text = "$ ${estadoHistorialOrden[orden]!![0].total}",
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -197,7 +198,7 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Text(
-                                    text = orden.value[0].estado,
+                                    text = estadoHistorialOrden[orden]!![0].estado,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -238,4 +239,8 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
             }
         }
     }
+}
+
+fun sort_ordenes(lista: HashMap<Int,List<Orderproducts>>): List<Int> {
+    return lista.keys.sortedByDescending { it }
 }
