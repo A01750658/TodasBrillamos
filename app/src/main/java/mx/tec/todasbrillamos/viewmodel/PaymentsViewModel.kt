@@ -109,14 +109,14 @@ class PaymentsViewModel: ViewModel() {
 
     // Función para guardar los datos del usuario
     fun saveUserData(context: Context, username: String,password: String,email : String,token:String,user_id : Int) {
-        println("ENtered saving data")
+        //println("Entered saving data")
         viewModelScope.launch {
             context.dataStore.edit { preferences ->
                 preferences[PreferencesKeys.username_saved] = username
                 preferences[PreferencesKeys.password_saved] = password
                 preferences[PreferencesKeys.user_email] = email
-                println("I AM SAVING DATA: "+token)
-                println("I AM SAVING THE PASSWORD "+password)
+                //println("I AM SAVING DATA: "+token)
+                //println("I AM SAVING THE PASSWORD "+password)
                 preferences[PreferencesKeys.user_token] = token
                 preferences[PreferencesKeys.user_id] = user_id
             }
@@ -137,7 +137,7 @@ class PaymentsViewModel: ViewModel() {
 
                 val orden = preferences[PreferencesKeys.user_order]
                 if (orden != null) {
-                    println("SI tengo orden: ")
+                    //println("SI tengo orden: ")
                     println(orden)
                     //btvm.addOrder(orden)
                 }
@@ -155,16 +155,16 @@ class PaymentsViewModel: ViewModel() {
                 val orden = preferences[PreferencesKeys.user_order]
                 val token = preferences[PreferencesKeys.user_token]
                 val user_id = preferences[PreferencesKeys.user_id]
-                println("THIS IS THE USER TOKEN "+token)
+                //println("THIS IS THE USER TOKEN "+token)
                 if (username != null && password != null) {
-                    println("I am about to log in with: ${username} , ${password}")
+                    //println("I am about to log in with: ${username} , ${password}")
                     if (orden!=null && token!=null && user_id!=null){
-                        println("I am about to enter order with ${orden}, token = ${token}")
+                        //println("I am about to enter order with ${orden}, token = ${token}")
                         btvm.addOrder(orden,token,user_id)
                     }
                     btvm.login(username, password)
 
-                    println("ORDEN ${orden} | TOKEN ${token} | user_id ${user_id} ")
+                    //println("ORDEN ${orden} | TOKEN ${token} | user_id ${user_id} ")
 
 
                 }
@@ -177,7 +177,7 @@ class PaymentsViewModel: ViewModel() {
     fun delUserData(context: Context){
         viewModelScope.launch{
             context.dataStore.edit { preferences ->
-                println("I am about to delete the preference keys")
+                //println("I am about to delete the preference keys")
                 preferences.remove(PreferencesKeys.username_saved)
                 preferences.remove(PreferencesKeys.password_saved)
                 preferences.remove(PreferencesKeys.user_email)

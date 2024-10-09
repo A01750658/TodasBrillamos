@@ -14,7 +14,7 @@ import retrofit2.http.Query
  * y los métodos para acceder a ellos.
  */
 
-//Endpoint constant variables 
+//Endpoint constant variables
 const val addUserEndpoint = "add/user"
 const val addOrderwithTokenEndpoint = "add/order"
 const val getJWTKeyEndpoint = "getToken/"

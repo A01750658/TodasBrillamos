@@ -132,6 +132,7 @@ class BTVM: ViewModel() {
     //Estado solicitud foro
     private val _estadoSolicitarForo : MutableStateFlow<String> = MutableStateFlow<String>("")
     val estadoSolicitarForo : StateFlow<String> = _estadoSolicitarForo
+
     /**
      * Función que obtiene los productos del modelo
      * @author Iker Fuentes
@@ -345,7 +346,7 @@ class BTVM: ViewModel() {
         viewModelScope.launch {
             context.dataStore.data.collect { preferences ->
                 val hashPassword = preferences[PreferencesKeys.hash_password]
-                println("MUY BIEEEN, el hash: ${hashPassword}")
+                //println("MUY BIEEEN, el hash: ${hashPassword}")
             }
         }
     }
@@ -447,16 +448,16 @@ class BTVM: ViewModel() {
                 setCorreoUsuario(email)
                 setContrasenaUsuario(password)
                 getProductos()
-                println("LOGIN EXITOSO CRACK")
-                println("SOY VIEW MODEL")
+                //println("LOGIN EXITOSO CRACK")
+                //println("SOY VIEW MODEL")
                 _estadoLoginExitoso.value = true
-                println(_estadoUsuario.value)
+                //println(_estadoUsuario.value)
                 getForos()
 
 
 
             } catch (e: Exception) {
-                println("ERROR in LOGIN")
+                //println("ERROR in LOGIN")
                 if (e is java.net.UnknownHostException && e.message?.contains("apex.oracle.com") == true) {
                     _estadoErrors.value = _estadoErrors.value.copy(errorConexion = true)
 
