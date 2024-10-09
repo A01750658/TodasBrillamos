@@ -79,9 +79,11 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
             TextButton(
                 onClick = {
                     println("Publicando $pregunta")
-                    btVM.solicitarForo(pregunta)
-                    showDialog=true
-                          },
+                    if (pregunta.isNotEmpty()) {
+                        btVM.solicitarForo(pregunta)
+                    }
+                    showDialog = true
+                },
                 Modifier
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
@@ -133,8 +135,10 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                         contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
                     ) {
                         Button(onClick = {
+                            if (estadoSolicitarForo.contains("Successful")){
+                                navController.navigateUp()
+                            }
                             showDialog = false
-                            navController.navigateUp()
                         }) {
                             Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
                         }
