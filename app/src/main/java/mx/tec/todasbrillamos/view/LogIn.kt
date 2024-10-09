@@ -180,11 +180,6 @@ fun LogIn(
                 )
             }
             if (estadoRegistroExitoso){
-                Etiqueta("Registro Exitoso",
-                    Modifier
-                        .padding(bottom = 16.dp)
-                        .padding(start = 120.dp), color= Color(0xFF00FF00))
-
                 AlertDialog(
                     onDismissRequest = { btVM.setRegistroExitoso(false) },
                     title = { Text("Registro Exitoso") },
