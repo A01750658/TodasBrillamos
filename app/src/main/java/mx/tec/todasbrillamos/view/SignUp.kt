@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
@@ -72,6 +73,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
     var valorAvisos by rememberSaveable { mutableStateOf(estado.value.aviso) }  // Estado de aceptación de términos y condiciones
     var valorMarketing by rememberSaveable { mutableStateOf(estado.value.marketing) }  // Estado para permitir marketing
     val estadoErrors = btVM.estadoErrors.collectAsState()  // Estado de los errores del formulario
+    val context = LocalContext.current
 
     // Formulario
     Box(
@@ -105,7 +107,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 }
                 valorNombre = nuevoTexto
                 btVM.setNombreUsuario(valorNombre)
-            })
+            }, placeHolder = "Nombre")
 
             // Campo de entrada para el apellido paterno
             Etiqueta("Apellido Paterno*", Modifier.padding(bottom = 3.dp))
@@ -118,7 +120,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 }
                 valorApellidoPaterno = nuevoTexto
                 btVM.setApellidoPaternoUsuario(valorApellidoPaterno)
-            })
+            }, placeHolder = "Apellido Paterno")
 
             // Campo de entrada para el apellido materno
             Etiqueta("Apellido Materno*", Modifier.padding(bottom = 3.dp))
@@ -131,7 +133,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 }
                 valorApellidoMaterno = nuevoTexto
                 btVM.setApellidoMaternoUsuario(valorApellidoMaterno)
-            })
+            }, placeHolder = "Apellido Materno")
 
             // Mostrar errores si existen problemas con los datos ingresados
             if (estadoErrors.value.errorType) {
@@ -186,8 +188,11 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setIntent(false)
                     valortelefono = nuevoTexto
                     btVM.setTelefonoUsuario(valortelefono)
+                    btVM.printHashPassword(context)
                 },
-                keyBoardType = KeyboardType.Number)
+                keyBoardType = KeyboardType.Number,
+                placeHolder = "5512345678")
+
             if (estadoErrors.value.errorCell){
                 Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
@@ -204,7 +209,8 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     valorCorreo = nuevoTexto
                     btVM.setCorreoUsuario(valorCorreo)
                 },
-                keyBoardType = KeyboardType.Email)
+                keyBoardType = KeyboardType.Email,
+                placeHolder = "correo@dominio.com")
             if (estadoErrors.value.errorCorreo){
                 Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
             }
@@ -314,6 +320,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
                         if (!estadoErrors.value.errorSignUp){
                             navController.navigate(Pantallas.RUTA_LOGIN)
+                            btVM.saveHashPassword(context, valorPassword)
                         }
 
                     } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
