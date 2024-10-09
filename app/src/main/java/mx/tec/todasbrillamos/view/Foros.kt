@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FloatingActionButton
@@ -33,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import mx.tec.todasbrillamos.viewmodel.BTVM
 import androidx.compose.material3.CardDefaults.cardColors
+import androidx.compose.ui.draw.clip
 
 /**
  * Pantalla donde se muestran las publicaciones en el foro en nuestro caso preguntas frecuentes o preguntas realizadas por los usuarios
@@ -52,6 +57,9 @@ fun Foros(btVM: BTVM, navController: NavHostController) {
     //Estado Busqueda
     val estadoBusqueda by btVM.estadoBusquedaForo.collectAsState()
     val colors: List<Color> = listOf( MaterialTheme.colorScheme.tertiary, MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.secondaryContainer)
+    val scrollState = rememberScrollState()
+    val scrollPosition = scrollState.value
+    val maxScrollPosition = scrollState.maxValue
 
     Box(
         modifier = Modifier
@@ -103,29 +111,27 @@ fun Foros(btVM: BTVM, navController: NavHostController) {
             )
             //Se muestran las publicaciones
             Box(modifier = Modifier.fillMaxSize()) {
-                LazyColumn{
+                Column(modifier = Modifier.verticalScroll(scrollState)){
                     for (foro in estadoListaForo) {
                         if (estadoBusqueda.isEmpty() || foro.pregunta.contains(estadoBusqueda, ignoreCase = true)) {
-                            item {
-                                ElevatedCard(
+                            ElevatedCard(
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .clickable(onClick = {
+                                        btVM.getComments(foro.id)
+                                        navController.navigate(Pantallas.RUTA_FORO + "/${foro.id}")
+                                    }),
+                                colors = cardColors(
+                                    containerColor = colors[foro.id % colors.size].copy(alpha = 0.5f)
+                                )
+                            ) {
+                                Text(
+                                    text = foro.pregunta,
+                                    textAlign = TextAlign.Center,
                                     modifier = Modifier
-                                        .padding(8.dp)
-                                        .clickable(onClick = {
-                                            btVM.getComments(foro.id)
-                                            navController.navigate(Pantallas.RUTA_FORO + "/${foro.id}")
-                                        }),
-                                    colors = cardColors(
-                                        containerColor = colors[foro.id % colors.size].copy(alpha = 0.5f)
-                                    )
-                                ) {
-                                    Text(
-                                        text = foro.pregunta,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(24.dp)
-                                    )
-                                }
+                                        .fillMaxWidth()
+                                        .padding(24.dp)
+                                )
                             }
                         }
                     }
@@ -144,6 +150,21 @@ fun Foros(btVM: BTVM, navController: NavHostController) {
                         contentDescription = "Generar"
                     )
 
+                }
+                if(scrollPosition != maxScrollPosition) {
+                    Box(modifier = Modifier
+                        .clip(CircleShape)
+                        .size(40.dp)
+                        //.padding(bottom = 20.dp)
+                        .align(Alignment.BottomCenter)
+
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowDown,
+                            contentDescription = "Generar",
+                            Modifier.size(30.dp),
+                        )
+                    }
                 }
             }
         }

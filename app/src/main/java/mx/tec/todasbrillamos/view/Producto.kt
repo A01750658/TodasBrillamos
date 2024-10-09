@@ -131,11 +131,11 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                 ) {
                     Row() { // Botón aumenta cantidad
                         Icon(
-                            imageVector = Icons.Default.KeyboardArrowUp,
-                            contentDescription = "Agregar",
+                            imageVector = Icons.Default.KeyboardArrowDown, // Botón disminuye cantidad
+                            contentDescription = "Quitar",
                             modifier = Modifier
                                 .padding(3.dp)
-                                .clickable { btVM.sumarorestarproducto(1, producto)}
+                                .clickable { btVM.sumarorestarproducto(-1, producto) }
                         )
                         Text(
                             text = "${estadoAnadirProducto.second}", // Cantidad seleccionada
@@ -147,11 +147,11 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown, // Botón disminuye cantidad
-                            contentDescription = "Quitar",
+                            imageVector = Icons.Default.KeyboardArrowUp,
+                            contentDescription = "Agregar",
                             modifier = Modifier
                                 .padding(3.dp)
-                                .clickable { btVM.sumarorestarproducto(-1, producto) }
+                                .clickable { btVM.sumarorestarproducto(1, producto)}
                         )
                     }
                 }

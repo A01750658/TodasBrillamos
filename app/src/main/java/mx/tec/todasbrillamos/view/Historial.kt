@@ -11,7 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -29,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -52,6 +57,9 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
     var showMenu by remember { mutableStateOf(false) }
     val estadoHistorialOrden by viewModel.estadoHistorialOrden.collectAsState()
     val ordenesList = estadoHistorialOrden.toList()
+    val scrollState = rememberScrollState()
+    val scrollPosition = scrollState.value
+    val maxScrollPosition = scrollState.maxValue
 
     Box(
         modifier = Modifier
@@ -142,78 +150,91 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                     }
                 }
                 // Tabla de la lista de órdenes
-                LazyColumn(
+                Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxWidth()
+                        .verticalScroll(scrollState)
                 ) {
                     for (orden in estadoHistorialOrden) {
-                        item {
-                            ElevatedCard(
-                                onClick = {
-                                    viewModel.setEstadoSeleccionado(orden.key)
-                                    showMenu = true
-                                },
-                                modifier = Modifier
-                                    .padding(1.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onTertiary
+                        ElevatedCard(
+                            onClick = {
+                                viewModel.setEstadoSeleccionado(orden.key)
+                                showMenu = true
+                            },
+                            modifier = Modifier
+                                .padding(1.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiary
+                            )
+                        ) {
+                            Row {
+                                Text(
+                                    text = orden.key.toString(),
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp)
+                                        .weight(2f),
+                                    style = MaterialTheme.typography.bodyMedium
                                 )
-                            ) {
-                                Row {
-                                    Text(
-                                        text = orden.key.toString(),
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 24.dp)
-                                            .weight(2f),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                    Text(
-                                        text = orden.value[0].fecha_pedido,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 24.dp)
-                                            .weight(2f),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                    Text(
-                                        text = "$ ${orden.value[0].total}",
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 24.dp)
-                                            .weight(2f),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                    Text(
-                                        text = orden.value[0].estado,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 24.dp)
-                                            .weight(2f),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                }
+                                Text(
+                                    text = orden.value[0].fecha_pedido,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp)
+                                        .weight(2f),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = "$ ${orden.value[0].total}",
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp)
+                                        .weight(2f),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = orden.value[0].estado,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 24.dp)
+                                        .weight(2f),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
                             }
                         }
                     }
-                    item {
-                        HorizontalDivider(
-                            thickness = 2.dp,
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
+
+                    HorizontalDivider(
+                        thickness = 2.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        modifier = Modifier.padding(8.dp)
+                    )
                 }
             }
         }
         if (showMenu) {
             ModalBottomSheet(onDismissRequest = { showMenu = false }) {
                 Detalles(viewModel)
+            }
+        }
+        if(scrollPosition != maxScrollPosition) {
+            Box(modifier = Modifier
+                .clip(CircleShape)
+                .size(40.dp)
+                //.padding(bottom = 20.dp)
+                .align(Alignment.BottomCenter)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Generar",
+                    Modifier.size(30.dp),
+                )
             }
         }
     }
