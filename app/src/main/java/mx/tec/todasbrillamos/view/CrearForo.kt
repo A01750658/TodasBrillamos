@@ -117,9 +117,9 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                 text = {
                     Text(
                         text = if (estadoSolicitarForo.contains("Successful")) {
-                            "¡Tu pregunta será revisada y pordrá ser respondida dentro de poco!"
+                            "¡Tu pregunta será revisada y podrá ser respondida dentro de poco!"
                         } else {
-                            "Algo salio mal..."
+                            "Algo salió mal..."
                         }
                     )
                 },
