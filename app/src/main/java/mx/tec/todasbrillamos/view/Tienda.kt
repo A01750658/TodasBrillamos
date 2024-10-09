@@ -33,13 +33,21 @@ import androidx.navigation.NavHostController
 import mx.tec.todasbrillamos.viewmodel.BTVM
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.window.Dialog
 
 /**
  * Función que se encarga de mostrar la pantalla principal de los catalogos de productos, que incluye
@@ -67,7 +75,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
     // la visibilidad del menú de categorías y la categoría seleccionada.
     val estadoListaProducto = viewModel.estadoListaProducto.collectAsState()
     val estadoCantidad by viewModel.estadoCantidadProductosModelo.collectAsState()
-    var showMenu by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
     val estadoCategorias = viewModel.estadoCategorias.collectAsState()
     var expanded by remember { mutableStateOf(false) }
     val selectedCategoria by viewModel.categoriaSeleccionada.collectAsState()
@@ -168,7 +176,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                                     BotonProducto(
                                         onClick = {
                                             viewModel.setEstadoSeleccionado(index)
-                                            showMenu = true
+                                            showDialog = true
                                         },
                                         imagen = estadoListaProducto.value[index].imagen,
                                         nombre = estadoListaProducto.value[index].nombre,
@@ -203,9 +211,15 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
         }
 
         // Popup que muestra la información del producto seleccionado
-        if (showMenu) {
-            ModalBottomSheet(onDismissRequest = { showMenu = false }) {
-                Producto(viewModel, modifier, navController)
+        if (showDialog) {
+            Dialog(onDismissRequest = { showDialog = false }) {  // Cierra el diálogo cuando se toca fuera de él
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(35.dp))
+                        .background(Color.White)  // Fondo blanco para el diálogo
+                ) {
+                    Producto(viewModel, modifier, navController)  // Muestra el contenido del producto dentro del diálogo
+                }
             }
         }
 
