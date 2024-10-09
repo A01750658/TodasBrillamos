@@ -103,9 +103,9 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
             item { // Cantidad disponible del producto
                 Row(modifier = Modifier.padding(vertical = 10.dp)) {
                     Text(
-                        text = "Cantidad disponible: ",
+                        text = "Cant. disponible: ",
                         style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Right,
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
