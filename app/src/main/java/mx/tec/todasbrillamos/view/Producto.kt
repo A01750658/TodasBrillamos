@@ -67,7 +67,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
         .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
-        Titulo(titulo = estadoListaProducto[estadoSeleccionado].nombre, lineHeight = 48) // Titulo del producto
+        Titulo(titulo = estadoListaProducto[estadoSeleccionado].nombre, lineHeight = 48, fontSize = 42) // Titulo del producto
         // Lista de los elementos que muestra la imagen, precio, descripción y opciones
         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
             item{Image( // Imagen del producto
@@ -81,7 +81,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
             item {// Precio del producto
                 Subtitulo(
                     text = "$${estadoListaProducto[estadoSeleccionado].precio_normal} MXN",
-                    fontSize = 25
+                    fontSize = 21
                 )
             }
             item {
