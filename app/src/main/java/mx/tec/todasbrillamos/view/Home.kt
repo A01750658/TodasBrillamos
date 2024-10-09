@@ -60,11 +60,13 @@ fun Home(navController: NavHostController, btVM: BTVM, paymentsVM: PaymentsViewM
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.secondary)
-            .verticalScroll(scrollState)
+
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .verticalScroll(scrollState)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.log),
@@ -153,22 +155,23 @@ fun Home(navController: NavHostController, btVM: BTVM, paymentsVM: PaymentsViewM
             paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
             btVM.setEstadoLogin(false)
         }
-    }
-}
-/*
-if(scrollPosition != maxScrollPosition) {
-    Box(modifier = Modifier
-        .clip(CircleShape)
-        .size(40.dp)
-        //.padding(bottom = 20.dp)
-        .align(Alignment.BottomCenter)
+        if(scrollPosition != maxScrollPosition) {
+            Box(modifier = Modifier
+                .clip(CircleShape)
+                .size(40.dp)
+                //.padding(bottom = 20.dp)
+                .align(Alignment.BottomCenter)
 
-    ) {
-        Icon(
-            imageVector = Icons.Default.KeyboardArrowDown,
-            contentDescription = "Generar",
-            Modifier.size(30.dp),
-        )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Generar",
+                    Modifier.size(30.dp),
+                )
+            }
+        }
     }
 }
-*/
+
+
+

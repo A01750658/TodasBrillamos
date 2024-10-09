@@ -9,6 +9,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,8 +46,8 @@ fun InputContrasena(text: String, onValueChange: (String) -> Unit, modifier: Mod
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             val image = if (passwordVisible)
-                Icons.Default.Check
-            else Icons.Default.Close
+                Icons.Default.Visibility
+            else Icons.Default.VisibilityOff
             // Please provide localized description for accessibility services
             val description = if (passwordVisible) "Hide password" else "Show password"
 

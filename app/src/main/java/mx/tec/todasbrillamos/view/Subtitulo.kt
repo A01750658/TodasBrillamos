@@ -33,7 +33,7 @@ fun Subtitulo(text: String, modifier: Modifier = Modifier, color: Color = Materi
         style = MaterialTheme.typography.bodyMedium,
         fontStyle = FontStyle.Italic,
         color = color,
-        modifier = modifier.padding(bottom = 15.dp)
+        modifier = modifier.padding(bottom = 2.dp)
             .fillMaxWidth(),
         lineHeight = lineHeight.sp
     )

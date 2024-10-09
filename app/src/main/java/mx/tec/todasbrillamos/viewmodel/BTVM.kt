@@ -38,6 +38,10 @@ import mx.tec.todasbrillamos.model.ResponseFormat
 class BTVM: ViewModel() {
     val modeloR: ModelConnectionR = ModelConnectionR()
 
+    //EstadoRegistroExitoso
+    private val _estadoRegistroExitoso = MutableLiveData(false)
+    val estadoRegistroExitoso: LiveData<Boolean> = _estadoRegistroExitoso
+
     //EstadoFecha de la fecha de nacimiento
     private val _estadoFecha = MutableLiveData("Seleccionar Fecha")
     val estadoFecha: LiveData<String> = _estadoFecha
@@ -389,6 +393,7 @@ class BTVM: ViewModel() {
                 _estadoErrors.value = _estadoErrors.value.copy(errorUniqueEmail = false)
                 _estadoErrors.value = _estadoErrors.value.copy(errorUniquePhone = false)
                 _estadoErrors.value = _estadoErrors.value.copy(errorConexion = false)
+                println("aydua xd ${response.result}")
                 if (response.result=="error"){
                     if (response.message == "ORA-00001: unique constraint (WKSP_TODASBRILLAMOS.USUARIO_CON) violated"){
                         //Throw exception
@@ -401,6 +406,8 @@ class BTVM: ViewModel() {
                     throw Exception("Could not create User")
                 }
                 _estadoErrors.value = _estadoErrors.value.copy(errorSignUp = false)
+                _estadoRegistroExitoso.value = true
+
             } catch (e: Exception) {
                 if (e.message == "Ya existe un usuario con ese correo"){
                     _estadoErrors.value = _estadoErrors.value.copy(errorUniqueEmail = true)
@@ -416,6 +423,14 @@ class BTVM: ViewModel() {
                 }
             }
         }
+    }
+
+    fun setErrorSignUp(state : Boolean){
+        _estadoErrors.value = _estadoErrors.value.copy(errorSignUp = state)
+    }
+
+    fun setRegistroExitoso(state : Boolean){
+        _estadoRegistroExitoso.value = state
     }
 
     /**
@@ -895,7 +910,7 @@ class BTVM: ViewModel() {
             _estadoanadirCarrito.value = _estadoanadirCarrito.value.copy(first = producto, second = _estadoanadirCarrito.value.second+1)
         }
         else{
-            if (_estadoanadirCarrito.value.second == 1){
+            if (_estadoanadirCarrito.value.second <= 1){
                 return
             }
             _estadoanadirCarrito.value = _estadoanadirCarrito.value.copy(first = producto,second = _estadoanadirCarrito.value.second-1)

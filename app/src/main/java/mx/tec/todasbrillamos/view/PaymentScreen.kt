@@ -142,7 +142,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             Titulo("Resumen de la Orden", color = MaterialTheme.colorScheme.onTertiary)
             // Muestra la dirección de envío del usuario para editar
             Spacer(modifier = Modifier.height(16.dp))
-            Etiqueta(texto = "Dirección de envio")
+            Etiqueta(texto = "Dirección de envío")
             // Muestra la dirección de envío del usuario para editar
             Row(
                 modifier = Modifier

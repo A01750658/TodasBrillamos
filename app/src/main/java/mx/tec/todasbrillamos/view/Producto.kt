@@ -67,7 +67,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
         .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
-        Titulo(titulo = estadoListaProducto[estadoSeleccionado].nombre, lineHeight = 48) // Titulo del producto
+        Titulo(titulo = estadoListaProducto[estadoSeleccionado].nombre, lineHeight = 48, fontSize = 42) // Titulo del producto
         // Lista de los elementos que muestra la imagen, precio, descripción y opciones
         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
             item{Image( // Imagen del producto
@@ -81,7 +81,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
             item {// Precio del producto
                 Subtitulo(
                     text = "$${estadoListaProducto[estadoSeleccionado].precio_normal} MXN",
-                    fontSize = 25
+                    fontSize = 21
                 )
             }
             item {
@@ -103,9 +103,9 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
             item { // Cantidad disponible del producto
                 Row(modifier = Modifier.padding(vertical = 10.dp)) {
                     Text(
-                        text = "Cantidad disponible: ",
+                        text = "Cant. disponible: ",
                         style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Right,
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -131,11 +131,11 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                 ) {
                     Row() { // Botón aumenta cantidad
                         Icon(
-                            imageVector = Icons.Default.KeyboardArrowUp,
-                            contentDescription = "Agregar",
+                            imageVector = Icons.Default.KeyboardArrowDown, // Botón disminuye cantidad
+                            contentDescription = "Quitar",
                             modifier = Modifier
                                 .padding(3.dp)
-                                .clickable { btVM.sumarorestarproducto(1, producto)}
+                                .clickable { btVM.sumarorestarproducto(-1, producto) }
                         )
                         Text(
                             text = "${estadoAnadirProducto.second}", // Cantidad seleccionada
@@ -147,11 +147,11 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown, // Botón disminuye cantidad
-                            contentDescription = "Quitar",
+                            imageVector = Icons.Default.KeyboardArrowUp,
+                            contentDescription = "Agregar",
                             modifier = Modifier
                                 .padding(3.dp)
-                                .clickable { btVM.sumarorestarproducto(-1, producto) }
+                                .clickable { btVM.sumarorestarproducto(1, producto)}
                         )
                     }
                 }

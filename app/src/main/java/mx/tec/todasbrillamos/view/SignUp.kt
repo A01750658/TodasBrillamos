@@ -8,13 +8,18 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -42,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import mx.tec.todasbrillamos.R
+import mx.tec.todasbrillamos.viewmodel.ValidationsVM
 
 /**
  * Esta es la pantalla del Registro donde se integran distintos elementos creados para hacer la pantalla
@@ -60,6 +66,8 @@ import mx.tec.todasbrillamos.R
 @Composable
 fun SignUp(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
+    val scrollPosition = scrollState.value
+    val maxScrollPosition = scrollState.maxValue
     val showDatePicker by btVM.showDatePicker.observeAsState(false)  // Estado para mostrar la fecha de nacimiento
     val estado = btVM.estadoUsuario.collectAsState()  // Estado del ViewModel con la información del usuario
     val estadoFecha by btVM.estadoFecha.observeAsState()  // Estado que contiene la fecha de nacimiento seleccionada por el usuario
@@ -74,6 +82,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
     var valorMarketing by rememberSaveable { mutableStateOf(estado.value.marketing) }  // Estado para permitir marketing
     val estadoErrors = btVM.estadoErrors.collectAsState()  // Estado de los errores del formulario
     val context = LocalContext.current
+    val validations = ValidationsVM()
 
     // Formulario
     Box(
@@ -84,7 +93,6 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 painterResource(id = R.drawable.finalback),  // Fondo de la pantalla con imagen
                 contentScale = ContentScale.FillBounds
             )
-            .verticalScroll(scrollState)
     ) {
         Column(
             modifier = Modifier
@@ -92,6 +100,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                .verticalScroll(scrollState)
         ) {
             // Título de la pantalla
             Titulo(titulo = "Registro", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary)
@@ -138,9 +147,9 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             // Mostrar errores si existen problemas con los datos ingresados
             if (estadoErrors.value.errorType) {
                 Etiqueta(
-                    "Todos los campos deben ser llenados. Solo puedes usar letras y no se puede superar los 20 caracteres.",
+                    "Todos los campos deben ser llenados. Solo puedes usar letras y no se pueden superar los 20 caracteres.",
                     Modifier.padding(bottom = 16.dp),
-                    color = MaterialTheme.colorScheme.inversePrimary
+                    color = MaterialTheme.colorScheme.error
                 )
             }
 
@@ -176,11 +185,12 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             }
 
             // Validaciones y entradas restantes como teléfono, correo electrónico y contraseñas
-            Etiqueta("Telefono*", Modifier.padding(bottom = 3.dp))
+            Etiqueta("Teléfono*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.telefono,
                 {
                         nuevoTexto ->
-                    if (nuevoTexto.length != 10 || nuevoTexto.any {it.isLetter()}) {
+
+                    if (!validations.validatePhoneNumber(nuevoTexto) || nuevoTexto.any {it.isLetter()}) {
                         btVM.setErrorCell(true)
                     } else{
                         btVM.setErrorCell(false)
@@ -194,13 +204,13 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 placeHolder = "5512345678")
 
             if (estadoErrors.value.errorCell){
-                Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.correo,
                 {
                         nuevoTexto ->
-                    if (nuevoTexto.length > 50 || !nuevoTexto.contains("@") || !nuevoTexto.contains(".")) {
+                    if (!validations.validateEmail(nuevoTexto)) {
                         btVM.setErrorCorreo(true)
                     } else{
                         btVM.setErrorCorreo(false)
@@ -212,7 +222,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 keyBoardType = KeyboardType.Email,
                 placeHolder = "correo@dominio.com")
             if (estadoErrors.value.errorCorreo){
-                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.password,
@@ -227,7 +237,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setContrasenaUsuario(valorPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorLengthPassword){
-                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) ,color= MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) , color= MaterialTheme.colorScheme.error)
             }
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.confirmacion_password,
@@ -237,7 +247,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorContrasenas){
-                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -265,7 +275,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 )
             }
             if (!valorAvisos && estado.value.intent){
-                Etiqueta("Debes confirmar que haz leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -292,13 +302,13 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             }
 
             if (estadoErrors.value.errorUniqueEmail){
-                Etiqueta("Ya existe una cuenta con ese correo.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("Ya existe una cuenta con ese correo.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             if (estadoErrors.value.errorUniquePhone){
-                Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
 
             Spacer(modifier = Modifier.padding(16.dp))
@@ -318,10 +328,9 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                         println(valorNombre +" "+ valorApellidoPaterno +" "+ valorApellidoMaterno+ " "+ fecha+ " "+ valorCorreo+ " "+ valorPassword + " "+ valorAvisos+ " "+ valorMarketing+ " "+valortelefono)
                         btVM.signUp(valorNombre, valorApellidoPaterno, valorApellidoMaterno, fecha, valorCorreo, valorPassword, valorAvisos, valorMarketing, valortelefono)
 
-                        if (!estadoErrors.value.errorSignUp){
-                            navController.navigate(Pantallas.RUTA_LOGIN)
-                            btVM.saveHashPassword(context, valorPassword)
-                        }
+//                        if (!estadoErrors.value.errorSignUp){
+//                            navController.navigate(Pantallas.RUTA_LOGIN)
+//                        }
 
                     } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
                         btVM.setErrorType(true)
@@ -354,12 +363,29 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             LaunchedEffect(estadoErrors.value.errorSignUp) {
                 if (!estadoErrors.value.errorSignUp) {
                     navController.navigate(Pantallas.RUTA_LOGIN)
+                    btVM.saveHashPassword(context, valorPassword)
+                    btVM.setErrorSignUp(true)
                 }
             }
 
             // Opción para redirigir a la pantalla de inicio de sesión
             PreguntaBoton("¿Ya tienes cuenta?", "Inicia sesión", { navController.navigate(Pantallas.RUTA_LOGIN) })
             Spacer(modifier = Modifier.padding(16.dp))
+        }
+        if(scrollPosition != maxScrollPosition) {
+            Box(modifier = Modifier
+                .clip(CircleShape)
+                .size(50.dp)
+                //.padding(bottom = 20.dp)
+                .align(Alignment.BottomCenter)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Generar",
+                    Modifier.size(40.dp),
+                )
+            }
         }
     }
 }
