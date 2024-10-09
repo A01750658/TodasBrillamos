@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "mx.tec.pruebabrillamostodas3"
+    namespace = "mx.tec.todasbrillamos"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "mx.tec.pruebabrillamostodas3"
+        applicationId = "mx.tec.todasbrillamos"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
