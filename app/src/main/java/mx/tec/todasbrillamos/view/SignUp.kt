@@ -275,7 +275,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 )
             }
             if (!valorAvisos && estado.value.intent){
-                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -308,7 +308,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
 
             Spacer(modifier = Modifier.padding(16.dp))
