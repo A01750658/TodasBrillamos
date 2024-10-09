@@ -140,7 +140,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             // Mostrar errores si existen problemas con los datos ingresados
             if (estadoErrors.value.errorType) {
                 Etiqueta(
-                    "Todos los campos deben ser llenados. Solo puedes usar letras y no se puede superar los 20 caracteres.",
+                    "Todos los campos deben ser llenados. Solo puedes usar letras y no se pueden superar los 20 caracteres.",
                     Modifier.padding(bottom = 16.dp),
                     color = MaterialTheme.colorScheme.inversePrimary
                 )
@@ -178,7 +178,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             }
 
             // Validaciones y entradas restantes como teléfono, correo electrónico y contraseñas
-            Etiqueta("Telefono*", Modifier.padding(bottom = 3.dp))
+            Etiqueta("Teléfono*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.telefono,
                 {
                         nuevoTexto ->
@@ -268,7 +268,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 )
             }
             if (!valorAvisos && estado.value.intent){
-                Etiqueta("Debes confirmar que haz leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -301,7 +301,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
 
             Spacer(modifier = Modifier.padding(16.dp))

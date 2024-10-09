@@ -120,7 +120,7 @@ fun Info(vModel: BTVM) {
                 )
             ) {
                 Text(
-                    text = "Da CLICK para aprender sobre el lavado de nuestros productos",
+                    text = "Da CLIC para aprender sobre el lavado de nuestros productos",
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
