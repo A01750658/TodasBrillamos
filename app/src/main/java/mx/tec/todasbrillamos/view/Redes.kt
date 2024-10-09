@@ -8,25 +8,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import mx.tec.todasbrillamos.viewmodel.BTVM
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import io.ktor.websocket.Frame
 import mx.tec.todasbrillamos.R
 
 /**
@@ -89,7 +95,7 @@ fun Redes(vmodel: BTVM) {
                 color = MaterialTheme.colorScheme.primaryContainer, modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Bot+om y texto psts Facebook
+            // Botón y texto psts Facebook
             BotonTextandIcon(
                 text = "Facebook",
                 icon = ImageVector.vectorResource(id = R.drawable.facebook),
@@ -154,9 +160,9 @@ fun Redes(vmodel: BTVM) {
                 fontSize = if (screenOrientation == 1) 25 else 40
             )
 
-            // Botón y texto para telefóno
+            // Botón y texto para teléfono
             BotonTextandIcon(
-                text = "Telefono",
+                text = "Teléfono",
                 icon = Icons.Default.Phone,
                 onClick = { vmodel.llamada("+52 56 2808 3883", context) },
                 color = MaterialTheme.colorScheme.primaryContainer.copy(0.8f)

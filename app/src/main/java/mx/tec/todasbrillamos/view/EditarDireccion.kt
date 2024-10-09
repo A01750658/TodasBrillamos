@@ -149,7 +149,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                     .fillMaxWidth()
                 )
                 Subtitulo(
-                    "Direccion",
+                    "Dirección",
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.onTertiary,
                     fontSize = 32,
@@ -171,11 +171,11 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                         }
                         })
                     if (estadoErrors.value.errorCalle) {
-                        Etiqueta("La calle no puede estar vacia y no puede contener caracteres especiales", modifier = Modifier.padding(bottom=10.dp))
+                        Etiqueta("La calle no puede estar vacía y no puede contener caracteres especiales", modifier = Modifier.padding(bottom=10.dp))
                     }
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Etiqueta("Numero Exterior*")
+                            Etiqueta("Número Exterior*")
                             InputTexto(
                                 estado.value.numero_exterior,
                                 { nuevoTexto -> btVM.setNumeroExt(nuevoTexto)
@@ -189,7 +189,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                             )
                         }
                         Column(modifier = Modifier.weight(1f)) {
-                            Etiqueta("Numero Interior")
+                            Etiqueta("Número Interior")
                             InputTexto(
                                 estado.value.numero_int,
                                 { nuevoTexto -> btVM.setNumeroInt(nuevoTexto)
@@ -202,7 +202,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                         }
                     }
                     if (estadoErrors.value.errorNumeroExt || estadoErrors.value.errorNumeroInt) {
-                        Etiqueta("El numero interior y exterior deben ser números y el número exterior no puede estar vacio", modifier = Modifier.padding(bottom = 10.dp))
+                        Etiqueta("El número interior y exterior deben ser números y el número exterior no puede estar vacío", modifier = Modifier.padding(bottom = 10.dp))
                     }
                     Etiqueta("Colonia*")
                     InputTexto(estado.value.colonia,
@@ -213,7 +213,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                                 btVM.setErrorColonia(false)
                             }})
                     if (estadoErrors.value.errorColonia) {
-                        Etiqueta("La colonia no puede estar vacia o tener caracteres especiales", modifier= Modifier.padding(bottom = 10.dp))
+                        Etiqueta("La colonia no puede estar vacía o tener caracteres especiales", modifier= Modifier.padding(bottom = 10.dp))
                     }
                     Etiqueta("Municipio*")
                     InputTexto(estado.value.municipio,
@@ -224,7 +224,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                                 btVM.setErrorMunicipio(false)
                             }})
                     if (estadoErrors.value.errorMunicipio) {
-                        Etiqueta("El municipio no puede estar vacio o tener caracteres especiales", modifier=Modifier.padding(bottom=10.dp))
+                        Etiqueta("El municipio no puede estar vacío o tener caracteres especiales", modifier=Modifier.padding(bottom=10.dp))
                     }
                     Etiqueta("Código Postal*")
                     InputTexto(
@@ -238,7 +238,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                         keyBoardType = KeyboardType.Number
                     )
                     if (estadoErrors.value.errorCp) {
-                        Etiqueta("El código postal no puede estar vacio o tener caracteres especiales y debe tener 5 números", modifier=Modifier.padding(bottom = 10.dp))
+                        Etiqueta("El código postal no puede estar vacío o tener caracteres especiales y debe tener 5 números", modifier=Modifier.padding(bottom = 10.dp))
                     }
                     Etiqueta("Estado*")
                     Box(
@@ -290,7 +290,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                         }
                     }
                     if (estadoErrors.value.errorEstado) {
-                        Etiqueta("El estado no puede estar vacio", modifier = Modifier.padding(bottom = 10.dp))
+                        Etiqueta("El estado no puede estar vacío", modifier = Modifier.padding(bottom = 10.dp))
                     }
                     //item{InputTexto(estado.value.estado,{ nuevoTexto -> btVM.setEstado(nuevoTexto)})}
                     ElevatedButton(

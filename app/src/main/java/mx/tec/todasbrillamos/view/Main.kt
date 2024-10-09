@@ -98,7 +98,7 @@ fun AppTopBar(navController: NavHostController) {
         }else if(navController.currentBackStackEntryAsState().value?.destination?.route == Pantallas.RUTA_HISTORIAL) {
             TopAppBar(
                 title = {
-                    Text(text = "Regresar a catálogo",
+                    Text(text = "Regresar al catálogo",
                         textAlign = TextAlign.Left,
                         style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier.fillMaxWidth(),

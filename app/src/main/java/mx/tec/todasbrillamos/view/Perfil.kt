@@ -159,7 +159,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                 Spacer(modifier = Modifier.padding(6.dp).fillMaxWidth())
 
                 Etiqueta( // Teléfono
-                    "Telefono",
+                    "Teléfono",
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30

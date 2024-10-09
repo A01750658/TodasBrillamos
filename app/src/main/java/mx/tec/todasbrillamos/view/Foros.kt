@@ -80,7 +80,7 @@ fun Foros(btVM: BTVM, navController: NavHostController) {
 
                     )
                 Titulo(
-                    titulo = "Preguntas Frecuentas",
+                    titulo = "Preguntas Frecuentes",
                     color = MaterialTheme.colorScheme.secondaryContainer,
                     fontSize = 50,
                     lineHeight = 40
