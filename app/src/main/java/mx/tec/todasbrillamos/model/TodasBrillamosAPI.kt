@@ -14,7 +14,7 @@ import retrofit2.http.Query
  * y los métodos para acceder a ellos.
  */
 
-
+//Endpoint constant variables 
 const val addUserEndpoint = "add/user"
 const val addOrderwithTokenEndpoint = "add/order"
 const val getJWTKeyEndpoint = "getToken/"
@@ -29,6 +29,7 @@ const val updateAddressWithTokenEndpoint = "edit/address/"
 const val getForoWithTokenEndpoint = "get/foro"
 const val getCommentsWithTokenEndpoint = "get/comments"
 const val addForumsolicitationWithTokenEndpoint = "add/foro"
+
 interface TodasBrillamosAPI
 {
 

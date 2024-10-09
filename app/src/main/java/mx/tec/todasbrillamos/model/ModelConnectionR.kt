@@ -1,16 +1,17 @@
 package mx.tec.todasbrillamos.model
 
-/**
- * @author Carlos Iker Fuentes Reyes
- * Clase que se encarga de la conexión con el servidor haciendo uso de retrofit y de la clase
- * abstracta TodasBrillamosAPI
- */
+
 
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.MessageDigest
 
+/**
+ * @author Carlos Iker Fuentes Reyes
+ * Clase que se encarga de la conexión con el servidor haciendo uso de retrofit y de la clase
+ * abstracta TodasBrillamosAPI
+ */
 
 class ModelConnectionR {
     //Instancia de retrofit con el URL base de la API
@@ -209,25 +210,31 @@ class ModelConnectionR {
 
 suspend fun main(){
     val modelConnection = ModelConnectionR()
+    val token = modelConnection.getJWTKey("iker@gmail.com","1234").data
+    //println(token)
     //println(modelConnection.hash("AAAAA"))
-    val lista : List<Producto> = modelConnection.getProductsWithToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlckBnbWFpbC5jb207MTIzNCIsImlhdCI6MTcyNjQ5ODg3NiwiZXhwIjoxNzI2NDk5MTc2fQ.KCwualrayru-DSqHG-Zi5IpXc3TPx8LDb1EvKOtWymA").second
+    val lista : List<Producto> = modelConnection.getProductsWithToken(token).second
     //println(lista)
-//val p :MutableList<Pair<Int,Int>> = mutableListOf()
-    /*for (i in lista){
+val p :MutableList<Pair<Int,Int>> = mutableListOf()
+    for (i in lista){
         p.add(Pair(i.id,1))
-    }*/
-    //val dInfo = modelConnection.createDataInfo(p)
-    //val order = Order(dInfo,201)
+    }
+    val dInfo = modelConnection.createDataInfo(p)
+    val order = Order(dInfo,201)
     //val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker23537676565877654@gmail.com","1234",0,1,"5532532512")
-    //println(modelConnection.addOrderWithToken(order,modelConnection.getJWTKey(us.email,us.password).data))
-    //println(modelConnection.addAddress(modelConnection.getJWTKey(us.email,us.password).data,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex","54050","12","12",2)))
-    // val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","iker2365@gmail.com","1234",0)
+    //println(modelConnection.addOrderWithToken(order,token))
+    //println(modelConnection.addAddress(token,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex","54050","12","12",441)))
+    //println(modelConnection.updateAddress(token,Direccion("Convento de SantaMaría","Jardines de ","Tlane","EdoMex","54050","30","12",999)))
+
+     val us : Usuario = Usuario("Iker","Fuentes","Reyes","16-DEC-2002","prueba777@gmail.com","1234",0,0,"5566778899")
     //println(modelConnection.getJWTKey(us.email,us.password))
     //println(modelConnection.signUp(us))
-    //println(modelConnection.getUserData(modelConnection.getJWTKey("iker@gmail.com","1234").data))
+    //println(modelConnection.getUserData(token))
+
+    
     //println(modelConnection.getRecoveryPasswordToken("iker.fuentesreyes@gmail.com"))
     //println(modelConnection.changePassword(109076427,"iker.fuentesreyes@gmail.com","777"))
-    println(modelConnection.getOrderInfo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlckBnbWFpbC5jb207MTIzNCIsImlhdCI6MTcyODI2NjIwOCwiZXhwIjoxNzI4MjY2MjU4fQ.HzwRrR7_vQ3tYzvZmzpVj_22sM7QYde04RipRrXN2Zw"))
+    //println(modelConnection.getOrderInfo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlckBnbWFpbC5jb207MTIzNCIsImlhdCI6MTcyODI2NjIwOCwiZXhwIjoxNzI4MjY2MjU4fQ.HzwRrR7_vQ3tYzvZmzpVj_22sM7QYde04RipRrXN2Zw"))
     //println(modelConnection.getForo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tO3Jvb3QiLCJpYXQiOjE3Mjc4OTQ4MjksImV4cCI6MTcyNzg5NTEyOX0.CS7cV7M4NgdydxJwZPBKrXnf6wjJ61YbRy8QRZ7jmNM"))
     //println(modelConnection.getComments("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tO3Jvb3QiLCJpYXQiOjE3Mjc4OTQ4MjksImV4cCI6MTcyNzg5NTEyOX0.CS7cV7M4NgdydxJwZPBKrXnf6wjJ61YbRy8QRZ7jmNM",161))
 }
