@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.ThumbUp
@@ -21,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
@@ -49,6 +52,8 @@ import mx.tec.todasbrillamos.R
 fun Redes(vmodel: BTVM) {
     val context = LocalContext.current // Contexto de la aplicación para manejar las acciones como abrir enlaces y llamadas
     val scrollState = rememberScrollState()
+    val scrollPosition = scrollState.value
+    val maxScrollPosition = scrollState.maxValue
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
 
@@ -56,13 +61,14 @@ fun Redes(vmodel: BTVM) {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.secondary)
-            .verticalScroll(scrollState)
+
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
+                .verticalScroll(scrollState)
         ) {
             // Ícono de titulo de la pantalla
             Icon(
@@ -177,6 +183,21 @@ fun Redes(vmodel: BTVM) {
                 onClick = { vmodel.ubicacion("Fundación Todas Brillamos", context) },
                 color = MaterialTheme.colorScheme.tertiary.copy(0.8f)
             )
+        }
+        if(scrollPosition != maxScrollPosition) {
+            Box(modifier = Modifier
+                .clip(CircleShape)
+                .size(40.dp)
+                //.padding(bottom = 20.dp)
+                .align(Alignment.BottomCenter)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Generar",
+                    Modifier.size(30.dp),
+                )
+            }
         }
     }
 }
