@@ -55,6 +55,8 @@ import mx.tec.todasbrillamos.R
 fun Redes(vmodel: BTVM) {
     val context = LocalContext.current // Contexto de la aplicación para manejar las acciones como abrir enlaces y llamadas
     val scrollState = rememberScrollState()
+    val scrollPosition = scrollState.value
+    val maxScrollPosition = scrollState.maxValue
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
 
@@ -62,13 +64,14 @@ fun Redes(vmodel: BTVM) {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.secondary)
-            .verticalScroll(scrollState)
+
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
+                .verticalScroll(scrollState)
         ) {
             // Ícono de titulo de la pantalla
             Icon(
@@ -183,6 +186,21 @@ fun Redes(vmodel: BTVM) {
                 onClick = { vmodel.ubicacion("Fundación Todas Brillamos", context) },
                 color = MaterialTheme.colorScheme.tertiary.copy(0.8f)
             )
+        }
+        if(scrollPosition != maxScrollPosition) {
+            Box(modifier = Modifier
+                .clip(CircleShape)
+                .size(40.dp)
+                //.padding(bottom = 20.dp)
+                .align(Alignment.BottomCenter)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Generar",
+                    Modifier.size(30.dp),
+                )
+            }
         }
     }
 }
