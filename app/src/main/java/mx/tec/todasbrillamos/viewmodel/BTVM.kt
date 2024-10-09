@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import mx.tec.todasbrillamos.PreferencesKeys
+import mx.tec.todasbrillamos.dataStore
 import mx.tec.todasbrillamos.model.Comentario
 import mx.tec.todasbrillamos.model.Direccion
 import mx.tec.todasbrillamos.model.Foro
@@ -329,6 +332,24 @@ class BTVM: ViewModel() {
         return modeloR.createDataInfo(newList)
     }
 
+    fun saveHashPassword(context: Context, password : String) {
+        println("Saving password")
+        viewModelScope.launch {
+            context.dataStore.edit { preferences ->
+                preferences[PreferencesKeys.hash_password] = modeloR.hash(password)
+            }
+        }
+    }
+
+    fun printHashPassword(context: Context) {
+        viewModelScope.launch {
+            context.dataStore.data.collect { preferences ->
+                val hashPassword = preferences[PreferencesKeys.hash_password]
+                println("MUY BIEEEN, el hash: ${hashPassword}")
+            }
+        }
+    }
+
     /**
      * Función para crear un usuario en la base de datos
      * @author Iker Fuentes
@@ -360,8 +381,6 @@ class BTVM: ViewModel() {
             publicidad,
             telefono
         )
-
-        val hashPassword = modeloR.hash(password)
 
         viewModelScope.launch {
             try {

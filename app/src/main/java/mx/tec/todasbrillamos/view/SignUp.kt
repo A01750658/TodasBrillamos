@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
@@ -72,6 +73,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
     var valorAvisos by rememberSaveable { mutableStateOf(estado.value.aviso) }  // Estado de aceptación de términos y condiciones
     var valorMarketing by rememberSaveable { mutableStateOf(estado.value.marketing) }  // Estado para permitir marketing
     val estadoErrors = btVM.estadoErrors.collectAsState()  // Estado de los errores del formulario
+    val context = LocalContext.current
 
     // Formulario
     Box(
@@ -186,6 +188,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setIntent(false)
                     valortelefono = nuevoTexto
                     btVM.setTelefonoUsuario(valortelefono)
+                    btVM.printHashPassword(context)
                 },
                 keyBoardType = KeyboardType.Number,
                 placeHolder = "5512345678")
@@ -317,6 +320,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
                         if (!estadoErrors.value.errorSignUp){
                             navController.navigate(Pantallas.RUTA_LOGIN)
+                            btVM.saveHashPassword(context, valorPassword)
                         }
 
                     } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
