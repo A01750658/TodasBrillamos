@@ -18,6 +18,24 @@ import mx.tec.todasbrillamos.viewmodel.BTVM
 import mx.tec.todasbrillamos.viewmodel.PaymentsViewModel
 import mx.tec.todasbrillamos.viewmodel.ValidationsVM
 
+/**
+ * Pantalla principal de la aplicación donde se muestra información de la organización, asi como
+ * la tienda, redes, foros, inicio de sesión, registro, perfil y más.
+ *
+ * @author Santiago Chevez
+ * @author Alan Vega
+ * @author Andrés Cabrera
+ * @author Iker Fuentes
+ * @author Cesar Flores
+ *
+ * @param btVM ViewModel principal de la aplicación.
+ * @param paymentsVM ViewModel de pagos de la aplicación.
+ * @param valVM ViewModel de validaciones de la aplicación.
+ * @param flag Bandera que indica si se ha recibido un deep link.
+ * @param savedDeepLinkUri Uri del deep link recibido.
+ *
+ */
+
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 object PreferencesKeys {
     val username_saved = stringPreferencesKey("user_name")
@@ -29,48 +47,63 @@ object PreferencesKeys {
     val user_id = intPreferencesKey("id")
 }
 
+/**
+ * Clase principal de la aplicación.
+ * Se encarga de manejar la lógica de la aplicación y de inicializar los ViewModels.
+ * @constructor Crea un nuevo ViewModel de la aplicación.
+ * @param btVM ViewModel principal de la aplicación.
+ * @param paymentsVM ViewModel de pagos de la aplicación.
+ * @param valVM ViewModel de validaciones de la aplicación.
+ * @param flag Bandera que indica si se ha recibido un deep link.
+ */
+
 class MainActivity : ComponentActivity() {
     private val btVM : BTVM by viewModels()
     private val paymentsVM: PaymentsViewModel by viewModels()
     private val valVM: ValidationsVM by viewModels()
     var flag: Boolean = false
 
+    // Método que se llama cuando la actividad recibe una nueva intención
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        setIntent(intent) // Update the intent
+        setIntent(intent) // Actualiza la intención con la nueva información
     }
 
+    // Método que se llama cuando la actividad se crea por primera vez
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
-            val deepLinkUri: Uri? = intent?.data
-
-            deepLinkUri?.let {
+            val deepLinkUri: Uri? = intent?.data // Obtiene el URI del deep link de la intención (si existe)
+            deepLinkUri?.let { // Si el deep link existe, se guarda en las preferencias compartidas
                 saveDeepLinkUri(it)
             }
+            val savedDeepLinkUri = getSavedDeepLinkUri() // Recupera el deep link guardado en las preferencias
 
-            val savedDeepLinkUri = getSavedDeepLinkUri()
-
-            if (savedDeepLinkUri != null){
+            if (savedDeepLinkUri != null) { // Si se encuentra un deep link guardado, activa la bandera
                 flag = true
             }
 
+            // Llama a la función de composición principal pasando los ViewModels y el deep link
             Main(btVM, paymentsVM, flag, savedDeepLinkUri, valVM)
         }
     }
+
+
+    // Método que se llama cuando la actividad pasa al estado de "inicio" (onStart)
     override fun onStart(){
         super.onStart()
         println("Booting")
         println(btVM.getEstadoUsuario())
     }
 
+    // Guarda el URI del deep link en las preferencias compartidas
     private fun saveDeepLinkUri(uri: Uri) {
         val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         sharedPreferences.edit().putString("deep_link_uri", uri.toString()).apply()
     }
 
+    // Recupera el URI del deep link desde las preferencias compartidas
     private fun getSavedDeepLinkUri(): Uri? {
         val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val uriString = sharedPreferences.getString("deep_link_uri", null)
