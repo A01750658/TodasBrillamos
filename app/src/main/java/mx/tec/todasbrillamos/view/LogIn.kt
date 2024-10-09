@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
@@ -182,6 +184,17 @@ fun LogIn(
                     Modifier
                         .padding(bottom = 16.dp)
                         .padding(start = 120.dp), color= Color(0xFF00FF00))
+
+                AlertDialog(
+                    onDismissRequest = { btVM.setRegistroExitoso(false) },
+                    title = { Text("Registro Exitoso") },
+                    text = { Text("Su registro se ha realizado con éxito.") },
+                    confirmButton = {
+                        Button(onClick = { btVM.setRegistroExitoso(false)}) {
+                            Text("Aceptar")
+                        }
+                    },
+                )
             }
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
