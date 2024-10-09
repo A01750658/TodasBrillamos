@@ -146,7 +146,7 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
                     .background(MaterialTheme.colorScheme.tertiary)
             ){
                 Text(
-                    text = "Click para recuperar",
+                    text = "Clic para recuperar",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodyMedium,

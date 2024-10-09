@@ -270,7 +270,9 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
         //Botón flotante para llevar al usuario a la pantalla de pagos
         FloatingActionButton(
             onClick = {
-                navController.navigate("Pagos")
+                if (estadoCarrito.productos.isNotEmpty()) {
+                    navController.navigate("Pagos")
+                }
             },
             containerColor = MaterialTheme.colorScheme.primary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),

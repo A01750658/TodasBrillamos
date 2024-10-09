@@ -8,13 +8,18 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -61,6 +66,8 @@ import mx.tec.todasbrillamos.viewmodel.ValidationsVM
 @Composable
 fun SignUp(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
+    val scrollPosition = scrollState.value
+    val maxScrollPosition = scrollState.maxValue
     val showDatePicker by btVM.showDatePicker.observeAsState(false)  // Estado para mostrar la fecha de nacimiento
     val estado = btVM.estadoUsuario.collectAsState()  // Estado del ViewModel con la información del usuario
     val estadoFecha by btVM.estadoFecha.observeAsState()  // Estado que contiene la fecha de nacimiento seleccionada por el usuario
@@ -86,7 +93,6 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 painterResource(id = R.drawable.finalback),  // Fondo de la pantalla con imagen
                 contentScale = ContentScale.FillBounds
             )
-            .verticalScroll(scrollState)
     ) {
         Column(
             modifier = Modifier
@@ -94,6 +100,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                .verticalScroll(scrollState)
         ) {
             // Título de la pantalla
             Titulo(titulo = "Registro", modifier = Modifier.padding(bottom = 2.dp), color = MaterialTheme.colorScheme.onTertiary)
@@ -140,7 +147,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             // Mostrar errores si existen problemas con los datos ingresados
             if (estadoErrors.value.errorType) {
                 Etiqueta(
-                    "Todos los campos deben ser llenados. Solo puedes usar letras y no se puede superar los 20 caracteres.",
+                    "Todos los campos deben ser llenados. Solo puedes usar letras y no se pueden superar los 20 caracteres.",
                     Modifier.padding(bottom = 16.dp),
                     color = MaterialTheme.colorScheme.error
                 )
@@ -178,7 +185,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             }
 
             // Validaciones y entradas restantes como teléfono, correo electrónico y contraseñas
-            Etiqueta("Telefono*", Modifier.padding(bottom = 3.dp))
+            Etiqueta("Teléfono*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.telefono,
                 {
                         nuevoTexto ->
@@ -268,7 +275,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 )
             }
             if (!valorAvisos && estado.value.intent){
-                Etiqueta("Debes confirmar que haz leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -301,7 +308,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
 
             Spacer(modifier = Modifier.padding(16.dp))
@@ -364,6 +371,21 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             // Opción para redirigir a la pantalla de inicio de sesión
             PreguntaBoton("¿Ya tienes cuenta?", "Inicia sesión", { navController.navigate(Pantallas.RUTA_LOGIN) })
             Spacer(modifier = Modifier.padding(16.dp))
+        }
+        if(scrollPosition != maxScrollPosition) {
+            Box(modifier = Modifier
+                .clip(CircleShape)
+                .size(50.dp)
+                //.padding(bottom = 20.dp)
+                .align(Alignment.BottomCenter)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Generar",
+                    Modifier.size(40.dp),
+                )
+            }
         }
     }
 }

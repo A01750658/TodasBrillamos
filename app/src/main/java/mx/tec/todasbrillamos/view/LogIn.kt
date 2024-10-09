@@ -145,7 +145,7 @@ fun LogIn(
                 btVM.setLoading(false)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.inversePrimary)
                 btVM.setLoading(false)
             }
 

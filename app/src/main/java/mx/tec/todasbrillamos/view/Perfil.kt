@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
@@ -52,10 +54,11 @@ import mx.tec.todasbrillamos.viewmodel.BTVM
  * @param estadoUsuario Estado del usuario.
  *
  */
-
 @Composable
 fun Perfil(btVM: BTVM, navController: NavHostController) {
     val scrollState = rememberScrollState()
+    val scrollPosition = scrollState.value
+    val maxScrollPosition = scrollState.maxValue
     val estado = btVM.estadoUsuario.collectAsState()
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
@@ -80,7 +83,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.secondary)
-            .verticalScroll(scrollState)
+
     ) {
         Column( horizontalAlignment =  Alignment.CenterHorizontally,
             modifier = Modifier
@@ -88,21 +91,30 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                 .fillMaxWidth()
         )
         {
-            Icon( // Ícono de usuario
-                imageVector = Icons.Default.Person,
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.secondaryContainer,
-                modifier = Modifier
-                    .padding(10.dp)
-                    .size(100.dp)
-                    .fillMaxWidth(),
+            if (screenOrientation ==1) {
+                Icon(
+                    // Ícono de usuario
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.secondaryContainer,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(100.dp)
+                        .fillMaxWidth(),
 
-            )
-            // Título de la pantalla
-            Titulo(titulo = "Perfil", color = MaterialTheme.colorScheme.secondaryContainer, fontSize = 50)
-            HorizontalDivider(thickness = 2.dp,
-                color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.padding(bottom = 16.dp))
+                    )
+                // Título de la pantalla
+                Titulo(
+                    titulo = "Perfil",
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    fontSize = 50
+                )
+                HorizontalDivider(
+                    thickness = 2.dp,
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
             Spacer(modifier = Modifier
                 .padding(2.dp)
                 .fillMaxWidth()
@@ -112,6 +124,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
             Column(modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
                 .background((MaterialTheme.colorScheme.primary).copy(alpha = 0.7f))
+                .verticalScroll(scrollState)
             ) {
                 Spacer(
                     modifier = Modifier
@@ -159,7 +172,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                 Spacer(modifier = Modifier.padding(6.dp).fillMaxWidth())
 
                 Etiqueta( // Teléfono
-                    "Telefono",
+                    "Teléfono",
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.onTertiary,
                     padding = 30
@@ -217,6 +230,21 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                 }
             }
             Spacer(modifier = Modifier.padding(10.dp).fillMaxWidth())
+        }
+        if(scrollPosition != maxScrollPosition) {
+            Box(modifier = Modifier
+                .clip(CircleShape)
+                .size(40.dp)
+                //.padding(bottom = 20.dp)
+                .align(Alignment.BottomCenter)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Generar",
+                    Modifier.size(30.dp),
+                )
+            }
         }
     }
 }

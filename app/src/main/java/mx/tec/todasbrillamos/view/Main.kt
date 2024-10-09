@@ -98,7 +98,7 @@ fun AppTopBar(navController: NavHostController) {
         }else if(navController.currentBackStackEntryAsState().value?.destination?.route == Pantallas.RUTA_HISTORIAL) {
             TopAppBar(
                 title = {
-                    Text(text = "Regresar a catálogo",
+                    Text(text = "Regresar al catálogo",
                         textAlign = TextAlign.Left,
                         style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier.fillMaxWidth(),
@@ -115,7 +115,88 @@ fun AppTopBar(navController: NavHostController) {
                     }
                 }
             )
-        } else{
+        } else if(navController.currentBackStackEntryAsState().value?.destination?.route == Pantallas.RUTA_PAGOS){
+            TopAppBar(
+                title = {
+                    Text(text = "Regresar al carrito",
+                        textAlign = TextAlign.Left,
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        fontWeight = FontWeight.Bold)
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }){
+                        Icon(imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onTertiary)
+                    }
+                }
+            )
+        } else if(navController.currentBackStackEntryAsState().value?.destination?.route == Pantallas.RUTA_INFO){
+            TopAppBar(
+                title = {
+                    Text(text = "Regresar a inicio",
+                        textAlign = TextAlign.Left,
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        fontWeight = FontWeight.Bold)
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }){
+                        Icon(imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onTertiary)
+                    }
+                }
+            )
+        } else if (navController.currentBackStackEntryAsState().value?.destination?.route == Pantallas.RUTA_CREARFORO){
+            TopAppBar(
+                title = {
+                    Text(text = "Ver foros",
+                        textAlign = TextAlign.Left,
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        fontWeight = FontWeight.Bold)
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }){
+                        Icon(imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onTertiary)
+                    }
+                }
+            )
+        }else if(navController.currentBackStackEntryAsState().value?.destination?.route == Pantallas.RUTA_EDITAR_DIRECCION){
+            TopAppBar(
+                title = {
+                    Text(text = "Regresar",
+                        textAlign = TextAlign.Left,
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        fontWeight = FontWeight.Bold)
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }){
+                        Icon(imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onTertiary)
+                    }
+                }
+            )
+        }
+        else{
             TopAppBar(
                 title = {
                     Text(

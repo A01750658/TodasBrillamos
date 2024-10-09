@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.AlertDialog
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -77,12 +79,15 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
             TextButton(
                 onClick = {
                     println("Publicando $pregunta")
-                    btVM.solicitarForo(pregunta)
-                    showDialog=true
-                          },
+                    if (pregunta.isNotEmpty()) {
+                        btVM.solicitarForo(pregunta)
+                    }
+                    showDialog = true
+                },
                 Modifier
                     .padding(horizontal = 100.dp)
                     .padding(bottom = 16.dp)
+                    .clip(RoundedCornerShape(35.dp))
                     .background(MaterialTheme.colorScheme.tertiary)
             ) {
                 Text(
@@ -117,9 +122,9 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                 text = {
                     Text(
                         text = if (estadoSolicitarForo.contains("Successful")) {
-                            "¡Tu pregunta será revisada y pordrá ser respondida dentro de poco!"
+                            "¡Tu pregunta será revisada y podrá ser respondida dentro de poco!"
                         } else {
-                            "Algo salio mal..."
+                            "Algo salió mal..."
                         }
                     )
                 },
@@ -130,8 +135,10 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                         contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
                     ) {
                         Button(onClick = {
+                            if (estadoSolicitarForo.contains("Successful")){
+                                navController.navigateUp()
+                            }
                             showDialog = false
-                            navController.navigateUp()
                         }) {
                             Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
                         }
