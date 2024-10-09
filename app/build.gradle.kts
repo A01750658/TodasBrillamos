@@ -52,6 +52,7 @@ android {
 
 dependencies {
 
+    implementation ("androidx.compose.material:material-icons-extended:1.0.0")
     implementation ("com.google.android.material:material:1.4.0")
     implementation ("androidx.fragment:fragment-ktx:1.3.6")
     implementation ("androidx.compose.material:material:1.2.0")
