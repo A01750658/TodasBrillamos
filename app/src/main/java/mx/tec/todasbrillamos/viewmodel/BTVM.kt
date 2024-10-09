@@ -1093,4 +1093,29 @@ class BTVM: ViewModel() {
         _estadoBusquedaForo.value = text
     }
 
+    /**
+     * Para recuperar los datos de carrito cuando el usuario cancela la orden en Paypal
+     * @author Alan Vega
+     * @param carrito
+     */
+
+    fun setCarrito(orden: String){
+        val prod =  orden.split(";")
+        val idProdOrden = prod[0].split(",")
+        val cant = prod[1].split(",")
+        val listaOrden: MutableList<EstadoProducto>
+
+        val listaProd: MutableList<EstadoProducto> = _estadoListaProducto.value
+
+        for (elem in listaProd){
+            for (i in idProdOrden){
+                val numId = i.toInt()
+                val cantProd = cant[i.toInt()].toInt()
+                if (numId == elem.id){
+                    addProducto(elem, cantProd)
+                }
+            }
+        }
+    }
+
 }

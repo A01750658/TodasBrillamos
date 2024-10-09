@@ -1,6 +1,7 @@
 package mx.tec.todasbrillamos.viewmodel
 
 import android.content.Context
+import android.net.Uri
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -73,9 +74,11 @@ class PaymentsViewModel: ViewModel() {
 
                 // Obtiene la URL de aprobación del pago para redirigir al usuario
                 val approvalUrl = payment.links.find { it.rel == "approval_url" }?.href
+                val userCancelUrl = payment.links.find { it.rel == "cancel_url" }?.href
                 if (approvalUrl != null) {
                     onSuccess(approvalUrl) // Llama a la función de éxito con la URL de aprobación
-                } else {
+                }
+                else {
                     onError(Exception("Approval URL not found")) // Llama a la función de error si no se encuentra la URL
                 }
             } catch (e: PayPalRESTException) {
@@ -90,7 +93,8 @@ class PaymentsViewModel: ViewModel() {
         paymentId: String,
         payerId: String,
         onSuccess: (Payment) -> Unit,
-        onError: (Exception) -> Unit
+        onError: (Exception) -> Unit,
+
     ) {
         viewModelScope.launch {
             try {
@@ -164,6 +168,28 @@ class PaymentsViewModel: ViewModel() {
                     }
                     btvm.login(username, password)
 
+                    //println("ORDEN ${orden} | TOKEN ${token} | user_id ${user_id} ")
+
+
+                }
+
+            }
+        }
+    }
+
+    fun restoreDataAfterCancel(context: Context, btVM: BTVM){
+        viewModelScope.launch {
+            context.dataStore.data.collect { preferences ->
+                val username = preferences[PreferencesKeys.username_saved]
+                val password = preferences[PreferencesKeys.password_saved]
+                val email = preferences[PreferencesKeys.user_email]
+                val orden = preferences[PreferencesKeys.user_order]
+                val token = preferences[PreferencesKeys.user_token]
+                val user_id = preferences[PreferencesKeys.user_id]
+                //println("THIS IS THE USER TOKEN "+token)
+                if (username != null && password != null && orden != null) {
+                    btVM.login(username, password)
+                    btVM.setCarrito(orden)
                     //println("ORDEN ${orden} | TOKEN ${token} | user_id ${user_id} ")
 
 
