@@ -470,7 +470,7 @@ class BTVM: ViewModel() {
                 setCorreoUsuario(email)
                 setContrasenaUsuario(password)
                 getProductos()
-                //println("LOGIN EXITOSO CRACK")
+                println("LOGIN EXITOSO CRACK")
                 //println("SOY VIEW MODEL")
                 _estadoLoginExitoso.value = true
                 //println(_estadoUsuario.value)
@@ -1118,23 +1118,30 @@ class BTVM: ViewModel() {
      */
 
     fun setCarrito(orden: String){
-        val prod =  orden.split(";")
-        val idProdOrden = prod[0].split(",")
-        val cant = prod[1].split(",")
-        val listaOrden: MutableList<EstadoProducto>
-
-        val listaProd: MutableList<EstadoProducto> = _estadoListaProducto.value
-
-        for (elem in listaProd){
-            for (i in idProdOrden){
-                val numId = i.toInt()
-                val cantProd = cant[i.toInt()].toInt()
-                if (numId == elem.id){
-                    addProducto(elem, cantProd)
+        viewModelScope.launch{
+            println(orden)
+            val prod =  orden.split(";")
+            val idProdOrden = prod[0].split(",")
+            println(idProdOrden)
+            val cant = prod[1].split(",")
+            println(cant)
+            var listaProd: MutableList<EstadoProducto>  = mutableListOf()
+            val listaOrden: MutableList<EstadoProducto>
+            if (_estadoListaProducto.value.isNotEmpty()) {
+                listaProd = _estadoListaProducto.value
+                println(listaProd[0].id)
+            }
+            for (elem in listaProd){
+                for (i in idProdOrden){
+                    val numId = i.toInt()
+                    val cantProd = cant[i.toInt()].toInt()
+                    if (numId == elem.id){
+                        addProducto(elem, cantProd)
+                    }
                 }
             }
         }
-    }
+        }
 
     fun setFiltrarPrecio(tipo:Int){
         _estadoFiltroPrecio.value = tipo

@@ -96,6 +96,17 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
     LaunchedEffect(deepLinkUri) {
         println("Shit entered the LaunchedEffect")
         deepLinkUri?.let { uri ->
+
+            if(deepLinkUri.toString().contains("myapp://payment/cancel")){
+                paymentStatus = "Payment cancelled by user"
+                showDialog = true
+                sharedPreferences.edit().remove("deep_link_uri").apply()
+                println(paymentStatus)
+                paymentsViewModel.restoreDataAfterCancel(context, viewModel)
+                paymentsViewModel.delUserData(context)
+                (context as? ComponentActivity)?.intent?.data = null
+            }
+            else if(deepLinkUri.toString().contains("myapp://payment")){
             val paymentId = extractPaymentId(uri)
             val payerId = extractPayerId(uri)
             if (paymentId.isNotEmpty() && payerId.isNotEmpty()) {
@@ -124,6 +135,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                 )
             }
         }
+    }
     }
     Box (
         contentAlignment = Alignment.Center,
@@ -239,8 +251,8 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                             method = "paypal", // Método de pago (PayPal)
                             intent = "sale", // Tipo de transacción (Venta)
                             description = "Payment description", // Descripción del pago
-                            cancelUrl = "http://localhost:8080/cancel", // URL de cancelación
-                            successUrl = "myapp://payment", // URL de éxito
+                            cancelUrl = "myapp://payment/cancel", // URL de cancelación
+                            successUrl = "myapp://payment/success", // URL de éxito
                             onSuccess = { url ->
                                 approvalUrl = url
                                 println(approvalUrl)
@@ -275,15 +287,29 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             AlertDialog(
                 onDismissRequest = { showDialog = false },
                 title = {
-                    Text(
-                        text = when {
-                            paymentStatus.contains("successful") -> "¡Orden Completa!"
-                            paymentStatus.contains("Debe agregar") -> "Error"
-                            else -> "¡Orden Fallida!"
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
+                    if (paymentStatus.contains("successful")) {
+                        Text(
+                            text = "¡Orden Completa!",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    else if(paymentStatus.contains("cancelled")){
+                        Text(
+                            text = "Orden cancelada!",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    else {
+                        Text(
+                            text = "¡Orden Fallida!",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 },
                 text = {
                     Text(
@@ -295,6 +321,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                     )
                 },
                 confirmButton = {
+                    // Centrar el botón usando un Box
                     Box(
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center
@@ -319,9 +346,11 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                     }
                 }
             )
+
         }
     }
 }
+
 
 /*
 fun extractPaymentId(uri: Uri): String {

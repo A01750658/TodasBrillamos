@@ -131,7 +131,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                 Spacer(modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth())
-                Etiqueta(texto = "Filtros", color = MaterialTheme.colorScheme.tertiary, padding = 150)
+                Etiqueta(texto = "Filtros", color = MaterialTheme.colorScheme.tertiary, padding = 140)
                 Row {
                     // Menú desplegable para filtrar productos por categoría
                     Box(modifier = Modifier.padding(8.dp).weight(1f)) {

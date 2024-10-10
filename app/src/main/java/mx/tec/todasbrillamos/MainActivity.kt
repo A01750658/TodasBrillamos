@@ -61,7 +61,8 @@ class MainActivity : ComponentActivity() {
     private val btVM : BTVM by viewModels()
     private val paymentsVM: PaymentsViewModel by viewModels()
     private val valVM: ValidationsVM by viewModels()
-    var flag: Boolean = false
+    var flagS: Boolean = false
+    var flagC: Boolean = false
 
     // Método que se llama cuando la actividad recibe una nueva intención
     override fun onNewIntent(intent: Intent) {
@@ -77,15 +78,25 @@ class MainActivity : ComponentActivity() {
             val deepLinkUri: Uri? = intent?.data // Obtiene el URI del deep link de la intención (si existe)
             deepLinkUri?.let { // Si el deep link existe, se guarda en las preferencias compartidas
                 saveDeepLinkUri(it)
+                println(deepLinkUri)
             }
             val savedDeepLinkUri = getSavedDeepLinkUri() // Recupera el deep link guardado en las preferencias
 
-            if (savedDeepLinkUri != null) { // Si se encuentra un deep link guardado, activa la bandera
-                flag = true
+            if (savedDeepLinkUri != null && savedDeepLinkUri.toString().contains("myapp://payment/success")){
+                flagS = true
+                flagC = false
+                println(savedDeepLinkUri)
             }
 
+            if (savedDeepLinkUri != null && savedDeepLinkUri.toString().contains("myapp://payment/cancel")) { // Si se encuentra un deep link guardado, activa la bandera
+                flagS = false
+                flagC = true
+                println(savedDeepLinkUri)
+            }
+
+
             // Llama a la función de composición principal pasando los ViewModels y el deep link
-            Main(btVM, paymentsVM, flag, savedDeepLinkUri, valVM)
+            Main(btVM, paymentsVM, flagS, flagC,savedDeepLinkUri, valVM)
         }
     }
 

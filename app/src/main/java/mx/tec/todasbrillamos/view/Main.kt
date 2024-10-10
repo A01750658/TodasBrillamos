@@ -43,7 +43,7 @@ import mx.tec.todasbrillamos.viewmodel.ValidationsVM
  * @param modifier modificador
  */
 @Composable
-fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLinkUri: Uri?, validationsVM: ValidationsVM ,modifier: Modifier = Modifier){
+fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flagS: Boolean, flagC: Boolean, savedDeepLinkUri: Uri?, validationsVM: ValidationsVM ,modifier: Modifier = Modifier){
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
@@ -53,7 +53,8 @@ fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLink
                 btVM,
                 paymentsVM,
                 navController,
-                flag,
+                flagS,
+                flagC,
                 savedDeepLinkUri,
                 validationsVM,
                 modifier.padding(innerPadding)
@@ -291,9 +292,10 @@ fun AppBottomBar(btVM: BTVM, navController: NavHostController) {
  * @param modifier modificador
  */
 @Composable
-fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flag: Boolean, savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
+fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostController, flagS: Boolean, flagC: Boolean,savedDeepLinkUri: Uri?,validationsVM: ValidationsVM,modifier: Modifier = Modifier) {
     NavHost(navController = navController,
-        startDestination = if (!flag) Pantallas.RUTA_LOGIN else Pantallas.RUTA_PAGOS,
+
+        startDestination = if (flagS) Pantallas.RUTA_PAGOS else if (flagC) Pantallas.RUTA_PAGOS else Pantallas.RUTA_LOGIN,
         modifier = modifier,){
         composable(Pantallas.RUTA_APP_HOME){
             Home(navController,btVM,paymentsVM)
