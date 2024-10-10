@@ -10,7 +10,7 @@ class Validations {
     //verify forbidden words
     val forbidden_words_regex = Regex(".*putit[oa]s?|put[oa@]|chingada|pendej[ao]|maldit[oa]|nigga|terrorismo.*|mierd[ao]|cagad[oa]|nigg(a|e|er|ers)|pinche|mamahuevo|pendej(ada|adas|p)|pit[oa]|mamapinga|verg[oa@]|culo|culiado|odio|cracker|slope|come perros| mam(ón|on|ona|one|ones)|pinch([e3]s|a)|ching(a|ado|ada) |perr[oa] |miado |pene*|pit(o|os)")
     //find special characters
-    val number_special_chars_regex = Regex("[^a-zA-Z0-9\\s]+")
+    val number_special_chars_regex = Regex("[^a-zA-Z0-9\\s]+|[áéíóúÁÉÍÓÚ]+")
     val just_numbers_regex = Regex("\\d*")
 
     /**

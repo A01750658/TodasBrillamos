@@ -154,4 +154,28 @@ class ExampleUnitTest {
             assertFalse(validations.validatePhoneNumber(number))
         }
     }
+    @Test
+    fun validateSpecialChars(){
+        val validations = Validations()
+        val valid_special_chars = listOf(
+            "@@tgersgrg564",
+            "#35436436",
+            "@@tgersgrg564",
+            "4546567'''5647575765{dflf",
+            "@@tgersgrg564",
+            "@@tgersgrg564",
+            "@@&&&&"
+        )
+        val invalid_special_chars = listOf(
+            "hola",
+            "1234567890",
+            "como estan"
+        )
+        for (string in valid_special_chars) {
+            assertNotNull(validations.findSpecialCharacters(string))
+        }
+        for (string in invalid_special_chars) {
+            assertNull(validations.findSpecialCharacters(string))
+        }
+    }
 }
