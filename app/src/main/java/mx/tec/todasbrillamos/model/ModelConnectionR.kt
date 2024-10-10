@@ -237,5 +237,5 @@ val p :MutableList<Pair<Int,Int>> = mutableListOf()
     //println(modelConnection.changePassword(45397919,"iker.fuentesreyes@gmail.com","9999"))
     //println(modelConnection.getOrderInfo(token))
     //println(modelConnection.getForo(token))
-    println(modelConnection.getComments("dgkjzdkhjzrhzoridghoies",1000))
+    println(modelConnection.getComments(token,481))
 }
