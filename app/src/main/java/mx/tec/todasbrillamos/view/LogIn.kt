@@ -185,8 +185,14 @@ fun LogIn(
                     title = { Text("Registro Exitoso") },
                     text = { Text("Su registro se ha realizado con éxito.") },
                     confirmButton = {
-                        Button(onClick = { btVM.setRegistroExitoso(false)}) {
-                            Text("Aceptar")
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
+                        ) {
+                            Button(onClick = { btVM.setRegistroExitoso(false)
+                            }){
+                                Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
+                            }
                         }
                     },
                 )

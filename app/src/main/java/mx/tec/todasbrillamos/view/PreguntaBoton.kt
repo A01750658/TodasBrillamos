@@ -47,7 +47,7 @@ fun PreguntaBoton(textPregunta: String, textBoton: String, onClick: ()-> Unit, m
                 textAlign = TextAlign.Left,
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.bodyMedium, // Estilo del texto del botón
-                fontSize = 15.sp, // Tamaño de la fuente
+                fontSize = 18.sp, // Tamaño de la fuente
                 color = color
             )
         }

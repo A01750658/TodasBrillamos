@@ -57,11 +57,17 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
     val screenOrientation = configuration.orientation
     var showMenu by remember { mutableStateOf(false) }
     val estadoHistorialOrden by viewModel.estadoHistorialOrden.collectAsState()
-    val ordenesList = estadoHistorialOrden.toList()
     val scrollState = rememberScrollState()
     val scrollPosition = scrollState.value
     val maxScrollPosition = scrollState.maxValue
-    val sortedKeys = sort_ordenes(estadoHistorialOrden)
+    var sortedKeys = emptyList<Int>()
+    println(estadoHistorialOrden)
+    if (estadoHistorialOrden.isNotEmpty()) {
+        sortedKeys = sort_ordenes(estadoHistorialOrden)
+        println("SORTED")
+        println(sortedKeys)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -156,60 +162,68 @@ fun Historial(viewModel: BTVM, modifier: Modifier, navController: NavController)
                     modifier = Modifier.fillMaxWidth()
                         .verticalScroll(scrollState)
                 ) {
-                    for (orden in sortedKeys) {
-                        ElevatedCard(
-                            onClick = {
-                                viewModel.setEstadoSeleccionado(orden)
-                                showMenu = true
-                            },
-                            modifier = Modifier
-                                .padding(1.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiary
-                            )
-                        ) {
-                            Row {
-                                Text(
-                                    text = orden.toString(),
-                                    textAlign = TextAlign.Center,
+                    println(sortedKeys)
+                    if(sortedKeys.isNotEmpty()) {
+                        println("ENTRO")
+                        for (orden in sortedKeys) {
+                            println(orden)
+                            if (!estadoHistorialOrden[orden].isNullOrEmpty()) {
+                                println(estadoHistorialOrden[orden]!![0].fecha_pedido)
+                                ElevatedCard(
+                                    onClick = {
+                                        viewModel.setEstadoSeleccionado(orden)
+                                        showMenu = true
+                                    },
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = estadoHistorialOrden[orden]!![0].fecha_pedido,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = "$ ${estadoHistorialOrden[orden]!![0].total}",
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = estadoHistorialOrden[orden]!![0].estado,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 24.dp)
-                                        .weight(2f),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
+                                        .padding(1.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                        contentColor = MaterialTheme.colorScheme.onTertiary
+                                    )
+                                ) {
+                                    Row {
+                                        Text(
+                                            text = orden.toString(),
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 24.dp)
+                                                .weight(2f),
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+
+                                        Text(
+                                            text = estadoHistorialOrden[orden]!![0].fecha_pedido,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 24.dp)
+                                                .weight(2f),
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                        Text(
+                                            text = "$ ${estadoHistorialOrden[orden]!![0].total}",
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 24.dp)
+                                                .weight(2f),
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                        Text(
+                                            text = estadoHistorialOrden[orden]!![0].estado,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 24.dp)
+                                                .weight(2f),
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
-
                     HorizontalDivider(
                         thickness = 2.dp,
                         color = MaterialTheme.colorScheme.primaryContainer,

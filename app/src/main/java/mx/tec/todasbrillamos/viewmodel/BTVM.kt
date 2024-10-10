@@ -109,6 +109,9 @@ class BTVM: ViewModel() {
     //Estado categorias es el estado que nos muestra las categorías de productos
     private val _estadoCategorias : MutableStateFlow<MutableSet<String>> = MutableStateFlow(mutableSetOf<String>())
     val estadoCategorias : StateFlow<MutableSet<String>> = _estadoCategorias
+    //Estado categorias es el estado que nos ordena los productos por precio
+    private val _estadoFiltroPrecio: MutableStateFlow<Int> = MutableStateFlow(0)
+    val estadoFiltroPrecio : StateFlow<Int> = _estadoFiltroPrecio
 
     //Estado categoria seleccionada muestra que categoría está seleccionada de productos en la tienda
     private val _categoriaSeleccionada = MutableStateFlow("Todas")
@@ -1117,5 +1120,23 @@ class BTVM: ViewModel() {
             }
         }
     }
+
+    fun setFiltrarPrecio(tipo:Int){
+        _estadoFiltroPrecio.value = tipo
+    }
+
+    /**
+     *
+     */
+    fun filtrar_por_precio(){
+        if (_estadoListaProducto.value.isNotEmpty()){
+            if(_estadoFiltroPrecio.value == 1){
+                _estadoListaProducto.value = _estadoListaProducto.value.sortedBy { if(it.rebaja==0){it.precio_normal} else {it.precio_rebajado} }.toMutableList()
+            } else if (_estadoFiltroPrecio.value == -1){
+                _estadoListaProducto.value = _estadoListaProducto.value.sortedByDescending { if(it.rebaja==0){it.precio_normal} else {it.precio_rebajado} }.toMutableList()
+            }
+        }
+    }
+
 
 }
