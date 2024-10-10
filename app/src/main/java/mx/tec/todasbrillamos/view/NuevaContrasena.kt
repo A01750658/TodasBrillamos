@@ -97,7 +97,7 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
                     }
                     valorCodigo = nuevoTexto
                     btVM.setCodigoUsuario(valorCodigo)
-                    btVM.setErrorLogin(false) //error recuperar contraseña
+                    btVM.setErrorContrasenaPerdida(false)
                 }
             },
                 keyBoardType = KeyboardType.Number)
@@ -129,7 +129,10 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
                     btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorContrasenas){
-                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.error)
+            }
+            if (estadoErrors.value.errorContrasenaPerdida){
+                Etiqueta("Código incorrecto", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.error)
             }
 
             TextButton(onClick = {

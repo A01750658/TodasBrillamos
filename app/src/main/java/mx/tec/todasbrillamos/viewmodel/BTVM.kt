@@ -976,7 +976,7 @@ class BTVM: ViewModel() {
         viewModelScope.launch {
             try {
                 val response = modeloR.changePassword(code, email, password)
-                if (response.result == "error") {
+                if (response.result == "unsuccessful") {
                     throw Exception("Could not change password")
                 }
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
@@ -984,9 +984,14 @@ class BTVM: ViewModel() {
             }
             catch (e: Exception) {
                 println(e)
-                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)//cambio de contraseña
+                _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
+                _estadoErrors.value = _estadoErrors.value.copy(errorContrasenaPerdida = true)//cambio de contraseña
             }
         }
+    }
+
+    fun setErrorContrasenaPerdida(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorContrasenaPerdida = b)
     }
 
     /**
