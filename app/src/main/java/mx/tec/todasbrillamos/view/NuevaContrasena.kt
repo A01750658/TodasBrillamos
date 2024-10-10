@@ -112,6 +112,11 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.password,
                 { nuevoTexto ->
+                    if (nuevoTexto.length < 8) {
+                        btVM.setErrorLengthPassword(true)
+                    } else{
+                        btVM.setErrorLengthPassword(false)
+                    }
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
                     } else {
@@ -120,6 +125,9 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
                         btVM.checkPasswordErrors()
                     }
                 })
+            if (estadoErrors.value.errorLengthPassword){
+                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) , color= MaterialTheme.colorScheme.onPrimary)
+            }
 
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.confirmacion_password,
