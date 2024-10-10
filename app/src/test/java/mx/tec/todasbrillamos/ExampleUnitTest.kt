@@ -126,4 +126,32 @@ class ExampleUnitTest {
             assertNull(validations.findForbiddenWords(string))
         }
         }
+
+    @Test
+    fun validatePhoneNumber(){
+        val validations = Validations()
+        val valid_phone_numbers = listOf(
+            "5532532512",
+            "0000000000",
+            "5544667788",
+            "8888888888",
+            "4556556565",
+            "1111111111",
+            "9999999999"
+        )
+        val invalid_phone_numbers = listOf(
+            "55",
+            "34546",
+            "3546",
+            "57657657",
+            "654",
+            "wenjfhsfdghs<dbfjsdbkf<shfuh"
+        )
+        for (number in valid_phone_numbers) {
+            assertTrue(validations.validatePhoneNumber(number))
+        }
+        for (number in invalid_phone_numbers) {
+            assertFalse(validations.validatePhoneNumber(number))
+        }
     }
+}

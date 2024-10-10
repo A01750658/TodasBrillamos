@@ -34,5 +34,6 @@ data class EstadoErrors(
     val errorUniquePhone: Boolean = false,
     val errorSignUp: Boolean = true,
     val errorConexion: Boolean = false,
-    val errorFecha: Boolean = false
+    val errorFecha: Boolean = false,
+    val errorCorreoReg: Boolean = false
 )

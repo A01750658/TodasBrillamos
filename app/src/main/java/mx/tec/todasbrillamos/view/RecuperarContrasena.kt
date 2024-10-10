@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import mx.tec.todasbrillamos.R
 import mx.tec.todasbrillamos.viewmodel.BTVM
+import mx.tec.todasbrillamos.viewmodel.ValidationsVM
 
 /**
  * Esta es la pantalla de recuperar contraseña, en donde el usuario puede ingresar su correo electrónico
@@ -58,6 +59,7 @@ import mx.tec.todasbrillamos.viewmodel.BTVM
 fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: Modifier = Modifier){
     // Estados para manejar la información de usuario y errores del ViewModel
     val scrollState = rememberScrollState()
+    val validations = ValidationsVM()
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
@@ -95,12 +97,13 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
             InputTexto(estado.value.correo, onValueChange =
             {
                     nuevoTexto ->
+                btVM.setErrorCorreoReg(false)
                 if (nuevoTexto.contains("\n")){
                     // No hace nada si contiene un salto de línea
                     /*TODO*/
                 } else {
                     // Validación que el formato del correo sea el correcto
-                    if (!nuevoTexto.contains("@") || !nuevoTexto.contains(".")){
+                    if (!validations.validateEmail(nuevoTexto)){
                         btVM.setErrorCorreo(true) // Marca error si no contiene '@' o '.'
                     } else {
                         btVM.setErrorCorreo(false) // Elimina el error si es válido
@@ -119,9 +122,9 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
-            // Muestra un mensaje de error si el correo es inválido
-            if (estadoErrors.value.errorLogin) {
-                Etiqueta( "El correo no es válido",
+            // Muestra un mensaje de error si el correo no está registrado en la base de datos
+            if (estadoErrors.value.errorCorreoReg) {
+                Etiqueta( "El correo no está registrado",
                     color = MaterialTheme.colorScheme.inversePrimary,
                     modifier =
                     Modifier
