@@ -8,7 +8,7 @@ class Validations {
     //verify phone number
     val phone_number_regex = Regex("[0-9]{10}")
     //verify forbidden words
-    val forbidden_words_regex = Regex(".*putit[oa]s?|put[oa@]|chingada|pendej[ao]|maldit[oa]|nigga|terrorismo.*")
+    val forbidden_words_regex = Regex(".*putit[oa]s?|put[oa@]|chingada|pendej[ao]|maldit[oa]|nigga|terrorismo.*|mierd[ao]|cagad[oa]")
     //find special characters
     val number_special_chars_regex = Regex("[^a-zA-Z0-9\\s]+")
     val just_numbers_regex = Regex("\\d*")
