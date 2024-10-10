@@ -78,8 +78,26 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
     var showDialog by remember { mutableStateOf(false) }
     val estadoCategorias = viewModel.estadoCategorias.collectAsState()
     var expanded by remember { mutableStateOf(false) }
+    var expanded2 by remember { mutableStateOf(false) }
     val selectedCategoria by viewModel.categoriaSeleccionada.collectAsState()
-
+    var categoriaSeleccionada= selectedCategoria
+    if (selectedCategoria == "Todas") {
+        categoriaSeleccionada = "Categoría"
+    }
+    val filtroPrecio by viewModel.estadoFiltroPrecio.collectAsState()
+    var filtroPrecioSeleccionado = "Precio"
+    when (filtroPrecio) {
+        0 -> {
+            filtroPrecioSeleccionado = "Precio"
+        }
+        1 -> {
+            filtroPrecioSeleccionado = "Menor a mayor"
+        }
+        -1 -> {
+            filtroPrecioSeleccionado = "Mayor a menor"
+        }
+    }
+    viewModel.filtrar_por_precio()
     val configuration = LocalConfiguration.current
     val screenOrientation = configuration.orientation
 
@@ -113,50 +131,128 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                 Spacer(modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth())
+                
+                Row {
+                    // Menú desplegable para filtrar productos por categoría
+                    Box(modifier = Modifier.padding(8.dp).weight(1f)) {
+                        Button(onClick = { expanded = true }) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = categoriaSeleccionada,
+                                    color = MaterialTheme.colorScheme.onTertiary,
+                                    modifier= Modifier.weight(2f)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.KeyboardArrowDown,
+                                    contentDescription = "Arrow down icon",
+                                    modifier = Modifier.padding(start = 8.dp).weight(1f),
+                                    tint = MaterialTheme.colorScheme.onTertiary
+                                )
+                            }
+                        }
 
-                // Menú desplegable para filtrar productos por categoría
-                Box(modifier = Modifier.padding(8.dp)) {
-                    Button(onClick = { expanded = true }) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
+                        // Menú que muestra las categorías
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text(
-                                text = "Filtrar por: $selectedCategoria",
-                                color = MaterialTheme.colorScheme.onTertiary
+                            // Opción para mostrar todos los productos
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Categoría",
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                },
+                                onClick = {
+                                    viewModel.setCategoriaSeleccionada("Todas")
+                                    viewModel.resetListaFiltradaPorCategoria()
+                                    expanded = false
+                                }
                             )
-                            Icon(
-                                imageVector = Icons.Default.KeyboardArrowDown,
-                                contentDescription = "Arrow down icon",
-                                modifier = Modifier.padding(start = 8.dp),
-                                tint = MaterialTheme.colorScheme.onTertiary
-                            )
+                            // Opciones por categoría
+                            estadoCategorias.value.forEach { categoria ->
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            categoria,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    },
+                                    onClick = {
+                                        viewModel.setCategoriaSeleccionada(categoria)
+                                        viewModel.setListaFiltradaPorCategoria(categoria)
+                                        expanded = false
+                                    }
+                                )
+                            }
                         }
                     }
+                    Box(modifier = Modifier.padding(8.dp).weight(1f)) {
+                        Button(onClick = { expanded2 = true }) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = filtroPrecioSeleccionado,
+                                    color = MaterialTheme.colorScheme.onTertiary,
+                                    modifier= Modifier.weight(2f)
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.KeyboardArrowDown,
+                                    contentDescription = "Arrow down icon",
+                                    modifier = Modifier.padding(start = 8.dp).weight(1f),
+                                    tint = MaterialTheme.colorScheme.onTertiary
 
-                    // Menú que muestra las categorías
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        // Opción para mostrar todos los productos
-                        DropdownMenuItem(
-                            text = { Text("Todas", color = MaterialTheme.colorScheme.onSurface) },
-                            onClick = {
-                                viewModel.setCategoriaSeleccionada("Todas")
-                                viewModel.resetListaFiltradaPorCategoria()
-                                expanded = false
+                                )
                             }
-                        )
-                        // Opciones por categoría
-                        estadoCategorias.value.forEach { categoria ->
+                        }
+
+
+                        DropdownMenu(
+                            expanded = expanded2,
+                            onDismissRequest = { expanded2 = false },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
                             DropdownMenuItem(
-                                text = { Text(categoria, color = MaterialTheme.colorScheme.primary) },
+                                text = {
+                                    Text(
+                                        "Precio",
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                },
                                 onClick = {
-                                    viewModel.setCategoriaSeleccionada(categoria)
-                                    viewModel.setListaFiltradaPorCategoria(categoria)
-                                    expanded = false
+                                    viewModel.setFiltrarPrecio(0)
+                                    expanded2 = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Menor a mayor",
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                },
+                                onClick = {
+                                    viewModel.setFiltrarPrecio(1)
+                                    expanded2 = false
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        "Mayor a menor",
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                },
+                                onClick = {
+                                    viewModel.setFiltrarPrecio(-1)
+                                    expanded2 = false
                                 }
                             )
                         }
