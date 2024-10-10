@@ -74,7 +74,6 @@ class PaymentsViewModel: ViewModel() {
 
                 // Obtiene la URL de aprobación del pago para redirigir al usuario
                 val approvalUrl = payment.links.find { it.rel == "approval_url" }?.href
-                val userCancelUrl = payment.links.find { it.rel == "cancel_url" }?.href
                 if (approvalUrl != null) {
                     onSuccess(approvalUrl) // Llama a la función de éxito con la URL de aprobación
                 }
@@ -189,6 +188,7 @@ class PaymentsViewModel: ViewModel() {
                 //println("THIS IS THE USER TOKEN "+token)
                 if (username != null && password != null && orden != null) {
                     btVM.login(username, password)
+                    btVM.getProductos()
                     btVM.setCarrito(orden)
                     //println("ORDEN ${orden} | TOKEN ${token} | user_id ${user_id} ")
 

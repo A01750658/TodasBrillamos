@@ -96,6 +96,17 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
     LaunchedEffect(deepLinkUri) {
         println("Shit entered the LaunchedEffect")
         deepLinkUri?.let { uri ->
+
+            if(deepLinkUri.toString().contains("myapp://payment/cancel")){
+                paymentStatus = "Payment cancelled by user"
+                showDialog = true
+                sharedPreferences.edit().remove("deep_link_uri").apply()
+                println(paymentStatus)
+                paymentsViewModel.restoreDataAfterCancel(context, viewModel)
+                paymentsViewModel.delUserData(context)
+                (context as? ComponentActivity)?.intent?.data = null
+            }
+            else if(deepLinkUri.toString().contains("myapp://payment")){
             val paymentId = extractPaymentId(uri)
             val payerId = extractPayerId(uri)
             if (paymentId.isNotEmpty() && payerId.isNotEmpty()) {
@@ -123,6 +134,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                     }
                 )
             }
+        }
         }
     }
     Box (
@@ -235,8 +247,8 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         method = "paypal", // Método de pago (PayPal)
                         intent = "sale", // Tipo de transacción (Venta)
                         description = "Payment description", // Descripción del pago
-                        cancelUrl = "http://localhost:8080/cancel", // URL de cancelación
-                        successUrl = "myapp://payment", // URL de éxito
+                        cancelUrl = "myapp://payment/cancel", // URL de cancelación
+                        successUrl = "myapp://payment/success", // URL de éxito
                         onSuccess = { url ->
                             approvalUrl = url
                             println(approvalUrl)
@@ -276,7 +288,17 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center
                         )
-                    } else {
+                    }
+
+                    else if(paymentStatus.contains("cancelled")){
+                        Text(
+                            text = "Orden cancelada!",
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    else {
                         Text(
                             text = "¡Orden Fallida!",
                             modifier = Modifier.fillMaxWidth(),
