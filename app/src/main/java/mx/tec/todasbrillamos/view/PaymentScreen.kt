@@ -303,6 +303,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                             showDialog = false
                             when {
                                 paymentStatus.contains("Debe agregar") -> {
+                                    viewModel.copiarDireccion()
                                     navController.navigate(Pantallas.RUTA_EDITAR_DIRECCION) // Redirige a la pantalla de editar dirección
                                 }
                                 paymentStatus.contains("Failed") -> {
