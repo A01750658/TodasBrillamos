@@ -165,7 +165,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                                 text = {
                                     Text(
                                         "Categoría",
-                                        color = MaterialTheme.colorScheme.onSurface
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                 },
                                 onClick = {
@@ -223,7 +223,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                                 text = {
                                     Text(
                                         "Precio",
-                                        color = MaterialTheme.colorScheme.onSurface
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                 },
                                 onClick = {
