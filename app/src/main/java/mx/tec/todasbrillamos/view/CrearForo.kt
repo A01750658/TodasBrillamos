@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import mx.tec.todasbrillamos.viewmodel.BTVM
+import mx.tec.todasbrillamos.viewmodel.ValidationsVM
 
 /**
  * Pantalla para nueva publicación en nuestro caso, publicar una pregunta que tengas sobre el tema
@@ -40,7 +41,7 @@ import mx.tec.todasbrillamos.viewmodel.BTVM
  */
 
 @Composable
-fun CrearForo(btVM: BTVM, navController: NavHostController) {
+fun CrearForo(btVM: BTVM, navController: NavHostController, validationsVM: ValidationsVM) {
     var pregunta by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(true) } // Mostrar mensaje de advertencia al inicio
     var showSubmitDialog by remember { mutableStateOf(false) } // Mostrar diálogo tras publicar
@@ -82,9 +83,14 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                 onClick = {
                     println("Publicando $pregunta")
                     if (pregunta.isNotEmpty()) {
-                        btVM.solicitarForo(pregunta)
-                        submitState = "Successful"
-                        showSubmitDialog = true
+                        if (!validationsVM.validateForbiddenWords(pregunta) and !validationsVM.validateUrl(pregunta)) {
+                            btVM.solicitarForo(pregunta)
+                            submitState = "Successful"
+                            showSubmitDialog = true
+                        } else{
+                            submitState = "Wrong"
+                            showSubmitDialog = true
+                        }
                     } else {
                         submitState = "Failed"
                         showSubmitDialog = true
@@ -143,8 +149,11 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                     Text(
                         text = if (submitState == "Successful" && estadoSolicitarForo.contains("Successful")) {
                             "¡Solicitud de pregunta exitosa!"
-                        } else {
-                            "¡Solicitud de pregunta fallida!"
+                        } else if (submitState == "Wrong") {
+                            "Su solicitud contiene palabras prohibidas o una URL"
+                        }
+                        else{
+                                "¡Solicitud de pregunta fallida!"
                         },
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
@@ -154,7 +163,11 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                     Text(
                         text = if (submitState == "Successful" && estadoSolicitarForo.contains("Successful")) {
                             "¡Tu pregunta será revisada y podrá ser respondida dentro de poco!"
-                        } else {
+                        } else if (submitState == "Wrong") {
+                            "¡No escribas grocerias!\n" +
+                                    "No esta permitido mandar URL ni palabras prohibidas"
+                        }
+                        else {
                             "Algo salió mal..."
                         }
                     )

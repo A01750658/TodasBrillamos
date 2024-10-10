@@ -251,6 +251,8 @@ fun AppBottomBar(btVM: BTVM, navController: NavHostController) {
                     onClick = {
                         if (pantalla.ruta == Pantallas.RUTA_FOROS){
                             btVM.getForos()
+                        } else if (pantalla.ruta == Pantallas.RUTA_TIENDA){
+                            btVM.getProductos()
                         }
                         navController.navigate(pantalla.ruta){
                             popUpTo(navController.graph.findStartDestination().id){
@@ -336,7 +338,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             NuevaContrasena(btVM, navController)
         }
         composable(Pantallas.RUTA_CREARFORO){
-            CrearForo(btVM, navController)
+            CrearForo(btVM, navController, validationsVM)
         }
         composable(Pantallas.RUTA_FORO+"/{idforo}"){
             TempleteForo(btVM,idForo = it.arguments?.getString("idforo")!!)
