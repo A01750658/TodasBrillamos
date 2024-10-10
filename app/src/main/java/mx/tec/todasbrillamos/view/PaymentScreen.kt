@@ -135,7 +135,6 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                 )
             }
         }
-        }
     }
     Box (
         contentAlignment = Alignment.Center,
@@ -241,30 +240,35 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             )
             Box(modifier = Modifier.fillMaxWidth()) {
                 ElevatedButton(onClick = { // Botón para realizar el pago con PayPal
-                    paymentsViewModel.createPayment(
-                        total = "${total}", // Monto total del pago
-                        currency = "MXN", // Moneda
-                        method = "paypal", // Método de pago (PayPal)
-                        intent = "sale", // Tipo de transacción (Venta)
-                        description = "Payment description", // Descripción del pago
-                        cancelUrl = "myapp://payment/cancel", // URL de cancelación
-                        successUrl = "myapp://payment/success", // URL de éxito
-                        onSuccess = { url ->
-                            approvalUrl = url
-                            println(approvalUrl)
-                            println(viewModel.getEstadoUsuario())
-                            paymentStatus = "Redirecting to PayPal for approval"
-                            println(paymentStatus)
-                            paymentsViewModel.saveCarritoData(context, viewModel)
-                            // Redirige a la página de PayPal para la aprobación
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                            context.startActivity(intent)
-                            println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
-                        },
-                        onError = { error ->
-                            paymentStatus = "Failed to create payment: ${error.message}"
-                        }
-                    )
+                    if (direccion.isEmpty()) { // condición si no hay dirección ingresada
+                        paymentStatus = "Debe agregar una dirección de envío para continuar."
+                        showDialog = true
+                    } else {
+                        paymentsViewModel.createPayment(
+                            total = "${total}", // Monto total del pago
+                            currency = "MXN", // Moneda
+                            method = "paypal", // Método de pago (PayPal)
+                            intent = "sale", // Tipo de transacción (Venta)
+                            description = "Payment description", // Descripción del pago
+                            cancelUrl = "myapp://payment/cancel", // URL de cancelación
+                            successUrl = "myapp://payment/success", // URL de éxito
+                            onSuccess = { url ->
+                                approvalUrl = url
+                                println(approvalUrl)
+                                println(viewModel.getEstadoUsuario())
+                                paymentStatus = "Redirecting to PayPal for approval"
+                                println(paymentStatus)
+                                paymentsViewModel.saveCarritoData(context, viewModel)
+                                // Redirige a la página de PayPal para la aprobación
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                context.startActivity(intent)
+                                println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
+                            },
+                            onError = { error ->
+                                paymentStatus = "Failed to create payment: ${error.message}"
+                            }
+                        )
+                    }
                 },
                     modifier = Modifier.align(Alignment.Center),
                     colors = ButtonDefaults.elevatedButtonColors(
@@ -280,7 +284,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
 
         if (showDialog) {
             AlertDialog(
-                onDismissRequest = { showDialog = true },
+                onDismissRequest = { showDialog = false },
                 title = {
                     if (paymentStatus.contains("successful")) {
                         Text(
@@ -308,10 +312,10 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                 },
                 text = {
                     Text(
-                        text = if (paymentStatus.contains("successful")) {
-                            "Tu pago se ha procesado exitosamente. Gracias por tu compra."
-                        } else {
-                            "Hubo un problema con el pago: $paymentStatus"
+                        text = when {
+                            paymentStatus.contains("successful") -> "Tu pago se ha procesado exitosamente. Gracias por tu compra."
+                            paymentStatus.contains("Debe agregar") -> "Debe agregar una dirección de envío para continuar con el pago."
+                            else -> "Hubo un problema con el pago: $paymentStatus"
                         }
                     )
                 },
@@ -319,11 +323,22 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                     // Centrar el botón usando un Box
                     Box(
                         modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
+                        contentAlignment = Alignment.Center
                     ) {
                         Button(onClick = {
                             showDialog = false
-                            navController.navigate(Pantallas.RUTA_APP_HOME)
+                            when {
+                                paymentStatus.contains("Debe agregar") -> {
+                                    viewModel.copiarDireccion()
+                                    navController.navigate(Pantallas.RUTA_EDITAR_DIRECCION) // Redirige a la pantalla de editar dirección
+                                }
+                                paymentStatus.contains("Failed") -> {
+                                    navController.navigate(Pantallas.RUTA_PAGOS) // Permanece en la pantalla de pago si hubo error
+                                }
+                                else -> {
+                                    navController.navigate(Pantallas.RUTA_APP_HOME) // En caso de éxito, redirige a la pantalla principal
+                                }
+                            }
                         }) {
                             Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
                         }

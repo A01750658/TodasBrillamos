@@ -62,7 +62,7 @@ fun Carrusel(titulos: List<String>, lista: List<String>, colors: List<Color>, im
                         contentScale = ContentScale.FillBounds)
                     ,
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
                     contentColor = textcolor
                 )
             ) {

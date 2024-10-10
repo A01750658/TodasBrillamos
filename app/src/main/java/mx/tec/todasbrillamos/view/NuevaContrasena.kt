@@ -97,7 +97,7 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
                     }
                     valorCodigo = nuevoTexto
                     btVM.setCodigoUsuario(valorCodigo)
-                    btVM.setErrorLogin(false) //error recuperar contraseña
+                    btVM.setErrorContrasenaPerdida(false)
                 }
             },
                 keyBoardType = KeyboardType.Number)
@@ -112,6 +112,11 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.password,
                 { nuevoTexto ->
+                    if (nuevoTexto.length < 8) {
+                        btVM.setErrorLengthPassword(true)
+                    } else{
+                        btVM.setErrorLengthPassword(false)
+                    }
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
                     } else {
@@ -120,6 +125,9 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
                         btVM.checkPasswordErrors()
                     }
                 })
+            if (estadoErrors.value.errorLengthPassword){
+                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) , color= MaterialTheme.colorScheme.onPrimary)
+            }
 
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.confirmacion_password,
@@ -129,7 +137,10 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
                     btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorContrasenas){
-                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.inversePrimary)
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.error)
+            }
+            if (estadoErrors.value.errorContrasenaPerdida){
+                Etiqueta("Código incorrecto", modifier = Modifier.padding(bottom = 16.dp), color = MaterialTheme.colorScheme.error)
             }
 
             TextButton(onClick = {

@@ -109,6 +109,9 @@ class BTVM: ViewModel() {
     //Estado categorias es el estado que nos muestra las categorías de productos
     private val _estadoCategorias : MutableStateFlow<MutableSet<String>> = MutableStateFlow(mutableSetOf<String>())
     val estadoCategorias : StateFlow<MutableSet<String>> = _estadoCategorias
+    //Estado categorias es el estado que nos ordena los productos por precio
+    private val _estadoFiltroPrecio: MutableStateFlow<Int> = MutableStateFlow(0)
+    val estadoFiltroPrecio : StateFlow<Int> = _estadoFiltroPrecio
 
     //Estado categoria seleccionada muestra que categoría está seleccionada de productos en la tienda
     private val _categoriaSeleccionada = MutableStateFlow("Todas")
@@ -393,7 +396,7 @@ class BTVM: ViewModel() {
                 _estadoErrors.value = _estadoErrors.value.copy(errorUniqueEmail = false)
                 _estadoErrors.value = _estadoErrors.value.copy(errorUniquePhone = false)
                 _estadoErrors.value = _estadoErrors.value.copy(errorConexion = false)
-                println("aydua xd ${response.result}")
+                println("aydua xd ${response.message}")
                 if (response.result=="error"){
                     if (response.message == "ORA-00001: unique constraint (WKSP_TODASBRILLAMOS.USUARIO_CON) violated"){
                         //Throw exception
@@ -431,6 +434,10 @@ class BTVM: ViewModel() {
 
     fun setRegistroExitoso(state : Boolean){
         _estadoRegistroExitoso.value = state
+    }
+
+    fun setErrorFecha(state : Boolean){
+        _estadoErrors.value = _estadoErrors.value.copy(errorFecha = state)
     }
 
     /**
@@ -935,21 +942,27 @@ class BTVM: ViewModel() {
     fun recuperarContrasena(email: String){
         viewModelScope.launch {
             try {
+                _estadoErrors.value = _estadoErrors.value.copy(errorCorreoReg = false)
                 val response = modeloR.getRecoveryPasswordToken(email)
-                if (response.result == "error") {
+                println(response.result)
+                if (response.result == "unsuccessful") {
                     throw Exception("Could not recover password")
                 }
-                println(response.message)
+
                 //cambiar estado loading a false
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
                 //cambiar estado contraseña perdida a true
                 _contrasenaPerdida.value = true
             }
             catch (e: Exception) {
-                println(e)
-                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+                println("Error recuperar contraseña ${e}")
+                _estadoErrors.value = _estadoErrors.value.copy(errorCorreoReg = true)
             }
         }
+    }
+
+    fun setErrorCorreoReg(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCorreoReg = b)
     }
 
     /**
@@ -963,7 +976,7 @@ class BTVM: ViewModel() {
         viewModelScope.launch {
             try {
                 val response = modeloR.changePassword(code, email, password)
-                if (response.result == "error") {
+                if (response.result == "unsuccessful") {
                     throw Exception("Could not change password")
                 }
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
@@ -971,9 +984,14 @@ class BTVM: ViewModel() {
             }
             catch (e: Exception) {
                 println(e)
-                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)//cambio de contraseña
+                _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
+                _estadoErrors.value = _estadoErrors.value.copy(errorContrasenaPerdida = true)//cambio de contraseña
             }
         }
+    }
+
+    fun setErrorContrasenaPerdida(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorContrasenaPerdida = b)
     }
 
     /**
@@ -1124,5 +1142,23 @@ class BTVM: ViewModel() {
             }
         }
         }
+
+    fun setFiltrarPrecio(tipo:Int){
+        _estadoFiltroPrecio.value = tipo
+    }
+
+    /**
+     *
+     */
+    fun filtrar_por_precio(){
+        if (_estadoListaProducto.value.isNotEmpty()){
+            if(_estadoFiltroPrecio.value == 1){
+                _estadoListaProducto.value = _estadoListaProducto.value.sortedBy { if(it.rebaja==0){it.precio_normal} else {it.precio_rebajado} }.toMutableList()
+            } else if (_estadoFiltroPrecio.value == -1){
+                _estadoListaProducto.value = _estadoListaProducto.value.sortedByDescending { if(it.rebaja==0){it.precio_normal} else {it.precio_rebajado} }.toMutableList()
+            }
+        }
+    }
+
 
 }

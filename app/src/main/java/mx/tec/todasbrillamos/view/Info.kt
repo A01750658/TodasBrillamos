@@ -62,9 +62,9 @@ fun Info(vModel: BTVM) {
                 .fillMaxWidth()
             )
             Subtitulo(text = "SOBRE ZAZIL", fontSize = 24)
-            Carrusel(listOf("Sobre la marca","¿Cómo lo hacemos?","¿Qué estamos haciendo?", "Nuestra Misión", "¿Qué queremos que sea el mundo?", "Nuestra visión"),
+            Carrusel(listOf("Sobre la marca","¿Cómo lo hacemos?","¿Qué estamos haciendo?", "Nuestra Misión", "¿Qué queremos que sea el mundo?", "¿Qué más queremos?", "Nuestra visión"),
                 listOf("Zazil es una marca comprometida con el bienestar de las mujeres y el" +
-                        "cuidado del medio ambiente. Su misión es proporcionar soluciones in" +
+                        " cuidado del medio ambiente. Su misión es proporcionar soluciones in" +
                         "novadoras y sostenibles para el período menstrual. ",
                     "A través de la creación de toallas femeninas reutilizables.",
                     "En Zazil, no solo estamos redefiniendo la menstruación, sino también el " +
@@ -73,14 +73,14 @@ fun Info(vModel: BTVM) {
                             "menstrual mientras generan un impacto positivo en su bienestar financie" +
                             "ro y en el planeta.",
                     "Imaginamos un mundo donde la menstruación no solo es sostenible para" +
-                            " el planeta, sino también empoderadora para todas las mujeres. Quer" +
-                            "emos que cada elección consciente de Zazil contribuya a la creación" +
+                            " el planeta, sino también empoderadora para todas las mujeres.",
+                    "Queremos que cada elección consciente de Zazil contribuya a la creación " +
                             "de comunidades fuertes, mujeres empoderadas económicamente y un ento" +
                             "rno más saludable y equitativo.",
                     "Nuestra visión es que Zazil no sea solo un producto, sino una fuerza positiva que tra" +
                             "nsforma la forma en que vivimos la menstruación, promoviendo el bienestar personal y global."),
                     listOf(MaterialTheme.colorScheme.tertiary,MaterialTheme.colorScheme.primaryContainer ,MaterialTheme.colorScheme.secondaryContainer),
-                images=listOf(R.drawable.presentacion, R.drawable.presentacion1, R.drawable.imagfondo1, R.drawable.imagfondo2, R.drawable.imagfondo3, R.drawable.imagfondo4))
+                images=listOf(R.drawable.presentacion, R.drawable.presentacion1, R.drawable.imagfondo1, R.drawable.imagfondo2, R.drawable.imagfondo3, R.drawable.imagfondo4, R.drawable.imagfondo7))
             HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.primaryContainer)
             Spacer(modifier = Modifier
                 .padding(6.dp)

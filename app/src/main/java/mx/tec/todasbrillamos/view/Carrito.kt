@@ -115,7 +115,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                                 .weight(6f)
                         )
                         Text(
-                            text = " $" +total.toString(),
+                            text = " $" +total.toInt().toString(),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -251,7 +251,7 @@ fun Carrito(viewModel: BTVM, navController: NavHostController){
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "$$total",
+                                text = "$${total.toInt()}",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()

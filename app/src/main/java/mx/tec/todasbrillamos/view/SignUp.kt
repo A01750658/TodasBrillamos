@@ -1,6 +1,7 @@
 package mx.tec.todasbrillamos.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -149,7 +150,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta(
                     "Todos los campos deben ser llenados. Solo puedes usar letras y no se pueden superar los 20 caracteres.",
                     Modifier.padding(bottom = 16.dp),
-                    color = MaterialTheme.colorScheme.error
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
@@ -174,6 +175,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             // Dialog para mostrar la selección de la fecha
             if (showDatePicker) {
+                btVM.setErrorFecha(false)
                 Dialog(onDismissRequest = { btVM.setShowDatePicker(false) }) {
                     DatePickerScreen(
                         btVM,
@@ -182,6 +184,11 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                             .background(MaterialTheme.colorScheme.onTertiary)
                     )
                 }
+            }
+
+            // Error si no ha seleccionado fecha
+            if (estadoErrors.value.errorFecha){
+                Etiqueta("Seleccione su fecha de nacimiento", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
 
             // Validaciones y entradas restantes como teléfono, correo electrónico y contraseñas
@@ -198,13 +205,14 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setIntent(false)
                     valortelefono = nuevoTexto
                     btVM.setTelefonoUsuario(valortelefono)
+                    // Print hashpassword test
                     btVM.printHashPassword(context)
                 },
                 keyBoardType = KeyboardType.Number,
                 placeHolder = "5512345678")
 
             if (estadoErrors.value.errorCell){
-                Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.correo,
@@ -222,7 +230,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 keyBoardType = KeyboardType.Email,
                 placeHolder = "correo@dominio.com")
             if (estadoErrors.value.errorCorreo){
-                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.password,
@@ -237,7 +245,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setContrasenaUsuario(valorPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorLengthPassword){
-                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) , color= MaterialTheme.colorScheme.error)
+                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) , color= MaterialTheme.colorScheme.onPrimary)
             }
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.confirmacion_password,
@@ -247,7 +255,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorContrasenas){
-                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -275,7 +283,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 )
             }
             if (!valorAvisos && estado.value.intent){
-                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onTertiary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -302,13 +310,13 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             }
 
             if (estadoErrors.value.errorUniqueEmail){
-                Etiqueta("Ya existe una cuenta con ese correo.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Ya existe una cuenta con ese correo.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             if (estadoErrors.value.errorUniquePhone){
-                Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
 
             Spacer(modifier = Modifier.padding(16.dp))
@@ -321,23 +329,49 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     if (valorNombre.isNotEmpty() && valorApellidoPaterno.isNotEmpty() && valorApellidoMaterno.isNotEmpty()
                         && valorCorreo.isNotEmpty() && valorPassword.isNotEmpty() && !estadoErrors.value.errorContrasenas
                         && valortelefono.isNotEmpty() && valorAvisos && day != 0 && month != 0 && year != 0
+                        && estadoFecha != "Seleccionar Fecha"
                     ) {
                         // Realiza el registro
-                        val months = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+                        val months = arrayOf(
+                            "JAN",
+                            "FEB",
+                            "MAR",
+                            "APR",
+                            "MAY",
+                            "JUN",
+                            "JUL",
+                            "AUG",
+                            "SEP",
+                            "OCT",
+                            "NOV",
+                            "DEC"
+                        )
                         val fecha = "%02d-%s-%04d".format(day, months[month - 1], year)
-                        println(valorNombre +" "+ valorApellidoPaterno +" "+ valorApellidoMaterno+ " "+ fecha+ " "+ valorCorreo+ " "+ valorPassword + " "+ valorAvisos+ " "+ valorMarketing+ " "+valortelefono)
-                        btVM.signUp(valorNombre, valorApellidoPaterno, valorApellidoMaterno, fecha, valorCorreo, valorPassword, valorAvisos, valorMarketing, valortelefono)
+                        println(valorNombre + " " + valorApellidoPaterno + " " + valorApellidoMaterno + " " + fecha + " " + valorCorreo + " " + valorPassword + " " + valorAvisos + " " + valorMarketing + " " + valortelefono)
+                        btVM.signUp(
+                            valorNombre,
+                            valorApellidoPaterno,
+                            valorApellidoMaterno,
+                            fecha,
+                            valorCorreo,
+                            valorPassword,
+                            valorAvisos,
+                            valorMarketing,
+                            valortelefono
+                        )
 
 //                        if (!estadoErrors.value.errorSignUp){
 //                            navController.navigate(Pantallas.RUTA_LOGIN)
 //                        }
-
-                    } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
-                        btVM.setErrorType(true)
-                    } else if (valortelefono.isEmpty()){
-                        btVM.setErrorCell(true)
-                    } else if (!valorAvisos){
-                        btVM.setErrorLogin(true)
+                    }
+                    if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
+                        btVM.setErrorType(true)}
+                    if (valortelefono.isEmpty()){
+                        btVM.setErrorCell(true)}
+                    if (!valorAvisos){
+                        btVM.setErrorLogin(true)}
+                    if (estadoFecha == "Seleccionar Fecha"){
+                        btVM.setErrorFecha(true)
                     }
                 },
                 modifier = Modifier
