@@ -2,18 +2,23 @@ package mx.tec.todasbrillamos.model
 
 class Validations {
     //verify email
-    val email_regex = Regex(".*@[gmail|hotmail|outlook|yahoo]+\\.com")
+    val email_regex = Regex(".*@[gmail|hotmail|outlook|yahoo|tec]+\\.com")
     //verify url
     val url_regex = Regex("([http|https]+://.+)|(www.+)")
     //verify phone number
-    val phone_number_regex = Regex("(\\+?\\d{2})?[0-9]{10}")
+    val phone_number_regex = Regex("[0-9]{10}")
     //verify forbidden words
-    val forbidden_words_regex = Regex(".*putit[oa]s?|put[oa@]|chingada|pendej[ao]|maldit[oa]|terrorismo|sexo|sexo.*")
+    val forbidden_words_regex = Regex(".*putit[oa]s?|put[oa@]|chingada|pendej[ao]|maldit[oa]|nigga|terrorismo.*")
     //find special characters
     val number_special_chars_regex = Regex("[^a-zA-Z0-9\\s]+")
     val just_numbers_regex = Regex("\\d*")
 
-
+    /**
+     * función que valida si una entrada de strings son sólo numeros
+     * @param nums []String]
+     * @return [Boolean]
+     *
+     */
     fun validateJustNumbers(nums: String) :Boolean{
         return just_numbers_regex.matches(nums)
     }

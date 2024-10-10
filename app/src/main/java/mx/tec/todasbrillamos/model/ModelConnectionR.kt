@@ -157,6 +157,7 @@ class ModelConnectionR {
         return result
     }
 
+
     /**
      * Función que agrega una orden a la base de datos
      * @param order[Order]: Orden a agregar
@@ -232,9 +233,9 @@ val p :MutableList<Pair<Int,Int>> = mutableListOf()
     //println(modelConnection.getUserData(token))
 
     
-    //println(modelConnection.getRecoveryPasswordToken("iker.fuentesreyes@gmail.com"))
-    //println(modelConnection.changePassword(109076427,"iker.fuentesreyes@gmail.com","777"))
-    //println(modelConnection.getOrderInfo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlckBnbWFpbC5jb207MTIzNCIsImlhdCI6MTcyODI2NjIwOCwiZXhwIjoxNzI4MjY2MjU4fQ.HzwRrR7_vQ3tYzvZmzpVj_22sM7QYde04RipRrXN2Zw"))
-    //println(modelConnection.getForo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tO3Jvb3QiLCJpYXQiOjE3Mjc4OTQ4MjksImV4cCI6MTcyNzg5NTEyOX0.CS7cV7M4NgdydxJwZPBKrXnf6wjJ61YbRy8QRZ7jmNM"))
-    //println(modelConnection.getComments("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIiwic3ViIjoiaWtlci5mdWVudGVzcmV5ZXNAZ21haWwuY29tO3Jvb3QiLCJpYXQiOjE3Mjc4OTQ4MjksImV4cCI6MTcyNzg5NTEyOX0.CS7cV7M4NgdydxJwZPBKrXnf6wjJ61YbRy8QRZ7jmNM",161))
+    //println(modelConnection.getRecoveryPasswordToken("iker.fuentesreyes@gmail."))
+    //println(modelConnection.changePassword(45397919,"iker.fuentesreyes@gmail.com","9999"))
+    //println(modelConnection.getOrderInfo(token))
+    //println(modelConnection.getForo(token))
+    println(modelConnection.getComments("dgkjzdkhjzrhzoridghoies",1000))
 }
