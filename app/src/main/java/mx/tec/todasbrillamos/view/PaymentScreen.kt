@@ -136,6 +136,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             }
         }
     }
+    }
     Box (
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -346,10 +347,10 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                 }
             )
 
-
         }
     }
 }
+
 
 /*
 fun extractPaymentId(uri: Uri): String {
