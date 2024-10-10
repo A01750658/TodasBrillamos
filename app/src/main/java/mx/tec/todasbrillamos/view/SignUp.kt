@@ -174,6 +174,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             // Dialog para mostrar la selección de la fecha
             if (showDatePicker) {
+                btVM.setErrorFecha(false)
                 Dialog(onDismissRequest = { btVM.setShowDatePicker(false) }) {
                     DatePickerScreen(
                         btVM,
@@ -182,6 +183,11 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                             .background(MaterialTheme.colorScheme.onTertiary)
                     )
                 }
+            }
+
+            // Error si no ha seleccionado fecha
+            if (estadoErrors.value.errorFecha){
+                Etiqueta("Seleccione su fecha de nacimiento", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
             }
 
             // Validaciones y entradas restantes como teléfono, correo electrónico y contraseñas
@@ -198,6 +204,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setIntent(false)
                     valortelefono = nuevoTexto
                     btVM.setTelefonoUsuario(valortelefono)
+                    // Print hashpassword test
                     btVM.printHashPassword(context)
                 },
                 keyBoardType = KeyboardType.Number,
@@ -321,23 +328,49 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     if (valorNombre.isNotEmpty() && valorApellidoPaterno.isNotEmpty() && valorApellidoMaterno.isNotEmpty()
                         && valorCorreo.isNotEmpty() && valorPassword.isNotEmpty() && !estadoErrors.value.errorContrasenas
                         && valortelefono.isNotEmpty() && valorAvisos && day != 0 && month != 0 && year != 0
+                        && estadoFecha != "Seleccionar Fecha"
                     ) {
                         // Realiza el registro
-                        val months = arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
+                        val months = arrayOf(
+                            "JAN",
+                            "FEB",
+                            "MAR",
+                            "APR",
+                            "MAY",
+                            "JUN",
+                            "JUL",
+                            "AUG",
+                            "SEP",
+                            "OCT",
+                            "NOV",
+                            "DEC"
+                        )
                         val fecha = "%02d-%s-%04d".format(day, months[month - 1], year)
-                        println(valorNombre +" "+ valorApellidoPaterno +" "+ valorApellidoMaterno+ " "+ fecha+ " "+ valorCorreo+ " "+ valorPassword + " "+ valorAvisos+ " "+ valorMarketing+ " "+valortelefono)
-                        btVM.signUp(valorNombre, valorApellidoPaterno, valorApellidoMaterno, fecha, valorCorreo, valorPassword, valorAvisos, valorMarketing, valortelefono)
+                        println(valorNombre + " " + valorApellidoPaterno + " " + valorApellidoMaterno + " " + fecha + " " + valorCorreo + " " + valorPassword + " " + valorAvisos + " " + valorMarketing + " " + valortelefono)
+                        btVM.signUp(
+                            valorNombre,
+                            valorApellidoPaterno,
+                            valorApellidoMaterno,
+                            fecha,
+                            valorCorreo,
+                            valorPassword,
+                            valorAvisos,
+                            valorMarketing,
+                            valortelefono
+                        )
 
 //                        if (!estadoErrors.value.errorSignUp){
 //                            navController.navigate(Pantallas.RUTA_LOGIN)
 //                        }
-
-                    } else if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
-                        btVM.setErrorType(true)
-                    } else if (valortelefono.isEmpty()){
-                        btVM.setErrorCell(true)
-                    } else if (!valorAvisos){
-                        btVM.setErrorLogin(true)
+                    }
+                    if (valorNombre.isEmpty() || valorApellidoPaterno.isEmpty() || valorApellidoMaterno.isEmpty()){
+                        btVM.setErrorType(true)}
+                    if (valortelefono.isEmpty()){
+                        btVM.setErrorCell(true)}
+                    if (!valorAvisos){
+                        btVM.setErrorLogin(true)}
+                    if (estadoFecha == "Seleccionar Fecha"){
+                        btVM.setErrorFecha(true)
                     }
                 },
                 modifier = Modifier

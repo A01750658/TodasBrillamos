@@ -396,7 +396,7 @@ class BTVM: ViewModel() {
                 _estadoErrors.value = _estadoErrors.value.copy(errorUniqueEmail = false)
                 _estadoErrors.value = _estadoErrors.value.copy(errorUniquePhone = false)
                 _estadoErrors.value = _estadoErrors.value.copy(errorConexion = false)
-                println("aydua xd ${response.result}")
+                println("aydua xd ${response.message}")
                 if (response.result=="error"){
                     if (response.message == "ORA-00001: unique constraint (WKSP_TODASBRILLAMOS.USUARIO_CON) violated"){
                         //Throw exception
@@ -434,6 +434,10 @@ class BTVM: ViewModel() {
 
     fun setRegistroExitoso(state : Boolean){
         _estadoRegistroExitoso.value = state
+    }
+
+    fun setErrorFecha(state : Boolean){
+        _estadoErrors.value = _estadoErrors.value.copy(errorFecha = state)
     }
 
     /**
