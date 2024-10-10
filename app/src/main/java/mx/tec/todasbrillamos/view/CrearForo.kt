@@ -42,8 +42,11 @@ import mx.tec.todasbrillamos.viewmodel.BTVM
 @Composable
 fun CrearForo(btVM: BTVM, navController: NavHostController) {
     var pregunta by remember { mutableStateOf("") }
-    var showDialog by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(true) } // Mostrar mensaje de advertencia al inicio
+    var showSubmitDialog by remember { mutableStateOf(false) } // Mostrar diálogo tras publicar
+    var submitState by remember { mutableStateOf("") }
     val estadoSolicitarForo by btVM.estadoSolicitarForo.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -58,8 +61,7 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                     .padding(10.dp)
                     .size(75.dp)
                     .fillMaxWidth(),
-
-                )
+            )
             Titulo(
                 "Haz tu pregunta",
                 color = MaterialTheme.colorScheme.secondaryContainer,
@@ -75,14 +77,18 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                     .fillMaxWidth()
             )
 
-            InputTexto(pregunta, {pregunta = it}, modifier = Modifier.padding(bottom = 16.dp), placeHolder = "Escribe tu pregunta ...")
+            InputTexto(pregunta, { pregunta = it }, modifier = Modifier.padding(bottom = 16.dp), placeHolder = "Escribe tu pregunta ...")
             TextButton(
                 onClick = {
                     println("Publicando $pregunta")
                     if (pregunta.isNotEmpty()) {
                         btVM.solicitarForo(pregunta)
+                        submitState = "Successful"
+                        showSubmitDialog = true
+                    } else {
+                        submitState = "Failed"
+                        showSubmitDialog = true
                     }
-                    showDialog = true
                 },
                 Modifier
                     .padding(horizontal = 100.dp)
@@ -93,35 +99,60 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                 Text(
                     text = "Publicar",
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onTertiary
                 )
             }
         }
+
+        // Mostrar advertencia al inicio
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = true },
                 title = {
-
-                    if (estadoSolicitarForo.contains("Successful")) {
-                        Text(
-                            text = "¡Solicitud de pregunta exitosa!",
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
-                    }else{
-                        Text(
-                            text = "¡Solicitud de pregunta fallida!",
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                    Text(
+                        text = "Atención",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
                 },
                 text = {
                     Text(
-                        text = if (estadoSolicitarForo.contains("Successful")) {
+                        text = "Es importante mantener las preguntas serias y un lenguaje apropiado en todo momento."
+                    )
+                },
+                confirmButton = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = androidx.compose.ui.Alignment.Center
+                    ) {
+                        Button(onClick = { showDialog = false }) {
+                            Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
+                        }
+                    }
+                }
+            )
+        }
+
+        // Mostrar el diálogo de resultado tras intentar publicar la pregunta
+        if (showSubmitDialog) {
+            AlertDialog(
+                onDismissRequest = { showSubmitDialog = true },
+                title = {
+                    Text(
+                        text = if (submitState == "Successful" && estadoSolicitarForo.contains("Successful")) {
+                            "¡Solicitud de pregunta exitosa!"
+                        } else {
+                            "¡Solicitud de pregunta fallida!"
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                },
+                text = {
+                    Text(
+                        text = if (submitState == "Successful" && estadoSolicitarForo.contains("Successful")) {
                             "¡Tu pregunta será revisada y podrá ser respondida dentro de poco!"
                         } else {
                             "Algo salió mal..."
@@ -129,16 +160,15 @@ fun CrearForo(btVM: BTVM, navController: NavHostController) {
                     )
                 },
                 confirmButton = {
-                    // Centrar el botón usando un Box
                     Box(
                         modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
+                        contentAlignment = androidx.compose.ui.Alignment.Center
                     ) {
                         Button(onClick = {
-                            if (estadoSolicitarForo.contains("Successful")){
+                            if (submitState == "Successful" && estadoSolicitarForo.contains("Successful")) {
                                 navController.navigateUp()
                             }
-                            showDialog = false
+                            showSubmitDialog = false
                         }) {
                             Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
                         }
