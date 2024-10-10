@@ -80,7 +80,7 @@ fun Info(vModel: BTVM) {
                     "Nuestra visión es que Zazil no sea solo un producto, sino una fuerza positiva que tra" +
                             "nsforma la forma en que vivimos la menstruación, promoviendo el bienestar personal y global."),
                     listOf(MaterialTheme.colorScheme.tertiary,MaterialTheme.colorScheme.primaryContainer ,MaterialTheme.colorScheme.secondaryContainer),
-                images=listOf(R.drawable.presentacion, R.drawable.presentacion1, R.drawable.imagfondo1, R.drawable.imagfondo2, R.drawable.imagfondo3, R.drawable.imagfondo4))
+                images=listOf(R.drawable.presentacion, R.drawable.presentacion1, R.drawable.imagfondo1, R.drawable.imagfondo2, R.drawable.imagfondo3, R.drawable.imagfondo4, R.drawable.imagfondo7))
             HorizontalDivider(thickness = 2.dp, color = MaterialTheme.colorScheme.primaryContainer)
             Spacer(modifier = Modifier
                 .padding(6.dp)

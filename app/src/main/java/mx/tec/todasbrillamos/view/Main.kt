@@ -47,7 +47,7 @@ fun Main(btVM: BTVM, paymentsVM: PaymentsViewModel, flag: Boolean, savedDeepLink
     val navController = rememberNavController()
     PruebaBrillamosTodas3Theme{
         Scaffold(topBar = {AppTopBar(navController)},
-            bottomBar = {AppBottomBar(navController)}){
+            bottomBar = {AppBottomBar(btVM, navController)}){
                 innerPadding ->
             AppNavHost(
                 btVM,
@@ -231,7 +231,7 @@ fun AppTopBar(navController: NavHostController) {
  * @param navController Controlador de navegación de la aplicación.
  */
 @Composable
-fun AppBottomBar(navController: NavHostController) {
+fun AppBottomBar(btVM: BTVM, navController: NavHostController) {
     if(navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_LOGIN
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_SIGNUP
         && navController.currentBackStackEntryAsState().value?.destination?.route != Pantallas.RUTA_AVISO
@@ -249,6 +249,9 @@ fun AppBottomBar(navController: NavHostController) {
                 NavigationBarItem(
                     selected = pantalla.ruta == pantallaActual?.route,
                     onClick = {
+                        if (pantalla.ruta == Pantallas.RUTA_FOROS){
+                            btVM.getForos()
+                        }
                         navController.navigate(pantalla.ruta){
                             popUpTo(navController.graph.findStartDestination().id){
                                 saveState = true
