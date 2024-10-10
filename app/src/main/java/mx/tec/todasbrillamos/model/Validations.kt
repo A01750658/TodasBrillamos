@@ -6,7 +6,7 @@ class Validations {
     //verify url
     val url_regex = Regex("([http|https]+://.+)|(www.+)")
     //verify phone number
-    val phone_number_regex = Regex("(\\+?\\d{2})?[0-9]{10}")
+    val phone_number_regex = Regex("[0-9]{10}")
     //verify forbidden words
     val forbidden_words_regex = Regex(".*putit[oa]s?|put[oa@]|chingada|pendej[ao]|maldit[oa]|nigga|terrorismo.*")
     //find special characters
