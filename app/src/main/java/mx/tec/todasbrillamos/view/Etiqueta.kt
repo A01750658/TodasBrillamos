@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.sp
 fun Etiqueta(texto: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.onTertiary, padding: Int = 16) {
 
         Text(
-            text = texto,
+            text = texto.uppercase(),
             textAlign = TextAlign.Left,
             style = MaterialTheme.typography.bodySmall,
-            fontSize = 16.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = color,
             modifier = modifier

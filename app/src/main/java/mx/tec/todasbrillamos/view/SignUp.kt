@@ -1,6 +1,7 @@
 package mx.tec.todasbrillamos.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -149,7 +150,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 Etiqueta(
                     "Todos los campos deben ser llenados. Solo puedes usar letras y no se pueden superar los 20 caracteres.",
                     Modifier.padding(bottom = 16.dp),
-                    color = MaterialTheme.colorScheme.error
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
@@ -211,7 +212,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 placeHolder = "5512345678")
 
             if (estadoErrors.value.errorCell){
-                Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("El celular debe de ser de 10 dígitos", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Etiqueta("Correo Electrónico*", Modifier.padding(bottom = 3.dp))
             InputTexto(estado.value.correo,
@@ -229,7 +230,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 keyBoardType = KeyboardType.Email,
                 placeHolder = "correo@dominio.com")
             if (estadoErrors.value.errorCorreo){
-                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("El correo debe de tener un formato válido", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.password,
@@ -244,7 +245,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setContrasenaUsuario(valorPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorLengthPassword){
-                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) , color= MaterialTheme.colorScheme.error)
+                Etiqueta("La contraseña debe tener al menos 8 caracteres",modifier = Modifier.padding(bottom = 16.dp) , color= MaterialTheme.colorScheme.onPrimary)
             }
             Etiqueta("Confirmar Contraseña*", Modifier.padding(bottom = 3.dp))
             InputContrasena(estado.value.confirmacion_password,
@@ -254,7 +255,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setConfirmacionContrasenaUsuario(valorConfirmacionPassword)
                     btVM.checkPasswordErrors()})
             if (estadoErrors.value.errorContrasenas){
-                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Las contraseñas no coinciden", modifier = Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -282,7 +283,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                 )
             }
             if (!valorAvisos && estado.value.intent){
-                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Debes confirmar que has leído y aceptado el aviso de privacidad y leyenda de devolución.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onTertiary)
             }
             Row {
                 TextButton(onClick = { navController.navigate(Pantallas.RUTA_AVISO) }, modifier = Modifier.weight(5f)) {
@@ -309,13 +310,13 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
             }
 
             if (estadoErrors.value.errorUniqueEmail){
-                Etiqueta("Ya existe una cuenta con ese correo.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Ya existe una cuenta con ese correo.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             if (estadoErrors.value.errorUniquePhone){
-                Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Ya existe una cuenta con ese teléfono.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
             }
 
             Spacer(modifier = Modifier.padding(16.dp))

@@ -120,7 +120,7 @@ fun LogIn(
             if (estadoErrors.value.errorCorreo) {
                 Etiqueta(
                     texto = "Debe de ser un correo electrónico",
-                    color = MaterialTheme.colorScheme.inversePrimary,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
@@ -138,7 +138,7 @@ fun LogIn(
                 )
             if (estadoErrors.value.errorLogin) {
                 Etiqueta( "El correo o la contraseña son incorrectos",
-                    color = MaterialTheme.colorScheme.error,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     modifier =
                     Modifier
                         .padding(bottom = 3.dp)
@@ -147,7 +147,7 @@ fun LogIn(
                 btVM.setLoading(false)
             }
             if (estadoErrors.value.errorConexion){
-                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.error)
+                Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
                 btVM.setLoading(false)
             }
 
