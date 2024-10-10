@@ -942,21 +942,27 @@ class BTVM: ViewModel() {
     fun recuperarContrasena(email: String){
         viewModelScope.launch {
             try {
+                _estadoErrors.value = _estadoErrors.value.copy(errorCorreoReg = false)
                 val response = modeloR.getRecoveryPasswordToken(email)
-                if (response.result == "error") {
+                println(response.result)
+                if (response.result == "unsuccessful") {
                     throw Exception("Could not recover password")
                 }
-                println(response.message)
+
                 //cambiar estado loading a false
                 _estadoUsuario.value = _estadoUsuario.value.copy(loading = false)
                 //cambiar estado contraseña perdida a true
                 _contrasenaPerdida.value = true
             }
             catch (e: Exception) {
-                println(e)
-                _estadoErrors.value = _estadoErrors.value.copy(errorLogin = true)
+                println("Error recuperar contraseña ${e}")
+                _estadoErrors.value = _estadoErrors.value.copy(errorCorreoReg = true)
             }
         }
+    }
+
+    fun setErrorCorreoReg(b: Boolean) {
+        _estadoErrors.value = _estadoErrors.value.copy(errorCorreoReg = b)
     }
 
     /**
