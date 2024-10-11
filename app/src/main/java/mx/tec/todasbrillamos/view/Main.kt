@@ -257,7 +257,7 @@ fun AppBottomBar(btVM: BTVM, navController: NavHostController) {
                         }
                         navController.navigate(pantalla.ruta){
                             popUpTo(navController.graph.findStartDestination().id){
-                                saveState = true
+                                saveState = false
                             }
                             launchSingleTop = true
                             restoreState = true
