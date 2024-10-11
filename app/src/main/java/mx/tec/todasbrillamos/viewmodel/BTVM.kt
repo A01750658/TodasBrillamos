@@ -140,6 +140,9 @@ class BTVM: ViewModel() {
     private val _estadoSolicitarForo : MutableStateFlow<String> = MutableStateFlow<String>("")
     val estadoSolicitarForo : StateFlow<String> = _estadoSolicitarForo
 
+    private val _estadoCarga = MutableStateFlow(false)
+    val estadoCarga: StateFlow<Boolean> = _estadoCarga
+
     /**
      * Función que obtiene los productos del modelo
      * @author Iker Fuentes
@@ -147,8 +150,9 @@ class BTVM: ViewModel() {
      * @author Alan Vega
      * @author Andres Cabrera
      */
-    fun getProductos() {
+    fun getProductos( orden: String? = null) {
         viewModelScope.launch {
+
             if (_estadoListaProducto.value.isEmpty()) { // Verificar si la lista está vacía
                 try {
                     val (cantidad, productos) = modeloR.getProductsWithToken(estadoUsuario.value.key)
@@ -173,6 +177,9 @@ class BTVM: ViewModel() {
                     }
                     _estadoListaProducto.value = nuevaLista // Emitir la nueva lista
                     copiaListaProductos = nuevaLista
+                    if(orden != null){
+                        setCarrito(orden)
+                    }
                 } catch (e: Exception) {
                     println(e)
                 }
@@ -446,7 +453,7 @@ class BTVM: ViewModel() {
      * @param email Correo del usuario
      * @param password Contraseña del usuario
      */
-    fun login(email : String, password: String){
+    fun login(email : String, password: String, orden: String? = null){
 
         viewModelScope.launch {
             try {
@@ -469,7 +476,7 @@ class BTVM: ViewModel() {
                 setTelefonoUsuario(userData.telefono)
                 setCorreoUsuario(email)
                 setContrasenaUsuario(password)
-                getProductos()
+                getProductos(orden)
                 println("LOGIN EXITOSO CRACK")
                 //println("SOY VIEW MODEL")
                 _estadoLoginExitoso.value = true
@@ -1119,29 +1126,43 @@ class BTVM: ViewModel() {
 
     fun setCarrito(orden: String){
         viewModelScope.launch{
-            println(orden)
-            val prod =  orden.split(";")
-            val idProdOrden = prod[0].split(",")
-            println(idProdOrden)
-            val cant = prod[1].split(",")
-            println(cant)
-            var listaProd: MutableList<EstadoProducto>  = mutableListOf()
-            val listaOrden: MutableList<EstadoProducto>
-            if (_estadoListaProducto.value.isNotEmpty()) {
-                listaProd = _estadoListaProducto.value
-                println(listaProd[0].id)
-            }
-            for (elem in listaProd){
-                for (i in idProdOrden){
-                    val numId = i.toInt()
-                    val cantProd = cant[i.toInt()].toInt()
-                    if (numId == elem.id){
-                        addProducto(elem, cantProd)
+            estadoCantidadProductosModelo.collect{
+                println("Entré a estadoCantidadProductosModelo.collect")
+                _estadoCantidadProductosModelo.value = it
+                estadoListaProducto.collect{
+                    println("Entré a estadoListaProducto.collect")
+                    _estadoListaProducto.value = it
+                    println(orden)
+                    val prod =  orden.split(";")
+                    val idProdOrden = prod[0].split(",")
+                    println(idProdOrden)
+                    val cant = prod[1].split(",")
+                    println(cant)
+                    println(_estadoCantidadProductosModelo.value)
+                    println(_estadoListaProductosModelo.value)
+                    println(_estadoListaProducto)
+                    if(_estadoListaProducto.value.size == _estadoCantidadProductosModelo.value && _estadoCarrito.value.productos.isEmpty()){
+                        println("Cumplió condición")
+                        for(producto in _estadoListaProducto.value){
+                            println("Entró a for 1")
+                            println(idProdOrden)
+                            for(i in 0..< idProdOrden.size){
+                                println("Entró a for 2")
+                                println(idProdOrden[i].toInt())
+                                println(producto.id)
+                                if(idProdOrden[i].toInt() == producto.id){
+                                    addProducto(producto, cant[i.toInt()].toInt())
+                                    println("Añadí producto")
+                                }
+                            }
+                        }
+                        println(estadoCarrito.value)
                     }
                 }
             }
         }
-        }
+    }
+
 
     fun setFiltrarPrecio(tipo:Int){
         _estadoFiltroPrecio.value = tipo

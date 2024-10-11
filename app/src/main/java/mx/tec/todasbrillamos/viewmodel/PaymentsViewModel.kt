@@ -187,9 +187,7 @@ class PaymentsViewModel: ViewModel() {
                 val user_id = preferences[PreferencesKeys.user_id]
                 //println("THIS IS THE USER TOKEN "+token)
                 if (username != null && password != null && orden != null) {
-                    btVM.login(username, password)
-                    btVM.getProductos()
-                    btVM.setCarrito(orden)
+                    btVM.login(username, password, orden)
                     //println("ORDEN ${orden} | TOKEN ${token} | user_id ${user_id} ")
 
 
