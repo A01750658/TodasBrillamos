@@ -205,6 +205,7 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     btVM.setIntent(false)
                     valortelefono = nuevoTexto
                     btVM.setTelefonoUsuario(valortelefono)
+                    //btVM.printhash1234()
                     // Print hashpassword test
                     // val hashPassword = btVM.getHashPasswordSync(context)
                     // println("MUY BIEEEN, el hash: $hashPassword")

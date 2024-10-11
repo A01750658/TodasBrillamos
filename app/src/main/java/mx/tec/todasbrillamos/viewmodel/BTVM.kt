@@ -358,6 +358,11 @@ class BTVM: ViewModel() {
         }
     }
 
+    fun printhash1234(){
+        val hash = modeloR.hash("1234")
+        println("Hash aydua: $hash")
+    }
+
     suspend fun getHashPassword(context: Context): String? {
         val preferences = context.dataStore.data.first()
         return preferences[PreferencesKeys.hash_password]
