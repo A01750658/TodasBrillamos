@@ -503,6 +503,23 @@ class BTVM: ViewModel() {
     fun setEstadoLogin(state : Boolean){
         _estadoLoginExitoso.value = state
     }
+
+    fun resetLogin(){
+        setEstadoLogin(false)
+        setApellidoMaternoUsuario("")
+        setApellidoPaternoUsuario("")
+        setCorreoUsuario("")
+        setNombreUsuario("")
+        setTelefonoUsuario("")
+        setEstadoFecha("Seleccionar Fecha")
+        setCorreoUsuario("")
+        setContrasenaUsuario("")
+        setConfirmacionContrasenaUsuario("")
+        setUserId(0)
+        setUserKey("")
+        setLoading(false)
+    }
+
     /**
      *
      */
