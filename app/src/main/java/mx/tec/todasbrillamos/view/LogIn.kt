@@ -64,6 +64,7 @@ fun LogIn(
     val estado = btVM.estadoUsuario.collectAsState()
     val estadoErrors = btVM.estadoErrors.collectAsState()
     val estadoRegistroExitoso by btVM.estadoRegistroExitoso.observeAsState(false)
+    val estadoCambioContrasena by btVM.cambioContrasena.observeAsState(false)
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
     val context = LocalContext.current
@@ -197,6 +198,25 @@ fun LogIn(
                     },
                 )
             }
+            if (estadoCambioContrasena){ //aaaaaaaaaaa
+                AlertDialog(
+                    onDismissRequest = { btVM.setCambioContrasena(false) },
+                    title = { Text("Cambio exitoso") },
+                    text = { Text("Su contraseña se ha cambiado con éxito.") },
+                    confirmButton = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = androidx.compose.ui.Alignment.Center  // Centra el contenido
+                        ) {
+                            Button(onClick = { btVM.setCambioContrasena(false)
+                            }){
+                                Text("Aceptar", color = MaterialTheme.colorScheme.onTertiary)
+                            }
+                        }
+                    },
+                )
+            }
+
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
             }
