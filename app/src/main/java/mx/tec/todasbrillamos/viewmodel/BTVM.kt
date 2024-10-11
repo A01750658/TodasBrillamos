@@ -349,12 +349,15 @@ class BTVM: ViewModel() {
         return modeloR.createDataInfo(newList)
     }
 
-    fun saveHashPassword(context: Context, password : String) {
-        println("Saving password")
-        viewModelScope.launch {
-            context.dataStore.edit { preferences ->
-                preferences[PreferencesKeys.hash_password] = modeloR.hash(password)
-            }
+    suspend fun saveHashPasswordSync(context: Context, password: String) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.hash_password] = modeloR.hash(password)
+        }
+    }
+
+    fun saveHashPassword(context: Context, password: String) {
+        runBlocking {
+            saveHashPasswordSync(context, password)
         }
     }
 
