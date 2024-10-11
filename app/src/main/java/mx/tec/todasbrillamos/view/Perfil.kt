@@ -229,6 +229,27 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     }
                 }
             }
+
+            ElevatedButton( // Botón para editar la dirección
+                onClick = {  // Copia la dirección del viewmodel
+                    navController.navigate(Pantallas.RUTA_LOGIN) }, // Navega a la pantalla de edición de dirección
+                modifier = Modifier
+                    .padding(top = 15.dp, bottom = 15.dp)
+                    .padding(horizontal = 10.dp)
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFC70056),
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                )
+            ) {
+                Text(
+                    "Cerrar sesión",
+                    modifier = Modifier.height(20.dp),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+
             Spacer(modifier = Modifier.padding(10.dp).fillMaxWidth())
         }
         if(scrollPosition != maxScrollPosition) {
