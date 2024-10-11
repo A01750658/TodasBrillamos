@@ -156,8 +156,10 @@ fun LogIn(
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
             ElevatedButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
+                    btVM.saveHashPassword(context, estado.value.password)
+                    val hashPassword = btVM.getHashPasswordSync(context)
                     btVM.setLoading(true)
-                    btVM.login(estado.value.correo, estado.value.password)
+                    btVM.login(estado.value.correo, hashPassword.toString())
                     btVM.setRegistroExitoso(false)
                     //paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
                 }

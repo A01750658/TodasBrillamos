@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +52,7 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
     var valorCodigo by rememberSaveable { mutableStateOf(estado.value.codigo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
     var valorConfirmacionPassword by rememberSaveable { mutableStateOf(estado.value.confirmacion_password) }
+    val context = LocalContext.current
 
     Box(
         contentAlignment = Alignment.Center,
@@ -145,7 +147,9 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
 
             TextButton(onClick = {
                 if (!estadoErrors.value.errorCodigo && !estadoErrors.value.errorContrasenas) {
-                    btVM.changePassword(valorCodigo.toInt(), estado.value.correo ,valorPassword)
+                    btVM.saveHashPassword(context, valorPassword)
+                    val hashPassword = btVM.getHashPasswordSync(context)
+                    btVM.changePassword(valorCodigo.toInt(), estado.value.correo ,hashPassword.toString())
                     btVM.setLoading(true)
                 }
             },

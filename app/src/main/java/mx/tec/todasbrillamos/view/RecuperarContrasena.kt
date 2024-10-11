@@ -136,6 +136,7 @@ fun RecuperarContrasena(btVM: BTVM, navController: NavHostController, modifier: 
 
             TextButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
+                    println("a")
                     btVM.recuperarContrasena(valorCorreo) // Llama al método para recuperar la contraseña
                     btVM.setLoading(true) // Activa el estado de carga
                 }

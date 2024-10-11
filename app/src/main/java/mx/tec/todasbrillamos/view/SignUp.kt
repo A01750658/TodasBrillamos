@@ -206,7 +206,9 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                     valortelefono = nuevoTexto
                     btVM.setTelefonoUsuario(valortelefono)
                     // Print hashpassword test
-                    btVM.printHashPassword(context)
+                    // val hashPassword = btVM.getHashPasswordSync(context)
+                    // println("MUY BIEEEN, el hash: $hashPassword")
+
                 },
                 keyBoardType = KeyboardType.Number,
                 placeHolder = "5512345678")
@@ -331,6 +333,8 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
                         && valortelefono.isNotEmpty() && valorAvisos && day != 0 && month != 0 && year != 0
                         && estadoFecha != "Seleccionar Fecha"
                     ) {
+                        btVM.saveHashPassword(context, valorPassword)
+                        valorPassword = btVM.getHashPasswordSync(context).toString()
                         // Realiza el registro
                         val months = arrayOf(
                             "JAN",

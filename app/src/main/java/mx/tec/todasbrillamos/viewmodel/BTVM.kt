@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import mx.tec.todasbrillamos.PreferencesKeys
 import mx.tec.todasbrillamos.dataStore
 import mx.tec.todasbrillamos.model.Comentario
@@ -356,14 +358,17 @@ class BTVM: ViewModel() {
         }
     }
 
-    fun printHashPassword(context: Context) {
-        viewModelScope.launch {
-            context.dataStore.data.collect { preferences ->
-                val hashPassword = preferences[PreferencesKeys.hash_password]
-                //println("MUY BIEEEN, el hash: ${hashPassword}")
-            }
+    suspend fun getHashPassword(context: Context): String? {
+        val preferences = context.dataStore.data.first()
+        return preferences[PreferencesKeys.hash_password]
+    }
+
+    fun getHashPasswordSync(context: Context): String? {
+        return runBlocking {
+            getHashPassword(context)
         }
     }
+
 
     /**
      * Función para crear un usuario en la base de datos
