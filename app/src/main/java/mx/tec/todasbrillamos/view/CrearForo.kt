@@ -84,9 +84,14 @@ fun CrearForo(btVM: BTVM, navController: NavHostController, validationsVM: Valid
                     println("Publicando $pregunta")
                     if (pregunta.isNotEmpty()) {
                         if (!validationsVM.validateForbiddenWords(pregunta) and !validationsVM.validateUrl(pregunta)) {
-                            btVM.solicitarForo(pregunta)
-                            submitState = "Successful"
-                            showSubmitDialog = true
+                            if(pregunta.length < 280) {
+                                btVM.solicitarForo(pregunta)
+                                submitState = "Successful"
+                                showSubmitDialog = true
+                            }else{
+                                submitState = "Long"
+                                showSubmitDialog = true
+                            }
                         } else{
                             submitState = "Wrong"
                             showSubmitDialog = true
@@ -151,6 +156,8 @@ fun CrearForo(btVM: BTVM, navController: NavHostController, validationsVM: Valid
                             "¡Solicitud de pregunta exitosa!"
                         } else if (submitState == "Wrong") {
                             "Su solicitud contiene palabras prohibidas o una URL"
+                        }else if (submitState == "Long") {
+                            "Su solicitud es muy larga"
                         }
                         else{
                                 "¡Solicitud de pregunta fallida!"
@@ -166,6 +173,8 @@ fun CrearForo(btVM: BTVM, navController: NavHostController, validationsVM: Valid
                         } else if (submitState == "Wrong") {
                             "¡No escribas grocerias!\n" +
                                     "No esta permitido mandar URL ni palabras prohibidas"
+                        }else if (submitState == "Long") {
+                            "Su solicitud no debe pasar 280 caracteres"
                         }
                         else {
                             "Algo salió mal..."

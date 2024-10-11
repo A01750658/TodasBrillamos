@@ -229,6 +229,40 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                     }
                 }
             }
+
+            ElevatedButton( // Boton para cerrar sesión
+                onClick = {
+                    btVM.setApellidoMaternoUsuario("")
+                    btVM.setApellidoPaternoUsuario("")
+                    btVM.setCorreoUsuario("")
+                    btVM.setNombreUsuario("")
+                    btVM.setTelefonoUsuario("")
+                    btVM.setEstadoFecha("Seleccionar Fecha")
+                    btVM.setCorreoUsuario("")
+                    btVM.setContrasenaUsuario("")
+                    btVM.setConfirmacionContrasenaUsuario("")
+                    btVM.setUserId(0)
+                    btVM.setUserKey("")
+                    btVM.setLoading(false)
+
+                    navController.navigate(Pantallas.RUTA_LOGIN) }, // Navega a la pantalla de edición de dirección
+                modifier = Modifier
+                    .padding(top = 15.dp, bottom = 15.dp)
+                    .padding(horizontal = 10.dp)
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFC70056),
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                )
+            ) {
+                Text(
+                    "Cerrar sesión",
+                    modifier = Modifier.height(20.dp),
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+
             Spacer(modifier = Modifier.padding(10.dp).fillMaxWidth())
         }
         if(scrollPosition != maxScrollPosition) {
