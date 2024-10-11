@@ -230,8 +230,21 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                 }
             }
 
-            ElevatedButton( // Botón para editar la dirección
-                onClick = {  // Copia la dirección del viewmodel
+            ElevatedButton( // Boton para cerrar sesión
+                onClick = {
+                    btVM.setApellidoMaternoUsuario("")
+                    btVM.setApellidoPaternoUsuario("")
+                    btVM.setCorreoUsuario("")
+                    btVM.setNombreUsuario("")
+                    btVM.setTelefonoUsuario("")
+                    btVM.setEstadoFecha("Seleccionar Fecha")
+                    btVM.setCorreoUsuario("")
+                    btVM.setContrasenaUsuario("")
+                    btVM.setConfirmacionContrasenaUsuario("")
+                    btVM.setUserId(0)
+                    btVM.setUserKey("")
+                    btVM.setLoading(false)
+
                     navController.navigate(Pantallas.RUTA_LOGIN) }, // Navega a la pantalla de edición de dirección
                 modifier = Modifier
                     .padding(top = 15.dp, bottom = 15.dp)
