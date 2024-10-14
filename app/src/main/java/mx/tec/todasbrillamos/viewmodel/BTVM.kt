@@ -383,6 +383,9 @@ class BTVM: ViewModel() {
         }
     }
 
+    fun setHashGuardado(state : Boolean){
+        _hashGuardado.value = state
+    }
 
     /**
      * Función para crear un usuario en la base de datos
