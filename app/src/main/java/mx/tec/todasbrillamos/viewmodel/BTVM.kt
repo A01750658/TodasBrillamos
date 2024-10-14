@@ -363,6 +363,7 @@ class BTVM: ViewModel() {
     fun saveHashPassword(context: Context, password: String) {
         runBlocking {
             saveHashPasswordSync(context, password)
+            println("Hash guardado")
         }
     }
 
