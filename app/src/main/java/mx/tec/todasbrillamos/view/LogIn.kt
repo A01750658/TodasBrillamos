@@ -157,6 +157,7 @@ fun LogIn(
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_SIGNUP)})
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
             ElevatedButton(onClick = {
+                println(estadoHashGuardado)
                 if (!estadoErrors.value.errorLogin && !estadoHashGuardado) {
                     btVM.saveHashPassword(context, estado.value.password)
                     println("Haciendo Login")
