@@ -67,6 +67,10 @@ class BTVM: ViewModel() {
     private val _cambioContrasena = MutableLiveData(false)
     val cambioContrasena: LiveData<Boolean> = _cambioContrasena
 
+    //Estado hashGuardado
+    private val _hashGuardado = MutableLiveData(false)
+    val hashGuardado: LiveData<Boolean> = _hashGuardado
+
     //Estado Lista Productos proveniente de modelo
     private val _estadoListaProductosModelo = MutableStateFlow(listOf<Producto>())
     val estadoListaProductosModelo: StateFlow<List<Producto>> = _estadoListaProductosModelo
@@ -353,6 +357,7 @@ class BTVM: ViewModel() {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.hash_password] = modeloR.hash(password)
         }
+        _hashGuardado.value = true
     }
 
     fun saveHashPassword(context: Context, password: String) {

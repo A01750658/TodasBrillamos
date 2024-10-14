@@ -18,6 +18,7 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -67,6 +68,7 @@ fun LogIn(
     val estadoCambioContrasena by btVM.cambioContrasena.observeAsState(false)
     var valorCorreo by rememberSaveable { mutableStateOf(estado.value.correo) }
     var valorPassword by rememberSaveable { mutableStateOf(estado.value.password) }
+    val estadoHashGuardado by btVM.hashGuardado.observeAsState(false)
     val context = LocalContext.current
     Box(
         contentAlignment = Alignment.Center,
@@ -157,10 +159,12 @@ fun LogIn(
             ElevatedButton(onClick = {
                 if (!estadoErrors.value.errorLogin) {
                     btVM.saveHashPassword(context, estado.value.password)
-                    val hashPassword = btVM.getHashPasswordSync(context)
-                    btVM.setLoading(true)
-                    btVM.login(estado.value.correo, hashPassword.toString())
-                    btVM.setRegistroExitoso(false)
+
+                    //val hashPassword = btVM.getHashPasswordSync(context)
+                    //btVM.setLoading(true)
+                    //btVM.login(estado.value.correo, hashPassword.toString())
+                    //btVM.setRegistroExitoso(false)
+
                     //paymentsVM.saveUserData(context, estado.value.correo, estado.value.password, estado.value.correo, estado.value.key, estado.value.id)
                 }
             },
@@ -182,6 +186,16 @@ fun LogIn(
                     color = MaterialTheme.colorScheme.onTertiary
                 )
             }
+
+            LaunchedEffect(estadoHashGuardado) {
+                if (estadoHashGuardado) {
+                    val hashPassword = btVM.getHashPasswordSync(context)
+                    btVM.setLoading(true)
+                    btVM.login(estado.value.correo, hashPassword.toString())
+                    btVM.setRegistroExitoso(false)
+                }
+            }
+
             if (estadoRegistroExitoso){
                 AlertDialog(
                     onDismissRequest = { btVM.setRegistroExitoso(false) },
