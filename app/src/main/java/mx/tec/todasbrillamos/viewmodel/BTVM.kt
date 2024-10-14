@@ -536,6 +536,7 @@ class BTVM: ViewModel() {
         setUserId(0)
         setUserKey("")
         setLoading(false)
+        setErrorLogin(false)
     }
 
     /**
