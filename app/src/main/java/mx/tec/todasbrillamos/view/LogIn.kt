@@ -159,7 +159,11 @@ fun LogIn(
             ElevatedButton(onClick = {
                 if (!estadoErrors.value.errorLogin && !estadoHashGuardado) {
                     btVM.saveHashPassword(context, estado.value.password)
-
+                    println("Haciendo Login")
+                    val hashPassword = btVM.getHashPasswordSync(context)
+                    btVM.setLoading(true)
+                    btVM.login(estado.value.correo, hashPassword.toString())
+                    btVM.setRegistroExitoso(false)
                     //val hashPassword = btVM.getHashPasswordSync(context)
                     //btVM.setLoading(true)
                     //btVM.login(estado.value.correo, hashPassword.toString())
@@ -187,15 +191,11 @@ fun LogIn(
                 )
             }
 
-            LaunchedEffect(estadoHashGuardado) {
-                if (estadoHashGuardado) {
-                    println("Haciendo Login")
-                    val hashPassword = btVM.getHashPasswordSync(context)
-                    btVM.setLoading(true)
-                    btVM.login(estado.value.correo, hashPassword.toString())
-                    btVM.setRegistroExitoso(false)
-                }
-            }
+          //  LaunchedEffect(estadoHashGuardado) {
+                //if (estadoHashGuardado) {
+
+               // }
+          //  }
 
             if (estadoRegistroExitoso){
                 AlertDialog(
