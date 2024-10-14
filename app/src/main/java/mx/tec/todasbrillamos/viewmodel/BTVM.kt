@@ -541,6 +541,7 @@ class BTVM: ViewModel() {
         setUserKey("")
         setLoading(false)
         setErrorLogin(false)
+        setHashGuardado(false)
     }
 
     /**
