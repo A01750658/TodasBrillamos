@@ -16,10 +16,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -230,29 +234,28 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
                 }
             }
 
-            ElevatedButton( // Boton para cerrar sesión
-                onClick = {
-                    btVM.resetLogin() // Cierra la sesión del usuario
-                    navController.navigate(Pantallas.RUTA_LOGIN) }, // Navega a la pantalla de edición de dirección
-                modifier = Modifier
-                    .padding(top = 15.dp, bottom = 15.dp)
-                    .padding(horizontal = 10.dp)
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFC70056),
-                    contentColor = MaterialTheme.colorScheme.onTertiary
-                )
-            ) {
-                Text(
-                    "Cerrar sesión",
-                    modifier = Modifier.height(20.dp),
-                    color = MaterialTheme.colorScheme.onTertiary,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
             Spacer(modifier = Modifier.padding(10.dp).fillMaxWidth())
         }
+
+        FloatingActionButton(
+            onClick = {
+                btVM.resetLogin() // Cierra la sesión del usuario
+                navController.navigate(Pantallas.RUTA_LOGIN) // Navega a la pantalla de login
+            },
+            containerColor = MaterialTheme.colorScheme.secondaryContainer, // Color del botón
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 16.dp, end = 16.dp),
+        ) {
+            //Text(
+              //  "Cerrar sesión",
+              //  style = MaterialTheme.typography.bodyMedium,
+              //  color = MaterialTheme.colorScheme.onTertiary
+            //)
+            Icon(imageVector = Icons.Default.ExitToApp, contentDescription = "Cerrar sesión", tint = MaterialTheme.colorScheme.onTertiary)
+        }
+
         if(scrollPosition != maxScrollPosition) {
             Box(modifier = Modifier
                 .clip(CircleShape)
