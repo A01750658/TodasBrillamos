@@ -297,7 +297,7 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
                         {
                             if(!estadoErrors.value.errorCalle && !estadoErrors.value.errorColonia && !estadoErrors.value.errorCp && !estadoErrors.value.errorEstado && !estadoErrors.value.errorMunicipio
                                 && !estadoErrors.value.errorNumeroExt && estadosMexico.contains(estado.value.estado)) {
-                                if (estado.value.numero_int==""){
+                                if (estado.value.numero_int=="" || estado.value.numero_int == "-1") {
                                     btVM.setNumeroInt("0")
                                 }
                                 if (usuario.value.direccion.calle == "") {
