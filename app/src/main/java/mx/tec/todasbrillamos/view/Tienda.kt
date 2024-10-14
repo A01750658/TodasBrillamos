@@ -316,6 +316,7 @@ fun Tienda(viewModel: BTVM, modifier: Modifier, navController: NavHostController
                     modifier = Modifier
                         .clip(RoundedCornerShape(35.dp))
                         .background(Color.White)  // Fondo blanco para el diálogo
+                        .padding(0.1.dp)
                 ) {
                     Producto(viewModel, modifier, navController)  // Muestra el contenido del producto dentro del diálogo
                 }

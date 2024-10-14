@@ -64,7 +64,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
 
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(16.dp),
+        .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
         Titulo(titulo = estadoListaProducto[estadoSeleccionado].nombre, lineHeight = 48, fontSize = 42) // Titulo del producto
@@ -103,7 +103,7 @@ fun Producto(btVM: BTVM, modifier: Modifier, navController: NavController ){
             item { // Cantidad disponible del producto
                 Row(modifier = Modifier.padding(vertical = 10.dp)) {
                     Text(
-                        text = "Cantidad disponible: ",
+                        text = "Cant. disponible: ",
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
