@@ -321,9 +321,6 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         composable(Pantallas.RUTA_INFO){
             Info(btVM)
         }
-        composable(Pantallas.RUTA_CONTACTO){
-            Contacto(btVM)
-        }
         composable(Pantallas.RUTA_AVISO){
             AvisoyLeyenda()
         }

@@ -146,8 +146,6 @@ class BTVM: ViewModel() {
     private val _estadoSolicitarForo : MutableStateFlow<String> = MutableStateFlow<String>("")
     val estadoSolicitarForo : StateFlow<String> = _estadoSolicitarForo
 
-    private val _estadoCarga = MutableStateFlow(false)
-    val estadoCarga: StateFlow<Boolean> = _estadoCarga
 
     /**
      * Función que obtiene los productos del modelo

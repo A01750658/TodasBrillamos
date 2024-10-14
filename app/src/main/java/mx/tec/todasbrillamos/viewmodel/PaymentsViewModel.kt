@@ -213,14 +213,3 @@ class PaymentsViewModel: ViewModel() {
     }
 
 }
-
-// Clase que representa la solicitud de pago
-data class PaymentRequest(
-    val total: String,
-    val currency: String,
-    val method: String,
-    val intent: String,
-    val description: String,
-    val cancelUrl: String,
-    val successUrl: String
-)
