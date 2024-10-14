@@ -157,7 +157,7 @@ fun LogIn(
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_SIGNUP)})
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
             ElevatedButton(onClick = {
-                if (!estadoErrors.value.errorLogin) {
+                if (!estadoErrors.value.errorLogin && !estadoHashGuardado) {
                     btVM.saveHashPassword(context, estado.value.password)
 
                     //val hashPassword = btVM.getHashPasswordSync(context)
@@ -189,6 +189,7 @@ fun LogIn(
 
             LaunchedEffect(estadoHashGuardado) {
                 if (estadoHashGuardado) {
+                    println("Haciendo Login")
                     val hashPassword = btVM.getHashPasswordSync(context)
                     btVM.setLoading(true)
                     btVM.login(estado.value.correo, hashPassword.toString())

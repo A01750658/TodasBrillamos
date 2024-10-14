@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import mx.tec.todasbrillamos.R
 import mx.tec.todasbrillamos.viewmodel.ValidationsVM
 
@@ -409,12 +411,13 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             LaunchedEffect(btVM.hashGuardado.value) {
                 if (btVM.hashGuardado.value == true) {
-
                     //btVM.saveHashPassword(context, valorPassword)
                     btVM.setErrorSignUp(true)
                     btVM.setErrorLogin(false)
                     btVM.setHashGuardado(false)
-                    navController.navigate(Pantallas.RUTA_LOGIN)
+                    withContext(Dispatchers.Main) {
+                        navController.navigate(Pantallas.RUTA_LOGIN)
+                    }
                 }
             }
 
