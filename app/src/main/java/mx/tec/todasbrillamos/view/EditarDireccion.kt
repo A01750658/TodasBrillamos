@@ -96,6 +96,12 @@ fun EditarDireccion(btVM: BTVM, navController: NavHostController, validationsVM:
         "Veracruz de Ignacio de la Llave",
         "Yucatán"
     )
+    if(estado.value.numero_int=="-1" || estado.value.numero_int==""){
+        btVM.setNumeroInt("")
+    }
+    if (estado.value.numero_exterior == "-1" || estado.value.numero_exterior == "") {
+        btVM.setNumeroExt("")
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
