@@ -128,13 +128,14 @@ fun LogIn(
                 )
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContrasena(estado.value.password,
+            InputContrasena(estado.value.passwordUnhashed,
                 { nuevoTexto ->
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
                     } else {
                         valorPassword = nuevoTexto
                         btVM.setContrasenaUsuario(valorPassword)
+                        btVM.setUnhashedPassword(valorPassword)
                         btVM.setErrorLogin(false)
                     }
                 },

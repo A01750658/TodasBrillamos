@@ -505,8 +505,6 @@ class BTVM: ViewModel() {
                 //println(_estadoUsuario.value)
                 getForos()
 
-
-
             } catch (e: Exception) {
                 //println("ERROR in LOGIN")
                 if (e is java.net.UnknownHostException && e.message?.contains("apex.oracle.com") == true) {
@@ -542,6 +540,10 @@ class BTVM: ViewModel() {
         setLoading(false)
         setErrorLogin(false)
         setHashGuardado(false)
+    }
+
+    fun setUnhashedPassword(password: String){
+        _estadoUsuario.value = _estadoUsuario.value.copy(passwordUnhashed = password)
     }
 
     /**
