@@ -401,9 +401,19 @@ fun SignUp(btVM: BTVM, navController: NavHostController) {
 
             LaunchedEffect(estadoErrors.value.errorSignUp) {
                 if (!estadoErrors.value.errorSignUp) {
-                    navController.navigate(Pantallas.RUTA_LOGIN)
+                    //navController.navigate(Pantallas.RUTA_LOGIN)
                     btVM.saveHashPassword(context, valorPassword)
-                    btVM.setErrorSignUp(true)
+                    //btVM.setErrorSignUp(true)
+                }
+            }
+
+            LaunchedEffect(btVM.hashGuardado.value) {
+                if (btVM.hashGuardado.value == true) {
+                    navController.navigate(Pantallas.RUTA_LOGIN)
+                    //btVM.saveHashPassword(context, valorPassword)
+                    //btVM.setErrorSignUp(true)
+                    btVM.setErrorLogin(false)
+                    btVM.setHashGuardado(false)
                 }
             }
 
