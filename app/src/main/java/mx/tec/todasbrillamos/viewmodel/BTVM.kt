@@ -540,6 +540,7 @@ class BTVM: ViewModel() {
         setLoading(false)
         setErrorLogin(false)
         setHashGuardado(false)
+        setUnhashedPassword("")
     }
 
     fun setUnhashedPassword(password: String){
