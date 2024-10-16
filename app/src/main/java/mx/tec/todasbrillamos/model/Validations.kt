@@ -2,7 +2,7 @@ package mx.tec.todasbrillamos.model
 
 class Validations {
     //verify email
-    val email_regex = Regex(".*@[gmail|hotmail|outlook|yahoo|tec]+\\.com")
+    val email_regex = Regex(".*@[gmail|hotmail|outlook|yahoo|tec]+\\.(com|mx|com\\.mx)")
     //verify url
     val url_regex = Regex("([http|https]+://.+)|(www.+)")
     //verify phone number
