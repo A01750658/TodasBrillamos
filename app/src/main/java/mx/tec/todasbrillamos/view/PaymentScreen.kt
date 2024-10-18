@@ -94,14 +94,12 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
 
     // Efecto lanzado que se ejecuta cuando hay un deep link URI, procesando el pago en base a ese URI
     LaunchedEffect(deepLinkUri) {
-        println("Shit entered the LaunchedEffect")
         deepLinkUri?.let { uri ->
 
             if(deepLinkUri.toString().contains("myapp://payment/cancel")){
                 paymentStatus = "Payment cancelled by user"
                 showDialog = true
                 sharedPreferences.edit().remove("deep_link_uri").apply()
-                println(paymentStatus)
                 paymentsViewModel.restoreDataAfterCancel(context, viewModel)
                 paymentsViewModel.delUserData(context)
                 (context as? ComponentActivity)?.intent?.data = null
@@ -116,7 +114,6 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                     onSuccess = { payment ->
                         paymentStatus = "Payment successful: ${payment.id}"
                         showDialog = true
-                        println(paymentStatus)
                         // Clear the deep link data to prevent re-execution
                         (context as? ComponentActivity)?.intent?.data = null
                         sharedPreferences.edit().remove("deep_link_uri").apply() // Limpia el deep link para evitar la reejecución del pago
@@ -130,7 +127,6 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                         paymentStatus = "Failed to execute payment: ${error.message}"
                         showDialog = true
                         sharedPreferences.edit().remove("deep_link_uri").apply()
-                        println(paymentStatus)
                     }
                 )
             }
@@ -255,15 +251,11 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
                             successUrl = "myapp://payment/success", // URL de éxito
                             onSuccess = { url ->
                                 approvalUrl = url
-                                println(approvalUrl)
-                                println(viewModel.getEstadoUsuario())
                                 paymentStatus = "Redirecting to PayPal for approval"
-                                println(paymentStatus)
                                 paymentsViewModel.saveCarritoData(context, viewModel)
                                 // Redirige a la página de PayPal para la aprobación
                                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                                 context.startActivity(intent)
-                                println("Step after page complete, I guess, I think its supposed to show after you get back to the app if everything is gucci")
                             },
                             onError = { error ->
                                 paymentStatus = "Failed to create payment: ${error.message}"
