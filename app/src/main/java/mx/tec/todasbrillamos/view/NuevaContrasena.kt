@@ -175,6 +175,7 @@ fun NuevaContrasena(btVM: BTVM, navController: NavHostController, modifier: Modi
             }
             if (btVM.cambioContrasena.value == true) {
                 //cambia a la pantalla login
+                btVM.setHashGuardado(false)
                 navController.navigate(Pantallas.RUTA_LOGIN)
                 //btVM.setCambioContrasena(false)
             }

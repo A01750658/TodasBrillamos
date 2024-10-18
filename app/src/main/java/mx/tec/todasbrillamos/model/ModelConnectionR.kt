@@ -216,7 +216,7 @@ suspend fun main(){
     //println(modelConnection.hash("AAAAA"))
     val lista : List<Producto> = modelConnection.getProductsWithToken(token).second
     //println(lista)
-val p :MutableList<Pair<Int,Int>> = mutableListOf()
+    val p :MutableList<Pair<Int,Int>> = mutableListOf()
     for (i in lista){
         p.add(Pair(i.id,1))
     }

@@ -35,11 +35,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import mx.tec.todasbrillamos.viewmodel.BTVM
+import mx.tec.todasbrillamos.viewmodel.PaymentsViewModel
 
 /**
  * Pantalla de perfil de usuario, que muestra la información personal del usuario como nombre, apellidos,
@@ -59,7 +61,7 @@ import mx.tec.todasbrillamos.viewmodel.BTVM
  *
  */
 @Composable
-fun Perfil(btVM: BTVM, navController: NavHostController) {
+fun Perfil(btVM: BTVM, navController: NavHostController, paymentsViewModel: PaymentsViewModel) {
     val scrollState = rememberScrollState()
     val scrollPosition = scrollState.value
     val maxScrollPosition = scrollState.maxValue
@@ -72,6 +74,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
     println(estado.value.direccion.numero_int.toInt())
     println("HOLA ESTOY EN PERFIL")
     println(estado.value)
+    val context = LocalContext.current
     if (estado.value.direccion.calle != "") {
         if (estado.value.direccion.numero_int == "" || estado.value.direccion.numero_int.toInt() == -1 || estado.value.direccion.numero_int.toInt() == 0){
             direccion="${estado.value.direccion.calle} #${estado.value.direccion.numero_exterior}, ${estado.value.direccion.colonia}, ${estado.value.direccion.municipio}, ${estado.value.direccion.estado}, C.P. ${estado.value.direccion.cp}"
@@ -239,6 +242,7 @@ fun Perfil(btVM: BTVM, navController: NavHostController) {
 
         FloatingActionButton(
             onClick = {
+                paymentsViewModel.delUserData(context) // Resetea el ViewModel de pagos
                 btVM.resetLogin() // Cierra la sesión del usuario
                 navController.navigate(Pantallas.RUTA_LOGIN) // Navega a la pantalla de login
             },

@@ -307,7 +307,7 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
             Foros(btVM, navController)
         }
         composable(Pantallas.RUTA_PERFIL){
-            Perfil(btVM, navController)
+            Perfil(btVM, navController, paymentsVM)
         }
         composable(Pantallas.RUTA_TIENDA){
             Tienda(btVM, modifier, navController)
@@ -320,9 +320,6 @@ fun AppNavHost(btVM: BTVM, paymentsVM: PaymentsViewModel,navController: NavHostC
         }
         composable(Pantallas.RUTA_INFO){
             Info(btVM)
-        }
-        composable(Pantallas.RUTA_CONTACTO){
-            Contacto(btVM)
         }
         composable(Pantallas.RUTA_AVISO){
             AvisoyLeyenda()

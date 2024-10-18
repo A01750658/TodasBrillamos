@@ -206,7 +206,7 @@ fun PaymentScreen(viewModel: BTVM, paymentsViewModel: PaymentsViewModel = viewMo
             ) {
                 for (producto in estadoCarrito.productos) {
                     Text(
-                        " ${producto.second} | ${producto.first.nombre}",
+                        " ${producto.second} - ${producto.first.nombre}",
                         style = MaterialTheme.typography.bodySmall,
                         textAlign = TextAlign.Left,
                         color = Color.Black,

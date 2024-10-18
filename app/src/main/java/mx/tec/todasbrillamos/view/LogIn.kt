@@ -128,13 +128,14 @@ fun LogIn(
                 )
             }
             Etiqueta("Contraseña*", Modifier.padding(bottom = 3.dp))
-            InputContrasena(estado.value.password,
+            InputContrasena(estado.value.passwordUnhashed,
                 { nuevoTexto ->
                     if (nuevoTexto.contains("\n")){
                         /*TODO*/
                     } else {
                         valorPassword = nuevoTexto
                         btVM.setContrasenaUsuario(valorPassword)
+                        btVM.setUnhashedPassword(valorPassword)
                         btVM.setErrorLogin(false)
                     }
                 },
@@ -148,15 +149,18 @@ fun LogIn(
                     //.background(MaterialTheme.colorScheme.tertiaryContainer)
                 )
                 btVM.setLoading(false)
+                btVM.setHashGuardado(false)
             }
             if (estadoErrors.value.errorConexion){
                 Etiqueta("Verifique la conexión a internet e intente de nuevo más tarde.", Modifier.padding(bottom = 16.dp), color= MaterialTheme.colorScheme.onPrimary)
                 btVM.setLoading(false)
+                btVM.setHashGuardado(false)
             }
 
             PreguntaBoton("¿No tienes una cuenta?","Regístrate", {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_SIGNUP)})
             PreguntaBoton("¿Olvidaste tu contraseña?","Da click aqui" , onClick = {btVM.setRegistroExitoso(false); navController.navigate(Pantallas.RUTA_RECUPERARCONTRASENA) })
             ElevatedButton(onClick = {
+                println(estadoHashGuardado)
                 if (!estadoErrors.value.errorLogin && !estadoHashGuardado) {
                     btVM.saveHashPassword(context, estado.value.password)
                     println("Haciendo Login")
@@ -237,9 +241,9 @@ fun LogIn(
             if (estado.value.loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.colorScheme.tertiary)
             }
-            if (estado.value.key != ""){
+            if (estado.value.key != "" && estadoHashGuardado){
+                btVM.setHashGuardado(false)
                 navController.navigate(Pantallas.RUTA_APP_HOME)
-
             }
             Spacer(modifier = Modifier.padding(16.dp))
 
